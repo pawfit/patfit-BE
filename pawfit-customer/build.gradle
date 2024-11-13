@@ -1,0 +1,12 @@
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = false
+}
+
+dependencies {
+    implementation(project(':pawfit-persistence'))
+    implementation(project(':pawfit-domain'))
+}

@@ -1,0 +1,7 @@
+rootProject.name = 'pawfit'
+
+include ':pawfit-customer'
+include ':pawfit-designer'
+include ':pawfit-domain'
+include ':pawfit-aws'
+include ':pawfit-persistence'

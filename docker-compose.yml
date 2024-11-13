@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: pawfit
+      MYSQL_USER: pawfit
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
