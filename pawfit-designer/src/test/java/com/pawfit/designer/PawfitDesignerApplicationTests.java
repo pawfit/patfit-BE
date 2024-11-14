@@ -1,13 +1,13 @@
-package com.pawfit.pawfitcustomer;
+package com.pawfit.designer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PawfitCustomerApplicationTests {
+class PawfitDesignerApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.pawfit.pawfitdesigner;
+package com.pawfit.designer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
