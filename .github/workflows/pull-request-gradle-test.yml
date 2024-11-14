@@ -1,0 +1,55 @@
+name: Gradle Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - 'feature/*'
+      - 'hotfix/*'
+      - 'release/*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [21]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: false
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 8.8
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ matrix.java-version }}-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ matrix.java-version }}-${{ runner.os }}
+
+      - name: Run tests
+        env:
+          SPRING_PROFILES_ACTIVE: test
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
+        run: |
+          ./gradlew -g gradle/caches/ \
+          --build-cache --no-daemon \
+          test
