@@ -1,12 +1,13 @@
 bootJar {
-	enabled = false
+	enabled = true
 }
 
 jar {
-	enabled = true
+	enabled = false
 }
 
 dependencies {
 	implementation(project(':pawfit-persistence'))
 	implementation(project(':pawfit-domain'))
+	implementation(project(':pawfit-logging'))
 }

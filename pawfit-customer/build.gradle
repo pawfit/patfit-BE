@@ -9,4 +9,5 @@ jar {
 dependencies {
     implementation(project(':pawfit-persistence'))
     implementation(project(':pawfit-domain'))
+    implementation(project(':pawfit-logging'))
 }
