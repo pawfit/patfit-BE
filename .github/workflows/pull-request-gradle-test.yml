@@ -8,6 +8,7 @@ on:
       - 'feature/*'
       - 'hotfix/*'
       - 'release/*'
+      - 'PAWFIT-*'
 
 jobs:
   test:
