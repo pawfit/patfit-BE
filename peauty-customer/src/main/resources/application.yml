@@ -10,8 +10,6 @@ spring:
     include:
       - persistence
       - aws
+      - auth
   jackson:
     default-property-inclusion: non_null
-  config:
-    import:
-      - classpath:properties/jwt.yml # TODO 모듈로 빼기
