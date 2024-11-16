@@ -1,6 +1,6 @@
 ## 📄 [PF-0] Pull Request 제목
 
-Trello : [PF-XX](url)
+Jira : [PEAUTY-XX](url)
 
 ## ✨ 변경 사항
 - [ ] 기능 추가/변경 설명
