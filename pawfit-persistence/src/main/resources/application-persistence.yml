@@ -3,21 +3,19 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://localhost:3306/pawfit
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: pawfit
-    password: 1234
+    url: jdbc:h2:mem:test  # 인메모리 H2 데이터베이스
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true  # H2 콘솔 활성화 (http://localhost:8080/h2-console)
+  hibernate:
+    ddl-auto: update  # 애플리케이션이 시작될 때 DB 스키마를 자동으로 업데이트
   jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
-        format_sql: true
-        naming:
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.H2Dialect  # H2에 맞는 Hibernate dialect 설정
 
 ---
 spring:
