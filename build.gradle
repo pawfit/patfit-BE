@@ -9,7 +9,7 @@ bootJar {
 }
 
 allprojects {
-	group = 'com.pawfit'
+	group = 'com.peauty'
 	version = '0.0.1-SNAPSHOT'
 
 	repositories {

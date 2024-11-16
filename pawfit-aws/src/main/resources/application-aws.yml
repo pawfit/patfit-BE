@@ -1,5 +1,0 @@
-pawfit:
-  aws:
-    region: "test-region"
-    s3:
-      bucket-name: "test-bucket"

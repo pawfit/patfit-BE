@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: peauty-customer
+  profiles:
+    active: local
+    include:
+      - persistence
+      - aws
+  jackson:
+    default-property-inclusion: non_null
+  config:
+    import:
+      - classpath:properties/jwt.yml # TODO 모듈로 빼기
