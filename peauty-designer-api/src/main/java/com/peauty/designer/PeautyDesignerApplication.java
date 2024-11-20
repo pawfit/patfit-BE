@@ -3,7 +3,13 @@ package com.peauty.designer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(
+		scanBasePackages = {
+				"com.peauty.domain",
+				"com.peauty.logging",
+				"com.peauty.persistence",
+		}
+)
 public class PeautyDesignerApplication {
 
 	public static void main(String[] args) {

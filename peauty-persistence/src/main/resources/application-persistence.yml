@@ -7,15 +7,16 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    h2:
-      console:
-        enabled: true  # H2 콘솔 활성화 (http://localhost:8080/h2-console)
-  hibernate:
-    ddl-auto: update  # 애플리케이션이 시작될 때 DB 스키마를 자동으로 업데이트
+  h2:
+    console:
+      enabled: true  # H2 콘솔 활성화 (http://localhost:8080/h2-console)
   jpa:
+    hibernate:
+      ddl-auto: update  # 애플리케이션이 시작될 때 DB 스키마를 자동으로 업데이트
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect  # H2에 맞는 Hibernate dialect 설정
+    show-sql: true
 
 ---
 spring:

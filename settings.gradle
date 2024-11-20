@@ -1,9 +1,10 @@
 rootProject.name = 'peauty'
 
-include ':peauty-customer'
-include ':peauty-designer'
+include ':peauty-customer-api'
+include ':peauty-designer-api'
 include ':peauty-domain'
 include ':peauty-aws'
 include ':peauty-persistence'
 include ':peauty-logging'
 include ':peauty-auth'
+include ':peauty-cache'
