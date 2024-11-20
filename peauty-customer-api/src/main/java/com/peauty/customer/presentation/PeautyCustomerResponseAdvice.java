@@ -1,4 +1,4 @@
-package com.peauty.customer;
+package com.peauty.customer.presentation;
 
 import com.peauty.domain.response.PeautyApiResponse;
 import org.springframework.core.MethodParameter;

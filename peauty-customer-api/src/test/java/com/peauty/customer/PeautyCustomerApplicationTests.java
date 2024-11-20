@@ -9,5 +9,4 @@ class PeautyCustomerApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

@@ -1,4 +1,4 @@
-package com.peauty.customer;
+package com.peauty.customer.presentation;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
