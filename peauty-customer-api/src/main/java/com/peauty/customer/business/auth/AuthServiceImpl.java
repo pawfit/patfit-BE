@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
                 .map(user -> {
                     SignTokens signTokens = authPort.generateSignTokens(user);
                     return new SignUpResult(
-                            user.getId(),
+                            user.getUserId(),
                             signTokens.accessToken(),
                             signTokens.refreshToken()
                     );

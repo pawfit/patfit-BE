@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class User {
 
-    private Long id;
+    private Long userId;
     private String socialId;
     private SocialPlatform socialPlatform;
     private String name;

@@ -26,7 +26,7 @@ public class CustomerMapper {
 
     public static CustomerEntity toEntity(User user) {
         return CustomerEntity.builder()
-                .id(user.getId())
+                .id(user.getUserId())
                 .socialId(user.getSocialId())
                 .socialPlatform(user.getSocialPlatform())
                 .name(user.getName())
