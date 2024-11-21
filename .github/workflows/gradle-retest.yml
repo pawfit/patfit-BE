@@ -25,6 +25,10 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ALL_SECRET }}" > .env
+
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
