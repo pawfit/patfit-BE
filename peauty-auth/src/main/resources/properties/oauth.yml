@@ -1,0 +1,37 @@
+oauth:
+  kakao-client-id: ${KAKAO_CLIENT_ID}
+  apple-client-id: ${APPLE_CLIENT_ID}
+  google-client-id: ${GOOGLE_CLIENT_ID}
+  google-client-secret: ${GOOGLE_CLIENT_SECRET}
+  kakao-public-key-info: https://kauth.kakao.com/.well-known/jwks.json
+  apple-public-key-url: https://appleid.apple.com/auth/keys
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+oauth:
+  kakao-redirect-url: http://localhost:8080/v1/auth/kakao-sign-in
+  apple-redirect-url: http://localhost:8080/v1/auth/apple-sign-in
+  google-redirect-url: http://localhost:8080/v1/auth/google-sign-in
+
+---
+spring:
+  config:
+    activate:
+      on-profile: beta
+oauth:
+  kakao-redirect-url: http://beta.peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: http://beta.peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: http://beta.peauty.click/v1/auth/google-sign-in
+
+---
+spring:
+  config:
+    activate:
+      on-profile: real
+oauth:
+  kakao-redirect-url: https://peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: https://peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: https://peauty.click/v1/auth/google-sign-in

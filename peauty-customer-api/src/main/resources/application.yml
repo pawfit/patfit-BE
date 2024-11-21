@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: peauty-customer
+  profiles:
+    active: local
+    include:
+      - persistence
+      - aws
+      - auth
+  jackson:
+    default-property-inclusion: non_null

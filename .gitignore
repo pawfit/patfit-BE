@@ -51,3 +51,6 @@ out/
 *.tar.gz
 *.rar
 !gradle/wrapper/gradle-wrapper.jar
+
+# For secret #
+.env
