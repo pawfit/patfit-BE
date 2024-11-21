@@ -1,5 +1,5 @@
 oauth:
-  kakao-client-id: d70a08f533094b60975489916fe5d7b4
+  kakao-client-id: ${KAKAO_CLIENT_ID}
   apple-client-id: ${APPLE_CLIENT_ID}
   google-client-id: ${GOOGLE_CLIENT_ID}
   google-client-secret: ${GOOGLE_CLIENT_SECRET}
