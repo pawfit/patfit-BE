@@ -1,7 +1,7 @@
 package com.peauty.persistence.customer;
 
 import com.peauty.domain.user.Status;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.persistence.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,12 +18,12 @@ public class CustomerEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "oidc_provider_id", nullable = false)
-    private String oidcProviderId;
+    @Column(name = "social_id", nullable = false)
+    private String socialId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "oidc_provider_type", nullable = false)
-    private OidcProviderType oidcProviderType;
+    @Column(name = "social_platform", nullable = false)
+    private SocialPlatform socialPlatform;
 
     @Column(name = "name")
     private String name;
@@ -42,13 +42,4 @@ public class CustomerEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
-    // 상태 변경 메서드 예시
-    public void deactivate() {
-        this.status = Status.INACTIVE;
-    }
-
-    public void updateProfile(String nickname, String profileImageUrl) {
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-    }
 }

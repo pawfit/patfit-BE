@@ -6,7 +6,7 @@ import com.peauty.customer.business.auth.dto.SignUpResult;
 import com.peauty.customer.business.customer.CustomerPort;
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.User;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +21,10 @@ public class AuthServiceImpl implements AuthService {
     private final AuthPort authPort;
 
     @Override
-    public SignInResult signIn(OidcProviderType oidcProviderType, String code) {
-        String idToken = authPort.getIdTokenByCode(oidcProviderType, code);
-        SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(oidcProviderType, idToken);
-        return customerPort.findByOidcProviderId(socialInfo.oidcProviderId())
+    public SignInResult signIn(SocialPlatform socialPlatform, String code) {
+        String idToken = authPort.getIdTokenByCode(socialPlatform, code);
+        SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(socialPlatform, idToken);
+        return customerPort.findBySocialId(socialInfo.socialId())
                 .map(this::createRegisteredSignInResult)
                 .orElse(createUnregisteredSignInResult(socialInfo));
     }
@@ -40,21 +40,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public SignUpResult signWithIdToken(OidcProviderType oidcProviderType, String idToken) {
-        SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(oidcProviderType, idToken);
-        return customerPort.findByOidcProviderId(socialInfo.oidcProviderId())
+    public SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken) {
+        SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(socialPlatform, idToken);
+        return customerPort.findBySocialId(socialInfo.socialId())
                 .map(user -> {
                     SignTokens signTokens = authPort.generateSignTokens(user);
                     return new SignUpResult(
-                            user.id(),
+                            user.getId(),
                             signTokens.accessToken(),
                             signTokens.refreshToken()
                     );
                 })
                 .orElseGet(() -> {
                     SignUpCommand signUpCommand = new SignUpCommand(
-                            socialInfo.oidcProviderId(),
-                            socialInfo.oidcProviderType(),
+                            socialInfo.socialId(),
+                            socialInfo.socialPlatform(),
                             socialInfo.nickname(),
                             "010-0000-0000",
                             "서울특별시 강남구 선릉로 428 2층",
@@ -69,8 +69,8 @@ public class AuthServiceImpl implements AuthService {
         return new SignInResult(
                 null,
                 null,
-                socialInfo.oidcProviderId(),
-                socialInfo.oidcProviderType(),
+                socialInfo.socialId(),
+                socialInfo.socialPlatform(),
                 socialInfo.nickname(),
                 socialInfo.pictureImageUrl()
         );

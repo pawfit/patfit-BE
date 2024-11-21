@@ -2,13 +2,13 @@ package com.peauty.customer.business.auth.dto;
 
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.User;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 
 public record SignInResult(
         String accessToken,
         String refreshToken,
-        String oidcProviderId,
-        OidcProviderType oidcProviderType,
+        String socialId,
+        SocialPlatform socialPlatform,
         String nickname,
         String profileImageUrl
 ) {
@@ -17,10 +17,10 @@ public record SignInResult(
         return new SignInResult(
                 signTokens.accessToken(),
                 signTokens.refreshToken(),
-                user.oidcProviderId(),
-                user.oidcProviderType(),
-                user.nickname(),
-                user.profileImageUrl()
+                user.getSocialId(),
+                user.getSocialPlatform(),
+                user.getNickname(),
+                user.getProfileImageUrl()
         );
     }
 }

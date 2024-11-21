@@ -1,11 +1,11 @@
 package com.peauty.customer.presentation.controller.auth.dto;
 
 import com.peauty.customer.business.auth.dto.SignUpCommand;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 
 public record SignUpRequest(
         String socialId,
-        OidcProviderType socialPlatform,
+        SocialPlatform socialPlatform,
         String name,
         String phoneNum,
         String region,

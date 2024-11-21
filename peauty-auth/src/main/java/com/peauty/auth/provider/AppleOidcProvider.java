@@ -2,7 +2,7 @@ package com.peauty.auth.provider;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.auth.client.AppleAuthClient;
 import com.peauty.auth.client.OidcPublicKeyList;
@@ -26,7 +26,7 @@ public class AppleOidcProvider implements OidcProvider {
         Claims claims = jwtProvider.parseClaims(idToken, publicKey);
         return new SocialInfo(
                 claims.getSubject(),
-                OidcProviderType.APPLE,
+                SocialPlatform.APPLE,
                 claims.get("email", String.class).split("@")[0],
                 "https://apple/profile-image-default"
         );

@@ -28,12 +28,12 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
     }
 
     public OAuthUserDetails(User User) {
-        this(User, Collections.singletonMap("id", User.id()));
+        this(User, Collections.singletonMap("id", User.getId()));
     }
 
     @Override
     public String getName() {
-        return User.id().toString();
+        return User.getName();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(User.role().name()));
+        return List.of(new SimpleGrantedAuthority(User.getRole().name()));
     }
     @Override
     public String getPassword() {
@@ -52,7 +52,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Override
     public String getUsername() {
-        return User.id().toString();
+        return User.getId().toString();
     }
 
     @Override

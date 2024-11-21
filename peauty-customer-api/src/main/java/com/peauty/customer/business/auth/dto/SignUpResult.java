@@ -10,7 +10,7 @@ public record SignUpResult(
 ) {
     public static SignUpResult from(SignTokens signTokens, User user) {
         return new SignUpResult(
-                user.id(),
+                user.getId(),
                 signTokens.accessToken(),
                 signTokens.refreshToken()
         );

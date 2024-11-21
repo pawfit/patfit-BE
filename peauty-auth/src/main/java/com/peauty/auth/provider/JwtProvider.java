@@ -35,14 +35,14 @@ public class JwtProvider {
         try {
             String accessToken = Jwts.builder()
                     .claim("USER", user)
-                    .claim("ROLE", user.role())
+                    .claim("ROLE", user.getRole())
                     .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration()))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();
 
             String refreshToken = Jwts.builder()
                     .claim("USER", user)
-                    .claim("ROLE", user.role())
+                    .claim("ROLE", user.getRole())
                     .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.refreshTokenExpiration()))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();

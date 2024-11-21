@@ -35,8 +35,8 @@ public class CustomerAdapter implements CustomerPort {
     }
 
     @Override
-    public Optional<User> findByOidcProviderId(String oidcProviderId) {
-        return Optional.ofNullable(customerRepository.findByOidcProviderId(oidcProviderId))
+    public Optional<User> findBySocialId(String socialId) {
+        return Optional.ofNullable(customerRepository.findBySocialId(socialId))
                 .orElse(Optional.empty())
                 .map(CustomerMapper::toDomain);
     }
@@ -52,8 +52,8 @@ public class CustomerAdapter implements CustomerPort {
     public User registerNewCustomer(SignUpCommand command) {
         User userToSave = new User(
                 0L,
-                command.oidcProviderId(),
-                command.oidcProviderType(),
+                command.socialId(),
+                command.socialPlatform(),
                 command.name(),
                 command.nickname(),
                 command.phoneNum(),
