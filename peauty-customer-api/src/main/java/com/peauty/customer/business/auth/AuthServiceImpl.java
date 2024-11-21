@@ -5,9 +5,9 @@ import com.peauty.customer.business.auth.dto.SignUpCommand;
 import com.peauty.customer.business.auth.dto.SignUpResult;
 import com.peauty.customer.business.customer.CustomerPort;
 import com.peauty.domain.token.SignTokens;
-import com.peauty.domain.user.User;
-import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
+import com.peauty.domain.user.SocialPlatform;
+import com.peauty.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public SignUpResult signUp(SignUpCommand command) {
+        customerPort.checkCustomerSocialIdDuplicated(command.socialId());
         customerPort.checkCustomerPhoneNumDuplicated(command.phoneNum());
         customerPort.checkCustomerNicknameDuplicated(command.nickname());
         User registeredCustomer = customerPort.registerNewCustomer(command);
@@ -40,13 +41,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken) {
+    public SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken, String nickname, String phoneNum) {
         SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(socialPlatform, idToken);
         return customerPort.findBySocialId(socialInfo.socialId())
                 .map(user -> {
                     SignTokens signTokens = authPort.generateSignTokens(user);
                     return new SignUpResult(
-                            user.getId(),
+                            user.getUserId(),
                             signTokens.accessToken(),
                             signTokens.refreshToken()
                     );
@@ -56,12 +57,16 @@ public class AuthServiceImpl implements AuthService {
                             socialInfo.socialId(),
                             socialInfo.socialPlatform(),
                             socialInfo.nickname(),
-                            "010-0000-0000",
-                            "서울특별시 강남구 선릉로 428 2층",
-                            socialInfo.nickname(),
+                            phoneNum,
+                            "test_address",
+                            nickname,
                             socialInfo.pictureImageUrl()
                     );
-                    return signUp(signUpCommand);
+                    customerPort.checkCustomerPhoneNumDuplicated(phoneNum);
+                    customerPort.checkCustomerNicknameDuplicated(nickname);
+                    User registeredCustomer = customerPort.registerNewCustomer(signUpCommand);
+                    SignTokens signTokens = authPort.generateSignTokens(registeredCustomer);
+                    return SignUpResult.from(signTokens, registeredCustomer);
                 });
     }
 

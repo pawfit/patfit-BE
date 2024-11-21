@@ -17,11 +17,13 @@ public class AuthTestController {
     private final AuthService authService;
 
     @PostMapping("/sign")
-    public SignUpResponse sign(
+    public SignUpResponse signTester(
             @RequestParam SocialPlatform socialPlatform,
-            @RequestParam String idToken
+            @RequestParam String idToken,
+            @RequestParam String nickname,
+            @RequestParam String phoneNum
     ) {
-        SignUpResult result = authService.signWithIdToken(socialPlatform, idToken);
+        SignUpResult result = authService.signWithIdToken(socialPlatform, idToken, nickname, phoneNum);
         return SignUpResponse.from(result);
     }
 

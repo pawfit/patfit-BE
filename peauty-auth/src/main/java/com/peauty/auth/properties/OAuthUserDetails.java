@@ -28,7 +28,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
     }
 
     public OAuthUserDetails(User User) {
-        this(User, Collections.singletonMap("id", User.getId()));
+        this(User, Collections.singletonMap("id", User.getUserId()));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Override
     public String getUsername() {
-        return User.getId().toString();
+        return User.getUserId().toString();
     }
 
     @Override

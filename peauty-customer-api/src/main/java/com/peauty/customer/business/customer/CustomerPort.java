@@ -6,6 +6,7 @@ import com.peauty.domain.user.User;
 import java.util.Optional;
 
 public interface CustomerPort {
+    void checkCustomerSocialIdDuplicated(String socialId);
     void checkCustomerNicknameDuplicated(String nickname);
     void checkCustomerPhoneNumDuplicated(String phoneNum);
     Optional<User> findBySocialId(String socialId);

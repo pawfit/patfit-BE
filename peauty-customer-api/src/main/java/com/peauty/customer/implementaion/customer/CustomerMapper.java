@@ -18,6 +18,7 @@ public class CustomerMapper {
                 customerEntity.getName(),
                 customerEntity.getNickname(),
                 customerEntity.getPhoneNum(),
+                customerEntity.getAddress(),
                 customerEntity.getProfileImageUrl(),
                 customerEntity.getStatus(),
                 Role.ROLE_CUSTOMER
@@ -26,12 +27,13 @@ public class CustomerMapper {
 
     public static CustomerEntity toEntity(User user) {
         return CustomerEntity.builder()
-                .id(user.getId())
+                .id(user.getUserId())
                 .socialId(user.getSocialId())
                 .socialPlatform(user.getSocialPlatform())
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .phoneNum(user.getPhoneNum())
+                .address(user.getAddress())
                 .profileImageUrl(user.getProfileImageUrl())
                 .status(user.getStatus())
                 .build();
