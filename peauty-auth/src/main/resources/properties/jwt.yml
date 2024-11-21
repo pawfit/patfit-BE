@@ -10,7 +10,7 @@ spring:
     activate:
       on-profile: local
 jwt:
-  access-token-expiration: 36000000  # 10시간
+  access-token-expiration: 36000000000
   refresh-token-expiration: 36000000000  # 100시간
 
 ---

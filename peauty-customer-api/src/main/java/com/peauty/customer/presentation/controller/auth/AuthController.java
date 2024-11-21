@@ -1,5 +1,6 @@
 package com.peauty.customer.presentation.controller.auth;
 
+import com.peauty.auth.annotation.SignedUser;
 import com.peauty.customer.business.auth.AuthService;
 import com.peauty.customer.business.auth.dto.SignInResult;
 import com.peauty.customer.business.auth.dto.SignUpResult;
@@ -7,6 +8,7 @@ import com.peauty.customer.presentation.controller.auth.dto.SignInResponse;
 import com.peauty.customer.presentation.controller.auth.dto.SignUpRequest;
 import com.peauty.customer.presentation.controller.auth.dto.SignUpResponse;
 import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.User;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
