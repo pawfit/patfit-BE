@@ -51,7 +51,7 @@ jobs:
 
       - name: Run tests
         env:
-          SPRING_PROFILES_ACTIVE: test
+          SPRING_PROFILES_ACTIVE: local
           ACTIONS_RUNNER_DEBUG: true
           ACTIONS_STEP_DEBUG: true
         run: |
