@@ -1,8 +1,8 @@
 package com.peauty.domain.user;
 
 public record SocialInfo(
-        String oidcProviderId,
-        OidcProviderType oidcProviderType,
+        String socialId,
+        SocialPlatform socialPlatform,
         String nickname,
         String pictureImageUrl
 ) {

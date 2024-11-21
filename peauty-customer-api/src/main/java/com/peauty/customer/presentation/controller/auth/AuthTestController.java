@@ -1,12 +1,9 @@
 package com.peauty.customer.presentation.controller.auth;
 
 import com.peauty.customer.business.auth.AuthService;
-import com.peauty.customer.business.auth.dto.SignInResult;
 import com.peauty.customer.business.auth.dto.SignUpResult;
-import com.peauty.customer.presentation.controller.auth.dto.SignInResponse;
-import com.peauty.customer.presentation.controller.auth.dto.SignUpRequest;
 import com.peauty.customer.presentation.controller.auth.dto.SignUpResponse;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,7 @@ public class AuthTestController {
 
     @PostMapping("/sign")
     public SignUpResponse sign(
-            @RequestParam OidcProviderType socialPlatform,
+            @RequestParam SocialPlatform socialPlatform,
             @RequestParam String idToken
     ) {
         SignUpResult result = authService.signWithIdToken(socialPlatform, idToken);
@@ -31,7 +28,7 @@ public class AuthTestController {
     @GetMapping("/sign-in")
     public void testSignIn(
             @RequestParam("socialId") String socialId,
-            @RequestParam("socialPlatform") OidcProviderType socialPlatform,
+            @RequestParam("socialPlatform") SocialPlatform socialPlatform,
             @RequestParam("nickname") String nickname,
             @RequestParam("profileImageUrl") String profileImageUrl
     ) {

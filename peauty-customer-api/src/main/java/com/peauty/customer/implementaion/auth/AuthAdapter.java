@@ -3,7 +3,7 @@ package com.peauty.customer.implementaion.auth;
 import com.peauty.customer.business.auth.AuthPort;
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.User;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.auth.facade.OidcProviderFacade;
 import com.peauty.auth.provider.JwtProvider;
@@ -18,13 +18,13 @@ public class AuthAdapter implements AuthPort {
     private final OidcProviderFacade oidcProviderFacade;
 
     @Override
-    public String getIdTokenByCode(OidcProviderType oidcProviderType, String code) {
-        return oidcProviderFacade.getIdToken(oidcProviderType, code);
+    public String getIdTokenByCode(SocialPlatform socialPlatform, String code) {
+        return oidcProviderFacade.getIdToken(socialPlatform, code);
     }
 
     @Override
-    public SocialInfo getSocialInfoFromIdToken(OidcProviderType oidcProviderType, String idToken) {
-        return oidcProviderFacade.getSocialInfo(oidcProviderType, idToken);
+    public SocialInfo getSocialInfoFromIdToken(SocialPlatform socialPlatform, String idToken) {
+        return oidcProviderFacade.getSocialInfo(socialPlatform, idToken);
     }
 
     @Override

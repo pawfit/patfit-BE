@@ -1,6 +1,6 @@
 package com.peauty.auth.facade;
 
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.auth.provider.AppleOidcProvider;
 import com.peauty.auth.provider.GoogleOidcProvider;
@@ -19,15 +19,15 @@ public class OidcProviderFacade {
     private final KakaoOidcProvider kakaoOidcProvider;
     private final GoogleOidcProvider googleOidcProvider;
 
-    public SocialInfo getSocialInfo(OidcProviderType provider, String idToken) {
+    public SocialInfo getSocialInfo(SocialPlatform provider, String idToken) {
         return getProvider(provider).getSocialInfo(idToken);
     }
 
-    public String getIdToken(OidcProviderType provider, String authCode) {
+    public String getIdToken(SocialPlatform provider, String authCode) {
         return getProvider(provider).getIdToken(authCode);
     }
 
-    private OidcProvider getProvider(OidcProviderType provider) {
+    private OidcProvider getProvider(SocialPlatform provider) {
         return switch (provider) {
             case APPLE -> appleOidcProvider;
             case KAKAO -> kakaoOidcProvider;

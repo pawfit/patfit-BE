@@ -13,8 +13,8 @@ public class CustomerMapper {
     public static User toDomain(CustomerEntity customerEntity) {
         return new User(
                 customerEntity.getId(),
-                customerEntity.getOidcProviderId(),
-                customerEntity.getOidcProviderType(),
+                customerEntity.getSocialId(),
+                customerEntity.getSocialPlatform(),
                 customerEntity.getName(),
                 customerEntity.getNickname(),
                 customerEntity.getPhoneNum(),
@@ -26,14 +26,14 @@ public class CustomerMapper {
 
     public static CustomerEntity toEntity(User user) {
         return CustomerEntity.builder()
-                .id(user.id())
-                .oidcProviderId(user.oidcProviderId())
-                .oidcProviderType(user.oidcProviderType())
-                .name(user.name())
-                .nickname(user.nickname())
-                .phoneNum(user.phoneNum())
-                .profileImageUrl(user.profileImageUrl())
-                .status(user.status())
+                .id(user.getId())
+                .socialId(user.getSocialId())
+                .socialPlatform(user.getSocialPlatform())
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .phoneNum(user.getPhoneNum())
+                .profileImageUrl(user.getProfileImageUrl())
+                .status(user.getStatus())
                 .build();
     }
 }

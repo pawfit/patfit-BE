@@ -8,7 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.auth.properties.OAuthProperties;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class GoogleOidcProvider implements OidcProvider {
         GoogleIdToken.Payload payload = getGoogleIdToken(idToken).getPayload();
         return new SocialInfo(
                 payload.getSubject(),
-                OidcProviderType.GOOGLE,
+                SocialPlatform.GOOGLE,
                 (String) payload.get("name"),
                 (String) payload.get("picture")
         );

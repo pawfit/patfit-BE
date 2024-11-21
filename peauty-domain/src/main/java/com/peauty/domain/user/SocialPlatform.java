@@ -1,6 +1,6 @@
 package com.peauty.domain.user;
 
-public enum OidcProviderType {
+public enum SocialPlatform {
     KAKAO,
     GOOGLE,
     APPLE

@@ -1,6 +1,6 @@
 package com.peauty.auth.provider;
 
-import com.peauty.domain.user.OidcProviderType;
+import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.auth.client.KakaoAuthClient;
 import com.peauty.auth.client.OidcPublicKeyList;
@@ -25,7 +25,7 @@ public class KakaoOidcProvider implements OidcProvider {
         Claims claims = jwtProvider.parseClaims(idToken, publicKey);
         return new SocialInfo(
                 claims.getSubject(),
-                OidcProviderType.KAKAO,
+                SocialPlatform.KAKAO,
                 claims.get("nickname", String.class),
                 claims.get("picture", String.class)
         );
