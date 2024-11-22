@@ -1,5 +1,5 @@
 jwt:
-  secret-key: CLEXYo88Whh7YXjFYIWjO6iLAeVX8wc9BqvpiEXPuGc # TODO 숨기기
+  secret-key: XOlFHKNWOJiyld4YRH2gx72Za/acFMCRa9AH/hcjLi2VOCvlYQP9eauEA52UAFl8uKZev8LkIqqMOUFT69RYOQ== # TODO 숨기기
   access-header: Authorization
   refresh-header: Refresh
   grant-type: Bearer

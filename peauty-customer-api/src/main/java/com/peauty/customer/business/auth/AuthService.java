@@ -8,5 +8,5 @@ import com.peauty.domain.user.SocialPlatform;
 public interface AuthService {
     SignInResult signIn(SocialPlatform socialPlatform, String code);
     SignUpResult signUp(SignUpCommand command);
-    SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken);
+    SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken, String nickname, String phoneNum);
 }
