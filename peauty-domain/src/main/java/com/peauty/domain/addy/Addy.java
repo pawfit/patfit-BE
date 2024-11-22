@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Addy {
 
-    private Long AddyId;            // Addy ID
+    private Long addyId;            // Addy ID
     private String addyImageUrl;    // 이미지 URL
 
 }
