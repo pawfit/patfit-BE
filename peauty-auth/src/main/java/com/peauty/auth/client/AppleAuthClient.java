@@ -2,8 +2,8 @@ package com.peauty.auth.client;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.auth.properties.OAuthProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -11,13 +11,14 @@ import org.springframework.web.client.RestClient;
 @RequiredArgsConstructor
 public class AppleAuthClient implements ExternalAuthClient {
 
+    @Value("${oauth.apple-public-key-url}")
+    private String publicKeyUrl;
     private final RestClient restClient;
-    private final OAuthProperties oAuthProperties;
 
     @Override
     public OidcPublicKeyList getPublicKeys() {
         OidcPublicKeyList publicKeys = restClient.get()
-                .uri(oAuthProperties.applePublicKeyUrl())
+                .uri(publicKeyUrl)
                 .retrieve()
                 .body(OidcPublicKeyList.class);
 

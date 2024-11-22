@@ -10,8 +10,8 @@ import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.SocialInfo;
-import com.peauty.auth.properties.OAuthProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,8 +21,13 @@ import java.security.GeneralSecurityException;
 @RequiredArgsConstructor
 public class GoogleOidcProvider implements OidcProvider {
 
+    @Value("${oauth.google-client-secret}")
+    private String googleClientSecret;
+    @Value("${oauth.google-client-id}")
+    private String googleClientId;
+    @Value("${oauth.google-redirect-url}")
+    private String googleRedirectUrl;
     private final GoogleIdTokenVerifier googleIdTokenVerifier;
-    private final OAuthProperties oAuthProperties;
 
     @Override
     public SocialInfo getSocialInfo(String idToken) {
@@ -42,10 +47,10 @@ public class GoogleOidcProvider implements OidcProvider {
                     new NetHttpTransport(),
                     GsonFactory.getDefaultInstance(),
                     "https://oauth2.googleapis.com/token",
-                    oAuthProperties.googleClientId(),
-                    oAuthProperties.googleClientSecret(),
+                    googleClientId,
+                    googleClientSecret,
                     authCode,
-                    oAuthProperties.googleRedirectUrl()
+                    googleRedirectUrl
             ).execute();
 
             String idToken = tokenResponse.getIdToken();
