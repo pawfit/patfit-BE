@@ -2,7 +2,7 @@ package com.peauty.persistence.customer;
 
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
-import com.peauty.persistence.BaseTimeEntity;
+import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

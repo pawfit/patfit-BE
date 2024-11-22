@@ -1,6 +1,6 @@
-package com.peauty.customer.presentation.controller.auth.dto;
+package com.peauty.designer.presentation.auth.dto;
 
-import com.peauty.customer.business.auth.dto.SignUpCommand;
+import com.peauty.designer.business.auth.dto.SignUpCommand;
 import com.peauty.domain.user.SocialPlatform;
 
 public record SignUpRequest(

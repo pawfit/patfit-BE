@@ -69,8 +69,6 @@ public class CustomerAdapter implements CustomerPort {
                 Status.ACTIVE,
                 Role.ROLE_CUSTOMER
         );
-        CustomerEntity customerEntityToSave = CustomerMapper.toEntity(userToSave);
-        CustomerEntity savedCustomerEntity = customerRepository.save(customerEntityToSave);
-        return CustomerMapper.toDomain(savedCustomerEntity);
+        return save(userToSave);
     }
 }

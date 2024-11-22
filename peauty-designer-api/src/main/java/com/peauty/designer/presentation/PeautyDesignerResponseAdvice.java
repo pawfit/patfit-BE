@@ -1,4 +1,4 @@
-package com.peauty.designer;
+package com.peauty.designer.presentation;
 
 import com.peauty.domain.response.PeautyApiResponse;
 import org.springframework.core.MethodParameter;
