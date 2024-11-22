@@ -1,4 +1,4 @@
-package com.peauty.customer.business.auth.dto;
+package com.peauty.designer.business.auth.dto;
 
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.User;
