@@ -1,5 +1,7 @@
 package com.peauty.domain.puppy;
 
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -122,7 +124,7 @@ public enum Breed {
         return Arrays.stream(Breed.values())
                 .filter(it -> it.breedName.equalsIgnoreCase(breedName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 견종입니다. 다시 입력해주세요."));
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXISTS_BREED));
     }
 }
 

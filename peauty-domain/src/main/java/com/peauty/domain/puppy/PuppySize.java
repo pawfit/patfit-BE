@@ -1,5 +1,7 @@
 package com.peauty.domain.puppy;
 
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -21,7 +23,7 @@ public enum PuppySize {
         return Arrays.stream(PuppySize.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 크기 설정입니다."));
-    }
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_SIZE));
 
+    }
 }
