@@ -1,7 +1,10 @@
 package com.peauty.domain.puppy;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum Breed {
 
     // 소형견
