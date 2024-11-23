@@ -1,6 +1,6 @@
 package com.peauty.domain.puppy;
 
-import com.peauty.domain.addy.Addy;
+import com.peauty.domain.addy.AddyImage;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -23,10 +23,10 @@ public class Puppy {
     private LocalDate birthdate;        // 생일
     private String detail;              // 특이사항
     private Disease disease;            // 질병
-    private String diseaseDescript;     // 기타 질병사항
+    private String diseaseDescription;  // 기타 질병사항
     private String profileImageUrl;     // 프로필 사진
 
     // 강아지 이미지 목록
-    private List<Addy> Addy;            // Addy URL
+    private List<AddyImage> Addy;       // Addy URL
 
 }
