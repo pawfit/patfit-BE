@@ -7,7 +7,7 @@ import lombok.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Addy {
+public class AddyImage {
 
     private Long addyId;            // Addy ID
     private String addyImageUrl;    // 이미지 URL
