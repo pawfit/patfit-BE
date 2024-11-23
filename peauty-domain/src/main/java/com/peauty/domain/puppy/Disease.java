@@ -1,5 +1,7 @@
 package com.peauty.domain.puppy;
 
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -7,15 +9,15 @@ import java.util.Arrays;
 @Getter
 public enum Disease {
 
-    KennelCough("Kennel Cough"),
-    CanineInfluenza("Canine Influenza"),
-    HeartWorm("Heart Worm"),
-    Parvovirus("Parvovirus"),
-    Rabies("Rabies"),
-    EarInfection("Ear Infection"),
-    CanineDistemper("Canine Distemper"),
-    Fleas("Fleas"),
-    Parasites("Parasites");
+    KENNEL_COUGH("Kennel Cough"),
+    CANINE_INFLUENZA("Canine Influenza"),
+    HEART_WORM("Heart Worm"),
+    PARVOVIRUS("Parvovirus"),
+    RABIES("Rabies"),
+    EAR_INFECTION("Ear Infection"),
+    CANINE_DISTEMPER("Canine Distemper"),
+    FLEAS("Fleas"),
+    PARASITES("Parasites");
 
     private final String description;
 
@@ -27,7 +29,7 @@ public enum Disease {
         return Arrays.stream(Disease.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("없는 병명입니다."));
-    }
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXISTS_DISEASE));
 
+    }
 }
