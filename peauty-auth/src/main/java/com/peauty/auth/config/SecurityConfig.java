@@ -2,17 +2,12 @@ package com.peauty.auth.config;
 
 import com.peauty.auth.filter.JwtAuthenticationFilter;
 import com.peauty.auth.filter.JwtExceptionFilter;
-import com.peauty.auth.properties.JwtProperties;
-import com.peauty.auth.properties.OAuthProperties;
 import com.peauty.auth.resolver.AccessTokenResolver;
 import com.peauty.auth.resolver.RefreshTokenResolver;
 import com.peauty.auth.resolver.SignedUserResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;

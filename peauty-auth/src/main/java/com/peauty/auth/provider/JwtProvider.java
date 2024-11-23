@@ -6,7 +6,6 @@ import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.User;
-import com.peauty.auth.properties.JwtProperties;
 import com.peauty.auth.properties.OAuthUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -14,6 +13,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.InvalidKeyException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -23,10 +24,13 @@ import java.security.PublicKey;
 import java.util.Date;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtProvider {
 
-    private final JwtProperties jwtProperties;
+    @Value("${jwt.access-token-expiration}")
+    private Long accessTokenExpiration;
+    @Value("${jwt.refresh-token-expiration}")
+    private Long refreshTokenExpiration;
     private final BlackListTokenRepository blackListTokenRepository;
     private final Key key;
     private final ObjectMapper jacksonObjectMapper;
@@ -35,13 +39,13 @@ public class JwtProvider {
         try {
             String accessToken = Jwts.builder()
                     .claim("user", user)
-                    .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration()))
+                    .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();
 
             String refreshToken = Jwts.builder()
                     .claim("user", user)
-                    .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.refreshTokenExpiration()))
+                    .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();
 
