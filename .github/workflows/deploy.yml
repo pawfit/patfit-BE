@@ -1,0 +1,114 @@
+name: Multi-Module Deployment to AWS ECR and EC2
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: '프로파일을 선택하세요 (real 또는 beta)'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+          - real
+          - beta
+      package:
+        description: '배포할 패키지를 선택하세요'
+        required: true
+        default: 'peauty-customer-api'
+        type: choice
+        options:
+          - peauty-customer-api
+          - peauty-designer-api
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. 환경 변수 설정
+      - name: Set environment variables
+        run: |
+          echo "DEPLOY_PROFILE=${{ github.event.inputs.profile }}" >> $GITHUB_ENV
+          echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          
+          # 포트 설정: customer는 8080, designer는 8081
+          if [ "${{ github.event.inputs.package }}" == "peauty-customer-api" ]; then
+            echo "TARGET_PORT=8080" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.package }}" == "peauty-designer-api" ]; then
+            echo "TARGET_PORT=8081" >> $GITHUB_ENV
+          else
+            echo "Invalid package: ${{ github.event.inputs.package }}"
+            exit 1
+          fi
+        env:
+          DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
+          TARGET_PACKAGE: ${{ github.event.inputs.package }}
+
+      # 3. 선택된 패키지 빌드 (로컬에서 JAR 생성)
+      - name: Build Selected Package
+        run: |
+          echo "Building $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
+          
+          # 선택한 패키지 디렉토리로 이동 후 Gradle 빌드
+          ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE -p $TARGET_PACKAGE
+        env:
+          DEPLOY_PROFILE: ${{ env.DEPLOY_PROFILE }}
+          TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
+
+      # 4. ECR 로그인
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          region: ap-northeast-2
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # 5. Docker 이미지 빌드 및 푸시
+      - name: Build and Push Docker Image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: peauty/prod
+          IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
+        run: |
+          echo "Building Docker image for $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      # 6. EC2 서버에 배포
+      - name: Deploy to EC2 Server
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets[github.event.inputs.package | upper]_HOST }}
+          username: ${{ secrets[github.event.inputs.package | upper]_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE on port $TARGET_PORT..."
+
+            # AWS CLI 설정
+            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws configure set region ap-northeast-2
+
+            # Docker 이미지 Pull
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
+            docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            # 기존 컨테이너 중지 및 삭제
+            docker stop $TARGET_PACKAGE || true
+            docker rm $TARGET_PACKAGE || true
+
+            # 새로운 컨테이너 실행 (포트 동적 설정)
+            docker run -d -p $TARGET_PORT:8080 --name $TARGET_PACKAGE \
+              --env SPRING_PROFILES_ACTIVE=$DEPLOY_PROFILE \
+              $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            # 컨테이너 상태 확인
+            docker ps
