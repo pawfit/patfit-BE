@@ -1,4 +1,4 @@
-package com.peauty.designer.presentation.auth.dto;
+package com.peauty.designer.presentation.controller.auth.dto;
 
 
 import com.peauty.designer.business.auth.dto.SignInResult;
