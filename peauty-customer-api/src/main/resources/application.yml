@@ -13,3 +13,11 @@ spring:
       - auth
   jackson:
     default-property-inclusion: non_null
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha      # 태그 정렬
+    operations-sorter: alpha  # API 정렬
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json

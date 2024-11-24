@@ -51,6 +51,14 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     private void setAuthorizePath(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorize) {
         authorize.requestMatchers(
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/api-docs/**",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**"
+                ).permitAll()
+                .requestMatchers(
                         "/sign-out"
                 ).hasAnyRole("CUSTOMER", "DESIGNER", "ADMIN")
                 .requestMatchers(
