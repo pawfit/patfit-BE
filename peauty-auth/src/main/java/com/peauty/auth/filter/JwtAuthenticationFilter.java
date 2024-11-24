@@ -1,6 +1,5 @@
 package com.peauty.auth.filter;
 
-import com.peauty.auth.properties.JwtProperties;
 import com.peauty.auth.provider.JwtProvider;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -9,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    @Value("${jwt.access-header}")
+    private String accessHeader;
+    @Value("${jwt.grant-type}")
+    private String grantType;
     private final JwtProvider jwtProvider;
-    private final JwtProperties jwtProperties;
 
     @Override
     protected void doFilterInternal(
@@ -29,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        String token = getTokensFromHeader(request, jwtProperties.accessHeader());
+        String token = getTokensFromHeader(request, accessHeader);
 
         if (token != null) {
             String accessToken = replaceBearerToBlank(token);
@@ -45,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String replaceBearerToBlank(String token) {
-        String suffix = jwtProperties.grantType();
+        String suffix = grantType;
         if (!token.startsWith(suffix)) {
             throw new PeautyException(PeautyResponseCode.NOT_EXIST_BEARER_SUFFIX);
         }

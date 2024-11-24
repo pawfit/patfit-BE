@@ -1,8 +1,9 @@
-package com.peauty.customer.business.auth;
+package com.peauty.designer.business.auth;
 
-import com.peauty.customer.business.auth.dto.SignInResult;
-import com.peauty.customer.business.auth.dto.SignUpCommand;
-import com.peauty.customer.business.auth.dto.SignUpResult;
+
+import com.peauty.designer.business.auth.dto.SignInResult;
+import com.peauty.designer.business.auth.dto.SignUpCommand;
+import com.peauty.designer.business.auth.dto.SignUpResult;
 import com.peauty.domain.user.SocialPlatform;
 
 public interface AuthService {

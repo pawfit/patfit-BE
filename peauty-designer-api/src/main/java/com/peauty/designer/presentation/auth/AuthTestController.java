@@ -1,8 +1,8 @@
-package com.peauty.customer.presentation.controller.auth;
+package com.peauty.designer.presentation.auth;
 
-import com.peauty.customer.business.auth.AuthService;
-import com.peauty.customer.business.auth.dto.SignUpResult;
-import com.peauty.customer.presentation.controller.auth.dto.SignUpResponse;
+import com.peauty.designer.business.auth.AuthService;
+import com.peauty.designer.business.auth.dto.SignUpResult;
+import com.peauty.designer.presentation.auth.dto.SignUpResponse;
 import com.peauty.domain.user.SocialPlatform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

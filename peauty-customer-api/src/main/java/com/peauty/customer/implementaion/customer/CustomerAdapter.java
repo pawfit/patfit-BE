@@ -21,9 +21,16 @@ public class CustomerAdapter implements CustomerPort {
     private final CustomerRepository customerRepository;
 
     @Override
+    public void checkCustomerSocialIdDuplicated(String socialId) {
+        if (customerRepository.existsBySocialId(socialId)) {
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_USER);
+        }
+    }
+
+    @Override
     public void checkCustomerNicknameDuplicated(String nickname) {
         if (customerRepository.existsByNickname(nickname)) {
-            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_USER);
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_NICKNAME);
         }
     }
 
@@ -57,12 +64,11 @@ public class CustomerAdapter implements CustomerPort {
                 command.name(),
                 command.nickname(),
                 command.phoneNum(),
+                command.address(),
                 command.profileImageUrl(),
                 Status.ACTIVE,
                 Role.ROLE_CUSTOMER
         );
-        CustomerEntity customerEntityToSave = CustomerMapper.toEntity(userToSave);
-        CustomerEntity savedCustomerEntity = customerRepository.save(customerEntityToSave);
-        return CustomerMapper.toDomain(savedCustomerEntity);
+        return save(userToSave);
     }
 }

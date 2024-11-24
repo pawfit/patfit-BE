@@ -1,8 +1,8 @@
 package com.peauty.persistence.customer;
 
-import com.peauty.domain.user.Status;
 import com.peauty.domain.user.SocialPlatform;
-import com.peauty.persistence.BaseTimeEntity;
+import com.peauty.domain.user.Status;
+import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +33,9 @@ public class CustomerEntity extends BaseTimeEntity {
 
     @Column(name = "phoneNum", length = 50)
     private String phoneNum;
+
+    @Column(name = "address")
+    private String address;
 
     @Lob
     @Column(name = "profile_image_url")
