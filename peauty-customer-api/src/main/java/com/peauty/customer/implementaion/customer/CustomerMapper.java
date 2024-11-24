@@ -18,6 +18,7 @@ public class CustomerMapper {
                 customerEntity.getName(),
                 customerEntity.getNickname(),
                 customerEntity.getPhoneNum(),
+                customerEntity.getAddress(),
                 customerEntity.getProfileImageUrl(),
                 customerEntity.getStatus(),
                 Role.ROLE_CUSTOMER
@@ -32,6 +33,7 @@ public class CustomerMapper {
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .phoneNum(user.getPhoneNum())
+                .address(user.getAddress())
                 .profileImageUrl(user.getProfileImageUrl())
                 .status(user.getStatus())
                 .build();

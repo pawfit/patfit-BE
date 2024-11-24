@@ -1,5 +1,5 @@
 jwt:
-  secret-key: CLEXYo88Whh7YXjFYIWjO6iLAeVX8wc9BqvpiEXPuGc # TODO 숨기기
+  secret-key: ${JWT_SECRET}
   access-header: Authorization
   refresh-header: Refresh
   grant-type: Bearer
@@ -10,8 +10,8 @@ spring:
     activate:
       on-profile: local
 jwt:
-  access-token-expiration: 36000000000
-  refresh-token-expiration: 36000000000  # 100시간
+  access-token-expiration: 360000000
+  refresh-token-expiration: 360000000  # 100시간
 
 ---
 spring:
@@ -19,8 +19,8 @@ spring:
     activate:
       on-profile: beta
 jwt:
-  access-token-expiration: 36000000
-  refresh-token-expiration: 36000000000
+  access-token-expiration: 360000000
+  refresh-token-expiration: 360000000
 
 ---
 spring:

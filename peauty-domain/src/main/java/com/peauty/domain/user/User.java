@@ -16,6 +16,7 @@ public class User {
     private String name;
     private String nickname;
     private String phoneNum;
+    private String address;
     private String profileImageUrl;
     private Status status;
     private Role role;
@@ -26,5 +27,9 @@ public class User {
 
     public void activate() {
         this.status = Status.ACTIVE;
+    }
+
+    public boolean isActive() {
+        return status == Status.ACTIVE;
     }
 }

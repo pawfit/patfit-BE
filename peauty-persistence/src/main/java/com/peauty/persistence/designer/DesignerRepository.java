@@ -1,4 +1,4 @@
-package com.peauty.persistence.customer;
+package com.peauty.persistence.designer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -6,9 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
-    boolean existsBySocialId(String socialId);
+public interface DesignerRepository extends JpaRepository<DesignerEntity, Long> {
     boolean existsByNickname(String nickname);
     boolean existsByPhoneNum(String phoneNum);
-    Optional<CustomerEntity> findBySocialId(String socialId);
+    Optional<DesignerEntity> findBySocialId(String socialId);
 }

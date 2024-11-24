@@ -1,4 +1,4 @@
-package com.peauty.persistence;
+package com.peauty.persistence.config;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
