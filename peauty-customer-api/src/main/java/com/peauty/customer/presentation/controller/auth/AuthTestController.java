@@ -4,6 +4,7 @@ import com.peauty.customer.business.auth.AuthService;
 import com.peauty.customer.business.auth.dto.SignUpResult;
 import com.peauty.customer.presentation.controller.auth.dto.SignUpResponse;
 import com.peauty.domain.user.SocialPlatform;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class AuthTestController {
     private final AuthService authService;
 
     @PostMapping("/sign")
-    @Operation(summary = "테스터 sign", description = "테스터의 sign 진입접입니다 해당 소셜 플랫폼을 통해 idToken 을 발급해주세요.")
+    @Operation(summary = "고객 테스터 로그인&회원가입", description = "고객 테스터의 로그인&회원가입 통합 진입점입니다.")
     public SignUpResponse signTester(
             @RequestParam SocialPlatform socialPlatform,
             @RequestParam String idToken,
@@ -32,6 +33,7 @@ public class AuthTestController {
     }
 
     @GetMapping("/sign-in")
+    @Hidden
     public void testSignIn(
             @RequestParam("socialId") String socialId,
             @RequestParam("socialPlatform") SocialPlatform socialPlatform,
