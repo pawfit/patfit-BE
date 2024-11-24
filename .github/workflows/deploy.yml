@@ -14,11 +14,11 @@ on:
       package:
         description: '배포할 패키지를 선택하세요'
         required: true
-        default: 'customer'
+        default: 'peauty-customer-api'
         type: choice
         options:
-          - customer
-          - designer
+          - peauty-customer-api
+          - peauty-designer-api
 
 permissions:
   contents: read
@@ -39,9 +39,9 @@ jobs:
           echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
           
           # 포트 설정: customer는 8080, designer는 8081
-          if [ "${{ github.event.inputs.package }}" == "customer" ]; then
+          if [ "${{ github.event.inputs.package }}" == "peauty-customer-api" ]; then
             echo "TARGET_PORT=8080" >> $GITHUB_ENV
-          elif [ "${{ github.event.inputs.package }}" == "designer" ]; then
+          elif [ "${{ github.event.inputs.package }}" == "peauty-designer-api" ]; then
             echo "TARGET_PORT=8081" >> $GITHUB_ENV
           else
             echo "Invalid package: ${{ github.event.inputs.package }}"
@@ -78,7 +78,7 @@ jobs:
           IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
         run: |
           echo "Building Docker image for $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
-          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
           docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
@@ -88,7 +88,7 @@ jobs:
         with:
           host: ${{ secrets[github.event.inputs.package | upper]_HOST }}
           username: ${{ secrets[github.event.inputs.package | upper]_USER }}
-          key: ${{ secrets[github.event.inputs.package | upper]_SSH_KEY }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE on port $TARGET_PORT..."
 
