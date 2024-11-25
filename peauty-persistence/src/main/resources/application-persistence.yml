@@ -7,7 +7,9 @@ spring:
 spring:
   config:
     activate:
-      on-profile: customer-local | designer-local
+      on-profile:
+        - customer-local
+        - designer-local
   datasource:
     url: jdbc:h2:mem:test  # 인메모리 H2 데이터베이스
     driver-class-name: org.h2.Driver
@@ -28,7 +30,11 @@ spring:
 spring:
   config:
     activate:
-      on-profile: customer-dev | designer-dev | customer-prod | designer-prod
+      on-profile:
+        - customer-dev
+        - designer-dev
+        - customer-prod
+        - designer-prod
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
