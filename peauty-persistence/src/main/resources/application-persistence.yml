@@ -1,7 +1,13 @@
 spring:
   config:
+    import:
+      - optional:file:.env[.properties]
+
+---
+spring:
+  config:
     activate:
-      on-profile: local
+      on-profile: customer-local | designer-local
   datasource:
     url: jdbc:h2:mem:test  # 인메모리 H2 데이터베이스
     driver-class-name: org.h2.Driver
@@ -22,10 +28,20 @@ spring:
 spring:
   config:
     activate:
-      on-profile: beta
+      on-profile: customer-dev | designer-dev | customer-prod | designer-prod
 
----
-spring:
-  config:
-    activate:
-      on-profile: real
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${RDS_ENDPOINT}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create # TODO none 으로 바꾸기
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false

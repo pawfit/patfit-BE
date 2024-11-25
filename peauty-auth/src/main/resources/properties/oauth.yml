@@ -10,28 +10,64 @@ oauth:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: customer-local
 oauth:
   kakao-redirect-url: http://localhost:8080/v1/auth/kakao-sign-in
   apple-redirect-url: http://localhost:8080/v1/auth/apple-sign-in
   google-redirect-url: http://localhost:8080/v1/auth/google-sign-in
+  frontend-redirect-url: /v1/auth/test
 
 ---
 spring:
   config:
     activate:
-      on-profile: beta
+      on-profile: customer-dev
 oauth:
-  kakao-redirect-url: http://beta.peauty.click/v1/auth/kakao-sign-in
-  apple-redirect-url: http://beta.peauty.click/v1/auth/apple-sign-in
-  google-redirect-url: http://beta.peauty.click/v1/auth/google-sign-in
+  kakao-redirect-url: https://customer-dev.peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: https://customer-dev.peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: https://customer-dev.peauty.click/v1/auth/google-sign-in
+  frontend-redirect-url: http://localhost:5174 # TODO https://peauty.click 로 바꾸기
 
 ---
 spring:
   config:
     activate:
-      on-profile: real
+      on-profile: customer-prod
 oauth:
-  kakao-redirect-url: https://peauty.click/v1/auth/kakao-sign-in
-  apple-redirect-url: https://peauty.click/v1/auth/apple-sign-in
-  google-redirect-url: https://peauty.click/v1/auth/google-sign-in
+  kakao-redirect-url: https://customer.peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: https://customer.peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: https://customer.peauty.click/v1/auth/google-sign-in
+  frontend-redirect-url: https://peauty.click
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-local
+oauth:
+  kakao-redirect-url: http://localhost:8081/v1/auth/kakao-sign-in
+  apple-redirect-url: http://localhost:8081/v1/auth/apple-sign-in
+  google-redirect-url: http://localhost:8081/v1/auth/google-sign-in
+  frontend-redirect-url: http://localhost:8081/v1/auth/test
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-dev
+oauth:
+  kakao-redirect-url: https://designer-dev.peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: https://designer-dev.peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: https://designer-dev.peauty.click/v1/auth/google-sign-in
+  frontend-redirect-url: http://localhost:5174 # TODO https://peauty.click 로 바꾸기
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-prod
+oauth:
+  kakao-redirect-url: https://designer.peauty.click/v1/auth/kakao-sign-in
+  apple-redirect-url: https://designer.peauty.click/v1/auth/apple-sign-in
+  google-redirect-url: https://designer.peauty.click/v1/auth/google-sign-in
+  frontend-redirect-url: https://peauty.click

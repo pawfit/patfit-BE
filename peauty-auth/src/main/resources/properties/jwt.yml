@@ -8,7 +8,7 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: customer-local
 jwt:
   access-token-expiration: 360000000
   refresh-token-expiration: 360000000  # 100시간
@@ -17,7 +17,7 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: beta
+      on-profile: customer-dev
 jwt:
   access-token-expiration: 360000000
   refresh-token-expiration: 360000000
@@ -26,7 +26,34 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: real
+      on-profile: customer-prod
+jwt:
+  access-token-expiration: 3600000  # 1시간
+  refresh-token-expiration: 604800000  # 1주일
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-local
+jwt:
+  access-token-expiration: 360000000
+  refresh-token-expiration: 360000000  # 100시간
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-dev
+jwt:
+  access-token-expiration: 360000000
+  refresh-token-expiration: 360000000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-prod
 jwt:
   access-token-expiration: 3600000  # 1시간
   refresh-token-expiration: 604800000  # 1주일
