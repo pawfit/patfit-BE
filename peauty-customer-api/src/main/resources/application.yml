@@ -1,18 +1,26 @@
-server:
-  port: 8080
-  shutdown: graceful
-
 spring:
   application:
     name: peauty-customer
   profiles:
-    active: local
+    active: customer-local
     include:
       - persistence
       - aws
       - auth
   jackson:
     default-property-inclusion: non_null
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - customer-local
+        - customer-dev
+
+server:
+  port: 8080
+  shutdown: graceful
 
 springdoc:
   swagger-ui:
@@ -21,3 +29,13 @@ springdoc:
     operations-sorter: alpha  # API 정렬
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
+---
+spring:
+  config:
+    activate:
+      on-profile: customer-prod
+
+server:
+  port: 8080
+  shutdown: graceful

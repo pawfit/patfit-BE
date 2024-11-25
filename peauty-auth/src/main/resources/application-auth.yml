@@ -4,5 +4,3 @@ spring:
       - optional:file:.env[.properties]
       - classpath:properties/oauth.yml
       - classpath:properties/jwt.yml
-    activate:
-      on-profile: local

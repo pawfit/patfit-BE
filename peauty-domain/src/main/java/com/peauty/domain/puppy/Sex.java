@@ -22,6 +22,5 @@ public enum Sex {
                 .filter(it -> it.value.equalsIgnoreCase(value))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_SEX));
-
     }
 }
