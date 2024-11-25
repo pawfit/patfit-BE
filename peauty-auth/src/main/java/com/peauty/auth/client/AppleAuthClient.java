@@ -29,5 +29,4 @@ public class AppleAuthClient implements ExternalAuthClient {
         return publicKeys;
     }
 
-
 }

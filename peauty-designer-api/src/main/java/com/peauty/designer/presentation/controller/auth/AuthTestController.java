@@ -1,8 +1,10 @@
 package com.peauty.designer.presentation.controller.auth;
 
+
 import com.peauty.designer.business.auth.AuthService;
 import com.peauty.designer.business.auth.dto.SignUpResult;
 import com.peauty.designer.presentation.controller.auth.dto.SignUpResponse;
+import com.peauty.domain.response.PeautyApiResponse;
 import com.peauty.domain.user.SocialPlatform;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/auth/test")
 @Tag(name = "Auth Test", description = "Auth Test API")
+@RequestMapping("/v1/auth/test")
 @RequiredArgsConstructor
 public class AuthTestController {
 
@@ -32,22 +34,30 @@ public class AuthTestController {
         return SignUpResponse.from(result);
     }
 
-    @GetMapping("/sign-in")
+    @GetMapping("/signin")
     @Hidden
-    public void testSignIn(
+    public PeautyApiResponse<String> testSignIn(
+            @RequestParam("accessToken") String accessToken,
+            @RequestParam("refreshToken") String refreshToken
+    ) {
+        return PeautyApiResponse.ok("accessToken : " + accessToken + "\n" +  "refreshToken : " + refreshToken);
+    }
+
+    @GetMapping("/signup")
+    @Hidden
+    public PeautyApiResponse<String> testSignUp(
             @RequestParam("socialId") String socialId,
             @RequestParam("socialPlatform") SocialPlatform socialPlatform,
             @RequestParam("nickname") String nickname,
             @RequestParam("profileImageUrl") String profileImageUrl
     ) {
-        log.info("""
-                        Redirect Parameters:
-                        socialId: {}
-                        socialPlatform: {}
-                        nickname: {}
-                        profileImageUrl: {}
-                        """,
-                socialId, socialPlatform, nickname, profileImageUrl
-        );
+        String response = String.format("""
+           socialId: %s
+           socialPlatform: %s
+           nickname: %s
+           profileImageUrl: %s
+           """,
+                socialId, socialPlatform, nickname, profileImageUrl);
+        return PeautyApiResponse.ok(response);
     }
 }
