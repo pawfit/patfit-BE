@@ -52,9 +52,4 @@ public class CustomerEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PuppyEntity> puppies;
 
-    public CustomerEntity(Long id) {
-        this.id = id;
-    }
-
-
 }
