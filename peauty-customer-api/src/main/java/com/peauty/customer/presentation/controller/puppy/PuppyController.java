@@ -48,7 +48,6 @@ public class PuppyController {
     ) {
         UpdatePuppyCommand command = req.toCommand(userId, puppyId);
         RegisterPuppyResult result = puppyService.updatePuppy(command);
-//        return ResponseEntity.ok(UpdatePuppyResponse.from(result));
         return UpdatePuppyResponse.from(result);
     }
 
