@@ -28,6 +28,7 @@ public enum PeautyResponseCode {
     NOT_EXISTS_DISEASE("1207", "Disease Not Found", "존재하지 않는 병명입니다."),
     WRONG_SEX("1208", "Invalid Puppy's Sex", "잘못된 애완견의 성별입니다."),
     WRONG_SIZE("1209", "Invalid Puppy's Size", "잘못된 애완견의 크기입니다."),
+    NOT_FOUND_PUPPY("1210", "Puppy Not Found", "찾을 수 없는 반려견입니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

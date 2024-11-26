@@ -3,8 +3,11 @@ package com.peauty.persistence.customer;
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.config.BaseTimeEntity;
+import com.peauty.persistence.puppy.PuppyEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -45,4 +48,13 @@ public class CustomerEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PuppyEntity> puppies;
+
+    public CustomerEntity(Long id) {
+        this.id = id;
+    }
+
+
 }

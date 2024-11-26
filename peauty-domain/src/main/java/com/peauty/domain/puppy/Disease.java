@@ -9,15 +9,15 @@ import java.util.Arrays;
 @Getter
 public enum Disease {
 
-    KENNEL_COUGH("Kennel Cough"),
-    CANINE_INFLUENZA("Canine Influenza"),
-    HEART_WORM("Heart Worm"),
-    PARVOVIRUS("Parvovirus"),
-    RABIES("Rabies"),
-    EAR_INFECTION("Ear Infection"),
-    CANINE_DISTEMPER("Canine Distemper"),
-    FLEAS("Fleas"),
-    PARASITES("Parasites");
+    KENNEL_COUGH("기침 감기"),
+    CANINE_INFLUENZA("개 인플루엔자"),
+    HEART_WORM("사상충"),
+    PARVOVIRUS("홍반"),
+    RABIES("광견병"),
+    EAR_INFECTION("이염"),
+    CANINE_DISTEMPER("홍역 바이러스"),
+    FLEAS("벼룩"),
+    PARASITES("기생충");
 
     private final String description;
 
