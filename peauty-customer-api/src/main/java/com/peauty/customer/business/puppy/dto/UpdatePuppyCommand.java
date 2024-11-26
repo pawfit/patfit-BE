@@ -25,6 +25,7 @@ public record UpdatePuppyCommand(
     public Puppy updateDomain(Puppy existingPuppy) {
         return Puppy.builder()
                 .puppyId(existingPuppy.getPuppyId())
+                .customerId(defaultIfNull(this.userId, existingPuppy.getCustomerId())) // userId 처리 추가
                 .name(defaultIfNull(this.name, existingPuppy.getName()))
                 .breed(defaultIfNull(this.breed, existingPuppy.getBreed()))
                 .sex(defaultIfNull(this.sex, existingPuppy.getSex()))
