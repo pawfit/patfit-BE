@@ -35,6 +35,13 @@ public class WebLoggingFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (isMultipartContent(request)) {
+            logMultipartRequest(request);
+            filterChain.doFilter(request, response);
+            logResponse(response);
+            return;
+        }
+
         ReusableRequestWrapper wrappingRequest = new ReusableRequestWrapper(request);
         ContentCachingResponseWrapper wrappingResponse = new ContentCachingResponseWrapper(response);
         String queryString = request.getQueryString();
@@ -50,6 +57,25 @@ public class WebLoggingFilter extends OncePerRequestFilter {
         filterChain.doFilter(wrappingRequest, wrappingResponse);
         log.info("[RESPONSE] Body : {}", getResponseBody(wrappingResponse));
         wrappingResponse.copyBodyToResponse();
+    }
+
+    private boolean isMultipartContent(HttpServletRequest request) {
+        String contentType = request.getContentType();
+        return contentType != null && contentType.toLowerCase().startsWith("multipart/");
+    }
+
+
+    private void logMultipartRequest(HttpServletRequest request) {
+        log.info(
+                "[MULTIPART REQUEST] {}, {}\n Headers: {}",
+                request.getMethod(),
+                request.getRequestURI(),
+                getHeaders(request)
+        );
+    }
+
+    private void logResponse(HttpServletResponse response) {
+        log.info("[RESPONSE] Status: {}", response.getStatus());
     }
 
     private Map<String, String> getHeaders(HttpServletRequest request) {
