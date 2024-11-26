@@ -2,6 +2,7 @@ package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.auth.dto.SignUpCommand;
 import com.peauty.domain.user.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -12,4 +13,5 @@ public interface CustomerPort {
     Optional<User> findBySocialId(String socialId);
     User save(User user);
     User registerNewCustomer(SignUpCommand command);
+    User getByUserId(Long userId);
 }
