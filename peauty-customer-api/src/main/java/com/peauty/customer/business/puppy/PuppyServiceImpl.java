@@ -1,14 +1,9 @@
 package com.peauty.customer.business.puppy;
 
 import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
-import com.peauty.customer.business.puppy.dto.PuppyResult;
+import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
-import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.persistence.puppy.PuppyEntity;
-import com.peauty.customer.implementaion.puppy.PuppyMapper;
-import com.peauty.persistence.puppy.PuppyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PuppyServiceImpl implements PuppyService {
 
     private final PuppyPort puppyPort;
-    private final PuppyRepository puppyRepository;
 
     @Override
     @Transactional
-    public PuppyResult registerPuppy(AddPuppyCommand command) {
+    public RegisterPuppyResult addPuppy(AddPuppyCommand command) {
 
         // 반려견 생성, 저장
 
@@ -31,42 +25,27 @@ public class PuppyServiceImpl implements PuppyService {
                                     .assignCustomer(command.userId());// AddPuppyCommand를 도메인 객체로 변환
         Puppy savedPuppy = puppyPort.savePuppy(puppyToSave); // Port로 이어서 저장
 
-        return PuppyResult.from(savedPuppy);
+        return RegisterPuppyResult.from(savedPuppy);
     }
 
     @Override
-    public PuppyResult getPuppy(Long userId, Long puppyId){
+    public RegisterPuppyResult getPuppy(Long userId, Long puppyId){
 
         // 반려견 조회
         Puppy puppy = puppyPort.findPuppy(userId, puppyId);
-        return PuppyResult.from(puppy);
+        return RegisterPuppyResult.from(puppy);
     }
 
     @Override
     @Transactional
-    public PuppyResult updatePuppy(UpdatePuppyCommand command){
+    public RegisterPuppyResult updatePuppy(UpdatePuppyCommand command){
 
         // 기존 반려견 조회
-        PuppyEntity entity = puppyRepository.findByIdAndCustomerId(command.puppyId(), command.userId())
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
-
-        // 업데이트
-        entity.update(
-                command.name(),
-                command.breed(),
-                command.weight(),
-                command.sex(),
-                command.age(),
-                command.birthdate(),
-                command.detail(),
-                command.disease(),
-                command.diseaseDescription(),
-                command.profileImageUrl()
-        );
-
-
-        PuppyEntity savedEntity = puppyRepository.save(entity);
-        return PuppyResult.from(PuppyMapper.toDomain(savedEntity));
+        // 기존 반려견 조회 및 업데이트 Port로 호출
+        Puppy existingPuppy = puppyPort.findPuppy(command.userId(), command.puppyId());
+        Puppy updatedPuppy = command.updateDomain(existingPuppy);
+        Puppy savedPuppy = puppyPort.updatePuppy(updatedPuppy);
+        return RegisterPuppyResult.from(savedPuppy);
     }
 
     @Override
