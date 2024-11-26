@@ -37,8 +37,12 @@ public class User {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public void updateUserProfile(String name) {
-        this.name = name;
+    public void updateUserProfile(UserProfile userProfileToUpdate) {
+        this.name = userProfileToUpdate.getName();
+        this.nickname = userProfileToUpdate.getNickname();
+        this.phoneNum = userProfileToUpdate.getPhoneNum();
+        this.address = userProfileToUpdate.getAddress();
+        this.profileImageUrl = userProfileToUpdate.getProfileImageUrl();
     }
 
     public UserProfile getUserProfile() {

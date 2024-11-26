@@ -12,6 +12,7 @@ public class UserProfile {
     private Long userId;
     private String name;
     private String nickname;
+    private String phoneNum;
     private String address;
     private String profileImageUrl;
 }
