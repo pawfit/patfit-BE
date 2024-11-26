@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 @Getter
 public enum Sex {
-    M("Male"),
-    F("Female");
+    M("수컷"),
+    F("암컷");
 
     private final String value;
 
