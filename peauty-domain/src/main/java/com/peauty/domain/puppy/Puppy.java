@@ -35,4 +35,32 @@ public class Puppy {
         return this;
     }
 
+    public void updatePuppyProfile(PuppyProfile profileToUpdate) {
+        this.name = profileToUpdate.getName();
+        this.breed = profileToUpdate.getBreed();
+        this.weight = profileToUpdate.getWeight();
+        this.sex = profileToUpdate.getSex();
+        this.age = profileToUpdate.getAge();
+        this.birthdate = profileToUpdate.getBirthdate();
+        this.detail = profileToUpdate.getDetail();
+        this.disease = profileToUpdate.getDisease();
+        this.diseaseDescription = profileToUpdate.getDiseaseDescription();
+        this.profileImageUrl = profileToUpdate.getProfileImageUrl();
+    }
+
+    public PuppyProfile getPuppyProfile() {
+        return PuppyProfile.builder()
+                .name(this.name)
+                .breed(this.breed)
+                .weight(this.weight)
+                .sex(this.sex)
+                .age(this.age)
+                .birthdate(this.birthdate)
+                .detail(this.detail)
+                .disease(this.disease)
+                .diseaseDescription(this.diseaseDescription)
+                .profileImageUrl(this.profileImageUrl)
+                .build();
+    }
+
 }
