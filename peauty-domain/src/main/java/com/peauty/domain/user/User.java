@@ -32,4 +32,8 @@ public class User {
     public boolean isActive() {
         return status == Status.ACTIVE;
     }
+
+    public void uploadProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 }
