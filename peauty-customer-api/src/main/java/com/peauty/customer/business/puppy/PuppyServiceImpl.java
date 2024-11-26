@@ -4,6 +4,7 @@ import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
 import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
 import com.peauty.domain.puppy.Puppy;
+import com.peauty.domain.puppy.PuppyProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +41,14 @@ public class PuppyServiceImpl implements PuppyService {
     @Transactional
     public RegisterPuppyResult updatePuppy(UpdatePuppyCommand command){
 
-        // 기존 반려견 조회
         // 기존 반려견 조회 및 업데이트 Port로 호출
         Puppy existingPuppy = puppyPort.findPuppy(command.userId(), command.puppyId());
-        Puppy updatedPuppy = command.updateDomain(existingPuppy);
-        Puppy savedPuppy = puppyPort.updatePuppy(updatedPuppy);
+        // PuppyProfile 생성 및 업데이트
+        PuppyProfile profile = command.toPuppyProfile();
+        existingPuppy.updatePuppyProfile(profile);
+
+        // 저장 및 결과 반환
+        Puppy savedPuppy = puppyPort.updatePuppy(existingPuppy);
         return RegisterPuppyResult.from(savedPuppy);
     }
 

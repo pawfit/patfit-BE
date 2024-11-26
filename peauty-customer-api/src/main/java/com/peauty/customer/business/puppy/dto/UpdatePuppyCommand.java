@@ -1,9 +1,6 @@
 package com.peauty.customer.business.puppy.dto;
 
-import com.peauty.domain.puppy.Breed;
-import com.peauty.domain.puppy.Disease;
-import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.puppy.Sex;
+import com.peauty.domain.puppy.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,24 +19,18 @@ public record UpdatePuppyCommand(
         String diseaseDescription,
         String profileImageUrl
 ) {
-    public Puppy updateDomain(Puppy existingPuppy) {
-        return Puppy.builder()
-                .puppyId(existingPuppy.getPuppyId())
-                .customerId(defaultIfNull(this.userId, existingPuppy.getCustomerId())) // userId 처리 추가
-                .name(defaultIfNull(this.name, existingPuppy.getName()))
-                .breed(defaultIfNull(this.breed, existingPuppy.getBreed()))
-                .sex(defaultIfNull(this.sex, existingPuppy.getSex()))
-                .weight(defaultIfNull(this.weight, existingPuppy.getWeight()))
-                .age(defaultIfNull(this.age, existingPuppy.getAge()))
-                .birthdate(defaultIfNull(this.birthdate, existingPuppy.getBirthdate()))
-                .detail(defaultIfNull(this.detail, existingPuppy.getDetail()))
-                .disease(defaultIfNull(this.disease, existingPuppy.getDisease()))
-                .diseaseDescription(defaultIfNull(this.diseaseDescription, existingPuppy.getDiseaseDescription()))
-                .profileImageUrl(defaultIfNull(this.profileImageUrl, existingPuppy.getProfileImageUrl()))
+    public PuppyProfile toPuppyProfile() {
+        return PuppyProfile.builder()
+                .name(name)
+                .breed(breed)
+                .sex(sex)
+                .weight(weight)
+                .age(age)
+                .birthdate(birthdate)
+                .detail(detail)
+                .disease(disease)
+                .diseaseDescription(diseaseDescription)
+                .profileImageUrl(profileImageUrl)
                 .build();
-    }
-
-    private <T> T defaultIfNull(T newValue, T existingValue) {
-        return newValue != null ? newValue : existingValue;
     }
 }
