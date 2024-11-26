@@ -1,6 +1,6 @@
 package com.peauty.customer.presentation.controller.puppy.dto;
 
-import com.peauty.customer.business.puppy.dto.PuppyResult;
+import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,14 +11,14 @@ public record UpdatePuppyResponse(
         String breed,
         Long weight,
         String sex,
-        int age,
+        Integer age,
         LocalDate birthdate,
         String detail,
         List<String> disease,
         String diseaseDescription,
         String profileImageUrl
 ) {
-    public static UpdatePuppyResponse from(PuppyResult result) {
+    public static UpdatePuppyResponse from(RegisterPuppyResult result) {
         return new UpdatePuppyResponse(
                 result.puppyId(),
                 result.name(),
