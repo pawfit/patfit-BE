@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @Tag(name = "Auth Test", description = "Auth Test API")
 @RequestMapping("/v1/auth/test")

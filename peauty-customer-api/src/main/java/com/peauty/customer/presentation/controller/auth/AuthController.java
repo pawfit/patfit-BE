@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
-@Slf4j
 @RestController
 @Tag(name = "Auth", description = "Auth API")
 @RequestMapping("/v1/auth")

@@ -32,4 +32,22 @@ public class User {
     public boolean isActive() {
         return status == Status.ACTIVE;
     }
+
+    public void uploadProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updateUserProfile(String name) {
+        this.name = name;
+    }
+
+    public UserProfile getUserProfile() {
+        return UserProfile.builder()
+                .userId(this.getUserId())
+                .name(this.name)
+                .nickname(this.getNickname())
+                .profileImageUrl(this.getProfileImageUrl())
+                .address(this.getAddress())
+                .build();
+    }
 }

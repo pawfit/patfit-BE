@@ -29,6 +29,9 @@ public enum PeautyResponseCode {
     WRONG_SEX("1208", "Invalid Puppy's Sex", "잘못된 애완견의 성별입니다."),
     WRONG_SIZE("1209", "Invalid Puppy's Size", "잘못된 애완견의 크기입니다."),
 
+    // AWS 관련 (7000 ~ 8000)
+    IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),
+
     // 외부 모듈 관련
     APPLE_AUTH_CLIENT_ERROR("8100", "Apple auth client error", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),
     KAKAO_AUTH_CLIENT_ERROR("8200", "Kakao auth client error", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),

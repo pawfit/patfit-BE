@@ -71,4 +71,11 @@ public class CustomerAdapter implements CustomerPort {
         );
         return save(userToSave);
     }
+
+    @Override
+    public User getByUserId(Long userId) {
+        return customerRepository.findById(userId)
+                .map(CustomerMapper::toDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+    }
 }

@@ -11,5 +11,6 @@ public interface DesignerPort {
     Optional<User> findBySocialId(String socialId);
     User save(User user);
     User registerNewDesigner(SignUpCommand command);
+    User getByUserId(Long userId);
 }
 

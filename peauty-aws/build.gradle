@@ -7,4 +7,8 @@ jar {
 }
 
 dependencies {
+    implementation(project(':peauty-domain'))
+    implementation platform("software.amazon.awssdk:bom:2.21.1")
+    implementation 'software.amazon.awssdk:s3'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
