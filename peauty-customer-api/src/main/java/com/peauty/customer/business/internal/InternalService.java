@@ -2,7 +2,7 @@ package com.peauty.customer.business.internal;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface InternalPort {
+public interface InternalService {
 
     String uploadImage(MultipartFile image);
 }

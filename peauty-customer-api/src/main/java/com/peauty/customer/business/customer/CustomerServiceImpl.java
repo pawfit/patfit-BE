@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,8 +22,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public UploadProfileImageResult uploadProfileImage(Long userId, MultipartFile file) {
         User user = customerPort.getByUserId(userId);
-        String newProfileImageUrl = internalPort.uploadImage(file);
-        user.uploadProfileImageUrl(newProfileImageUrl);
+        String uploadedProfileImageUrl = internalPort.uploadImage(file);
+        user.uploadProfileImageUrl(uploadedProfileImageUrl);
         return UploadProfileImageResult.from(customerPort.save(user));
     }
 }
