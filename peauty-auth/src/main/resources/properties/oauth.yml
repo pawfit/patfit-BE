@@ -15,7 +15,7 @@ oauth:
   kakao-redirect-url: http://localhost:8080/v1/auth/kakao-sign-in
   apple-redirect-url: http://localhost:8080/v1/auth/apple-sign-in
   google-redirect-url: http://localhost:8080/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:8080/v1/auth/test
+  frontend-redirect-url: http://localhost:5174
 
 ---
 spring:
@@ -26,7 +26,7 @@ oauth:
   kakao-redirect-url: https://customer-dev.peauty.click/v1/auth/kakao-sign-in
   apple-redirect-url: https://customer-dev.peauty.click/v1/auth/apple-sign-in
   google-redirect-url: https://customer-dev.peauty.click/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:5174 # TODO https://peauty.click 로 바꾸기
+  frontend-redirect-url: https://peauty.click
 
 ---
 spring:
@@ -48,7 +48,7 @@ oauth:
   kakao-redirect-url: http://localhost:8081/v1/auth/kakao-sign-in
   apple-redirect-url: http://localhost:8081/v1/auth/apple-sign-in
   google-redirect-url: http://localhost:8081/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:8081/v1/auth/test
+  frontend-redirect-url: http://localhost:5174
 
 ---
 spring:
@@ -59,7 +59,7 @@ oauth:
   kakao-redirect-url: https://designer-dev.peauty.click/v1/auth/kakao-sign-in
   apple-redirect-url: https://designer-dev.peauty.click/v1/auth/apple-sign-in
   google-redirect-url: https://designer-dev.peauty.click/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:5174 # TODO https://peauty.click 로 바꾸기
+  frontend-redirect-url: https://peauty.click
 
 ---
 spring:
