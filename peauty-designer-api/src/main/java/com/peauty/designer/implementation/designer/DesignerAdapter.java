@@ -64,4 +64,11 @@ public class DesignerAdapter implements DesignerPort {
         );
         return save(userToSave);
     }
+
+    @Override
+    public User getByUserId(Long userId) {
+        return designerRepository.findById(userId)
+                .map(DesignerMapper::toDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+    }
 }
