@@ -48,7 +48,7 @@ public class Puppy {
         this.profileImageUrl = profileToUpdate.getProfileImageUrl();
     }
 
-    public PuppyProfile getPuppyProfile() {
+/*    public PuppyProfile getPuppyProfile() {
         return PuppyProfile.builder()
                 .name(this.name)
                 .breed(this.breed)
@@ -61,6 +61,6 @@ public class Puppy {
                 .diseaseDescription(this.diseaseDescription)
                 .profileImageUrl(this.profileImageUrl)
                 .build();
-    }
+    }*/
 
 }
