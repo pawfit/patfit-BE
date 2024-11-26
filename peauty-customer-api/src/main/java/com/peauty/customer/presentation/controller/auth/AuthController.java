@@ -41,7 +41,6 @@ public class AuthController {
     @Operation(summary = "고객 구글 로그인 리다이렉트", description = "고객의 구글 로그인 리다이렉트 진입점입니다.")
     public void googleSignIn(
             @RequestParam final String code,
-            @RequestParam final String state,
             HttpServletResponse response
     ) throws IOException {
         SignInResult result = authService.signIn(SocialPlatform.GOOGLE, code);
