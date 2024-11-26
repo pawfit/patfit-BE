@@ -45,9 +45,8 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: create # TODO none 으로 바꾸기
+      ddl-auto: update # TODO none 으로 바꾸기
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-    open-in-view: false
