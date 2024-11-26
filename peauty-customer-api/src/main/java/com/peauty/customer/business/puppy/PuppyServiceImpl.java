@@ -18,7 +18,7 @@ public class PuppyServiceImpl implements PuppyService {
 
     @Override
     @Transactional
-    public RegisterPuppyResult addPuppy(AddPuppyCommand command) {
+    public RegisterPuppyResult addPuppy(AddPuppyCommand command) { /* TODO : addPuppy와 getPuppy가 RegisterPuppyResult라는 DTO를 리턴값으로 주고 있기 때문에, 추후 다른 DTO를 각각 사용할 수 있도록 리팩토링 예정 */
 
         // 반려견 생성, 저장
 
