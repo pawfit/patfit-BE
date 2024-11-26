@@ -9,8 +9,10 @@ import com.peauty.persistence.customer.CustomerRepository;
 import com.peauty.persistence.puppy.PuppyEntity;
 import com.peauty.persistence.puppy.PuppyRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PuppyAdapter implements PuppyPort {
@@ -44,6 +46,7 @@ public class PuppyAdapter implements PuppyPort {
 
     @Override
     public Puppy updatePuppy(Puppy puppy) {
+
         // CustomerEntity 조회
         CustomerEntity customer = customerRepository.findById(puppy.getCustomerId())
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
