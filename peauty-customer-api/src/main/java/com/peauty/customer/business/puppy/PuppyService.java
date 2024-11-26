@@ -1,13 +1,13 @@
 package com.peauty.customer.business.puppy;
 
 import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
-import com.peauty.customer.business.puppy.dto.PuppyResult;
+import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
 
 public interface PuppyService {
-    PuppyResult registerPuppy(AddPuppyCommand command);
-    PuppyResult getPuppy(Long userId, Long puppyId);
-    PuppyResult updatePuppy(UpdatePuppyCommand command);
+    RegisterPuppyResult addPuppy(AddPuppyCommand command);
+    RegisterPuppyResult getPuppy(Long userId, Long puppyId);
+    RegisterPuppyResult updatePuppy(UpdatePuppyCommand command);
     void deletePuppy(Long userId, Long puppyId);
 }
 

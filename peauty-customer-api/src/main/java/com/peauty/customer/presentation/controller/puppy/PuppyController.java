@@ -2,7 +2,7 @@ package com.peauty.customer.presentation.controller.puppy;
 
 import com.peauty.customer.business.puppy.PuppyService;
 import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
-import com.peauty.customer.business.puppy.dto.PuppyResult;
+import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
 import com.peauty.customer.presentation.controller.puppy.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public class PuppyController {
             @Parameter(description = "사용자 ID", example = "1")
             @PathVariable Long userId, @RequestBody AddPuppyRequest req) {
         AddPuppyCommand command = req.toCommand(userId);
-        PuppyResult result = puppyService.registerPuppy(command);
+        RegisterPuppyResult result = puppyService.addPuppy(command);
         return PuppyDetailResponse.from(result);
     }
 
@@ -34,7 +34,7 @@ public class PuppyController {
     public PuppyDetailResponse getPuppyDetail(
             @Parameter(description = "사용자 ID", example = "1") @PathVariable Long userId,
             @Parameter(description = "반려견 ID", example = "1") @PathVariable Long puppyId){
-        PuppyResult result = puppyService.getPuppy(userId, puppyId);
+        RegisterPuppyResult result = puppyService.getPuppy(userId, puppyId);
 //        return ResponseEntity.ok(PuppyDetailResponse.from(result));
         return PuppyDetailResponse.from(result);
     }
@@ -47,7 +47,7 @@ public class PuppyController {
             @RequestBody UpdatePuppyRequest req
     ) {
         UpdatePuppyCommand command = req.toCommand(userId, puppyId);
-        PuppyResult result = puppyService.updatePuppy(command);
+        RegisterPuppyResult result = puppyService.updatePuppy(command);
 //        return ResponseEntity.ok(UpdatePuppyResponse.from(result));
         return UpdatePuppyResponse.from(result);
     }
@@ -59,7 +59,7 @@ public class PuppyController {
             @Parameter(description = "반려견 ID", example = "1") @PathVariable Long puppyId
     ) {
         puppyService.deletePuppy(userId, puppyId);
-        return DeletePuppyResponse.success();
+        return new DeletePuppyResponse("삭제되었습니다.");
 //        return ResponseEntity.noContent().build();
     }
 
