@@ -37,16 +37,6 @@ jobs:
         run: |
           echo "DEPLOY_PROFILE=${{ github.event.inputs.profile }}" >> $GITHUB_ENV
           echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
-          
-          # 포트 설정: customer는 8080, designer는 8081
-          if [ "${{ github.event.inputs.package }}" == "peauty-customer-api" ]; then
-            echo "TARGET_PORT=8080" >> $GITHUB_ENV
-          elif [ "${{ github.event.inputs.package }}" == "peauty-designer-api" ]; then
-            echo "TARGET_PORT=8081" >> $GITHUB_ENV
-          else
-            echo "Invalid package: ${{ github.event.inputs.package }}"
-            exit 1
-          fi
         env:
           DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
           TARGET_PACKAGE: ${{ github.event.inputs.package }}
@@ -86,8 +76,8 @@ jobs:
       - name: Deploy to EC2 Server
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets[github.event.inputs.package | upper]_HOST }}
-          username: ${{ secrets[github.event.inputs.package | upper]_USER }}
+          host: ${{ secrets[env.HOST_SECRET] }}
+          username: ${{ secrets[env.USER_SECRET] }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE on port $TARGET_PORT..."
