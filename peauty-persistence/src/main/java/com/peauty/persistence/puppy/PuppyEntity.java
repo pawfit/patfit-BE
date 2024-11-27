@@ -3,6 +3,7 @@ package com.peauty.persistence.puppy;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Breed;
 import com.peauty.domain.puppy.Disease;
+import com.peauty.domain.puppy.PuppySize;
 import com.peauty.domain.puppy.Sex;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.config.BaseTimeEntity;
@@ -30,24 +31,24 @@ public class PuppyEntity extends BaseTimeEntity {
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 15, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "breed")
+    @Column(name = "breed", nullable = false)
     private Breed breed;
 
-    @Column(name = "weight")
+    @Column(name = "weight", nullable = false)
     private Long weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex")
+    @Column(name = "sex", nullable = false)
     private Sex sex;
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Column(name = "birthdate")
+    @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
     @Column(name = "detail")
@@ -70,10 +71,14 @@ public class PuppyEntity extends BaseTimeEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "size", nullable = false)
+    private PuppySize puppySize; // 소형, 중형, 대형
+
 
     // 업데이트 메서드
     public void update(String name, Breed breed, Long weight, Sex sex, int age, LocalDate birthdate,
-                              String detail, List<Disease> disease, String diseaseDescription, String profileImageUrl) {
+                              String detail, List<Disease> disease, String diseaseDescription, String profileImageUrl, PuppySize puppySize) {
         this.name = name;
         this.breed = breed;
         this.weight = weight;
@@ -84,6 +89,7 @@ public class PuppyEntity extends BaseTimeEntity {
         this.disease = disease;
         this.diseaseDescription = diseaseDescription;
         this.profileImageUrl = profileImageUrl;
+        this.puppySize = puppySize;
     }
 
     public void assignCustomer(CustomerEntity customer) {

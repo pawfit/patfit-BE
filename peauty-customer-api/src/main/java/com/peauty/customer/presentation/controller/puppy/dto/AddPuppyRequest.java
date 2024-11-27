@@ -3,6 +3,7 @@ package com.peauty.customer.presentation.controller.puppy.dto;
 import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
 import com.peauty.domain.puppy.Breed;
 import com.peauty.domain.puppy.Disease;
+import com.peauty.domain.puppy.PuppySize;
 import com.peauty.domain.puppy.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,7 +38,9 @@ public record AddPuppyRequest(
           @Schema(description = "기타 질병 설명", example = "심하게 흥분하면 기침을 합니다")
           String diseaseDescription,
 
-          String profileImageUrl
+          String profileImageUrl,
+          @Schema(description = "분류", example = "LARGE")
+          PuppySize puppySize
 ) {
     public AddPuppyCommand toCommand(Long userId) {
         return new AddPuppyCommand(
@@ -51,7 +54,8 @@ public record AddPuppyRequest(
                 detail,
                 disease,
                 diseaseDescription,
-                profileImageUrl
+                profileImageUrl,
+                puppySize
         );
     }
 }
