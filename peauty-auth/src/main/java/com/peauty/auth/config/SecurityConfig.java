@@ -4,7 +4,7 @@ import com.peauty.auth.filter.JwtAuthenticationFilter;
 import com.peauty.auth.filter.JwtExceptionFilter;
 import com.peauty.auth.resolver.AccessTokenResolver;
 import com.peauty.auth.resolver.RefreshTokenResolver;
-import com.peauty.auth.resolver.SignedUserResolver;
+import com.peauty.auth.resolver.SignedAuthInfoResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -103,7 +103,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new SignedUserResolver());
+        resolvers.add(new SignedAuthInfoResolver());
         resolvers.add(new AccessTokenResolver());
         resolvers.add(new RefreshTokenResolver());
     }

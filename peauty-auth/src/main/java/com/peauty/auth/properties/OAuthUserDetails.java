@@ -1,7 +1,7 @@
 package com.peauty.auth.properties;
 
 
-import com.peauty.domain.user.User;
+import com.peauty.domain.user.AuthInfo;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,21 +19,21 @@ import java.util.Map;
 public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Getter
-    private final User User;
+    private final AuthInfo authInfo;
     private final Map<String, Object> attribute;
 
-    public OAuthUserDetails(User User, Map<String, Object> attribute) {
-        this.User = User;
+    public OAuthUserDetails(AuthInfo authInfo, Map<String, Object> attribute) {
+        this.authInfo = authInfo;
         this.attribute = attribute;
     }
 
-    public OAuthUserDetails(User User) {
-        this(User, Collections.singletonMap("id", User.getUserId()));
+    public OAuthUserDetails(AuthInfo authInfo) {
+        this(authInfo, Collections.singletonMap("id", authInfo.userId()));
     }
 
     @Override
     public String getName() {
-        return User.getName();
+        return authInfo.userId().toString();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(User.getRole().name()));
+        return List.of(new SimpleGrantedAuthority(authInfo.role().name()));
     }
     @Override
     public String getPassword() {
@@ -52,7 +52,7 @@ public class OAuthUserDetails implements UserDetails, OidcUser, OAuth2User {
 
     @Override
     public String getUsername() {
-        return User.getUserId().toString();
+        return authInfo.userId().toString();
     }
 
     @Override
