@@ -30,7 +30,7 @@ public class DesignerInfoEntity extends BaseTimeEntity {
     @Column(name = "banner_image_url")
     private String bannerImageUrl;
 
-    @Column(name = "career")
-    private Integer career;
+    @Column(name = "years_of_experience")
+    private Integer yearsOfExperience;
 
 }
