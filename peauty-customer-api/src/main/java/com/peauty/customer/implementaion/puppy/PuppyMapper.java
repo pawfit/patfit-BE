@@ -22,6 +22,7 @@ public class PuppyMapper {
                 .diseaseDescription(entity.getDiseaseDescription())
                 .profileImageUrl(entity.getProfileImageUrl())
                 .customerId(entity.getCustomer().getId()) // customerId 추가
+                .puppySize(entity.getPuppySize())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class PuppyMapper {
                 .diseaseDescription(puppy.getDiseaseDescription())
                 .profileImageUrl(puppy.getProfileImageUrl())
                 .customer(customer) // CustomerEntity를 설정
+                .puppySize(puppy.getPuppySize())
                 .build();
 
     }

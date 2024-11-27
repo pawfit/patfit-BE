@@ -66,7 +66,8 @@ public class PuppyAdapter implements PuppyPort {
                 puppy.getDetail(),
                 puppy.getDisease(),
                 puppy.getDiseaseDescription(),
-                puppy.getProfileImageUrl()
+                puppy.getProfileImageUrl(),
+                puppy.getPuppySize()
         );
         entity.assignCustomer(customer);
 

@@ -26,6 +26,7 @@ public class Puppy {
     private List<Disease> disease;      // 질병
     private String diseaseDescription;  // 기타 질병사항
     private String profileImageUrl;     // 프로필 사진
+    private PuppySize puppySize;        // 분류
 
     // 강아지 이미지 목록
     private List<AddyImage> Addy;       // Addy URL
@@ -46,6 +47,7 @@ public class Puppy {
         this.disease = profileToUpdate.getDisease();
         this.diseaseDescription = profileToUpdate.getDiseaseDescription();
         this.profileImageUrl = profileToUpdate.getProfileImageUrl();
+        this.puppySize = profileToUpdate.getPuppySize();
     }
 
 /*    public PuppyProfile getPuppyProfile() {

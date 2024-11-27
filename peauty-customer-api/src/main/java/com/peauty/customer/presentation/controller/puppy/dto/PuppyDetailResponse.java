@@ -15,10 +15,9 @@ public record PuppyDetailResponse(
         LocalDate birthdate,
         String detail,
         List<String> disease,
-
         String diseaseDescription,
-
-        String profileImageUrl
+        String profileImageUrl,
+        String puppySize
 ) {
     public static PuppyDetailResponse from(RegisterPuppyResult result) {
         return new PuppyDetailResponse(
@@ -32,7 +31,8 @@ public record PuppyDetailResponse(
                 result.detail(),
                 result.disease(),
                 result.diseaseDescription(),
-                result.profileImageUrl()
+                result.profileImageUrl(),
+                result.puppySize()
         );
     }
 }

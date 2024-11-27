@@ -1,9 +1,6 @@
 package com.peauty.customer.business.puppy.dto;
 
-import com.peauty.domain.puppy.Breed;
-import com.peauty.domain.puppy.Disease;
-import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.puppy.Sex;
+import com.peauty.domain.puppy.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +16,8 @@ public record AddPuppyCommand(
         String detail,
         List<Disease> disease,
         String diseaseDescription,
-        String profileImageUrl
+        String profileImageUrl,
+        PuppySize puppySize
 ) {
     public Puppy toDomain() {
         return Puppy.builder()
@@ -33,6 +31,7 @@ public record AddPuppyCommand(
                 .disease(disease)
                 .diseaseDescription(diseaseDescription)
                 .profileImageUrl(profileImageUrl)
+                .puppySize(puppySize)
                 .build();
     }
 }

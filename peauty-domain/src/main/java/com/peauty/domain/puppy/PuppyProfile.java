@@ -22,4 +22,5 @@ public class PuppyProfile {
     private List<Disease> disease;
     private String diseaseDescription;
     private String profileImageUrl;
+    private PuppySize puppySize;
 }

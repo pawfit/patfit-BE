@@ -4,6 +4,7 @@ import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Breed;
 import com.peauty.domain.puppy.Disease;
+import com.peauty.domain.puppy.PuppySize;
 import com.peauty.domain.puppy.Sex;
 import com.peauty.domain.response.PeautyResponseCode;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,7 +47,9 @@ public record UpdatePuppyRequest(
 
         String diseaseDescription,
 
-        String profileImageUrl
+        String profileImageUrl,
+        @Schema(description = "분류", example = "SMALL")
+        PuppySize puppySize
 ) {
     public UpdatePuppyCommand toCommand(Long userId, Long puppyId) {
         if (puppyId == null) {
@@ -64,7 +67,8 @@ public record UpdatePuppyRequest(
                 detail,
                 disease,
                 diseaseDescription,
-                profileImageUrl
+                profileImageUrl,
+                puppySize
         );
     }
 }

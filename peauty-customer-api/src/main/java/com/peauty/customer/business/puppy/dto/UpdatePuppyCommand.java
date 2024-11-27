@@ -17,7 +17,8 @@ public record UpdatePuppyCommand(
         String detail,
         List<Disease> disease,
         String diseaseDescription,
-        String profileImageUrl
+        String profileImageUrl,
+        PuppySize puppySize
 ) {
     public PuppyProfile toPuppyProfile() {
         return PuppyProfile.builder()
@@ -31,6 +32,7 @@ public record UpdatePuppyCommand(
                 .disease(disease)
                 .diseaseDescription(diseaseDescription)
                 .profileImageUrl(profileImageUrl)
+                .puppySize(puppySize)
                 .build();
     }
 }

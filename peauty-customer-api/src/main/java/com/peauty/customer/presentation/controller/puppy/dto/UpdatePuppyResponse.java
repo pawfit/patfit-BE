@@ -16,7 +16,8 @@ public record UpdatePuppyResponse(
         String detail,
         List<String> disease,
         String diseaseDescription,
-        String profileImageUrl
+        String profileImageUrl,
+        String puppySize
 ) {
     public static UpdatePuppyResponse from(RegisterPuppyResult result) {
         return new UpdatePuppyResponse(
@@ -30,7 +31,8 @@ public record UpdatePuppyResponse(
                 result.detail(),
                 result.disease(),
                 result.diseaseDescription(),
-                result.profileImageUrl()
+                result.profileImageUrl(),
+                result.puppySize()
         );
     }
 }

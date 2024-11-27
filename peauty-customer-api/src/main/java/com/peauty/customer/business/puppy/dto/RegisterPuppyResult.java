@@ -17,7 +17,8 @@ public record RegisterPuppyResult(
         String detail,
         List<String> disease,
         String diseaseDescription,
-        String profileImageUrl
+        String profileImageUrl,
+        String puppySize
 ) {
     public static RegisterPuppyResult from(Puppy puppy) {
         return new RegisterPuppyResult(
@@ -31,7 +32,8 @@ public record RegisterPuppyResult(
                 puppy.getDetail(),
                 puppy.getDisease().stream().map(Disease::name).toList(),
                 puppy.getDiseaseDescription(),
-                puppy.getProfileImageUrl()
+                puppy.getProfileImageUrl(),
+                puppy.getPuppySize().name()
         );
     }
 }
