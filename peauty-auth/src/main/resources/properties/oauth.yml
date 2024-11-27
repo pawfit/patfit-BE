@@ -15,7 +15,7 @@ oauth:
   kakao-redirect-url: http://localhost:8080/v1/auth/kakao-sign-in
   apple-redirect-url: http://localhost:8080/v1/auth/apple-sign-in
   google-redirect-url: http://localhost:8080/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:5174
+  frontend-redirect-url: http://localhost:5173
 
 ---
 spring:
@@ -48,7 +48,7 @@ oauth:
   kakao-redirect-url: http://localhost:8081/v1/auth/kakao-sign-in
   apple-redirect-url: http://localhost:8081/v1/auth/apple-sign-in
   google-redirect-url: http://localhost:8081/v1/auth/google-sign-in
-  frontend-redirect-url: http://localhost:5174
+  frontend-redirect-url: http://localhost:5173
 
 ---
 spring:
