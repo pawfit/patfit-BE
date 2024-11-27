@@ -25,6 +25,9 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "social_platform", nullable = false)
     private SocialPlatform socialPlatform;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "name")
     private String name;
 
@@ -37,9 +40,6 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "email")
-    private String email;
-
     @Lob
     @Column(name = "profile_image_url")
     private String profileImageUrl;
@@ -48,5 +48,11 @@ public class DesignerEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
+
+    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
+    private DesignerInfoEntity designerInfo;
+
+    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
+    private ShopEntity shop;
 }
 
