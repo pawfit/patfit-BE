@@ -20,16 +20,16 @@ public class ShopEntity extends BaseTimeEntity {
     @JoinColumn(name = "designer_id")
     private DesignerEntity designer;
 
-    @Column(name = "shop_name", length = 30, nullable = false)
+    @Column(name = "shop_name", length = 255, nullable = false)
     private String shopName;
 
-    @Column(name = "direction_guide", length = 50, nullable = false)
+    @Column(name = "direction_guide", length = 255, nullable = false)
     private String directionGuide;
 
-    @Column(name = "open_hours", length = 30, nullable = false)
+    @Column(name = "open_hours", length = 255, nullable = false)
     private String openHours;
 
-    @Column(name = "payment_options", length = 30, nullable = false)
+    @Column(name = "payment_options", length = 255, nullable = false)
     private String paymentOptions;
 
 }

@@ -20,10 +20,10 @@ public class DesignerInfoEntity extends BaseTimeEntity {
     @JoinColumn(name = "designer_id")
     private DesignerEntity designer;
 
-    @Column(name = "introduce", length = 50)
+    @Column(name = "introduce", length = 255)
     private String introduce;
 
-    @Column(name = "notice", length = 100)
+    @Column(name = "notice", length = 255)
     private String notice;
 
     @Lob
