@@ -8,6 +8,7 @@ public record SignUpRequest(
         SocialPlatform socialPlatform,
         String name,
         String phoneNum,
+        String email,
         String address,
         String nickname,
         String profileImageUrl
@@ -19,6 +20,7 @@ public record SignUpRequest(
                 this.socialPlatform,
                 this.name,
                 this.phoneNum,
+                this.email,
                 this.address,
                 this.nickname,
                 this.profileImageUrl

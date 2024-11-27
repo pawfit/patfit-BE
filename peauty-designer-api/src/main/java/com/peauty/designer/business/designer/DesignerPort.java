@@ -1,16 +1,16 @@
 package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.auth.dto.SignUpCommand;
-import com.peauty.domain.user.User;
+import com.peauty.domain.designer.Designer;
 
 import java.util.Optional;
 
 public interface DesignerPort {
     void checkCustomerNicknameDuplicated(String nickname);
     void checkCustomerPhoneNumDuplicated(String phoneNum);
-    Optional<User> findBySocialId(String socialId);
-    User save(User user);
-    User registerNewDesigner(SignUpCommand command);
-    User getByUserId(Long userId);
+    Optional<Designer> findBySocialId(String socialId);
+    Designer save(Designer designer);
+    Designer registerNewDesigner(SignUpCommand command);
+    Designer getByDesignerId(Long designerId);
 }
 

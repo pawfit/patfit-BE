@@ -4,6 +4,7 @@ package com.peauty.designer.presentation.controller.auth;
 import com.peauty.designer.business.auth.AuthService;
 import com.peauty.designer.business.auth.dto.SignUpResult;
 import com.peauty.designer.presentation.controller.auth.dto.SignUpResponse;
+import com.peauty.designer.presentation.controller.auth.dto.TestSignRequest;
 import com.peauty.domain.response.PeautyApiResponse;
 import com.peauty.domain.user.SocialPlatform;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -24,13 +25,8 @@ public class AuthTestController {
 
     @PostMapping("/sign")
     @Operation(summary = "디자이너 테스터 로그인&회원가입", description = "디자이너 테스터의 로그인&회원가입 통합 진입점입니다.")
-    public SignUpResponse signTester(
-            @RequestParam SocialPlatform socialPlatform,
-            @RequestParam String idToken,
-            @RequestParam String nickname,
-            @RequestParam String phoneNum
-    ) {
-        SignUpResult result = authService.signWithIdToken(socialPlatform, idToken, nickname, phoneNum);
+    public SignUpResponse signTester(@RequestBody TestSignRequest request) {
+        SignUpResult result = authService.signWithIdToken(request.toCommand());
         return SignUpResponse.from(result);
     }
 
