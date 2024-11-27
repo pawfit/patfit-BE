@@ -41,6 +41,15 @@ jobs:
           DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
           TARGET_PACKAGE: ${{ github.event.inputs.package }}
 
+      # 2. Java 17 설치
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          package: 'jdk'
+          jdk-version: '17.0.12'
+
       # 3. 선택된 패키지 빌드 (로컬에서 JAR 생성)
       - name: Build Selected Package
         run: |
