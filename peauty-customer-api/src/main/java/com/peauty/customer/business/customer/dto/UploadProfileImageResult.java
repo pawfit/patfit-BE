@@ -1,16 +1,16 @@
 package com.peauty.customer.business.customer.dto;
 
-import com.peauty.domain.user.User;
+import com.peauty.domain.customer.Customer;
 
 public record UploadProfileImageResult(
-        Long userId,
+        Long customerId,
         String uploadedProfileImageUrl
 ) {
 
-    public static UploadProfileImageResult from(User user) {
+    public static UploadProfileImageResult from(Customer customer) {
         return new UploadProfileImageResult(
-                user.getUserId(),
-                user.getProfileImageUrl()
+                customer.getCustomerId(),
+                customer.getProfileImageUrl()
         );
     }
 }

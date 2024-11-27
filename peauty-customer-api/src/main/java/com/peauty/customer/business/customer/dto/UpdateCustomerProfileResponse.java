@@ -1,7 +1,7 @@
 package com.peauty.customer.business.customer.dto;
 
 public record UpdateCustomerProfileResponse(
-        Long userId,
+        Long customerId,
         String name,
         String nickname,
         String phoneNum,
@@ -11,10 +11,10 @@ public record UpdateCustomerProfileResponse(
 
     public static UpdateCustomerProfileResponse from(UpdateCustomerProfileResult result) {
         return new UpdateCustomerProfileResponse(
-                result.userId(),
+                result.customerId(),
                 result.name(),
                 result.nickname(),
-                result.phoneNum(),
+                result.phoneNumber(),
                 result.address(),
                 result.profileImageUrl()
         );

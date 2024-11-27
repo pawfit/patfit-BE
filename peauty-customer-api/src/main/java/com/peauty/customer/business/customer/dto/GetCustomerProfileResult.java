@@ -1,22 +1,22 @@
 package com.peauty.customer.business.customer.dto;
 
-import com.peauty.domain.user.UserProfile;
+import com.peauty.domain.customer.Customer;
 
 public record GetCustomerProfileResult(
-        Long userId,
+        Long customerId,
         String name,
         String nickname,
         String profileImageUrl,
         String address
 ) {
 
-    public static GetCustomerProfileResult from(UserProfile userProfile) {
+    public static GetCustomerProfileResult from(Customer customer) {
         return new GetCustomerProfileResult(
-                userProfile.getUserId(),
-                userProfile.getName(),
-                userProfile.getNickname(),
-                userProfile.getProfileImageUrl(),
-                userProfile.getAddress()
+                customer.getCustomerId(),
+                customer.getName(),
+                customer.getNickname(),
+                customer.getProfileImageUrl(),
+                customer.getAddress()
         );
     }
 }

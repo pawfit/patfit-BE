@@ -1,10 +1,9 @@
 package com.peauty.customer.presentation.controller.customer.dto;
 
 import com.peauty.customer.business.customer.dto.GetCustomerProfileResult;
-import com.peauty.domain.user.UserProfile;
 
 public record GetCustomerProfileResponse(
-        Long userId,
+        Long customerId,
         String name,
         String nickname,
         String profileImageUrl,
@@ -13,7 +12,7 @@ public record GetCustomerProfileResponse(
 
     public static GetCustomerProfileResponse from(GetCustomerProfileResult result) {
         return new GetCustomerProfileResponse(
-                result.userId(),
+                result.customerId(),
                 result.name(),
                 result.nickname(),
                 result.profileImageUrl(),
