@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: '프로파일을 선택하세요 (real 또는 beta)'
+        description: '프로파일을 선택하세요 (dev 또는 prod)'
         required: true
         default: 'dev'
         type: choice
@@ -36,7 +36,8 @@ jobs:
       - name: Set environment variables
         run: |
           echo "DEPLOY_PROFILE=${{ github.event.inputs.profile }}" >> $GITHUB_ENV
-          echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          echo "DEPLOY_DOMAIN=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          echo "TARGET_PACKAGE=peauty-${{ github.event.inputs.package }}-api" >> $GITHUB_ENV
           # 프로파일과 패키지에 따라 호스트와 사용자 설정
           if [[ "${{ github.event.inputs.profile }}" == "prod" && "${{ github.event.inputs.package }}" == "customer" ]]; then
             echo "HOST_SECRET=EC2_CUSTOMER_PROD" >> $GITHUB_ENV
@@ -50,9 +51,14 @@ jobs:
             echo "Invalid profile or package selection"
             exit 1
           fi
-        env:
-          DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
-          TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
+      
+      # 환경 변수 검증
+      - name: Debug environment variables
+        run: |
+          echo "DEPLOY_PROFILE: $DEPLOY_PROFILE"
+          echo "DEPLOY_DOMAIN: $DEPLOY_DOMAIN"
+          echo "TARGET_PACKAGE: $TARGET_PACKAGE"
+          echo "HOST_SECRET: $HOST_SECRET"
 
       # 2. Java 17 설치
       - name: Set up JDK 17
@@ -69,7 +75,8 @@ jobs:
           echo "Building $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
           
           # 선택한 패키지 디렉토리로 이동 후 Gradle 빌드
-          ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE -p $TARGET_PACKAGE
+          # $TARGET_PACKAGE-$DEPLOY_PROFILE => profile 이름이 customer-prod라서
+          ./gradlew clean build -Pspring.profiles.active=$TARGET_DOMAIN-$DEPLOY_PROFILE -p $TARGET_PACKAGE
       
       # 4-1. ECR 자격 증명
       - name: Configure AWS credentials
@@ -81,6 +88,7 @@ jobs:
 
       # 4-2. ECR 로그인
       - name: Log in to Amazon ECR
+        id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
       # 5. Docker 이미지 빌드 및 푸시
@@ -98,10 +106,18 @@ jobs:
       # 6. EC2 서버에 배포
       - name: Deploy to EC2 Server
         uses: appleboy/ssh-action@v0.1.6
+        env:
+          DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
+          DEPLOY_DOMAIN: ${{ github.event.inputs.package }}
+          TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: peauty/server
+          IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
         with:
           host: ${{ secrets[env.HOST_SECRET] }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DEPLOY_PROFILE,DEPLOY_DOMAIN,TARGET_PACKAGE,ECR_REGISTRY,ECR_REPOSITORY,IMAGE_TAG
           script: |
             echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE"
 
@@ -115,13 +131,26 @@ jobs:
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 기존 컨테이너 중지 및 삭제
-            docker stop $TARGET_PACKAGE || true
-            docker rm $TARGET_PACKAGE || true
+            echo "Docker Container Status"
+            docker ps
+            
+            echo "STOP $DEPLOY_DOMAIN-$DEPLOY_PROFILE"
+            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to stop container"; } 
+            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; }
 
-            # 새로운 컨테이너 실행 (포트 동적 설정)
-            docker run -d -p $TARGET_PORT:8080 --name $TARGET_PACKAGE \
-              --env SPRING_PROFILES_ACTIVE=$DEPLOY_PROFILE \
+            # 새로운 컨테이너 실행
+            docker run --env-file ./.env -d -p $TARGET_PORT:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
+              --env SPRING_PROFILES_ACTIVE=$DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            # 새로운 컨테이너 상태 확인
+            echo "=== Verifying the new container ==="
+            sleep 10 # 컨테이너 초기화를 위한 대기 시간
+            if ! docker ps --filter "name=$DEPLOY_DOMAIN-$DEPLOY_PROFILE" --filter "status=running" | grep $DEPLOY_DOMAIN-$DEPLOY_PROFILE; then
+              echo "새로운 컨테이너가 실행 중이지 않습니다. 로그를 확인하세요."
+              docker logs --tail 50 $DEPLOY_DOMAIN-$DEPLOY_PROFILE
+              exit 1
+            fi
 
             # 컨테이너 상태 확인
             docker ps
