@@ -115,12 +115,12 @@ jobs:
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 기존 컨테이너 중지 및 삭제
-            docker stop $TARGET_PACKAGE || true
-            docker rm $TARGET_PACKAGE || true
+            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || true
+            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || true
 
-            # 새로운 컨테이너 실행 (포트 동적 설정)
-            docker run -d -p $TARGET_PORT:8080 --name $TARGET_PACKAGE \
-              --env SPRING_PROFILES_ACTIVE=$TARGET_DOMAIN-$DEPLOY_PROFILE \
+            # 새로운 컨테이너 실행
+            docker run --env-file ./.env -d -p $TARGET_PORT:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
+              --env SPRING_PROFILES_ACTIVE=$DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 컨테이너 상태 확인
