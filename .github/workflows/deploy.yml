@@ -60,14 +60,18 @@ jobs:
         env:
           DEPLOY_PROFILE: ${{ env.DEPLOY_PROFILE }}
           TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
+      
+      # 4-1. ECR 자격 증명
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
 
-      # 4. ECR 로그인
+      # 4-2. ECR 로그인
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          region: ap-northeast-2
-          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       # 5. Docker 이미지 빌드 및 푸시
       - name: Build and Push Docker Image to ECR
