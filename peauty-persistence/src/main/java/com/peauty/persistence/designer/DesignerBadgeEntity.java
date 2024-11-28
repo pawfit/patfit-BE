@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table
+@Table(name = "designer_badge")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
