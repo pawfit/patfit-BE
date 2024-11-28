@@ -36,7 +36,8 @@ jobs:
       - name: Set environment variables
         run: |
           echo "DEPLOY_PROFILE=${{ github.event.inputs.profile }}" >> $GITHUB_ENV
-          echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          echo "DEPLOY_DOMAIN=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          echo "TARGET_PACKAGE=peauty-${{ github.event.inputs.package }}-api" >> $GITHUB_ENV
           # 프로파일과 패키지에 따라 호스트와 사용자 설정
           if [[ "${{ github.event.inputs.profile }}" == "prod" && "${{ github.event.inputs.package }}" == "customer" ]]; then
             echo "HOST_SECRET=EC2_CUSTOMER_PROD" >> $GITHUB_ENV
@@ -50,10 +51,6 @@ jobs:
             echo "Invalid profile or package selection"
             exit 1
           fi
-        env:
-          DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
-          DEPLOY_DOMAIN: ${{ github.event.inputs.package }}
-          TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
 
       # 2. Java 17 설치
       - name: Set up JDK 17
