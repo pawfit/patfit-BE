@@ -6,19 +6,19 @@ on:
       profile:
         description: '프로파일을 선택하세요 (real 또는 beta)'
         required: true
-        default: 'beta'
+        default: 'dev'
         type: choice
         options:
-          - real
-          - beta
+          - dev
+          - prod
       package:
         description: '배포할 패키지를 선택하세요'
         required: true
         default: 'peauty-customer-api'
         type: choice
         options:
-          - peauty-customer-api
-          - peauty-designer-api
+          - customer
+          - designer
 
 permissions:
   contents: read
@@ -37,9 +37,22 @@ jobs:
         run: |
           echo "DEPLOY_PROFILE=${{ github.event.inputs.profile }}" >> $GITHUB_ENV
           echo "TARGET_PACKAGE=${{ github.event.inputs.package }}" >> $GITHUB_ENV
+          # 프로파일과 패키지에 따라 호스트와 사용자 설정
+          if [[ "${{ github.event.inputs.profile }}" == "prod" && "${{ github.event.inputs.package }}" == "customer" ]]; then
+            echo "HOST_SECRET=EC2_CUSTOMER_PROD" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.profile }}" == "prod" && "${{ github.event.inputs.package }}" == "designer" ]]; then
+            echo "HOST_SECRET=EC2_DESIGNER_PROD" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.profile }}" == "dev" && "${{ github.event.inputs.package }}" == "customer" ]]; then
+            echo "HOST_SECRET=EC2_CUSTOMER_DEV" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.profile }}" == "dev" && "${{ github.event.inputs.package }}" == "designer" ]]; then
+            echo "HOST_SECRET=EC2_DESIGNER_DEV" >> $GITHUB_ENV
+          else
+            echo "Invalid profile or package selection"
+            exit 1
+          fi
         env:
           DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
-          TARGET_PACKAGE: ${{ github.event.inputs.package }}
+          TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
 
       # 2. Java 17 설치
       - name: Set up JDK 17
@@ -57,9 +70,6 @@ jobs:
           
           # 선택한 패키지 디렉토리로 이동 후 Gradle 빌드
           ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE -p $TARGET_PACKAGE
-        env:
-          DEPLOY_PROFILE: ${{ env.DEPLOY_PROFILE }}
-          TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
       
       # 4-1. ECR 자격 증명
       - name: Configure AWS credentials
@@ -77,7 +87,7 @@ jobs:
       - name: Build and Push Docker Image to ECR
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
-          ECR_REPOSITORY: peauty/prod
+          ECR_REPOSITORY: peauty/server
           IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
         run: |
           echo "Building Docker image for $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
@@ -90,10 +100,10 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets[env.HOST_SECRET] }}
-          username: ${{ secrets[env.USER_SECRET] }}
+          username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE on port $TARGET_PORT..."
+            echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE"
 
             # AWS CLI 설정
             aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
