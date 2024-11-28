@@ -115,8 +115,12 @@ jobs:
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 기존 컨테이너 중지 및 삭제
-            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to stop container"; exit 1; } 
-            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; exit 1; }
+            echo "Docker Container Status"
+            docker ps
+            
+            echo "STOP $DEPLOY_DOMAIN-$DEPLOY_PROFILE"
+            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to stop container"; } 
+            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; }
 
             # 새로운 컨테이너 실행
             docker run --env-file ./.env -d -p $TARGET_PORT:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
