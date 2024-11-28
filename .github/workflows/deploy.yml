@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: '프로파일을 선택하세요 (real 또는 beta)'
+        description: '프로파일을 선택하세요 (dev 또는 prod)'
         required: true
         default: 'dev'
         type: choice
@@ -52,6 +52,7 @@ jobs:
           fi
         env:
           DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
+          DEPLOY_DOMAIN: ${{ github.event.inputs.package }}
           TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
 
       # 2. Java 17 설치
@@ -69,7 +70,8 @@ jobs:
           echo "Building $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
           
           # 선택한 패키지 디렉토리로 이동 후 Gradle 빌드
-          ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE -p $TARGET_PACKAGE
+          # $TARGET_PACKAGE-$DEPLOY_PROFILE => profile 이름이 customer-prod라서
+          ./gradlew clean build -Pspring.profiles.active=$TARGET_DOMAIN-$DEPLOY_PROFILE -p $TARGET_PACKAGE
       
       # 4-1. ECR 자격 증명
       - name: Configure AWS credentials
@@ -120,7 +122,7 @@ jobs:
 
             # 새로운 컨테이너 실행 (포트 동적 설정)
             docker run -d -p $TARGET_PORT:8080 --name $TARGET_PACKAGE \
-              --env SPRING_PROFILES_ACTIVE=$DEPLOY_PROFILE \
+              --env SPRING_PROFILES_ACTIVE=$TARGET_DOMAIN-$DEPLOY_PROFILE \
               $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 컨테이너 상태 확인
