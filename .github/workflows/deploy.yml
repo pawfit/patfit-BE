@@ -106,14 +106,15 @@ jobs:
       # 6. EC2 서버에 배포
       - name: Deploy to EC2 Server
         uses: appleboy/ssh-action@v0.1.6
+        env:
+          DEPLOY_PROFILE: ${{ github.event.inputs.profile }}
+          DEPLOY_DOMAIN: ${{ github.event.inputs.package }}
+          TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
         with:
           host: ${{ secrets[env.HOST_SECRET] }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # envs: |
-          #   DEPLOY_PROFILE=${{ env.DEPLOY_PROFILE }}
-          #   DEPLOY_DOMAIN=${{ env.DEPLOY_DOMAIN }}
-          #   TARGET_PACKAGE=${{ env.TARGET_PACKAGE }}
+          envs: DEPLOY_PROFILE,DEPLOY_DOMAIN,TARGET_PACKAGE
           script: |
             source /path/to/env_file
             echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE"
