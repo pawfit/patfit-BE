@@ -54,5 +54,9 @@ public class DesignerEntity extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
     private ShopEntity shop;
+
+    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
+    private RatingEntity rating;
+
 }
 

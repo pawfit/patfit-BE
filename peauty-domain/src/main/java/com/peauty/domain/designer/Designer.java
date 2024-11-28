@@ -29,6 +29,7 @@ public class Designer {
     private String profileImageUrl;
     private DesignerInfo designerInfo;
     private Shop shop;
+    private Rating rating;
 
     public AuthInfo getAuthInfo() {
         return new AuthInfo(
@@ -83,4 +84,5 @@ public class Designer {
     public void updateBannerImageUrl(String bannerImageUrl) {
         this.profileImageUrl = bannerImageUrl;
     }
+
 }
