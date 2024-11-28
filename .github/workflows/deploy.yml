@@ -127,7 +127,7 @@ jobs:
             aws configure set region ap-northeast-2
 
             # Docker 이미지 Pull
-            aws ecr get-login-password --region ap-northeast-2
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 기존 컨테이너 중지 및 삭제
