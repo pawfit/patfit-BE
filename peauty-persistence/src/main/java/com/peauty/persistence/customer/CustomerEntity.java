@@ -1,5 +1,6 @@
 package com.peauty.persistence.customer;
 
+import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.config.BaseTimeEntity;
@@ -7,6 +8,7 @@ import com.peauty.persistence.puppy.PuppyEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity

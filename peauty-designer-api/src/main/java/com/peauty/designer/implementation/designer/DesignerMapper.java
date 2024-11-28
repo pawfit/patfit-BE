@@ -48,7 +48,7 @@ public class DesignerMapper {
                 .build();
     }
 
-    public static DesignerEntity toDesignerEntity(Designer designer) {
+    public static DesignerEntity toEntity(Designer designer) {
         return DesignerEntity.builder()
                 .id(designer.getDesignerId())
                 .socialId(designer.getSocialId())

@@ -44,7 +44,7 @@ public class DesignerAdapter implements DesignerPort {
 
     @Override
     public Designer save(Designer designer) {
-        DesignerEntity designerEntityToSave = DesignerMapper.toDesignerEntity(designer);
+        DesignerEntity designerEntityToSave = DesignerMapper.toEntity(designer);
         DesignerEntity savedDesignerEntity = designerRepository.save(designerEntityToSave);
         return DesignerMapper.toDomain(savedDesignerEntity);
     }
