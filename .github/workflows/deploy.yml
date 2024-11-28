@@ -110,7 +110,11 @@ jobs:
           host: ${{ secrets[env.HOST_SECRET] }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          run: |
+          envs: |
+            DEPLOY_PROFILE=${{ env.DEPLOY_PROFILE }}
+            DEPLOY_DOMAIN=${{ env.DEPLOY_DOMAIN }}
+            TARGET_PACKAGE=${{ env.TARGET_PACKAGE }}
+          script: |
             echo "Deploying to EC2 for $TARGET_PACKAGE with profile $DEPLOY_PROFILE"
 
             # AWS CLI 설정
