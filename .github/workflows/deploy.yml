@@ -80,6 +80,7 @@ jobs:
 
       # 4-2. ECR 로그인
       - name: Log in to Amazon ECR
+        id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
       # 5. Docker 이미지 빌드 및 푸시
