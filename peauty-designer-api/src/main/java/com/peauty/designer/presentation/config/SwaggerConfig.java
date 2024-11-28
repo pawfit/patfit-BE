@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"local", "beta"})
+@Profile({"designer-local", "designer-dev"})
 public class SwaggerConfig {
 
     @Bean
