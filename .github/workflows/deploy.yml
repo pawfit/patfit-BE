@@ -111,17 +111,26 @@ jobs:
             aws configure set region ap-northeast-2
 
             # Docker 이미지 Pull
-            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
+            aws ecr get-login-password --region ap-northeast-2
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
             # 기존 컨테이너 중지 및 삭제
-            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || true
-            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || true
+            docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to stop container"; exit 1; } 
+            docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; exit 1; }
 
             # 새로운 컨테이너 실행
             docker run --env-file ./.env -d -p $TARGET_PORT:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               --env SPRING_PROFILES_ACTIVE=$DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            # 새로운 컨테이너 상태 확인
+            echo "=== Verifying the new container ==="
+            sleep 10 # 컨테이너 초기화를 위한 대기 시간
+            if ! docker ps --filter "name=$DEPLOY_DOMAIN-$DEPLOY_PROFILE" --filter "status=running" | grep $DEPLOY_DOMAIN-$DEPLOY_PROFILE; then
+              echo "새로운 컨테이너가 실행 중이지 않습니다. 로그를 확인하세요."
+              docker logs --tail 50 $DEPLOY_DOMAIN-$DEPLOY_PROFILE
+              exit 1
+            fi
 
             # 컨테이너 상태 확인
             docker ps
