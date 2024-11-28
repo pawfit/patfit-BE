@@ -51,6 +51,14 @@ jobs:
             echo "Invalid profile or package selection"
             exit 1
           fi
+      
+      # 환경 변수 검증
+      - name: Debug environment variables
+        run: |
+          echo "DEPLOY_PROFILE: $DEPLOY_PROFILE"
+          echo "DEPLOY_DOMAIN: $DEPLOY_DOMAIN"
+          echo "TARGET_PACKAGE: $TARGET_PACKAGE"
+          echo "HOST_SECRET: $HOST_SECRET"
 
       # 2. Java 17 설치
       - name: Set up JDK 17
