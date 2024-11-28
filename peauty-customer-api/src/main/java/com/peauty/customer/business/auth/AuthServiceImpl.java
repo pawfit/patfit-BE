@@ -4,10 +4,10 @@ import com.peauty.customer.business.auth.dto.SignInResult;
 import com.peauty.customer.business.auth.dto.SignUpCommand;
 import com.peauty.customer.business.auth.dto.SignUpResult;
 import com.peauty.customer.business.customer.CustomerPort;
+import com.peauty.domain.customer.Customer;
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.domain.user.SocialPlatform;
-import com.peauty.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +33,10 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public SignUpResult signUp(SignUpCommand command) {
         customerPort.checkCustomerSocialIdDuplicated(command.socialId());
-        customerPort.checkCustomerPhoneNumDuplicated(command.phoneNum());
+        customerPort.checkCustomerPhoneNumDuplicated(command.phoneNumber());
         customerPort.checkCustomerNicknameDuplicated(command.nickname());
-        User registeredCustomer = customerPort.registerNewCustomer(command);
-        SignTokens signTokens = authPort.generateSignTokens(registeredCustomer);
+        Customer registeredCustomer = customerPort.registerNewCustomer(command);
+        SignTokens signTokens = authPort.generateSignTokens(registeredCustomer.getAuthInfo());
         return SignUpResult.from(signTokens, registeredCustomer);
     }
 
@@ -45,9 +45,9 @@ public class AuthServiceImpl implements AuthService {
     public SignUpResult signWithIdToken(SocialPlatform socialPlatform, String idToken, String nickname, String phoneNum) {
         SocialInfo socialInfo = authPort.getSocialInfoFromIdToken(socialPlatform, idToken);
         return customerPort.findBySocialId(socialInfo.socialId())
-                .map(user -> {
-                    SignTokens signTokens = authPort.generateSignTokens(user);
-                    return SignUpResult.from(signTokens, user);
+                .map(customer -> {
+                    SignTokens signTokens = authPort.generateSignTokens(customer.getAuthInfo());
+                    return SignUpResult.from(signTokens, customer);
                 })
                 .orElseGet(() -> {
                     SignUpCommand signUpCommand = new SignUpCommand(
@@ -74,8 +74,8 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    private SignInResult createRegisteredSignInResult(User user) {
-        SignTokens signTokens = authPort.generateSignTokens(user);
-        return SignInResult.from(signTokens, user);
+    private SignInResult createRegisteredSignInResult(Customer customer) {
+        SignTokens signTokens = authPort.generateSignTokens(customer.getAuthInfo());
+        return SignInResult.from(signTokens, customer);
     }
 }

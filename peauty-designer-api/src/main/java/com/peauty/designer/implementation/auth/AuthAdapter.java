@@ -4,9 +4,9 @@ import com.peauty.auth.facade.OidcProviderFacade;
 import com.peauty.auth.provider.JwtProvider;
 import com.peauty.designer.business.auth.AuthPort;
 import com.peauty.domain.token.SignTokens;
+import com.peauty.domain.user.AuthInfo;
 import com.peauty.domain.user.SocialInfo;
 import com.peauty.domain.user.SocialPlatform;
-import com.peauty.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class AuthAdapter implements AuthPort {
     }
 
     @Override
-    public SignTokens generateSignTokens(User user) {
-        return jwtProvider.generateToken(user);
+    public SignTokens generateSignTokens(AuthInfo authInfo) {
+        return jwtProvider.generateToken(authInfo);
     }
 }

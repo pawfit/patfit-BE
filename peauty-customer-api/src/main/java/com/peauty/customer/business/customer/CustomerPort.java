@@ -1,8 +1,7 @@
 package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.auth.dto.SignUpCommand;
-import com.peauty.domain.user.User;
-import org.springframework.web.multipart.MultipartFile;
+import com.peauty.domain.customer.Customer;
 
 import java.util.Optional;
 
@@ -10,8 +9,8 @@ public interface CustomerPort {
     void checkCustomerSocialIdDuplicated(String socialId);
     void checkCustomerNicknameDuplicated(String nickname);
     void checkCustomerPhoneNumDuplicated(String phoneNum);
-    Optional<User> findBySocialId(String socialId);
-    User save(User user);
-    User registerNewCustomer(SignUpCommand command);
-    User getByUserId(Long userId);
+    Optional<Customer> findBySocialId(String socialId);
+    Customer save(Customer customer);
+    Customer registerNewCustomer(SignUpCommand command);
+    Customer getByCustomerIdWithoutPuppies(Long customerId);
 }

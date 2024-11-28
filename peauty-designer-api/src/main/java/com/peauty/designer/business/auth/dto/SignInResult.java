@@ -1,8 +1,8 @@
 package com.peauty.designer.business.auth.dto;
 
+import com.peauty.domain.designer.Designer;
 import com.peauty.domain.token.SignTokens;
 import com.peauty.domain.user.SocialPlatform;
-import com.peauty.domain.user.User;
 
 public record SignInResult(
         String accessToken,
@@ -13,14 +13,15 @@ public record SignInResult(
         String profileImageUrl
 ) {
 
-    public static SignInResult from(SignTokens signTokens, User user) {
+    public static SignInResult from(SignTokens signTokens, Designer designer) {
         return new SignInResult(
                 signTokens.accessToken(),
                 signTokens.refreshToken(),
-                user.getSocialId(),
-                user.getSocialPlatform(),
-                user.getNickname(),
-                user.getProfileImageUrl()
+                designer.getSocialId(),
+                designer.getSocialPlatform(),
+                designer.getNickname(),
+                designer.getProfileImageUrl()
         );
     }
 }
+

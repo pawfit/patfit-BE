@@ -2,11 +2,11 @@ package com.peauty.customer.implementaion.customer;
 
 import com.peauty.customer.business.auth.dto.SignUpCommand;
 import com.peauty.customer.business.customer.CustomerPort;
+import com.peauty.domain.customer.Customer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
-import com.peauty.domain.user.User;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.customer.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,39 +42,39 @@ public class CustomerAdapter implements CustomerPort {
     }
 
     @Override
-    public Optional<User> findBySocialId(String socialId) {
+    public Optional<Customer> findBySocialId(String socialId) {
         return Optional.ofNullable(customerRepository.findBySocialId(socialId))
                 .orElse(Optional.empty())
                 .map(CustomerMapper::toDomain);
     }
 
     @Override
-    public User save(User customer) {
+    public Customer save(Customer customer) {
         CustomerEntity customerEntityToSave = CustomerMapper.toEntity(customer);
         CustomerEntity savedCustomerEntity = customerRepository.save(customerEntityToSave);
         return CustomerMapper.toDomain(savedCustomerEntity);
     }
 
     @Override
-    public User registerNewCustomer(SignUpCommand command) {
-        User userToSave = new User(
-                0L,
-                command.socialId(),
-                command.socialPlatform(),
-                command.name(),
-                command.nickname(),
-                command.phoneNum(),
-                command.address(),
-                command.profileImageUrl(),
-                Status.ACTIVE,
-                Role.ROLE_CUSTOMER
-        );
-        return save(userToSave);
+    public Customer registerNewCustomer(SignUpCommand command) {
+        Customer customerToSave = Customer.builder()
+                .customerId(0L)
+                .socialId(command.socialId())
+                .socialPlatform(command.socialPlatform())
+                .name(command.name())
+                .nickname(command.nickname())
+                .phoneNumber(command.phoneNumber())
+                .address(command.address())
+                .profileImageUrl(command.profileImageUrl())
+                .status(Status.ACTIVE)
+                .role(Role.ROLE_CUSTOMER)
+                .build();
+        return save(customerToSave);
     }
 
     @Override
-    public User getByUserId(Long userId) {
-        return customerRepository.findById(userId)
+    public Customer getByCustomerIdWithoutPuppies(Long customerId) {
+        return customerRepository.findById(customerId)
                 .map(CustomerMapper::toDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
     }

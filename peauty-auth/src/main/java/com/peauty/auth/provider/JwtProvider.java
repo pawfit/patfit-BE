@@ -1,18 +1,17 @@
 package com.peauty.auth.provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.peauty.auth.properties.OAuthUserDetails;
 import com.peauty.cache.BlackListTokenRepository;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.token.SignTokens;
-import com.peauty.domain.user.User;
-import com.peauty.auth.properties.OAuthUserDetails;
+import com.peauty.domain.user.AuthInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.InvalidKeyException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,16 +34,16 @@ public class JwtProvider {
     private final Key key;
     private final ObjectMapper jacksonObjectMapper;
 
-    public SignTokens generateToken(User user) {
+    public SignTokens generateToken(AuthInfo authInfo) {
         try {
             String accessToken = Jwts.builder()
-                    .claim("user", user)
+                    .claim("user", authInfo)
                     .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();
 
             String refreshToken = Jwts.builder()
-                    .claim("user", user)
+                    .claim("user", authInfo)
                     .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                     .signWith(key, SignatureAlgorithm.HS512)
                     .compact();
@@ -56,17 +55,17 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        User user = getUser(token);
-        OAuthUserDetails oAuthUserDetails = new OAuthUserDetails(user);
+        AuthInfo authInfo = getAuthInfo(token);
+        OAuthUserDetails oAuthUserDetails = new OAuthUserDetails(authInfo);
         return new UsernamePasswordAuthenticationToken(oAuthUserDetails, "", oAuthUserDetails.getAuthorities());
     }
 
-    public User getUser(String token) {
-        Object parseMember = parseClaims(token).get("user");
-        if (parseMember == null) {
+    public AuthInfo getAuthInfo(String token) {
+        Object parseAuthInfo = parseClaims(token).get("user");
+        if (parseAuthInfo == null) {
             throw new PeautyException(PeautyResponseCode.EMPTY_AUTH_JWT);
         }
-        return jacksonObjectMapper.convertValue(parseMember, User.class);
+        return jacksonObjectMapper.convertValue(parseAuthInfo, AuthInfo.class);
     }
 
     public Long getTokenExpiredSecond(String token) {

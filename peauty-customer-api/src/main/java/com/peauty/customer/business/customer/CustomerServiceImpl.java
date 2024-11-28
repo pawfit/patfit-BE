@@ -2,8 +2,7 @@ package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.business.internal.InternalPort;
-import com.peauty.domain.user.User;
-import com.peauty.domain.user.UserProfile;
+import com.peauty.domain.customer.Customer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +18,30 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public UploadProfileImageResult uploadProfileImage(Long userId, MultipartFile file) {
-        User user = customerPort.getByUserId(userId);
+    public UploadProfileImageResult uploadProfileImage(Long customerId, MultipartFile file) {
+        Customer customer = customerPort.getByCustomerIdWithoutPuppies(customerId);
         String uploadedProfileImageUrl = internalPort.uploadImage(file);
-        user.uploadProfileImageUrl(uploadedProfileImageUrl);
-        return UploadProfileImageResult.from(customerPort.save(user));
+        customer.updateProfileImageUrl(uploadedProfileImageUrl);
+        return UploadProfileImageResult.from(customerPort.save(customer));
     }
 
     @Override
-    public GetCustomerProfileResult getCustomerProfile(Long userId) {
-        User user = customerPort.getByUserId(userId);
-        UserProfile userProfile = user.getUserProfile();
-        return GetCustomerProfileResult.from(userProfile);
+    public GetCustomerProfileResult getCustomerProfile(Long customerId) {
+        Customer customer = customerPort.getByCustomerIdWithoutPuppies(customerId);
+        return GetCustomerProfileResult.from(customer);
     }
 
     @Override
     @Transactional
-    public UpdateCustomerProfileResult updateCustomerProfile(Long userId, UpdateCustomerProfileCommand command) {
-        User user = customerPort.getByUserId(userId);
-        UserProfile userProfileToUpdate = command.toUserProfileToUpdate(userId);
-        user.updateUserProfile(userProfileToUpdate);
-        User updatedProfileUser = customerPort.save(user);
-        return UpdateCustomerProfileResult.from(updatedProfileUser.getUserProfile());
+    public UpdateCustomerProfileResult updateCustomerProfile(Long customerId, UpdateCustomerProfileCommand command) {
+        Customer customerToUpdate = customerPort.getByCustomerIdWithoutPuppies(customerId);
+        customerToUpdate.updateName(command.name());
+        customerToUpdate.updatePhoneNumber(command.phoneNumber());
+        customerToUpdate.updateNickname(command.nickname());
+        customerToUpdate.updateProfileImageUrl(command.profileImageUrl());
+        customerToUpdate.updateAddress(command.address());
+        Customer updatedCustomer = customerPort.save(customerToUpdate);
+        return UpdateCustomerProfileResult.from(updatedCustomer);
     }
 
     @Override

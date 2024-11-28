@@ -1,16 +1,16 @@
 package com.peauty.designer.business.auth.dto;
 
+import com.peauty.domain.designer.Designer;
 import com.peauty.domain.token.SignTokens;
-import com.peauty.domain.user.User;
 
 public record SignUpResult(
-        Long userId,
+        Long designerId,
         String accessToken,
         String refreshToken
 ) {
-    public static SignUpResult from(SignTokens signTokens, User user) {
+    public static SignUpResult from(SignTokens signTokens, Designer designer) {
         return new SignUpResult(
-                user.getUserId(),
+                designer.getDesignerId(),
                 signTokens.accessToken(),
                 signTokens.refreshToken()
         );
