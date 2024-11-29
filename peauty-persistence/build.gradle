@@ -11,6 +11,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	// H2 Database (local 환경용)
 	runtimeOnly("com.h2database:h2")
-	// MySQL Connector (beta, real 환경용)
+	// MySQL Connector (dev, prod 환경용)
 	runtimeOnly("com.mysql:mysql-connector-j")
 }
