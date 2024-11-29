@@ -19,10 +19,10 @@ public class PuppyServiceImpl implements PuppyService {
     @Override
     @Transactional
     public UploadPuppyImageResult uploadPuppyImage(Long customerId, Long puppyId, MultipartFile file) {
-        Puppy puppy = puppyPort.getByPuppyId(puppyId);
+        Puppy puppyImageToUpload = puppyPort.getByPuppyId(puppyId);
         String uploadedPuppyImageUrl = internalPort.uploadImage(file);
-        puppy.updateProfileImageUrl(uploadedPuppyImageUrl);
-        return UploadPuppyImageResult.from(puppyPort.save(puppy));
+        puppyImageToUpload.updateProfileImageUrl(uploadedPuppyImageUrl);
+        return UploadPuppyImageResult.from(puppyPort.save(puppyImageToUpload));
     }
 
     @Override
