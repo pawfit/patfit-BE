@@ -21,7 +21,13 @@ import java.util.*;
 public class WebLoggingFilter extends OncePerRequestFilter {
 
     private final AntPathMatcher matcher = new AntPathMatcher();
-    private final Set<String> excludeUrls = Collections.emptySet();
+    private final Set<String> excludeUrls = Set.of(
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/h2-console/**"
+    );
     private static final String EMPTY = "";
 
     @Override
