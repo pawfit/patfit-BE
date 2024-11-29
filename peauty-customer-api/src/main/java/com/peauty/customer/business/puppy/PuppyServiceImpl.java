@@ -43,19 +43,19 @@ public class PuppyServiceImpl implements PuppyService {
     @Override
     @Transactional
     public UpdatePuppyDetailResult updatePuppyDetail(Long userId, Long puppyId, UpdatePuppyDetailCommand command){
-        Puppy puppyToupdate = puppyPort.findPuppy (userId, puppyId);
-        puppyToupdate.updateName(command.name());
-        puppyToupdate.updateBreed(command.breed());
-        puppyToupdate.updateWeight(command.weight());
-        puppyToupdate.updateSex(command.sex());
-        puppyToupdate.updateAge(command.age());
-        puppyToupdate.updateBirthdate(command.birthdate());
-        puppyToupdate.updateDetail(command.detail());
-        puppyToupdate.updateDisease(command.disease());
-        puppyToupdate.updateDiseaseDescription(command.diseaseDescription());
-        puppyToupdate.updateProfileImageUrl(command.profileImageUrl());
-        puppyToupdate.updatePuppySize(command.puppySize());
-        Puppy updatedPuppy = puppyPort.save(puppyToupdate);
+        Puppy puppyToUpdate = puppyPort.findPuppy (userId, puppyId);
+        puppyToUpdate.updateName(command.name());
+        puppyToUpdate.updateBreed(command.breed());
+        puppyToUpdate.updateWeight(command.weight());
+        puppyToUpdate.updateSex(command.sex());
+        puppyToUpdate.updateAge(command.age());
+        puppyToUpdate.updateBirthdate(command.birthdate());
+        puppyToUpdate.updateDetail(command.detail());
+        puppyToUpdate.updateDisease(command.disease());
+        puppyToUpdate.updateDiseaseDescription(command.diseaseDescription());
+        puppyToUpdate.updateProfileImageUrl(command.profileImageUrl());
+        puppyToUpdate.updatePuppySize(command.puppySize());
+        Puppy updatedPuppy = puppyPort.save(puppyToUpdate);
         return UpdatePuppyDetailResult.from(updatedPuppy);
     }
 
