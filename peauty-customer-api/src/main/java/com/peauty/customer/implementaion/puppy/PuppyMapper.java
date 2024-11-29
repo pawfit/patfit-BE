@@ -8,21 +8,21 @@ public class PuppyMapper {
 
     private PuppyMapper() {}
 
-    public static Puppy toDomain(PuppyEntity entity) {
+    public static Puppy toDomain(PuppyEntity puppyEntity) {
         return Puppy.builder()
-                .puppyId(entity.getId())
-                .name(entity.getName())
-                .breed(entity.getBreed())
-                .weight(entity.getWeight())
-                .sex(entity.getSex())
-                .age(entity.getAge())
-                .birthdate(entity.getBirthdate())
-                .detail(entity.getDetail())
-                .disease(entity.getDisease())
-                .diseaseDescription(entity.getDiseaseDescription())
-                .profileImageUrl(entity.getProfileImageUrl())
-                .customerId(entity.getCustomer().getId()) // customerId 추가
-                .puppySize(entity.getPuppySize())
+                .puppyId(puppyEntity.getId())
+                .name(puppyEntity.getName())
+                .breed(puppyEntity.getBreed())
+                .weight(puppyEntity.getWeight())
+                .sex(puppyEntity.getSex())
+                .age(puppyEntity.getAge())
+                .birthdate(puppyEntity.getBirthdate())
+                .detail(puppyEntity.getDetail())
+                .disease(puppyEntity.getDisease())
+                .diseaseDescription(puppyEntity.getDiseaseDescription())
+                .profileImageUrl(puppyEntity.getProfileImageUrl())
+                .customerId(puppyEntity.getCustomer().getId()) // customerId 추가
+                .puppySize(puppyEntity.getPuppySize())
                 .build();
     }
 

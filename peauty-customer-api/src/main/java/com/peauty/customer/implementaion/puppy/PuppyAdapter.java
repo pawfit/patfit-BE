@@ -21,21 +21,6 @@ public class PuppyAdapter implements PuppyPort {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Puppy savePuppy(Puppy puppy) {
-        // CustomerEntity 조회
-        CustomerEntity customer = customerRepository.findById(puppy.getCustomerId())
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
-
-        // 도메인 객체를 엔티티로 변환 후 저장
-        PuppyEntity entity = PuppyMapper.toEntity(puppy, customer); // Domain -> Entity로 변경
-        PuppyEntity savedEntity = puppyRepository.save(entity); // 저장
-
-//        PuppyEntity savedEntity = puppyRepository.save(PuppyMapper.toEntity(puppy));
-        // 저장된 엔티티를 도메인 객체로 변환 후 반환
-        return PuppyMapper.toDomain(savedEntity); // Entity -> Domain 변환 후 반환
-    }
-
-    @Override
     public Puppy findPuppy(Long userId, Long puppyId) {
         // 반려견 엔티티 조회
         PuppyEntity puppyEntity = puppyRepository.findByIdAndCustomerId(puppyId, userId)
@@ -43,43 +28,6 @@ public class PuppyAdapter implements PuppyPort {
         // 조회된 엔티티를 도메인 객체로 변환 후 반환
         return PuppyMapper.toDomain(puppyEntity);
     }
-
-    @Override
-    public Puppy updatePuppy(Puppy puppy) {
-
-        // CustomerEntity 조회
-        CustomerEntity customer = customerRepository.findById(puppy.getCustomerId())
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
-
-        // PuppyEntity로 변환
-        PuppyEntity entity = puppyRepository.findById(puppy.getPuppyId())
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
-
-        // 업데이트
-        entity.update(
-                puppy.getName(),
-                puppy.getBreed(),
-                puppy.getWeight(),
-                puppy.getSex(),
-                puppy.getAge(),
-                puppy.getBirthdate(),
-                puppy.getDetail(),
-                puppy.getDisease(),
-                puppy.getDiseaseDescription(),
-                puppy.getProfileImageUrl(),
-                puppy.getPuppySize()
-        );
-        entity.assignCustomer(customer);
-
-
-        return PuppyMapper.toDomain(puppyRepository.save(entity));
-
-/*        // 도메인 객체를 엔티티로 변환 후 저장
-        PuppyEntity updatedEntity = puppyRepository.save(PuppyMapper.toEntity(puppy));
-        // 저장된 엔티티를 도메인 객체로 변환 후 반환
-        return PuppyMapper.toDomain(updatedEntity);*/
-    }
-
     @Override
     public void deletePuppy(Long puppyId) {
         // 반려견 엔티티 조회 및 삭제
@@ -88,4 +36,24 @@ public class PuppyAdapter implements PuppyPort {
         }
         puppyRepository.deleteById(puppyId);
     }
+
+
+
+    @Override
+    public Puppy getByPuppyId(Long puppyId){
+        return puppyRepository.findById(puppyId)
+                .map(PuppyMapper::toDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
+    }
+
+    @Override
+    public Puppy save(Puppy puppy){
+        CustomerEntity customer = customerRepository.findById(puppy.getCustomerId())
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+        PuppyEntity puppyEntityToSave = PuppyMapper.toEntity(puppy, customer);
+        PuppyEntity savedPuppyEntity = puppyRepository.save(puppyEntityToSave);
+        return PuppyMapper.toDomain(savedPuppyEntity);
+    }
+
+
 }

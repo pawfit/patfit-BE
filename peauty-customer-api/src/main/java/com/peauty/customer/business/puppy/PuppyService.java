@@ -1,14 +1,14 @@
 package com.peauty.customer.business.puppy;
 
-import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
-import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
-import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
+import com.peauty.customer.business.puppy.dto.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PuppyService {
-    RegisterPuppyResult addPuppy(AddPuppyCommand command);
-    RegisterPuppyResult getPuppy(Long userId, Long puppyId);
-    RegisterPuppyResult updatePuppy(UpdatePuppyCommand command);
+    UploadPuppyImageResult uploadPuppyImage(Long customerId, Long puppyId, MultipartFile file);
     void deletePuppy(Long userId, Long puppyId);
+    RegisterPuppyResult registerPuppy(RegisterPuppyCommand command);
+    GetPuppyDetailResult getPuppyDetail(Long userId, Long puppyId);
+    UpdatePuppyDetailResult updatePuppyDetail(Long customerId, Long puppyId, UpdatePuppyDetailCommand command);
 }
 
 

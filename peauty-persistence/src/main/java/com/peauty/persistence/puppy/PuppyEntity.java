@@ -1,11 +1,9 @@
 package com.peauty.persistence.puppy;
 
-import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Breed;
 import com.peauty.domain.puppy.Disease;
 import com.peauty.domain.puppy.PuppySize;
 import com.peauty.domain.puppy.Sex;
-import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.config.BaseTimeEntity;
 import com.peauty.persistence.customer.CustomerEntity;
 import jakarta.persistence.*;
@@ -76,7 +74,7 @@ public class PuppyEntity extends BaseTimeEntity {
     private PuppySize puppySize; // 소형, 중형, 대형
 
 
-    // 업데이트 메서드
+/*    // 업데이트 메서드
     public void update(String name, Breed breed, Long weight, Sex sex, int age, LocalDate birthdate,
                               String detail, List<Disease> disease, String diseaseDescription, String profileImageUrl, PuppySize puppySize) {
         this.name = name;
@@ -90,13 +88,13 @@ public class PuppyEntity extends BaseTimeEntity {
         this.diseaseDescription = diseaseDescription;
         this.profileImageUrl = profileImageUrl;
         this.puppySize = puppySize;
-    }
+    }*/
 
-    public void assignCustomer(CustomerEntity customer) {
+/*    public void assignCustomer(CustomerEntity customer) {
         if (customer == null) {
             throw new PeautyException(PeautyResponseCode.NOT_EXIST_USER);
         }
         this.customer = customer;
-    }
+    }*/
 
 }
