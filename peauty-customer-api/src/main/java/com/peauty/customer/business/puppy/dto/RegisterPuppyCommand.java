@@ -5,7 +5,7 @@ import com.peauty.domain.puppy.*;
 import java.time.LocalDate;
 import java.util.List;
 
-public record AddPuppyCommand(
+public record RegisterPuppyCommand(
         Long userId,
         String name,
         Breed breed,

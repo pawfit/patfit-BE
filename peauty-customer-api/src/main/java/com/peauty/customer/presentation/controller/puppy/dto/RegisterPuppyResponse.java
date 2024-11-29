@@ -5,7 +5,7 @@ import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
 import java.time.LocalDate;
 import java.util.List;
 
-public record PuppyDetailResponse(
+public record RegisterPuppyResponse(
         Long puppyId,
         String name,
         String breed,
@@ -19,8 +19,8 @@ public record PuppyDetailResponse(
         String profileImageUrl,
         String puppySize
 ) {
-    public static PuppyDetailResponse from(RegisterPuppyResult result) {
-        return new PuppyDetailResponse(
+    public static RegisterPuppyResponse from(RegisterPuppyResult result){
+        return new RegisterPuppyResponse(
                 result.puppyId(),
                 result.name(),
                 result.breed(),
