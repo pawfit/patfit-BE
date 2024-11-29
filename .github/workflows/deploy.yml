@@ -139,7 +139,7 @@ jobs:
             docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; }
 
             # 새로운 컨테이너 실행
-            docker run --env-file ./.env -d -p $TARGET_PORT:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
+            docker run --env-file ./.env -d -p 8080:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               --env SPRING_PROFILES_ACTIVE=$DEPLOY_DOMAIN-$DEPLOY_PROFILE \
               $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
