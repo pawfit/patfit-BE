@@ -40,7 +40,7 @@ public enum GroomingBiddingThreadStep {
         return fromStep(Math.min(this.step + 1, COMPLETED.step));
     }
 
-    public boolean hasNextStep() {
-        return this.step < COMPLETED.step;
+    public boolean hasNotNextStep() {
+        return this.step >= COMPLETED.step;
     }
 }

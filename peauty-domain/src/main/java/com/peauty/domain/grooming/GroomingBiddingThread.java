@@ -19,7 +19,6 @@ public class GroomingBiddingThread {
             GroomingBiddingThreadStep step,
             GroomingBiddingThreadStatus status,
             GroomingBiddingThreadTimeInfo timeInfo
-
     ) {
         return new GroomingBiddingThread(null, designerId, step, status, timeInfo, null);
     }
@@ -40,8 +39,7 @@ public class GroomingBiddingThread {
 
     public void progressStep() {
         validateProgressStep();
-        step = step.getNextStep();
-        timeInfo.onStepChange();
+        changeToNextStep();
         if (step == GroomingBiddingThreadStep.RESERVED) {
             processObserver.onThreadReserved();
         } else if (step == GroomingBiddingThreadStep.COMPLETED) {
@@ -75,7 +73,7 @@ public class GroomingBiddingThread {
         if (status == GroomingBiddingThreadStatus.WAITING) {
             throw new PeautyException(PeautyResponseCode.CANNOT_PROGRESS_WAITING_THREAD_STEP);
         }
-        if (!step.hasNextStep()) {
+        if (step.hasNotNextStep()) {
             throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_THREAD);
         }
     }
@@ -116,6 +114,11 @@ public class GroomingBiddingThread {
     private void changeStatus(GroomingBiddingThreadStatus targetStatus) {
         status = targetStatus;
         timeInfo.onStatusChange();
+    }
+
+    private void changeToNextStep() {
+        step = step.getNextStep();
+        timeInfo.onStepChange();
     }
 
     public record GroomingBiddingThreadId(Long value) {
