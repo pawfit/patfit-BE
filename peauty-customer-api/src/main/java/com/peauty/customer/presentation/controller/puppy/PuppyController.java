@@ -29,6 +29,7 @@ public class PuppyController {
 
     // 반려견 등록 API 수정 버전
     @PostMapping("/{userId}/puppies")
+    @Operation(summary = "반려견 등록", description = "반려견을 등록하는 API 진입점입니다.")
     public RegisterPuppyResponse registerPuppy(@PathVariable Long userId, @RequestBody RegisterPuppyRequest req){
         RegisterPuppyCommand command = req.toCommand(userId);
         RegisterPuppyResult result = puppyService.registerPuppy(command);
@@ -37,6 +38,7 @@ public class PuppyController {
 
     // 반려견 조회 API 수정 버전
     @GetMapping("/{userId}/puppies/{puppyId}")
+    @Operation(summary = "반려견 조회", description = "반려견을 조회하는 API 진입점입니다.")
     public GetPuppyDetailResponse getPuppyDetail(@PathVariable Long userId, @PathVariable Long puppyId){
         GetPuppyDetailResult result = puppyService.getPuppyDetail(userId, puppyId);
         return GetPuppyDetailResponse.from(result);
@@ -44,6 +46,7 @@ public class PuppyController {
 
     // 반려견 수정 API 수정 버전
     @PutMapping("/{userId}/puppies/{puppyId}")
+    @Operation(summary = "반려견 수정", description = "반려견을 수정하는 API 진입점입니다.")
     public UpdatePuppyDetailResponse updatePuppyDetail(@PathVariable Long userId,
                                                        @PathVariable Long puppyId,
                                                        @RequestBody UpdatePuppyDetailRequest request){
