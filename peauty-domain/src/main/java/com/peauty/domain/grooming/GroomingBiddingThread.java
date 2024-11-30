@@ -118,13 +118,9 @@ public class GroomingBiddingThread {
         timeInfo.onStatusChange();
     }
 
-    @EqualsAndHashCode(callSuper = true)
-    @Value
     public record GroomingBiddingThreadId(Long value) {
     }
 
-    @EqualsAndHashCode(callSuper = true)
-    @Value
     public record DesignerId(Long value) {
     }
 }
