@@ -29,7 +29,7 @@ public class ReviewEntity extends BaseTimeEntity {
     private DesignerEntity designer;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private Rating rating;
 
     @Column(name = "content_detail", nullable = false)
