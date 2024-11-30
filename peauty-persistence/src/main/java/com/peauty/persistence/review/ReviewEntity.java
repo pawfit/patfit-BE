@@ -1,6 +1,7 @@
 package com.peauty.persistence.review;
 
 import com.peauty.domain.review.ContentGeneral;
+import com.peauty.domain.review.Rating;
 import com.peauty.persistence.config.BaseTimeEntity;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.designer.DesignerEntity;
@@ -28,8 +29,8 @@ public class ReviewEntity extends BaseTimeEntity {
     private DesignerEntity designer;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "rating_service")
-    private Double ratingService;
+    @Column(name = "rating")
+    private Rating rating;
 
     @Column(name = "content_detail", nullable = false)
     private String contentDetail;

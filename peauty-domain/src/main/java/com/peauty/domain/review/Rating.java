@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 @Getter
-public enum RatingService {
+public enum Rating {
 
     ZERO(0.0),
     ZERO_POINT_FIVE(0.5),
@@ -23,15 +23,15 @@ public enum RatingService {
 // float 사용할 시 숫자 뒤 f 붙여야하기 때문에 double로 타입 확정
     private final double value;
 
-    RatingService(double value){
+    Rating(double value){
         this.value = value;
     }
 
-    public static RatingService from(double value){
-        return Arrays.stream(RatingService.values())
+    public static Rating from(double value){
+        return Arrays.stream(Rating.values())
                 .filter(it -> it.value == value) // double 값 비교
                 .findFirst()
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.INVALID_RATINGSERVICE));
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.INVALID_RATING));
     }
 
 
