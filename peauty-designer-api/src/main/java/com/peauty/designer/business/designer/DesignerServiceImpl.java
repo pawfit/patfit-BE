@@ -2,8 +2,6 @@ package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.business.internal.InternalPort;
-import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceCommand;
-import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceResult;
 import com.peauty.designer.business.shop.WorkspacePort;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
@@ -54,7 +52,7 @@ public class DesignerServiceImpl implements DesignerService {
     }
 
     @Override
-    public void checkDesignerNicknameDuplicated(String nickname){
+    public void checkDesignerNicknameDuplicated(String nickname) {
         designerPort.checkCustomerNicknameDuplicated(nickname);
     }
 
@@ -71,5 +69,13 @@ public class DesignerServiceImpl implements DesignerService {
         Workspace workspace = workspacePort.save(workspaceToCreate, designer.getDesignerId());
 
         return CreateDesignerWorkspaceResult.from(designer, workspace);
+    }
+
+    @Override
+    public GetDesignerWorkspaceResult getDesignerWorkspace(Long userId) {
+        Designer designer = designerPort.getAllDesignerDataByDesignerId(userId);
+        Workspace workspace = workspacePort.getByDesignerId(userId);
+
+        return GetDesignerWorkspaceResult.from(designer, workspace);
     }
 }

@@ -17,5 +17,7 @@ public interface DesignerPort {
     Designer registerNewDesigner(SignUpCommand command);
 
     Designer getByDesignerId(Long designerId);
+
+    Designer getAllDesignerDataByDesignerId(Long userId);
 }
 

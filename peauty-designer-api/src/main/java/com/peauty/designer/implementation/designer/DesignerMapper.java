@@ -18,8 +18,6 @@ public class DesignerMapper {
         // private 생성자로 인스턴스화 방지
     }
 
-
-
     public static Designer toDesignerAndLicenseDomain(DesignerEntity designerEntity, List<LicenseEntity> licenseEntities) {
         return Designer.builder()
                 .designerId(designerEntity.getId())
@@ -43,6 +41,7 @@ public class DesignerMapper {
                         ).collect(Collectors.toList())
                 ).build();
     }
+
     public static Designer toDesignerDomain(DesignerEntity designerEntity) {
         return Designer.builder()
                 .designerId(designerEntity.getId())

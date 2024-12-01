@@ -3,17 +3,17 @@ package com.peauty.designer.business.designer.dto;
 import com.peauty.domain.designer.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public record CreateDesignerWorkspaceResult(
+public record GetDesignerWorkspaceResult(
         String bannerImageUrl,
         String workspaceName,
         Double reviewRating,
         Integer reviewsCount,
-        // String scissor,
+        Scissor scissor,
         String introduceTitle,
         String introduce,
-        // TODO: 뱃지는 어떤 도메인에 넣을 것인지 생각
-        // List<String> representativeBadgeNames,
+        List<String> representativeBadgeNames,
         String noticeTitle,
         String notice,
         String address,
@@ -26,22 +26,24 @@ public record CreateDesignerWorkspaceResult(
         String openDays,
         String directionGuide
 ) {
-
-    public static CreateDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
+    public static GetDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
         List<String> licenses = designer.getLicenses().stream()
                 .map(License::getLicenseImageUrl)
                 .toList();
 
-        return new CreateDesignerWorkspaceResult(
-                designer.getProfileImageUrl(),
-                designer.getNickname(),
+        return new GetDesignerWorkspaceResult(
+                workspace.getBannerImageUrl(),
+                workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
                 workspace.getReviewCount(),
-                //workspace.getRating().getScissor().toString(),
-               workspace.getIntroduceTitle(),
-               workspace.getIntroduce(),
-               workspace.getNoticeTitle(),
-               workspace.getNotice(),
+                workspace.getRating().getScissor(),
+                workspace.getIntroduceTitle(),
+                workspace.getIntroduce(),
+                designer.getBadges().stream()
+                        .map(Badge::getBadgeName) // Badge 객체에서 badgeName만 추출
+                        .collect(Collectors.toList()),
+                workspace.getNoticeTitle(),
+                workspace.getNotice(),
                 designer.getAddress(),
                 designer.getPhoneNumber(),
                 designer.getYearOfExperience(),

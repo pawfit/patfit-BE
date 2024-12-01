@@ -4,4 +4,6 @@ import com.peauty.domain.designer.Workspace;
 
 public interface WorkspacePort {
     Workspace save(Workspace workspace, Long designerId);
+
+    Workspace getByDesignerId(Long userId);
 }

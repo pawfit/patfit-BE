@@ -1,6 +1,8 @@
 package com.peauty.designer.implementation.workspace;
 
+import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Workspace;
+import com.peauty.persistence.designer.RatingEntity;
 import com.peauty.persistence.designer.WorkspaceEntity;
 
 import java.util.Optional;
@@ -45,6 +47,14 @@ public class WorkspaceMapper {
                 .directionGuide(workspaceEntity.getDirectionGuide())
                 .reviewCount(workspaceEntity.getReviewCount())
                 .reviewRating(workspaceEntity.getReviewRating())
+                .build();
+    }
+
+    public static Rating toRatingDomain(RatingEntity rating) {
+        return Rating.builder()
+                .ratingId(rating.getId())
+                .totalScore(rating.getTotalScore())
+                .scissor(rating.getScissor())
                 .build();
     }
 }

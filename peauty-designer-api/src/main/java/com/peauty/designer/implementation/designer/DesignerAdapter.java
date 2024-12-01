@@ -2,7 +2,9 @@ package com.peauty.designer.implementation.designer;
 
 import com.peauty.designer.business.auth.dto.SignUpCommand;
 import com.peauty.designer.business.designer.DesignerPort;
+import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
@@ -11,8 +13,10 @@ import com.peauty.persistence.designer.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +24,8 @@ public class DesignerAdapter implements DesignerPort {
 
     private final DesignerRepository designerRepository;
     private final LicenseRepository licenseRepository;
+    private final DesignerBadgeRepository designerBadgeRepository;
+    private final BadgeRepository badgeRepository;
 
     @Override
     public void checkCustomerNicknameDuplicated(String nickname) {
@@ -76,5 +82,36 @@ public class DesignerAdapter implements DesignerPort {
         return designerRepository.findById(designerId)
                 .map(DesignerMapper::toDesignerDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+    }
+
+    @Override
+    public Designer getAllDesignerDataByDesignerId(Long userId) {
+        Designer designer = designerRepository.findById(userId)
+                .map(DesignerMapper::toDesignerDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+
+        List<License> licenses = Optional.ofNullable(licenseRepository.findByDesignerId(userId))
+                .map(DesignerMapper::toLicenses)
+                .orElse(Collections.emptyList());
+
+        // 디자이너뱃지 테이블에서 뱃지 테이블로 매핑
+        // 디자이너 아이디로 먼저 뱃지 아이디 가져오기
+        List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
+
+        // 뱃지 아이디로 뱃지 레파지토리에서 정보 가져오기
+        List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
+        List<Badge> badges = badgeEntities.stream()
+                .map(badgeEntity -> Badge.builder()
+                        .badgeId(badgeEntity.getId())
+                        .badgeName(badgeEntity.getBadgeName())
+                        .badgeContent(badgeEntity.getBadgeContent())
+                        .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+                        .isRepresentativeBadge(true)
+                        .build())
+                .collect(Collectors.toList());
+
+        designer.updateLicenses(licenses);
+        designer.updateBadges(badges);
+        return designer;
     }
 }

@@ -45,11 +45,20 @@ public class DesignerController {
         return new CheckDesignerNicknameDuplicatedResponse("사용해도 좋은 닉네임입니다.");
     }
     // 디자이너 워크 스페이스 등록
-    @PostMapping(value = "/{userId}/workspace")
+    @PostMapping(value = "/{userId}/shop")
     @Operation(summary = "디자이너 워크 스페이스 등록", description = "디자이너 워크 스페이스 등록 API 진입점입니다.")
     public CreateDesignerWorkspaceResponse createDesignerWorkspace(@PathVariable Long userId, @RequestBody CreateDesignerWorkspaceRequest request) {
         CreateDesignerWorkspaceResult result = designerService.createDesignerWorkspace(userId, request.toCommand());
         return CreateDesignerWorkspaceResponse.from(result);
     }
+    //
+    @GetMapping(value ="/{userId}/shop")
+    @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
+    public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
+        GetDesignerWorkspaceResult result = designerService.getDesignerWorkspace(userId);
+        return GetDesignerWorkspaceResponse.from(result);
+    }
+
+
 }
 

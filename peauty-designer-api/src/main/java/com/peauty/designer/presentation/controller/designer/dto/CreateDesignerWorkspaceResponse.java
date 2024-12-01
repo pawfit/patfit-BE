@@ -17,8 +17,8 @@ public record CreateDesignerWorkspaceResponse(
             @Schema(description = "리뷰 수", example = "5")
             Integer reviewsCount,
             // TODO: 처음에 가위종류는 None로 처리해서 진행할 것인가?
-//            @Schema(description = "가위 종류", example = "gold scissors")
-//            String scissors,
+//            @Schema(description = "가위 종류", example = "gold scissor")
+//            String scissor,
             @Schema(description = "소개 제목", example = "호키포키에 오신 여러분들 환영합니다!")
             String introduceTitle,
             @Schema(description = "소개", example = "안녕하세요. 말티즈 및 푸들 모발 케어 호키포키입니다.")
@@ -55,7 +55,7 @@ public record CreateDesignerWorkspaceResponse(
                 result.workspaceName(),
                 result.reviewRating(),
                 result.reviewsCount(),
-                // result.scissors(),
+                // result.scissor(),
                 result.introduce(),
                 result.introduceTitle(),
                 // result.representativeBadgeNames(),
