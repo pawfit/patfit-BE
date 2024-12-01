@@ -1,7 +1,5 @@
 package com.peauty.persistence.designer;
 
-import com.peauty.domain.designer.Designer;
-import com.peauty.domain.designer.License;
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.config.BaseTimeEntity;

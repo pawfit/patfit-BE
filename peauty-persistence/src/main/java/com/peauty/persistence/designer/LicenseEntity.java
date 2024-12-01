@@ -1,9 +1,7 @@
 package com.peauty.persistence.designer;
 
-import com.peauty.domain.designer.Designer;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "license")
