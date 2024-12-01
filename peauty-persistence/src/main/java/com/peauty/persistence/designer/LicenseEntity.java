@@ -15,7 +15,10 @@ public class LicenseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "designer_id", nullable = false)
+    private Long designerId;
+
     @Lob
-    @Column(name = "license_image_url")
+    @Column(name = "license_image_url", nullable = false)
     private String licenseImageUrl;
 }

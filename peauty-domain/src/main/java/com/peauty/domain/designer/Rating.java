@@ -9,17 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rating {
-
     private Long ratingId;
-    private int totalScore;
-    private float scissors;
-
-    public void updateTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
-
-    public void updateScissors(float scissors) {
-        this.scissors = scissors;
-    }
-
+    private Double totalScore;
+    private Scissor scissor;
 }

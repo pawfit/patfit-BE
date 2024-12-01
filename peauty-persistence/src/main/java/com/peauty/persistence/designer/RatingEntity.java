@@ -17,14 +17,13 @@ public class RatingEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designer_id")
-    private DesignerEntity designer;
+    @Column(name = "workspace_id", nullable = false)
+    private Long workspaceId;
 
     @Column(name = "total_score")
     private Integer totalScore;
 
-    @Column(name = "scissors")
+    @Column(name = "scissor")
     @Enumerated(EnumType.STRING)
-    private Scissor scissors;
+    private Scissor scissor;
 }

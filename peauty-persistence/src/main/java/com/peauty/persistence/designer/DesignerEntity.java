@@ -36,7 +36,7 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "nickname", length = 50)
     private String nickname;
 
-    @Column(name = "phoneNum", length = 50)
+    @Column(name = "phone_number", length = 50)
     private String phoneNum;
 
     @Column(name = "address")
@@ -46,19 +46,14 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Column(name = "years_of_experience")
+    private Integer yearsOfExperience;
+
     // TODO domain 의 의존성 끊기 고려
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private WorkspaceEntity workspace;
-
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private RatingEntity rating;
-
-    @OneToMany(mappedBy = "designer", cascade = CascadeType.ALL)
-    private List<LicenseEntity> licenses;
 
 }
 
