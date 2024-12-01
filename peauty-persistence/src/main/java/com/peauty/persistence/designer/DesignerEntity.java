@@ -1,10 +1,14 @@
 package com.peauty.persistence.designer;
 
+import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
 import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "designer")
@@ -50,13 +54,13 @@ public class DesignerEntity extends BaseTimeEntity {
     private Status status;
 
     @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private DesignerInfoEntity designerInfo;
-
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private ShopEntity shop;
+    private WorkspaceEntity workspace;
 
     @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
     private RatingEntity rating;
+
+    @OneToMany(mappedBy = "designer", cascade = CascadeType.ALL)
+    private List<LicenseEntity> licenses;
 
 }
 
