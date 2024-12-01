@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class GroomingBiddingProcessTest {
 
@@ -94,7 +93,7 @@ class GroomingBiddingProcessTest {
 
             // then
             assertEquals(1, process.getThreads().size());
-            GroomingBiddingThread addedThread = process.getThreadByDesignerId(designerId);
+            GroomingBiddingThread addedThread = process.getThread(designerId);
             assertEquals(designerId, addedThread.getDesignerId());
         }
 
@@ -155,7 +154,7 @@ class GroomingBiddingProcessTest {
                     puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     GroomingBiddingThreadTimeInfo.createNewTimeInfo()
             );
 
@@ -175,7 +174,7 @@ class GroomingBiddingProcessTest {
         @DisplayName("ID로 스레드를 조회할 수 있다")
         void getThreadById() {
             // when
-            GroomingBiddingThread found = process.getThreadByThreadId(thread.getId());
+            GroomingBiddingThread found = process.getThread(thread.getId());
 
             // then
             assertEquals(thread.getId(), found.getId());
@@ -185,7 +184,7 @@ class GroomingBiddingProcessTest {
         @DisplayName("디자이너 ID로 스레드를 조회할 수 있다")
         void getThreadByDesignerId() {
             // when
-            GroomingBiddingThread found = process.getThreadByDesignerId(designerId);
+            GroomingBiddingThread found = process.getThread(designerId);
 
             // then
             assertEquals(designerId, found.getDesignerId());
@@ -195,7 +194,7 @@ class GroomingBiddingProcessTest {
         @DisplayName("존재하지 않는 스레드 ID로 조회시 예외가 발생한다")
         void throwExceptionWhenThreadNotFound() {
             // when & then
-            assertThrows(PeautyException.class, () -> process.getThreadByThreadId(new GroomingBiddingThread.ID(999L)));
+            assertThrows(PeautyException.class, () -> process.getThread(new GroomingBiddingThread.ID(999L)));
         }
 
         @Test
@@ -203,57 +202,34 @@ class GroomingBiddingProcessTest {
         void throwExceptionWhenDesignerNotFound() {
             // when & then
             assertThrows(PeautyException.class,
-                    () -> process.getThreadByDesignerId(new DesignerId(999L)));
+                    () -> process.getThread(new DesignerId(999L)));
         }
     }
 
     @Nested
-    @DisplayName("프로세스 상태 변경 테스트")
-    class StatusChangeTest {
+    @DisplayName("프로세스 취소 테스트")
+    class ProcessCancelTest {
         private GroomingBiddingProcess process;
-        private GroomingBiddingThread.ID thread1Id;
-        private GroomingBiddingThread.ID thread2Id;
-        private GroomingBiddingThread.ID thread3Id;
         private GroomingBiddingThreadTimeInfo threadTimeInfo;
         private GroomingBiddingProcessTimeInfo processTimeInfo;
 
         @BeforeEach
         void setUp() {
+            // TimeInfo mocking
             threadTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
             processTimeInfo = mock(GroomingBiddingProcessTimeInfo.class);
-            // 세 개의 스레드 준비
-            GroomingBiddingThread thread1 = GroomingBiddingThread.loadThread(
+
+            // 스레드 준비
+            GroomingBiddingThread thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
                     puppyId,
                     new DesignerId(1L),
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     threadTimeInfo
             );
 
-            GroomingBiddingThread thread2 = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(2L),
-                    puppyId,
-                    new DesignerId(2L),
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
-                    threadTimeInfo
-            );
-
-            GroomingBiddingThread thread3 = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(3L),
-                    puppyId,
-                    new DesignerId(3L),
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
-                    threadTimeInfo
-            );
-
-            thread1Id = thread1.getId();
-            thread2Id = thread2.getId();
-            thread3Id = thread3.getId();
-
-            List<GroomingBiddingThread> threads = List.of(thread1, thread2, thread3);
+            List<GroomingBiddingThread> threads = List.of(thread);
 
             // 프로세스 생성
             process = GroomingBiddingProcess.loadProcess(
@@ -287,52 +263,164 @@ class GroomingBiddingProcessTest {
         }
 
         @Test
-        @DisplayName("한 스레드가 예약 상태가 되면 다른 스레드들이 대기 상태로 변경된다")
-        void changeOtherThreadsToWaitingWhenOneThreadReserved() {
+        @DisplayName("취소된 프로세스의 스레드는 취소할 수 없다")
+        void cannotCancelThreadInCanceledProcess() {
+            // given
+            process.cancel();
+
+            // when & then
+            assertThrows(PeautyException.class, () -> process.cancelThread(new GroomingBiddingThread.ID(1L)));
+        }
+    }
+
+    @Nested
+    @DisplayName("스레드 진행 테스트")
+    class ThreadProgressTest {
+        private GroomingBiddingProcess process;
+        private GroomingBiddingThread.ID thread1Id;
+        private GroomingBiddingThread.ID thread2Id;
+        private GroomingBiddingThread.ID thread3Id;
+        private GroomingBiddingThreadTimeInfo threadTimeInfo;
+        private GroomingBiddingProcessTimeInfo processTimeInfo;
+
+        @BeforeEach
+        void setUp() {
+            // TimeInfo mocking
+            threadTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
+            processTimeInfo = mock(GroomingBiddingProcessTimeInfo.class);
+
+            // 세 개의 스레드 준비
+            GroomingBiddingThread thread1 = GroomingBiddingThread.loadThread(
+                    new GroomingBiddingThread.ID(1L),
+                    puppyId,
+                    new DesignerId(1L),
+                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
+                    GroomingBiddingThreadStatus.NORMAL,
+                    threadTimeInfo
+            );
+
+            GroomingBiddingThread thread2 = GroomingBiddingThread.loadThread(
+                    new GroomingBiddingThread.ID(2L),
+                    puppyId,
+                    new DesignerId(2L),
+                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
+                    GroomingBiddingThreadStatus.NORMAL,
+                    threadTimeInfo
+            );
+
+            GroomingBiddingThread thread3 = GroomingBiddingThread.loadThread(
+                    new GroomingBiddingThread.ID(3L),
+                    puppyId,
+                    new DesignerId(3L),
+                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
+                    GroomingBiddingThreadStatus.NORMAL,
+                    threadTimeInfo
+            );
+
+            thread1Id = thread1.getId();
+            thread2Id = thread2.getId();
+            thread3Id = thread3.getId();
+
+            List<GroomingBiddingThread> threads = List.of(thread1, thread2, thread3);
+
+            // 프로세스 생성
+            process = GroomingBiddingProcess.loadProcess(
+                    new GroomingBiddingProcess.ID(1L),
+                    puppyId,
+                    GroomingBiddingProcessStatus.RESERVED_YET,
+                    processTimeInfo,
+                    threads
+            );
+        }
+
+
+        @Test
+        @DisplayName("견적 응답으로 진행할 수 있다")
+        void responseEstimate() {
             // when
-            process.progressThreadStep(thread1Id); // ESTIMATE_REQUEST -> ESTIMATE_RESPONSE
-            process.progressThreadStep(thread1Id); // ESTIMATE_RESPONSE -> RESERVED
+            process.responseEstimateThread(thread1Id);
 
             // then
-            // 첫 번째 스레드는 RESERVED 상태
-            GroomingBiddingThread firstThread = process.getThreadByThreadId(thread1Id);
-            assertEquals(GroomingBiddingThreadStep.RESERVED, firstThread.getStep());
-
-            // 나머지 스레드들은 WAITING 상태로 변경
-            GroomingBiddingThread secondThread = process.getThreadByThreadId(thread2Id);
-            GroomingBiddingThread thirdThread = process.getThreadByThreadId(thread3Id);
-
-            assertEquals(GroomingBiddingThreadStatus.WAITING, secondThread.getStatus());
-            assertEquals(GroomingBiddingThreadStatus.WAITING, thirdThread.getStatus());
-
-            // 프로세스는 RESERVED 상태
-            assertEquals(GroomingBiddingProcessStatus.RESERVED, process.getStatus());
+            GroomingBiddingThread thread = process.getThread(thread1Id);
+            assertEquals(GroomingBiddingThreadStep.ESTIMATE_RESPONSE, thread.getStep());
+            assertEquals(GroomingBiddingProcessStatus.RESERVED_YET, process.getStatus());
+            verify(threadTimeInfo).onStepChange();
         }
 
         @Test
-        @DisplayName("예약된 스레드가 취소되면 다른 스레드들이 진행중 상태로 변경된다")
-        void changeWaitingThreadsToOngoingWhenReservedThreadCanceled() {
+        @DisplayName("예약 단계로 진행할 수 있다")
+        void reserve() {
             // given
-            process.progressThreadStep(thread1Id); // ESTIMATE_REQUEST -> ESTIMATE_RESPONSE
-            process.progressThreadStep(thread1Id); // ESTIMATE_RESPONSE -> RESERVED
+            process.responseEstimateThread(thread1Id);
 
             // when
-            process.cancelThread(thread1Id);
+            process.reserveThread(thread1Id);
 
             // then
-            // 예약됐던 스레드는 취소 상태
-            GroomingBiddingThread firstThread = process.getThreadByThreadId(thread1Id);
-            assertEquals(GroomingBiddingThreadStatus.CANCELED, firstThread.getStatus());
+            GroomingBiddingThread thread = process.getThread(thread1Id);
+            assertEquals(GroomingBiddingThreadStep.RESERVED, thread.getStep());
+            assertEquals(GroomingBiddingProcessStatus.RESERVED, process.getStatus());
+            verify(threadTimeInfo, times(2)).onStepChange();
+            verify(processTimeInfo).onStatusChange();
+        }
 
-            // 나머지 스레드들은 다시 ONGOING 상태로 변경
-            GroomingBiddingThread secondThread = process.getThreadByThreadId(thread2Id);
-            GroomingBiddingThread thirdThread = process.getThreadByThreadId(thread3Id);
+        @Test
+        @DisplayName("완료 단계로 진행할 수 있다")
+        void complete() {
+            // given
+            process.responseEstimateThread(thread1Id);
+            process.reserveThread(thread1Id);
 
-            assertEquals(GroomingBiddingThreadStatus.ONGOING, secondThread.getStatus());
-            assertEquals(GroomingBiddingThreadStatus.ONGOING, thirdThread.getStatus());
+            // when
+            process.completeThread(thread1Id);
 
-            // 프로세스는 RESERVED_YET 상태로 변경
-            assertEquals(GroomingBiddingProcessStatus.RESERVED_YET, process.getStatus());
+            // then
+            GroomingBiddingThread thread = process.getThread(thread1Id);
+            assertEquals(GroomingBiddingThreadStep.COMPLETED, thread.getStep());
+            assertEquals(GroomingBiddingProcessStatus.COMPLETED, process.getStatus());
+            verify(threadTimeInfo, times(3)).onStepChange();
+            verify(processTimeInfo, times(2)).onStatusChange();
+        }
+
+        @Test
+        @DisplayName("취소된 프로세스는 스레드를 진행할 수 없다")
+        void cannotProgressThreadInCanceledProcess() {
+            // given
+            process.cancel();
+
+            // when & then
+            assertThrows(PeautyException.class, () -> process.responseEstimateThread(thread1Id));
+        }
+
+        @Test
+        @DisplayName("완료된 프로세스는 스레드를 진행할 수 없다")
+        void cannotProgressThreadInCompletedProcess() {
+            // given
+            process.responseEstimateThread(thread1Id);
+            process.reserveThread(thread1Id);
+            process.completeThread(thread1Id);
+
+            // when & then
+            assertThrows(PeautyException.class, () -> process.responseEstimateThread(thread2Id));
+        }
+
+        @Test
+        @DisplayName("잘못된 순서로 스레드를 진행할 수 없다")
+        void cannotProgressThreadInWrongOrder() {
+            // when & then
+            assertThrows(PeautyException.class, () -> process.reserveThread(thread1Id));
+        }
+
+        @Test
+        @DisplayName("디자이너 ID로도 스레드를 진행할 수 있다")
+        void progressThreadByDesignerId() {
+            // when
+            process.responseEstimateThread(new DesignerId(1L));
+
+            // then
+            GroomingBiddingThread thread = process.getThread(thread1Id);
+            assertEquals(GroomingBiddingThreadStep.ESTIMATE_RESPONSE, thread.getStep());
+            verify(threadTimeInfo).onStepChange();
         }
     }
 }
