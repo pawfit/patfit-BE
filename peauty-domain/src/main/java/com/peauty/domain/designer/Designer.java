@@ -30,6 +30,7 @@ public class Designer {
     private String profileImageUrl;
     private Integer yearOfExperience;
     private List<License> licenses;
+    private List<Badge> badges;
 
     public AuthInfo getAuthInfo() {
         return new AuthInfo(
@@ -87,5 +88,9 @@ public class Designer {
 
     public void updateLicenses(List<License> licenses) {
         this.licenses = licenses;
+    }
+
+    public void updateBadges(List<Badge> badges) {
+        this.badges = badges;
     }
 }

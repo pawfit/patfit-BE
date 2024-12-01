@@ -21,7 +21,7 @@ public class RatingEntity extends BaseTimeEntity {
     private Long workspaceId;
 
     @Column(name = "total_score")
-    private Integer totalScore;
+    private Double totalScore;
 
     @Column(name = "scissor")
     @Enumerated(EnumType.STRING)

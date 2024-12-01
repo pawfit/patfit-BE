@@ -27,15 +27,7 @@ public class Workspace {
     private Double reviewRating;
     private Rating rating;
 
-    public static Workspace getFirstWorkspaceReviewCount() {
-        return Workspace.builder()
-                .workspaceId(0L)
-                .build();
-    }
-
-    public static Workspace getFirstWorkspaceReviewRating() {
-        return Workspace.builder()
-                .workspaceId(0L)
-                .build();
+    public void updateRating(Rating rating) {
+        this.rating = rating;
     }
 }
