@@ -15,13 +15,13 @@ import static org.mockito.Mockito.verify;
 class GroomingBiddingThreadTest {
 
     private GroomingBiddingProcess mockProcess;
-    private CustomerId customerId;
+    private PuppyId puppyId;
     private DesignerId designerId;
 
     @BeforeEach
     void setUp() {
         mockProcess = mock(GroomingBiddingProcess.class);
-        customerId = new CustomerId(1L);
+        puppyId = new PuppyId(1L);
         designerId = new DesignerId(1L);
     }
 
@@ -32,11 +32,11 @@ class GroomingBiddingThreadTest {
         @DisplayName("새로운 스레드를 생성할 수 있다")
         void createNewThread() {
             // when
-            GroomingBiddingThread thread = GroomingBiddingThread.createNewThread(customerId, designerId);
+            GroomingBiddingThread thread = GroomingBiddingThread.createNewThread(puppyId, designerId);
 
             // then
             assertThat(thread.getId()).isNull();
-            assertThat(thread.getCustomerId()).isEqualTo(customerId);
+            assertThat(thread.getPuppyId()).isEqualTo(puppyId);
             assertThat(thread.getDesignerId()).isEqualTo(designerId);
             assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.ESTIMATE_REQUEST);
         }
@@ -52,7 +52,7 @@ class GroomingBiddingThreadTest {
 
             // when
             GroomingBiddingThread thread = GroomingBiddingThread.loadThread(
-                    threadId, customerId, designerId, step, status, timeInfo);
+                    threadId, puppyId, designerId, step, status, timeInfo);
 
             // then
             assertThat(thread.getId()).isEqualTo(threadId);
@@ -67,7 +67,7 @@ class GroomingBiddingThreadTest {
 
         @BeforeEach
         void setUp() {
-            thread = GroomingBiddingThread.createNewThread(customerId, designerId);
+            thread = GroomingBiddingThread.createNewThread(puppyId, designerId);
             thread.registerProcessObserver(mockProcess);
         }
 
@@ -87,7 +87,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_RESPONSE,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -108,7 +108,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.RESERVED,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -129,7 +129,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.CANCELED,
@@ -146,7 +146,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.WAITING,
@@ -169,7 +169,7 @@ class GroomingBiddingThreadTest {
             mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -195,7 +195,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.RESERVED,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -216,7 +216,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.CANCELED,
@@ -233,7 +233,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.COMPLETED,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -256,7 +256,7 @@ class GroomingBiddingThreadTest {
             mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -281,7 +281,7 @@ class GroomingBiddingThreadTest {
             // given
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.WAITING,

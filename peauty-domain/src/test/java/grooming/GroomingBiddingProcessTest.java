@@ -16,12 +16,12 @@ import static org.mockito.Mockito.verify;
 
 class GroomingBiddingProcessTest {
 
-    private CustomerId customerId;
+    private PuppyId puppyId;
     private DesignerId designerId;
 
     @BeforeEach
     void setUp() {
-        customerId = new CustomerId(1L);
+        puppyId = new PuppyId(1L);
         designerId = new DesignerId(1L);
     }
 
@@ -33,10 +33,10 @@ class GroomingBiddingProcessTest {
         @DisplayName("새로운 프로세스를 생성할 수 있다")
         void createNewProcess() {
             // when
-            GroomingBiddingProcess process = GroomingBiddingProcess.createNewProcess(customerId);
+            GroomingBiddingProcess process = GroomingBiddingProcess.createNewProcess(puppyId);
 
             // then
-            assertEquals(customerId, process.getCustomerId());
+            assertEquals(puppyId, process.getPuppyId());
             assertNull(process.getId().orElse(null));
             assertEquals(GroomingBiddingProcessStatus.RESERVED_YET, process.getStatus());
             assertTrue(process.getThreads().isEmpty());
@@ -46,10 +46,10 @@ class GroomingBiddingProcessTest {
         @DisplayName("디자이너 ID와 함께 새로운 프로세스를 생성할 수 있다")
         void createNewProcessWithDesigner() {
             // when
-            GroomingBiddingProcess process = GroomingBiddingProcess.createNewProcess(customerId, designerId);
+            GroomingBiddingProcess process = GroomingBiddingProcess.createNewProcess(puppyId, designerId);
 
             // then
-            assertEquals(customerId, process.getCustomerId());
+            assertEquals(puppyId, process.getPuppyId());
             assertEquals(1, process.getThreads().size());
             assertEquals(designerId, process.getThreads().get(0).getDesignerId());
         }
@@ -64,7 +64,7 @@ class GroomingBiddingProcessTest {
             // when
             GroomingBiddingProcess process = GroomingBiddingProcess.loadProcess(
                     processId,
-                    customerId,
+                    puppyId,
                     GroomingBiddingProcessStatus.RESERVED_YET,
                     GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
                     threads
@@ -72,7 +72,7 @@ class GroomingBiddingProcessTest {
 
             // then
             assertEquals(processId, process.getId().orElse(null));
-            assertEquals(customerId, process.getCustomerId());
+            assertEquals(puppyId, process.getPuppyId());
         }
     }
 
@@ -83,7 +83,7 @@ class GroomingBiddingProcessTest {
 
         @BeforeEach
         void setUp() {
-            process = GroomingBiddingProcess.createNewProcess(customerId);
+            process = GroomingBiddingProcess.createNewProcess(puppyId);
         }
 
         @Test
@@ -104,7 +104,7 @@ class GroomingBiddingProcessTest {
             // given
             process = GroomingBiddingProcess.loadProcess(
                     null,
-                    customerId,
+                    puppyId,
                     GroomingBiddingProcessStatus.CANCELED,
                     GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
                     new ArrayList<>()
@@ -120,7 +120,7 @@ class GroomingBiddingProcessTest {
             // given
             process = GroomingBiddingProcess.loadProcess(
                     null,
-                    customerId,
+                    puppyId,
                     GroomingBiddingProcessStatus.COMPLETED,
                     GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
                     new ArrayList<>()
@@ -152,7 +152,7 @@ class GroomingBiddingProcessTest {
             // 스레드 생성
             thread = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -164,7 +164,7 @@ class GroomingBiddingProcessTest {
             // 프로세스 생성
             process = GroomingBiddingProcess.loadProcess(
                     new GroomingBiddingProcess.ID(1L),
-                    customerId,
+                    puppyId,
                     GroomingBiddingProcessStatus.RESERVED_YET,
                     GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
                     threads
@@ -224,7 +224,7 @@ class GroomingBiddingProcessTest {
             // 세 개의 스레드 준비
             GroomingBiddingThread thread1 = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(1L),
-                    customerId,
+                    puppyId,
                     new DesignerId(1L),
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -233,7 +233,7 @@ class GroomingBiddingProcessTest {
 
             GroomingBiddingThread thread2 = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(2L),
-                    customerId,
+                    puppyId,
                     new DesignerId(2L),
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -242,7 +242,7 @@ class GroomingBiddingProcessTest {
 
             GroomingBiddingThread thread3 = GroomingBiddingThread.loadThread(
                     new GroomingBiddingThread.ID(3L),
-                    customerId,
+                    puppyId,
                     new DesignerId(3L),
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                     GroomingBiddingThreadStatus.ONGOING,
@@ -258,7 +258,7 @@ class GroomingBiddingProcessTest {
             // 프로세스 생성
             process = GroomingBiddingProcess.loadProcess(
                     new GroomingBiddingProcess.ID(1L),
-                    customerId,
+                    puppyId,
                     GroomingBiddingProcessStatus.RESERVED_YET,
                     processTimeInfo,
                     threads

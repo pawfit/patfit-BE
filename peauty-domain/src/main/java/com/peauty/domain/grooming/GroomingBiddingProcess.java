@@ -11,20 +11,20 @@ import java.util.Optional;
 public class GroomingBiddingProcess {
 
     @Getter private final ID id; // TODO Optional Getter 적용하기
-    @Getter private final CustomerId customerId;
+    @Getter private final PuppyId puppyId;
     @Getter private GroomingBiddingProcessStatus status;
     @Getter private final GroomingBiddingProcessTimeInfo timeInfo;
     @Getter private final List<GroomingBiddingThread> threads;
 
     private GroomingBiddingProcess(
             GroomingBiddingProcess.ID id,
-            CustomerId customerId,
+            PuppyId puppyId,
             GroomingBiddingProcessStatus status,
             GroomingBiddingProcessTimeInfo timeInfo,
             List<GroomingBiddingThread> threads
     ) {
         this.id = id;
-        this.customerId = customerId;
+        this.puppyId = puppyId;
         this.status = status;
         this.timeInfo = timeInfo;
         this.threads = new ArrayList<>(threads);
@@ -33,18 +33,18 @@ public class GroomingBiddingProcess {
 
     public static GroomingBiddingProcess loadProcess(
             GroomingBiddingProcess.ID id,
-            CustomerId customerId,
+            PuppyId puppyId,
             GroomingBiddingProcessStatus status,
             GroomingBiddingProcessTimeInfo timeInfo,
             List<GroomingBiddingThread> threads
     ) {
-        return new GroomingBiddingProcess(id, customerId, status, timeInfo, threads);
+        return new GroomingBiddingProcess(id, puppyId, status, timeInfo, threads);
     }
 
-    public static GroomingBiddingProcess createNewProcess(CustomerId customerId) {
+    public static GroomingBiddingProcess createNewProcess(PuppyId puppyId) {
         return new GroomingBiddingProcess(
                 null,
-                customerId,
+                puppyId,
                 GroomingBiddingProcessStatus.RESERVED_YET,
                 GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
                 new ArrayList<>()
@@ -52,10 +52,10 @@ public class GroomingBiddingProcess {
     }
 
     public static GroomingBiddingProcess createNewProcess(
-            CustomerId customerId,
+            PuppyId puppyId,
             DesignerId designerId
     ) {
-        GroomingBiddingProcess newProcess = createNewProcess(customerId);
+        GroomingBiddingProcess newProcess = createNewProcess(puppyId);
         newProcess.addNewThread(designerId);
         return newProcess;
     }
@@ -68,7 +68,7 @@ public class GroomingBiddingProcess {
     public void addNewThread(DesignerId targetDesignerId) {
         validateProcessStatus();
         checkThreadAlreadyInProcess(targetDesignerId);
-        GroomingBiddingThread newThread = GroomingBiddingThread.createNewThread(this.customerId, targetDesignerId);
+        GroomingBiddingThread newThread = GroomingBiddingThread.createNewThread(this.puppyId, targetDesignerId);
         newThread.registerProcessObserver(this);
         this.threads.add(newThread);
     }

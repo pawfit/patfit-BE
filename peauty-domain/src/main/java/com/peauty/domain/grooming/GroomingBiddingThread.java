@@ -8,7 +8,7 @@ import lombok.*;
 public class GroomingBiddingThread {
 
     @Getter private final ID id; // TODO Optional Getter 적용하기
-    @Getter private final CustomerId customerId;
+    @Getter private final PuppyId puppyId;
     @Getter private final DesignerId designerId;
     @Getter private GroomingBiddingThreadStep step;
     @Getter private GroomingBiddingThreadStatus status;
@@ -17,19 +17,19 @@ public class GroomingBiddingThread {
 
     public static GroomingBiddingThread loadThread(
             ID id,
-            CustomerId customerId,
+            PuppyId puppyId,
             DesignerId designerId,
             GroomingBiddingThreadStep step,
             GroomingBiddingThreadStatus status,
             GroomingBiddingThreadTimeInfo timeInfo
     ) {
-        return new GroomingBiddingThread(id, customerId, designerId, step, status, timeInfo, null);
+        return new GroomingBiddingThread(id, puppyId, designerId, step, status, timeInfo, null);
     }
 
-    public static GroomingBiddingThread createNewThread(CustomerId customerId, DesignerId designerId) {
+    public static GroomingBiddingThread createNewThread(PuppyId puppyId, DesignerId designerId) {
         return new GroomingBiddingThread(
                 null,
-                customerId,
+                puppyId,
                 designerId,
                 GroomingBiddingThreadStep.ESTIMATE_REQUEST,
                 GroomingBiddingThreadStatus.ONGOING,
