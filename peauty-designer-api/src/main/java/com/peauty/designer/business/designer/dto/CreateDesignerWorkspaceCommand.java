@@ -1,6 +1,5 @@
 package com.peauty.designer.business.designer.dto;
 
-import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.PaymentOption;
 import com.peauty.domain.designer.Workspace;
@@ -38,6 +37,7 @@ public record CreateDesignerWorkspaceCommand(
                 .directionGuide(command.directionGuide())
                 .build();
     }
+
     public static List<License> toLicense(CreateDesignerWorkspaceCommand command) {
         return command.licenses().stream()
                 .map(imageUrl -> License.builder()

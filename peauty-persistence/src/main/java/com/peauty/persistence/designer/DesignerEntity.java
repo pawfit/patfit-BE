@@ -6,8 +6,6 @@ import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "designer")
 @Getter
