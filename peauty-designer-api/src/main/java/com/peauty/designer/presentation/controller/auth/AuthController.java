@@ -61,7 +61,7 @@ public class AuthController {
                     .path("/signup")
                     .queryParam("socialId", result.socialId())
                     .queryParam("socialPlatform", result.socialPlatform())
-                    .queryParam("nickname", result.nickname())
+                    .queryParam("workspaceName", result.nickname())
                     .queryParam("profileImageUrl", result.profileImageUrl())
                     .build()
                     .encode()

@@ -18,9 +18,4 @@ public class LicenseEntity {
     @Lob
     @Column(name = "license_image_url")
     private String licenseImageUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "designer_id", nullable = false)
-    private DesignerEntity designer;
-
 }

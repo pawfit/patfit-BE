@@ -1,8 +1,12 @@
 package com.peauty.persistence.designer;
 
+import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "workspace")
@@ -48,10 +52,16 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "close_hours", length = 10, nullable = false)
     private String closeHours;
 
+    @Column(name = "open_days", length = 10, nullable = false)
+    private String openDays;
+
     @Column(name = "payment_options", length = 255, nullable = false)
     private String paymentOptions;
 
     @Column(name = "direction_guide", length = 255, nullable = false)
     private String directionGuide;
+
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
+    private List<LicenseEntity> licenses;
 
 }

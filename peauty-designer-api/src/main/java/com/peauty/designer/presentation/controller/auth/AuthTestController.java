@@ -50,7 +50,7 @@ public class AuthTestController {
         String response = String.format("""
            socialId: %s
            socialPlatform: %s
-           nickname: %s
+           workspaceName: %s
            profileImageUrl: %s
            """,
                 socialId, socialPlatform, nickname, profileImageUrl);

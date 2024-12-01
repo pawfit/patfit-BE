@@ -6,6 +6,8 @@ import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import lombok.*;
 
+import java.nio.channels.FileChannel;
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -27,8 +29,11 @@ public class Designer {
     private String nickname;
     private String address;
     private String profileImageUrl;
-    private DesignerInfo designerInfo;
-    private Shop shop;
+    private Integer reviewCount;
+    private Double reviewRating;
+    private List<License> licenses;
+    private Workspace workspace;
+    private License license;
     private Rating rating;
 
     public AuthInfo getAuthInfo() {
@@ -39,14 +44,6 @@ public class Designer {
                 status,
                 role
         );
-    }
-
-    public Optional<DesignerInfo> getDesignerInfoOptional() {
-        return Optional.ofNullable(designerInfo);
-    }
-
-    public Optional<Shop> getShopOptional() {
-        return Optional.ofNullable(shop);
     }
 
     public void deactivate() {
@@ -89,4 +86,15 @@ public class Designer {
         this.email = email;
     }
 
+    public void updateWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
+    public Optional<Workspace> getWorkspaceOptional() {
+        return Optional.ofNullable(workspace);
+    }
+
+    public void updateLicenses(List<License> licenses) {
+        this.licenses = licenses;
+    }
 }
