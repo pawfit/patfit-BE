@@ -3,8 +3,6 @@ package com.peauty.persistence.review;
 import com.peauty.domain.review.ContentGeneral;
 import com.peauty.domain.review.ReviewRating;
 import com.peauty.persistence.config.BaseTimeEntity;
-import com.peauty.persistence.customer.CustomerEntity;
-import com.peauty.persistence.designer.DesignerEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
