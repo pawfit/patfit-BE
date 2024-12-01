@@ -6,7 +6,6 @@ import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import lombok.*;
 
-import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,12 +28,8 @@ public class Designer {
     private String nickname;
     private String address;
     private String profileImageUrl;
-    private Integer reviewCount;
-    private Double reviewRating;
+    private Integer yearOfExperience;
     private List<License> licenses;
-    private Workspace workspace;
-    private License license;
-    private Rating rating;
 
     public AuthInfo getAuthInfo() {
         return new AuthInfo(
@@ -86,12 +81,8 @@ public class Designer {
         this.email = email;
     }
 
-    public void updateWorkspace(Workspace workspace) {
-        this.workspace = workspace;
-    }
-
-    public Optional<Workspace> getWorkspaceOptional() {
-        return Optional.ofNullable(workspace);
+    public void updateYearOfExperience(Integer yearOfExperience) {
+        this.yearOfExperience = yearOfExperience;
     }
 
     public void updateLicenses(List<License> licenses) {

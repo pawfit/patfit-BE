@@ -1,8 +1,11 @@
 package com.peauty.persistence.designer;
 
+import com.peauty.domain.designer.PaymentOption;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "workspace")
@@ -49,7 +52,7 @@ public class WorkspaceEntity extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_options", length = 255, nullable = false)
-    private String paymentOptions;
+    private List<PaymentOption> paymentOptions;
 
     @Column(name = "direction_guide", length = 255, nullable = false)
     private String directionGuide;

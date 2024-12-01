@@ -2,8 +2,7 @@ package com.peauty.designer.presentation.controller.designer;
 
 import com.peauty.designer.business.designer.DesignerService;
 import com.peauty.designer.business.designer.dto.*;
-import com.peauty.designer.presentation.controller.designer.dto.GetDesignerProfileResponse;
-import com.peauty.designer.presentation.controller.designer.dto.UploadProfileImageResponse;
+import com.peauty.designer.presentation.controller.designer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +44,12 @@ public class DesignerController {
         designerService.checkDesignerNicknameDuplicated(nickname);
         return new CheckDesignerNicknameDuplicatedResponse("사용해도 좋은 닉네임입니다.");
     }
-
-
-
+    // 디자이너 워크 스페이스 등록
+    @PostMapping(value = "/{userId}/workspace")
+    @Operation(summary = "디자이너 워크 스페이스 등록", description = "디자이너 워크 스페이스 등록 API 진입점입니다.")
+    public CreateDesignerWorkspaceResponse createDesignerWorkspace(@PathVariable Long userId, @RequestBody CreateDesignerWorkspaceRequest request) {
+        CreateDesignerWorkspaceResult result = designerService.createDesignerWorkspace(userId, request.toCommand());
+        return CreateDesignerWorkspaceResponse.from(result);
+    }
 }
 

@@ -17,5 +17,4 @@ public class License {
     public void updateLicenseImageUrl(String licenseImageUrl) {
         this.licenseImageUrl = licenseImageUrl;
     }
-
 }

@@ -3,16 +3,15 @@ package com.peauty.designer.implementation.designer;
 import com.peauty.designer.business.auth.dto.SignUpCommand;
 import com.peauty.designer.business.designer.DesignerPort;
 import com.peauty.domain.designer.Designer;
-import com.peauty.domain.designer.DesignerInfo;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
-import com.peauty.persistence.designer.DesignerEntity;
-import com.peauty.persistence.designer.DesignerRepository;
+import com.peauty.persistence.designer.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -20,6 +19,7 @@ import java.util.Optional;
 public class DesignerAdapter implements DesignerPort {
 
     private final DesignerRepository designerRepository;
+    private final LicenseRepository licenseRepository;
 
     @Override
     public void checkCustomerNicknameDuplicated(String nickname) {
@@ -39,14 +39,18 @@ public class DesignerAdapter implements DesignerPort {
     public Optional<Designer> findBySocialId(String socialId) {
         return Optional.ofNullable(designerRepository.findBySocialId(socialId))
                 .orElse(Optional.empty())
-                .map(DesignerMapper::toDomain);
+                .map(DesignerMapper::toDesignerDomain);
     }
 
-    @Override
+        @Override
     public Designer save(Designer designer) {
         DesignerEntity designerEntityToSave = DesignerMapper.toEntity(designer);
+        List<LicenseEntity> licenseEntityToSave = DesignerMapper.toLicenseEntity(designer);
+
         DesignerEntity savedDesignerEntity = designerRepository.save(designerEntityToSave);
-        return DesignerMapper.toDomain(savedDesignerEntity);
+        List<LicenseEntity> savedLicenseEntity = licenseRepository.saveAll(licenseEntityToSave);
+
+        return DesignerMapper.toDesignerAndLicenseDomain(savedDesignerEntity, savedLicenseEntity);
     }
 
     @Override
@@ -63,7 +67,6 @@ public class DesignerAdapter implements DesignerPort {
                 .nickname(command.nickname())
                 .address(command.address())
                 .profileImageUrl(command.profileImageUrl())
-                .designerInfo(DesignerInfo.getFirstDesignerInfo())
                 .build();
         return save(designerToSave);
     }
@@ -71,7 +74,7 @@ public class DesignerAdapter implements DesignerPort {
     @Override
     public Designer getByDesignerId(Long designerId) {
         return designerRepository.findById(designerId)
-                .map(DesignerMapper::toDomain)
+                .map(DesignerMapper::toDesignerDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
     }
 }

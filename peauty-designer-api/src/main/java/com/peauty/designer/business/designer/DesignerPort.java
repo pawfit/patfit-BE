@@ -1,6 +1,7 @@
 package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.auth.dto.SignUpCommand;
+import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceCommand;
 import com.peauty.domain.designer.Designer;
 
 import java.util.Optional;

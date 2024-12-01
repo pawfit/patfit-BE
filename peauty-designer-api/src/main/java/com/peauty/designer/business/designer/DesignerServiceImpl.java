@@ -2,11 +2,18 @@ package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.business.internal.InternalPort;
+import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceCommand;
+import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceResult;
+import com.peauty.designer.business.shop.WorkspacePort;
 import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
+import com.peauty.domain.designer.Workspace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +22,7 @@ public class DesignerServiceImpl implements DesignerService {
 
     private final DesignerPort designerPort;
     private final InternalPort internalPort;
+    private final WorkspacePort workspacePort;
 
     @Override
     @Transactional
@@ -50,5 +58,18 @@ public class DesignerServiceImpl implements DesignerService {
         designerPort.checkCustomerNicknameDuplicated(nickname);
     }
 
+    @Override
+    public CreateDesignerWorkspaceResult createDesignerWorkspace(Long userId, CreateDesignerWorkspaceCommand command) {
+        Designer designerToCreate = designerPort.getByDesignerId(userId);
+        Workspace workspaceToCreate = CreateDesignerWorkspaceCommand.toWorkspace(command);
+        List<License> licenseToCreate = CreateDesignerWorkspaceCommand.toLicense(command);
 
+        designerToCreate.updateYearOfExperience(command.yearOfExperience());
+        designerToCreate.updateLicenses(licenseToCreate);
+
+        Designer designer = designerPort.save(designerToCreate);
+        Workspace workspace = workspacePort.save(workspaceToCreate, designer.getDesignerId());
+
+        return CreateDesignerWorkspaceResult.from(designer, workspace);
+    }
 }
