@@ -15,4 +15,11 @@ public class GroomingBiddingProcessTimeInfo {
     public void onStatusChange() {
         this.statusModifiedAt = LocalDateTime.now();
     }
+
+    public static GroomingBiddingProcessTimeInfo createNewTimeInfo() {
+        return new GroomingBiddingProcessTimeInfo(
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
 }

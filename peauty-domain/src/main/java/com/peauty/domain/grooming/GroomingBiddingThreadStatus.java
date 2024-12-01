@@ -19,6 +19,18 @@ public enum GroomingBiddingThreadStatus {
         this.description = description;
     }
 
+    public boolean isCanceled() {
+        return this == CANCELED;
+    }
+
+    public boolean isOngoing() {
+        return this == ONGOING;
+    }
+
+    public boolean isWaiting() {
+        return this == WAITING;
+    }
+
     public static GroomingBiddingThreadStatus from(String description) {
         return Arrays.stream(GroomingBiddingThreadStatus.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))

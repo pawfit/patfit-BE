@@ -20,6 +20,22 @@ public enum GroomingBiddingProcessStatus {
         this.description = description;
     }
 
+    public boolean isCanceled() {
+        return this == CANCELED;
+    }
+
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
+
+    public boolean isReserved() {
+        return this == RESERVED;
+    }
+
+    public boolean isReservedYet() {
+        return this == RESERVED_YET;
+    }
+
     public static GroomingBiddingProcessStatus from(String description) {
         return Arrays.stream(GroomingBiddingProcessStatus.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))

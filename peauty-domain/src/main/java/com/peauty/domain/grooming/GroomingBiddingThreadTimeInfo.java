@@ -20,4 +20,12 @@ public class GroomingBiddingThreadTimeInfo {
     public void onStatusChange() {
         this.statusModifiedAt = LocalDateTime.now();
     }
+
+    public static GroomingBiddingThreadTimeInfo createNewTimeInfo() {
+        return new GroomingBiddingThreadTimeInfo(
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
 }

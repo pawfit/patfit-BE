@@ -22,6 +22,38 @@ public enum GroomingBiddingThreadStep {
         this.step = step;
     }
 
+    public boolean isEstimateRequest() {
+        return this == ESTIMATE_REQUEST;
+    }
+
+    public boolean isEstimateResponse() {
+        return this == ESTIMATE_RESPONSE;
+    }
+
+    public boolean isReserved() {
+        return this == RESERVED;
+    }
+
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
+
+    public boolean isBefore(GroomingBiddingThreadStep other) {
+        return this.step < other.step;
+    }
+
+    public boolean isAfter(GroomingBiddingThreadStep other) {
+        return this.step > other.step;
+    }
+
+    public GroomingBiddingThreadStep getNextStep() {
+        return fromStep(Math.min(this.step + 1, COMPLETED.step));
+    }
+
+    public boolean hasNotNextStep() {
+        return this.step >= COMPLETED.step;
+    }
+
     public static GroomingBiddingThreadStep fromDescription(String description) {
         return Arrays.stream(GroomingBiddingThreadStep.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
@@ -34,13 +66,5 @@ public enum GroomingBiddingThreadStep {
                 .filter(it -> it.step == step)
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_BIDDING_THREAD_STEP));
-    }
-
-    public GroomingBiddingThreadStep getNextStep() {
-        return fromStep(Math.min(this.step + 1, COMPLETED.step));
-    }
-
-    public boolean hasNotNextStep() {
-        return this.step >= COMPLETED.step;
     }
 }

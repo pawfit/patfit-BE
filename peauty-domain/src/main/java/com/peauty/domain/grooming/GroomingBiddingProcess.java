@@ -2,8 +2,7 @@ package com.peauty.domain.grooming;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,67 +10,103 @@ import java.util.Optional;
 
 public class GroomingBiddingProcess {
 
-    private final GroomingBiddingProcessId id;
-    private final CustomerId customerId;
-    private GroomingBiddingProcessStatus status;
-    private GroomingBiddingProcessTimeInfo timeInfo;
-    private final List<GroomingBiddingThread> threads;
+    @Getter private final ID id; // TODO Optional Getter 적용하기
+    @Getter private final CustomerId customerId;
+    @Getter private GroomingBiddingProcessStatus status;
+    @Getter private final GroomingBiddingProcessTimeInfo timeInfo;
+    @Getter private final List<GroomingBiddingThread> threads;
 
     private GroomingBiddingProcess(
-            GroomingBiddingProcessId id,
+            GroomingBiddingProcess.ID id,
             CustomerId customerId,
             GroomingBiddingProcessStatus status,
-            List<GroomingBiddingThread> threads) {
+            GroomingBiddingProcessTimeInfo timeInfo,
+            List<GroomingBiddingThread> threads
+    ) {
         this.id = id;
         this.customerId = customerId;
         this.status = status;
+        this.timeInfo = timeInfo;
         this.threads = new ArrayList<>(threads);
         threads.forEach(thread -> thread.registerProcessObserver(this));
     }
 
-    public static GroomingBiddingProcess withoutId(
+    public static GroomingBiddingProcess loadProcess(
+            GroomingBiddingProcess.ID id,
             CustomerId customerId,
             GroomingBiddingProcessStatus status,
+            GroomingBiddingProcessTimeInfo timeInfo,
             List<GroomingBiddingThread> threads
     ) {
-        return new GroomingBiddingProcess(null, customerId, status, threads);
+        return new GroomingBiddingProcess(id, customerId, status, timeInfo, threads);
     }
 
-    public static GroomingBiddingProcess withId(
-            GroomingBiddingProcessId id,
+    public static GroomingBiddingProcess createNewProcess(CustomerId customerId) {
+        return new GroomingBiddingProcess(
+                null,
+                customerId,
+                GroomingBiddingProcessStatus.RESERVED_YET,
+                GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
+                new ArrayList<>()
+        );
+    }
+
+    public static GroomingBiddingProcess createNewProcess(
             CustomerId customerId,
-            GroomingBiddingProcessStatus status,
-            List<GroomingBiddingThread> threads
+            DesignerId designerId
     ) {
-        return new GroomingBiddingProcess(id, customerId, status, threads);
+        GroomingBiddingProcess newProcess = createNewProcess(customerId);
+        newProcess.addNewThread(designerId);
+        return newProcess;
     }
 
-    public void addThread(GroomingBiddingThread thread) {
-        validateProcessStatus();
-        checkDuplicatedThread(thread.getId().value());
-        thread.registerProcessObserver(this);
-        this.threads.add(thread);
-    }
-
-    public void progressThreadStep(Long threadId) {
-        validateProcessStatus();
-        GroomingBiddingThread thread = getThreadById(threadId);
-        thread.progressStep();
-    }
-
-    public void cancelThread(Long threadId) {
-        validateProcessStatus();
-        GroomingBiddingThread thread = getThreadById(threadId);
-        thread.cancel();
-    }
-
-    public void cancelProcess() {
+    public void cancel() {
         validateProcessStatus();
         changeStatus(GroomingBiddingProcessStatus.CANCELED);
     }
 
-    public Optional<GroomingBiddingProcessId> getId(){
-        return Optional.ofNullable(this.id);
+    public void addNewThread(DesignerId targetDesignerId) {
+        validateProcessStatus();
+        checkThreadAlreadyInProcess(targetDesignerId);
+        GroomingBiddingThread newThread = GroomingBiddingThread.createNewThread(this.customerId, targetDesignerId);
+        newThread.registerProcessObserver(this);
+        this.threads.add(newThread);
+    }
+
+    public void progressThreadStep(GroomingBiddingThread.ID targetThreadId) {
+        validateProcessStatus();
+        GroomingBiddingThread thread = getThreadByThreadId(targetThreadId);
+        thread.progressStep();
+    }
+
+    public void progressThreadStep(DesignerId targetThreadDesignerId) {
+        validateProcessStatus();
+        GroomingBiddingThread thread = getThreadByDesignerId(targetThreadDesignerId);
+        thread.progressStep();
+    }
+
+    public void cancelThread(GroomingBiddingThread.ID targetThreadId) {
+        GroomingBiddingThread thread = getThreadByThreadId(targetThreadId);
+        thread.cancel();
+    }
+
+    public void cancelThread(DesignerId targetDesignerId) {
+        GroomingBiddingThread thread = getThreadByDesignerId(targetDesignerId);
+        thread.cancel();
+    }
+
+    public GroomingBiddingThread getThreadByThreadId(GroomingBiddingThread.ID threadId) {
+        return threads.stream()
+                .filter(thread -> thread.getId().value().equals(threadId.value()))
+                .findFirst()
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
+    }
+
+    public GroomingBiddingThread getThreadByDesignerId(DesignerId designerId) {
+        return threads.stream()
+                .filter(thread -> thread.getDesignerId().value().equals(designerId.value()))
+                .findFirst()
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
 
     public void onReservedThreadCancel() {
@@ -88,38 +123,35 @@ public class GroomingBiddingProcess {
         changeStatus(GroomingBiddingProcessStatus.COMPLETED);
     }
 
-    private GroomingBiddingThread getThreadById(Long threadId) {
-        return threads.stream()
-                .filter(thread -> thread.getId().value().equals(threadId))
-                .findFirst()
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
-    }
-
     private void validateProcessStatus() {
-        if (status == GroomingBiddingProcessStatus.CANCELED) {
+        if (status.isCanceled()) {
             throw new PeautyException(PeautyResponseCode.ALREADY_CANCELED_BIDDING_PROCESS);
         }
-        if (status == GroomingBiddingProcessStatus.COMPLETED) {
+        if (status.isCompleted()) {
             throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_PROCESS);
         }
     }
 
-    private void checkDuplicatedThread(Long threadId) {
+    private void checkThreadAlreadyInProcess(DesignerId designerId) {
         boolean isDuplicated = threads.stream()
-                .anyMatch(thread -> thread.getId().value().equals(threadId));
+                .anyMatch(thread -> thread.getDesignerId().value().equals(designerId.value()));
         if (isDuplicated) {
             throw new PeautyException(PeautyResponseCode.THREAD_ALREADY_IN_PROCESS);
         }
     }
 
-    private void changeStatus(GroomingBiddingProcessStatus targetStatus) {
-        status = targetStatus;
+    private void changeStatus(GroomingBiddingProcessStatus status) {
+        this.status = status;
         timeInfo.onStatusChange();
     }
 
-    public record GroomingBiddingProcessId(Long value) {
+    public Optional<GroomingBiddingProcess.ID> getId() {
+        return Optional.ofNullable(this.id);
     }
 
-    public record CustomerId(Long value) {
+    public record ID(Long value) {
+        public boolean isSameId(Long id) {
+            return value.equals(id);
+        }
     }
 }
