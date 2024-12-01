@@ -1,7 +1,7 @@
 package com.peauty.persistence.review;
 
 import com.peauty.domain.review.ContentGeneral;
-import com.peauty.domain.review.Rating;
+import com.peauty.domain.review.ReviewRating;
 import com.peauty.persistence.config.BaseTimeEntity;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.designer.DesignerEntity;
@@ -20,17 +20,9 @@ public class ReviewEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designer_id")
-    private DesignerEntity designer;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "rating", nullable = false)
-    private Rating rating;
+    private ReviewRating reviewRating;
 
     @Column(name = "content_detail", nullable = false)
     private String contentDetail;

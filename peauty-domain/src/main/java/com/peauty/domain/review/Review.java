@@ -13,15 +13,13 @@ import java.util.List;
 public class Review {
 
     private Long reviewId;                      // 리뷰 ID
-    private Long customerId;                    // 고객 ID
-    private Long designerId;                    // 미용사 ID
-    private Rating rating;        // 별점
+    private ReviewRating reviewRating;          // 별점
     private String contentDetail;               // 상세리뷰
     private ContentGeneral contentGeneral;      // 일반리뷰
-    private List<String> reviewImageUrl;        // 리뷰이미지
+    private List<String> reviewImages;          // 리뷰이미지
 
-    public void updateRatingService(Rating rating) {
-        this.rating = rating;
+    public void updateRatingService(ReviewRating reviewRating) {
+        this.reviewRating = reviewRating;
     }
     public void updateContentDetail(String contentDetail) {
         this.contentDetail = contentDetail;
@@ -29,8 +27,8 @@ public class Review {
     public void updateContentGeneral(ContentGeneral contentGeneral) {
         this.contentGeneral = contentGeneral;
     }
-    public void updateReviewImageUrl(List<String> reviewImageUrl) {
-        this.reviewImageUrl = reviewImageUrl;
+    public void updateReviewImageUrl(List<String> reviewImages) {
+        this.reviewImages = reviewImages;
     }
 
 }
