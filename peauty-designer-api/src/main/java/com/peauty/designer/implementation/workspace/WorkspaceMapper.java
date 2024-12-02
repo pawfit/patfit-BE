@@ -22,7 +22,6 @@ public class WorkspaceMapper {
                 .openHours(workspace.getOpenHours())
                 .closeHours(workspace.getCloseHours())
                 .openDays(workspace.getOpenDays())
-                // TODO: List PaymentOption을 리스트로 받고 있는데 테이블로 나눌 것인지 어떻게 할 것인지 확인하기
                 .paymentOptions(workspace.getPaymentOptions())
                 .directionGuide(workspace.getDirectionGuide())
                 .reviewCount(Optional.ofNullable(workspace.getReviewCount())
@@ -44,7 +43,7 @@ public class WorkspaceMapper {
                 .openHours(workspaceEntity.getOpenHours())
                 .closeHours(workspaceEntity.getCloseHours())
                 .openDays(workspaceEntity.getOpenDays())
-                .paymentOptions(workspaceEntity.getPaymentOptions()) // String 형태라면 파싱 로직이 필요할 수 있음
+                .paymentOptions(workspaceEntity.getPaymentOptions())
                 .directionGuide(workspaceEntity.getDirectionGuide())
                 .reviewCount(workspaceEntity.getReviewCount())
                 .reviewRating(workspaceEntity.getReviewRating())

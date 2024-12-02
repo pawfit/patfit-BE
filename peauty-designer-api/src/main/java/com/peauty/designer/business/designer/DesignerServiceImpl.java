@@ -91,7 +91,6 @@ public class DesignerServiceImpl implements DesignerService {
         Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
         Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
 
-        log.info(updatedWorkspace.getRating().getScissor().toString());
         return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
     }
 }

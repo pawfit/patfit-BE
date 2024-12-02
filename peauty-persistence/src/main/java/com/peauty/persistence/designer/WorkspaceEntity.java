@@ -50,6 +50,7 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "open_days", length = 10, nullable = false)
     private String openDays;
 
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_options", length = 255, nullable = false)
     private List<PaymentOption> paymentOptions;
