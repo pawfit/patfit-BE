@@ -34,11 +34,8 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "nickname", length = 50)
     private String nickname;
 
-    @Column(name = "phoneNum", length = 50)
-    private String phoneNum;
-
-    @Column(name = "address")
-    private String address;
+    @Column(name = "phone_number", length = 50)
+    private String phoneNumber;
 
     @Lob
     @Column(name = "profile_image_url")
@@ -57,6 +54,5 @@ public class DesignerEntity extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
     private RatingEntity rating;
-
 }
 

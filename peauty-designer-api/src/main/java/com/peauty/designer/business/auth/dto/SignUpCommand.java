@@ -6,9 +6,8 @@ public record SignUpCommand(
         String socialId,
         SocialPlatform socialPlatform,
         String name,
-        String phoneNum,
+        String phoneNumber,
         String email,
-        String address,
         String nickname,
         String profileImageUrl
 ) {
