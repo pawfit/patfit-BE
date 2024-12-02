@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -8,20 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GroomingBiddingProcess {
+public class BiddingProcess {
 
     @Getter private final ID id; // TODO Optional Getter 적용하기
     @Getter private final PuppyId puppyId;
-    @Getter private GroomingBiddingProcessStatus status;
-    @Getter private final GroomingBiddingProcessTimeInfo timeInfo;
-    @Getter private final List<GroomingBiddingThread> threads;
+    @Getter private BiddingProcessStatus status;
+    @Getter private final BiddingProcessTimeInfo timeInfo;
+    @Getter private final List<BiddingThread> threads;
 
-    private GroomingBiddingProcess(
-            GroomingBiddingProcess.ID id,
+    private BiddingProcess(
+            BiddingProcess.ID id,
             PuppyId puppyId,
-            GroomingBiddingProcessStatus status,
-            GroomingBiddingProcessTimeInfo timeInfo,
-            List<GroomingBiddingThread> threads
+            BiddingProcessStatus status,
+            BiddingProcessTimeInfo timeInfo,
+            List<BiddingThread> threads
     ) {
         this.id = id;
         this.puppyId = puppyId;
@@ -31,31 +31,31 @@ public class GroomingBiddingProcess {
         threads.forEach(thread -> thread.registerProcessObserver(this));
     }
 
-    public static GroomingBiddingProcess loadProcess(
-            GroomingBiddingProcess.ID id,
+    public static BiddingProcess loadProcess(
+            BiddingProcess.ID id,
             PuppyId puppyId,
-            GroomingBiddingProcessStatus status,
-            GroomingBiddingProcessTimeInfo timeInfo,
-            List<GroomingBiddingThread> threads
+            BiddingProcessStatus status,
+            BiddingProcessTimeInfo timeInfo,
+            List<BiddingThread> threads
     ) {
-        return new GroomingBiddingProcess(id, puppyId, status, timeInfo, threads);
+        return new BiddingProcess(id, puppyId, status, timeInfo, threads);
     }
 
-    public static GroomingBiddingProcess createNewProcess(PuppyId puppyId) {
-        return new GroomingBiddingProcess(
+    public static BiddingProcess createNewProcess(PuppyId puppyId) {
+        return new BiddingProcess(
                 null,
                 puppyId,
-                GroomingBiddingProcessStatus.RESERVED_YET,
-                GroomingBiddingProcessTimeInfo.createNewTimeInfo(),
+                BiddingProcessStatus.RESERVED_YET,
+                BiddingProcessTimeInfo.createNewTimeInfo(),
                 new ArrayList<>()
         );
     }
 
-    public static GroomingBiddingProcess createNewProcess(
+    public static BiddingProcess createNewProcess(
             PuppyId puppyId,
             DesignerId designerId
     ) {
-        GroomingBiddingProcess newProcess = createNewProcess(puppyId);
+        BiddingProcess newProcess = createNewProcess(puppyId);
         newProcess.addNewThread(designerId);
         return newProcess;
     }
@@ -63,25 +63,25 @@ public class GroomingBiddingProcess {
     public void addNewThread(DesignerId targetDesignerId) {
         validateProcessStatus();
         checkThreadAlreadyInProcess(targetDesignerId);
-        GroomingBiddingThread newThread = GroomingBiddingThread.createNewThread(this.puppyId, targetDesignerId);
+        BiddingThread newThread = BiddingThread.createNewThread(this.puppyId, targetDesignerId);
         newThread.registerProcessObserver(this);
         this.threads.add(newThread);
     }
 
     public void cancel() {
         validateProcessStatus();
-        changeStatus(GroomingBiddingProcessStatus.CANCELED);
+        changeStatus(BiddingProcessStatus.CANCELED);
     }
 
-    public void responseEstimateThread(GroomingBiddingThread.ID targetThreadId) {
+    public void responseEstimateThread(BiddingThread.ID targetThreadId) {
         getThreadForChangeState(targetThreadId).responseEstimate();
     }
 
-    public void reserveThread(GroomingBiddingThread.ID targetThreadId) {
+    public void reserveThread(BiddingThread.ID targetThreadId) {
         getThreadForChangeState(targetThreadId).reserve();
     }
 
-    public void completeThread(GroomingBiddingThread.ID targetThreadId) {
+    public void completeThread(BiddingThread.ID targetThreadId) {
         getThreadForChangeState(targetThreadId).complete();
     }
 
@@ -97,7 +97,7 @@ public class GroomingBiddingProcess {
         getThreadForChangeState(targetThreadDesignerId).complete();
     }
 
-    public void cancelThread(GroomingBiddingThread.ID targetThreadId) {
+    public void cancelThread(BiddingThread.ID targetThreadId) {
         getThreadForChangeState(targetThreadId).cancel();
     }
 
@@ -105,14 +105,14 @@ public class GroomingBiddingProcess {
         getThreadForChangeState(targetThreadDesignerId).cancel();
     }
 
-    public GroomingBiddingThread getThread(GroomingBiddingThread.ID threadThreadId) {
+    public BiddingThread getThread(BiddingThread.ID threadThreadId) {
         return threads.stream()
                 .filter(thread -> thread.getId().value().equals(threadThreadId.value()))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
 
-    public GroomingBiddingThread getThread(DesignerId threadThreadDesignerId) {
+    public BiddingThread getThread(DesignerId threadThreadDesignerId) {
         return threads.stream()
                 .filter(thread -> thread.getDesignerId().value().equals(threadThreadDesignerId.value()))
                 .findFirst()
@@ -120,25 +120,25 @@ public class GroomingBiddingProcess {
     }
 
     public void onReservedThreadCancel() {
-        threads.forEach(GroomingBiddingThread::release);
-        changeStatus(GroomingBiddingProcessStatus.RESERVED_YET);
+        threads.forEach(BiddingThread::release);
+        changeStatus(BiddingProcessStatus.RESERVED_YET);
     }
 
     public void onThreadReserved() {
-        threads.forEach(GroomingBiddingThread::waiting);
-        changeStatus(GroomingBiddingProcessStatus.RESERVED);
+        threads.forEach(BiddingThread::waiting);
+        changeStatus(BiddingProcessStatus.RESERVED);
     }
 
     public void onThreadCompleted() {
-        changeStatus(GroomingBiddingProcessStatus.COMPLETED);
+        changeStatus(BiddingProcessStatus.COMPLETED);
     }
 
-    private GroomingBiddingThread getThreadForChangeState(DesignerId targetThreadDesignerId) {
+    private BiddingThread getThreadForChangeState(DesignerId targetThreadDesignerId) {
         validateProcessStatus();
         return getThread(targetThreadDesignerId);
     }
 
-    private GroomingBiddingThread getThreadForChangeState(GroomingBiddingThread.ID targetThreaId) {
+    private BiddingThread getThreadForChangeState(BiddingThread.ID targetThreaId) {
         validateProcessStatus();
         return getThread(targetThreaId);
     }
@@ -160,12 +160,12 @@ public class GroomingBiddingProcess {
         }
     }
 
-    private void changeStatus(GroomingBiddingProcessStatus status) {
+    private void changeStatus(BiddingProcessStatus status) {
         this.status = status;
         timeInfo.onStatusChange();
     }
 
-    public Optional<GroomingBiddingProcess.ID> getId() {
+    public Optional<BiddingProcess.ID> getId() {
         return Optional.ofNullable(this.id);
     }
 

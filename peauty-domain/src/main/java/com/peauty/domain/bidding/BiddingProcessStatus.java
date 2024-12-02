@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 @Getter
-public enum GroomingBiddingProcessStatus {
+public enum BiddingProcessStatus {
 
     RESERVED_YET("예약 전"),
     RESERVED("예약 성공"),
@@ -16,7 +16,7 @@ public enum GroomingBiddingProcessStatus {
 
     private final String description;
 
-    GroomingBiddingProcessStatus(String description) {
+    BiddingProcessStatus(String description) {
         this.description = description;
     }
 
@@ -36,8 +36,8 @@ public enum GroomingBiddingProcessStatus {
         return this == RESERVED_YET;
     }
 
-    public static GroomingBiddingProcessStatus from(String description) {
-        return Arrays.stream(GroomingBiddingProcessStatus.values())
+    public static BiddingProcessStatus from(String description) {
+        return Arrays.stream(BiddingProcessStatus.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_BIDDING_PROCESS_EXCEPTION_STATUS));

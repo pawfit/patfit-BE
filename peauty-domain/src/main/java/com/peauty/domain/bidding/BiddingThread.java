@@ -1,63 +1,63 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.*;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GroomingBiddingThread {
+public class BiddingThread {
 
     @Getter private final ID id; // TODO Optional Getter 적용하기
     @Getter private final PuppyId puppyId;
     @Getter private final DesignerId designerId;
-    @Getter private GroomingBiddingThreadStep step;
-    @Getter private GroomingBiddingThreadStatus status;
-    @Getter private GroomingBiddingThreadTimeInfo timeInfo;
-    private GroomingBiddingProcess processObserver;
+    @Getter private BiddingThreadStep step;
+    @Getter private BiddingThreadStatus status;
+    @Getter private BiddingThreadTimeInfo timeInfo;
+    private BiddingProcess processObserver;
 
-    public static GroomingBiddingThread loadThread(
+    public static BiddingThread loadThread(
             ID id,
             PuppyId puppyId,
             DesignerId designerId,
-            GroomingBiddingThreadStep step,
-            GroomingBiddingThreadStatus status,
-            GroomingBiddingThreadTimeInfo timeInfo
+            BiddingThreadStep step,
+            BiddingThreadStatus status,
+            BiddingThreadTimeInfo timeInfo
     ) {
-        return new GroomingBiddingThread(id, puppyId, designerId, step, status, timeInfo, null);
+        return new BiddingThread(id, puppyId, designerId, step, status, timeInfo, null);
     }
 
-    public static GroomingBiddingThread createNewThread(PuppyId puppyId, DesignerId designerId) {
-        return new GroomingBiddingThread(
+    public static BiddingThread createNewThread(PuppyId puppyId, DesignerId designerId) {
+        return new BiddingThread(
                 null,
                 puppyId,
                 designerId,
-                GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                GroomingBiddingThreadStatus.NORMAL,
-                GroomingBiddingThreadTimeInfo.createNewTimeInfo(),
+                BiddingThreadStep.ESTIMATE_REQUEST,
+                BiddingThreadStatus.NORMAL,
+                BiddingThreadTimeInfo.createNewTimeInfo(),
                 null
         );
     }
 
-    public void registerProcessObserver(GroomingBiddingProcess process) {
+    public void registerProcessObserver(BiddingProcess process) {
         this.processObserver = process;
     }
 
     public void responseEstimate() {
         validateStatusForStepProgressing();
-        validateProgressTo(GroomingBiddingThreadStep.ESTIMATE_RESPONSE);
+        validateProgressTo(BiddingThreadStep.ESTIMATE_RESPONSE);
         changeToNextStep();
     }
 
     public void reserve() {
         validateStatusForStepProgressing();
-        validateProgressTo(GroomingBiddingThreadStep.RESERVED);
+        validateProgressTo(BiddingThreadStep.RESERVED);
         changeToNextStep();
         processObserver.onThreadReserved();
     }
 
     public void complete() {
         validateStatusForStepProgressing();
-        validateProgressTo(GroomingBiddingThreadStep.COMPLETED);
+        validateProgressTo(BiddingThreadStep.COMPLETED);
         changeToNextStep();
         processObserver.onThreadCompleted();
     }
@@ -66,26 +66,26 @@ public class GroomingBiddingThread {
         validateCancellation();
         if (step.isReserved()) {
             // TODO 결제 환불
-            changeStatus(GroomingBiddingThreadStatus.CANCELED);
+            changeStatus(BiddingThreadStatus.CANCELED);
             processObserver.onReservedThreadCancel();
             return;
         }
-        changeStatus(GroomingBiddingThreadStatus.CANCELED);
+        changeStatus(BiddingThreadStatus.CANCELED);
     }
 
     public void waiting() {
-        if (status.isNormal() & step.isBefore(GroomingBiddingThreadStep.RESERVED)) {
-            changeStatus(GroomingBiddingThreadStatus.WAITING);
+        if (status.isNormal() & step.isBefore(BiddingThreadStep.RESERVED)) {
+            changeStatus(BiddingThreadStatus.WAITING);
         }
     }
 
     public void release() {
         if (status.isWaiting()) {
-            changeStatus(GroomingBiddingThreadStatus.NORMAL);
+            changeStatus(BiddingThreadStatus.NORMAL);
         }
     }
 
-    private void validateProgressTo(GroomingBiddingThreadStep nextStep) {
+    private void validateProgressTo(BiddingThreadStep nextStep) {
         if (step.isCompleted()) {
             throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_THREAD);
         }
@@ -112,7 +112,7 @@ public class GroomingBiddingThread {
         }
     }
 
-    private void changeStatus(GroomingBiddingThreadStatus targetStatus) {
+    private void changeStatus(BiddingThreadStatus targetStatus) {
         status = targetStatus;
         timeInfo.onStatusChange();
     }

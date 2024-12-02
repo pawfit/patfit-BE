@@ -1,6 +1,6 @@
-package grooming;
+package bidding;
 
-import com.peauty.domain.grooming.*;
+import com.peauty.domain.bidding.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,49 +10,49 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@DisplayName("프로세스 상태 변경 테스트")
-class GroomingBiddingScenarioTest {
+@DisplayName("입찰 시나리오 테스트")
+class BiddingScenarioTest {
 
     private PuppyId puppyId;
     private DesignerId designerId;
-    private GroomingBiddingProcess process;
-    private GroomingBiddingThread.ID thread1Id;
-    private GroomingBiddingThread.ID thread2Id;
-    private GroomingBiddingThread.ID thread3Id;
-    private GroomingBiddingThreadTimeInfo threadTimeInfo;
-    private GroomingBiddingProcessTimeInfo processTimeInfo;
+    private BiddingProcess process;
+    private BiddingThread.ID thread1Id;
+    private BiddingThread.ID thread2Id;
+    private BiddingThread.ID thread3Id;
+    private BiddingThreadTimeInfo threadTimeInfo;
+    private BiddingProcessTimeInfo processTimeInfo;
 
     @BeforeEach
     void setUp() {
         puppyId = new PuppyId(1L);
         designerId = new DesignerId(1L);
-        threadTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
-        processTimeInfo = mock(GroomingBiddingProcessTimeInfo.class);
+        threadTimeInfo = mock(BiddingThreadTimeInfo.class);
+        processTimeInfo = mock(BiddingProcessTimeInfo.class);
         // 세 개의 스레드 준비
-        GroomingBiddingThread thread1 = GroomingBiddingThread.loadThread(
-                new GroomingBiddingThread.ID(1L),
+        BiddingThread thread1 = BiddingThread.loadThread(
+                new BiddingThread.ID(1L),
                 puppyId,
                 new DesignerId(1L),
-                GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                GroomingBiddingThreadStatus.NORMAL,
+                BiddingThreadStep.ESTIMATE_REQUEST,
+                BiddingThreadStatus.NORMAL,
                 threadTimeInfo
         );
 
-        GroomingBiddingThread thread2 = GroomingBiddingThread.loadThread(
-                new GroomingBiddingThread.ID(2L),
+        BiddingThread thread2 = BiddingThread.loadThread(
+                new BiddingThread.ID(2L),
                 puppyId,
                 new DesignerId(2L),
-                GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                GroomingBiddingThreadStatus.NORMAL,
+                BiddingThreadStep.ESTIMATE_REQUEST,
+                BiddingThreadStatus.NORMAL,
                 threadTimeInfo
         );
 
-        GroomingBiddingThread thread3 = GroomingBiddingThread.loadThread(
-                new GroomingBiddingThread.ID(3L),
+        BiddingThread thread3 = BiddingThread.loadThread(
+                new BiddingThread.ID(3L),
                 puppyId,
                 new DesignerId(3L),
-                GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                GroomingBiddingThreadStatus.NORMAL,
+                BiddingThreadStep.ESTIMATE_REQUEST,
+                BiddingThreadStatus.NORMAL,
                 threadTimeInfo
         );
 
@@ -60,13 +60,13 @@ class GroomingBiddingScenarioTest {
         thread2Id = thread2.getId();
         thread3Id = thread3.getId();
 
-        List<GroomingBiddingThread> threads = List.of(thread1, thread2, thread3);
+        List<BiddingThread> threads = List.of(thread1, thread2, thread3);
 
         // 프로세스 생성
-        process = GroomingBiddingProcess.loadProcess(
-                new GroomingBiddingProcess.ID(1L),
+        process = BiddingProcess.loadProcess(
+                new BiddingProcess.ID(1L),
                 puppyId,
-                GroomingBiddingProcessStatus.RESERVED_YET,
+                BiddingProcessStatus.RESERVED_YET,
                 processTimeInfo,
                 threads
         );
@@ -81,18 +81,18 @@ class GroomingBiddingScenarioTest {
 
         // then
         // 첫 번째 스레드는 RESERVED 상태
-        GroomingBiddingThread firstThread = process.getThread(thread1Id);
-        assertEquals(GroomingBiddingThreadStep.RESERVED, firstThread.getStep());
+        BiddingThread firstThread = process.getThread(thread1Id);
+        assertEquals(BiddingThreadStep.RESERVED, firstThread.getStep());
 
         // 나머지 스레드들은 WAITING 상태로 변경
-        GroomingBiddingThread secondThread = process.getThread(thread2Id);
-        GroomingBiddingThread thirdThread = process.getThread(thread3Id);
+        BiddingThread secondThread = process.getThread(thread2Id);
+        BiddingThread thirdThread = process.getThread(thread3Id);
 
-        assertEquals(GroomingBiddingThreadStatus.WAITING, secondThread.getStatus());
-        assertEquals(GroomingBiddingThreadStatus.WAITING, thirdThread.getStatus());
+        assertEquals(BiddingThreadStatus.WAITING, secondThread.getStatus());
+        assertEquals(BiddingThreadStatus.WAITING, thirdThread.getStatus());
 
         // 프로세스는 RESERVED 상태
-        assertEquals(GroomingBiddingProcessStatus.RESERVED, process.getStatus());
+        assertEquals(BiddingProcessStatus.RESERVED, process.getStatus());
     }
 
     @Test
@@ -107,18 +107,18 @@ class GroomingBiddingScenarioTest {
 
         // then
         // 예약됐던 스레드는 취소 상태
-        GroomingBiddingThread firstThread = process.getThread(thread1Id);
-        assertEquals(GroomingBiddingThreadStatus.CANCELED, firstThread.getStatus());
+        BiddingThread firstThread = process.getThread(thread1Id);
+        assertEquals(BiddingThreadStatus.CANCELED, firstThread.getStatus());
 
         // 나머지 스레드들은 다시 NORMAL 상태로 변경
-        GroomingBiddingThread secondThread = process.getThread(thread2Id);
-        GroomingBiddingThread thirdThread = process.getThread(thread3Id);
+        BiddingThread secondThread = process.getThread(thread2Id);
+        BiddingThread thirdThread = process.getThread(thread3Id);
 
-        assertEquals(GroomingBiddingThreadStatus.NORMAL, secondThread.getStatus());
-        assertEquals(GroomingBiddingThreadStatus.NORMAL, thirdThread.getStatus());
+        assertEquals(BiddingThreadStatus.NORMAL, secondThread.getStatus());
+        assertEquals(BiddingThreadStatus.NORMAL, thirdThread.getStatus());
 
         // 프로세스는 RESERVED_YET 상태로 변경
-        assertEquals(GroomingBiddingProcessStatus.RESERVED_YET, process.getStatus());
+        assertEquals(BiddingProcessStatus.RESERVED_YET, process.getStatus());
     }
 
     @Test
@@ -133,22 +133,22 @@ class GroomingBiddingScenarioTest {
 
         // then
         // 1번 스레드는 예약 상태
-        GroomingBiddingThread thread1 = process.getThread(thread1Id);
-        assertEquals(GroomingBiddingThreadStep.RESERVED, thread1.getStep());
-        assertEquals(GroomingBiddingThreadStatus.NORMAL, thread1.getStatus());
+        BiddingThread thread1 = process.getThread(thread1Id);
+        assertEquals(BiddingThreadStep.RESERVED, thread1.getStep());
+        assertEquals(BiddingThreadStatus.NORMAL, thread1.getStatus());
 
         // 2번 스레드는 대기 상태
-        GroomingBiddingThread thread2 = process.getThread(thread2Id);
-        assertEquals(GroomingBiddingThreadStep.ESTIMATE_REQUEST, thread2.getStep());
-        assertEquals(GroomingBiddingThreadStatus.WAITING, thread2.getStatus());
+        BiddingThread thread2 = process.getThread(thread2Id);
+        assertEquals(BiddingThreadStep.ESTIMATE_REQUEST, thread2.getStep());
+        assertEquals(BiddingThreadStatus.WAITING, thread2.getStatus());
 
         // 3번 스레드는 여전히 취소 상태
-        GroomingBiddingThread thread3 = process.getThread(thread3Id);
-        assertEquals(GroomingBiddingThreadStep.ESTIMATE_REQUEST, thread3.getStep());
-        assertEquals(GroomingBiddingThreadStatus.CANCELED, thread3.getStatus());
+        BiddingThread thread3 = process.getThread(thread3Id);
+        assertEquals(BiddingThreadStep.ESTIMATE_REQUEST, thread3.getStep());
+        assertEquals(BiddingThreadStatus.CANCELED, thread3.getStatus());
 
         // 프로세스는 예약 상태
-        assertEquals(GroomingBiddingProcessStatus.RESERVED, process.getStatus());
+        assertEquals(BiddingProcessStatus.RESERVED, process.getStatus());
 
         // TimeInfo 검증
         verify(threadTimeInfo, times(2)).onStepChange();  // 1번 스레드의 견적응답, 예약
@@ -171,22 +171,22 @@ class GroomingBiddingScenarioTest {
 
         // then
         // 1번 스레드는 취소 상태
-        GroomingBiddingThread thread1 = process.getThread(thread1Id);
-        assertEquals(GroomingBiddingThreadStep.RESERVED, thread1.getStep());
-        assertEquals(GroomingBiddingThreadStatus.CANCELED, thread1.getStatus());
+        BiddingThread thread1 = process.getThread(thread1Id);
+        assertEquals(BiddingThreadStep.RESERVED, thread1.getStep());
+        assertEquals(BiddingThreadStatus.CANCELED, thread1.getStatus());
 
         // 2번 스레드는 다시 진행중 상태
-        GroomingBiddingThread thread2 = process.getThread(thread2Id);
-        assertEquals(GroomingBiddingThreadStep.ESTIMATE_REQUEST, thread2.getStep());
-        assertEquals(GroomingBiddingThreadStatus.NORMAL, thread2.getStatus());
+        BiddingThread thread2 = process.getThread(thread2Id);
+        assertEquals(BiddingThreadStep.ESTIMATE_REQUEST, thread2.getStep());
+        assertEquals(BiddingThreadStatus.NORMAL, thread2.getStatus());
 
         // 3번 스레드는 여전히 취소 상태
-        GroomingBiddingThread thread3 = process.getThread(thread3Id);
-        assertEquals(GroomingBiddingThreadStep.ESTIMATE_REQUEST, thread3.getStep());
-        assertEquals(GroomingBiddingThreadStatus.CANCELED, thread3.getStatus());
+        BiddingThread thread3 = process.getThread(thread3Id);
+        assertEquals(BiddingThreadStep.ESTIMATE_REQUEST, thread3.getStep());
+        assertEquals(BiddingThreadStatus.CANCELED, thread3.getStatus());
 
         // 프로세스는 예약 전 상태
-        assertEquals(GroomingBiddingProcessStatus.RESERVED_YET, process.getStatus());
+        assertEquals(BiddingProcessStatus.RESERVED_YET, process.getStatus());
 
         // TimeInfo 검증
         verify(threadTimeInfo, times(2)).onStepChange();  // 1번 스레드의 견적응답, 예약

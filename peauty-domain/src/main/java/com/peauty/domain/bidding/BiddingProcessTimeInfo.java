@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,23 +7,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class GroomingBiddingThreadTimeInfo {
+public class BiddingProcessTimeInfo {
 
     private LocalDateTime createdAt;
-    private LocalDateTime stepModifiedAt;
     private LocalDateTime statusModifiedAt;
-
-    public void onStepChange() {
-        this.stepModifiedAt = LocalDateTime.now();
-    }
 
     public void onStatusChange() {
         this.statusModifiedAt = LocalDateTime.now();
     }
 
-    public static GroomingBiddingThreadTimeInfo createNewTimeInfo() {
-        return new GroomingBiddingThreadTimeInfo(
-                LocalDateTime.now(),
+    public static BiddingProcessTimeInfo createNewTimeInfo() {
+        return new BiddingProcessTimeInfo(
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
