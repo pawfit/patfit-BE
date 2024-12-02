@@ -6,7 +6,7 @@ import com.peauty.domain.user.SocialPlatform;
 public record TestSignRequest(
         SocialPlatform socialPlatform,
         String idToken,
-        String phoneNum,
+        String phoneNumber,
         String nickname
 ) {
 
@@ -14,7 +14,7 @@ public record TestSignRequest(
         return new TestSignCommand(
                 socialPlatform,
                 idToken,
-                phoneNum,
+                phoneNumber,
                 nickname
         );
     }

@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public SignUpResult signUp(SignUpCommand command) {
-        designerPort.checkCustomerPhoneNumDuplicated(command.phoneNum());
+        designerPort.checkCustomerPhoneNumDuplicated(command.phoneNumber());
         designerPort.checkCustomerNicknameDuplicated(command.nickname());
         Designer registeredCustomer = designerPort.registerNewDesigner(command);
         SignTokens signTokens = authPort.generateSignTokens(registeredCustomer.getAuthInfo());
@@ -54,9 +54,8 @@ public class AuthServiceImpl implements AuthService {
                             socialInfo.socialId(),
                             socialInfo.socialPlatform(),
                             socialInfo.nickname(),
-                            command.phoneNum(),
+                            command.phoneNumber(),
                             "test@test.com",
-                            "test_address",
                             command.nickname(),
                             socialInfo.pictureImageUrl()
                     );
