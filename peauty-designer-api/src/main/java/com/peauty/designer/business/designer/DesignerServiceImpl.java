@@ -2,7 +2,7 @@ package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.business.internal.InternalPort;
-import com.peauty.designer.business.shop.WorkspacePort;
+import com.peauty.designer.business.workspace.WorkspacePort;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.Workspace;

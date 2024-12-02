@@ -1,6 +1,6 @@
 package com.peauty.designer.implementation.workspace;
 
-import com.peauty.designer.business.shop.WorkspacePort;
+import com.peauty.designer.business.workspace.WorkspacePort;
 import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;

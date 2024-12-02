@@ -1,4 +1,4 @@
-package com.peauty.designer.business.shop;
+package com.peauty.designer.business.workspace;
 
 import com.peauty.domain.designer.Workspace;
 
