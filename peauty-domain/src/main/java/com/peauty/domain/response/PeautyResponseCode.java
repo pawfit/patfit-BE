@@ -30,6 +30,29 @@ public enum PeautyResponseCode {
     WRONG_SIZE("1209", "Invalid Puppy's Size", "잘못된 애완견의 크기입니다."),
     NOT_FOUND_PUPPY("1210", "Puppy Not Found", "찾을 수 없는 반려견입니다."),
     NOT_FOUND_WORKSPACE("1211", "Workspace Not Found", "가게가 존재하지 않습니다."),
+    INVALID_RATING("1211", "Invalid Rating", "잘못된 리뷰 평점입니다."),
+    INVALID_GENERAL_CONTENT("1212", "Invalid GENERAL CONTENT", "잘못된 리뷰 선택 컨텐츠입니다."),
+
+
+    // 비딩 관련 (1300 ~ 1350)
+    WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
+    WRONG_BIDDING_PROCESS_STEP("1301", "Wrong Bidding Process Step", "잘못된 입찰 프로세스 단계입니다."),
+    INVALID_BACKWARD_BIDDING_STEP("1302", "Wrong Bidding Process Step", "입찰 프로세스 단계를 뒤로 돌릴 순 없습니다."),
+
+    WRONG_BIDDING_PROCESS_EXCEPTION_STATUS("1303", "Wrong Bidding Process Exception Status", "잘못된 입찰 프로세스 예외 상태입니다."),
+    WRONG_BIDDING_THREAD_STEP_DESCRIPTION("1304", "Wrong Bidding Process Thread Step Description", "잘못된 입찰 스레드입니다."),
+    WRONG_BIDDING_THREAD_STEP("1305", "Wrong Bidding Process Thread Step", "잘못된 입찰 스레드 단계입니다."),
+    WRONG_BIDDING_THREAD_EXCEPTION_STATUS("1306", "Wrong Bidding Thread Exception Status", "잘못된 입찰 스레드 예외 상태입니다."),
+    NOT_FOUND_BIDDING_THREAD_IN_PROCESS("1307", "Bidding Thread Not Found", "찾을 수 없는 입찰 스레드입니다."),
+    ALREADY_CANCELED_BIDDING_PROCESS("1308", "Bidding Process Already Canceled", "이미 취소된 입찰 프로세스입니다."),
+    ALREADY_COMPLETED_BIDDING_PROCESS("1309", "Bidding Process Already Completed", "이미 완료된 입찰 프로세스입니다."),
+    THREAD_ALREADY_IN_PROCESS("1310", "Thread Already In Process", "이미 해당 프로세스에 속한 스레드입니다."),
+    ALREADY_COMPLETED_BIDDING_THREAD("1311", "Bidding Thread Already Completed", "이미 완료된 입찰 스레드입니다."),
+    ALREADY_CANCELED_BIDDING_THREAD("1312", "Bidding Thread Already Canceled", "이미 취소된 입찰 스레드입니다."),
+    CANNOT_CANCEL_COMPLETED_THREAD("1313", "Cannot Cancel Completed Thread", "완료된 입찰 스레드는 취소할 수 없습니다."),
+    CANNOT_PROGRESS_CANCELED_THREAD_STEP("1314", "Cannot Progress Canceled Thread Step", "취소된 스레드의 단계는 변경할 수 없습니다."),
+    CANNOT_PROGRESS_WAITING_THREAD_STEP("1315", "Cannot Progress Waiting Thread Step", "대기 중인 스레드의 단계는 변경할 수 없습니다."),
+    INVALID_STEP_PROGRESSING("1316", "Invalid Step Progressing", "해당 단계로 올릴 수 있는 단계가 아닙니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

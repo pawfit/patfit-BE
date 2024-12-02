@@ -52,6 +52,5 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "status", nullable = false)
     private Status status;
 
-
 }
 

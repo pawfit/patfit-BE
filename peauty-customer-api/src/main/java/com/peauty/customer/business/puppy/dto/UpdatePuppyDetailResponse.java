@@ -1,26 +1,30 @@
-package com.peauty.customer.presentation.controller.puppy.dto;
+package com.peauty.customer.business.puppy.dto;
 
-import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
+import com.peauty.domain.puppy.Breed;
+import com.peauty.domain.puppy.Disease;
+import com.peauty.domain.puppy.PuppySize;
+import com.peauty.domain.puppy.Sex;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public record UpdatePuppyResponse(
+public record UpdatePuppyDetailResponse(
         Long puppyId,
         String name,
-        String breed,
+        Breed breed,
         Long weight,
-        String sex,
+        Sex sex,
         Integer age,
         LocalDate birthdate,
         String detail,
-        List<String> disease,
+        List<Disease> disease,
         String diseaseDescription,
         String profileImageUrl,
-        String puppySize
+        PuppySize puppySize
 ) {
-    public static UpdatePuppyResponse from(RegisterPuppyResult result) {
-        return new UpdatePuppyResponse(
+
+    public static UpdatePuppyDetailResponse from(UpdatePuppyDetailResult result){
+        return new UpdatePuppyDetailResponse(
                 result.puppyId(),
                 result.name(),
                 result.breed(),

@@ -37,7 +37,7 @@ public class DesignerAdapter implements DesignerPort {
 
     @Override
     public void checkCustomerPhoneNumDuplicated(String phoneNum) {
-        if (designerRepository.existsByPhoneNum(phoneNum)) {
+        if (designerRepository.existsByPhoneNumber(phoneNum)) {
             throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUM);
         }
     }
@@ -67,12 +67,11 @@ public class DesignerAdapter implements DesignerPort {
                 .socialId(command.socialId())
                 .socialPlatform(command.socialPlatform())
                 .name(command.name())
-                .phoneNumber(command.phoneNum())
+                .phoneNumber(command.phoneNumber())
                 .email(command.email())
                 .status(Status.ACTIVE)
                 .role(Role.ROLE_DESIGNER)
                 .nickname(command.nickname())
-                .address(command.address())
                 .profileImageUrl(command.profileImageUrl())
                 .build();
         return save(designerToSave);

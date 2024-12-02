@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface DesignerRepository extends JpaRepository<DesignerEntity, Long> {
     boolean existsByNickname(String nickname);
-    boolean existsByPhoneNum(String phoneNum);
+    boolean existsByPhoneNumber(String phoneNumber);
     Optional<DesignerEntity> findBySocialId(String socialId);
 }

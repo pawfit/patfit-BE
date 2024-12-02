@@ -48,12 +48,11 @@ public class DesignerMapper {
                 .socialId(designerEntity.getSocialId())
                 .socialPlatform(designerEntity.getSocialPlatform())
                 .name(designerEntity.getName())
-                .phoneNumber(designerEntity.getPhoneNum())
+                .phoneNumber(designerEntity.getPhoneNumber())
                 .email(designerEntity.getEmail())
                 .status(designerEntity.getStatus())
                 .role(Role.ROLE_DESIGNER)
                 .nickname(designerEntity.getNickname())
-                .address(designerEntity.getAddress())
                 .profileImageUrl(designerEntity.getProfileImageUrl())
                 .build();
     }
@@ -65,11 +64,10 @@ public class DesignerMapper {
                 .socialId(designer.getSocialId())
                 .socialPlatform(designer.getSocialPlatform())
                 .name(designer.getName())
-                .phoneNum(designer.getPhoneNumber())
+                .phoneNumber(designer.getPhoneNumber())
                 .email(designer.getEmail())
                 .status(designer.getStatus())
                 .nickname(designer.getNickname())
-                .address(designer.getAddress())
                 .profileImageUrl(designer.getProfileImageUrl())
                 .build();
     }

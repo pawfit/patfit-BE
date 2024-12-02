@@ -29,14 +29,49 @@ public class Puppy {
     private PuppySize puppySize;        // 분류
 
     // 강아지 이미지 목록
-    private List<AddyImage> Addy;       // Addy URL
+    private List<AddyImage> addyImages;       // Addy URL
 
     public Puppy assignCustomer(Long customerId) {
         this.customerId = customerId;
         return this;
     }
 
-    public void updatePuppyProfile(PuppyProfile profileToUpdate) {
+
+    public void updateName(String name){
+        this.name = name;
+    }
+    public void updateBreed(Breed breed){
+        this.breed = breed;
+    }
+    public void updateWeight(Long weight){
+        this.weight = weight;
+    }
+    public void updateSex(Sex sex){
+        this.sex = sex;
+    }
+    public void updateAge(Integer age){
+        this.age = age;
+    }
+    public void updateBirthdate(LocalDate birthdate){
+        this.birthdate = birthdate;
+    }
+    public void updateDetail(String detail){
+        this.detail = detail;
+    }
+    public void updateDisease(List<Disease> disease){
+        this.disease = disease;
+    }
+    public void updateDiseaseDescription(String diseaseDescription){
+        this.diseaseDescription = diseaseDescription;
+    }
+    public void updateProfileImageUrl(String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
+    }
+    public void updatePuppySize(PuppySize puppySize){
+        this.puppySize = puppySize;
+    }
+
+/*    public void updatePuppyProfile(PuppyProfile profileToUpdate) {
         this.name = profileToUpdate.getName();
         this.breed = profileToUpdate.getBreed();
         this.weight = profileToUpdate.getWeight();
@@ -48,7 +83,7 @@ public class Puppy {
         this.diseaseDescription = profileToUpdate.getDiseaseDescription();
         this.profileImageUrl = profileToUpdate.getProfileImageUrl();
         this.puppySize = profileToUpdate.getPuppySize();
-    }
+    }*/
 
 /*    public PuppyProfile getPuppyProfile() {
         return PuppyProfile.builder()

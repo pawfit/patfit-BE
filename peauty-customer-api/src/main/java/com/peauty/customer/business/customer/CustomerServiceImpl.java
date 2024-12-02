@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerPort customerPort;
@@ -48,4 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
     public void checkCustomerNicknameDuplicated(String nickname) {
         customerPort.checkCustomerNicknameDuplicated(nickname);
     }
+
+
 }

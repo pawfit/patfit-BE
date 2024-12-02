@@ -1,13 +1,12 @@
 package com.peauty.customer.business.puppy;
 
-import com.peauty.customer.business.puppy.dto.AddPuppyCommand;
-import com.peauty.customer.business.puppy.dto.RegisterPuppyResult;
-import com.peauty.customer.business.puppy.dto.UpdatePuppyCommand;
+import com.peauty.customer.business.internal.InternalPort;
+import com.peauty.customer.business.puppy.dto.*;
 import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.puppy.PuppyProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -15,41 +14,49 @@ import org.springframework.transaction.annotation.Transactional;
 public class PuppyServiceImpl implements PuppyService {
 
     private final PuppyPort puppyPort;
+    private final InternalPort internalPort;
 
     @Override
     @Transactional
-    public RegisterPuppyResult addPuppy(AddPuppyCommand command) { /* TODO : addPuppy와 getPuppy가 RegisterPuppyResult라는 DTO를 리턴값으로 주고 있기 때문에, 추후 다른 DTO를 각각 사용할 수 있도록 리팩토링 예정 */
+    public UploadPuppyImageResult uploadPuppyImage(Long customerId, Long puppyId, MultipartFile file) {
+        Puppy puppyImageToUpload = puppyPort.getByPuppyId(puppyId);
+        String uploadedPuppyImageUrl = internalPort.uploadImage(file);
+        puppyImageToUpload.updateProfileImageUrl(uploadedPuppyImageUrl);
+        return UploadPuppyImageResult.from(puppyPort.save(puppyImageToUpload));
+    }
 
-        // 반려견 생성, 저장
-
+    @Override
+    @Transactional
+    public RegisterPuppyResult registerPuppy(RegisterPuppyCommand command) {
         Puppy puppyToSave = command.toDomain()
-                                    .assignCustomer(command.userId());// AddPuppyCommand를 도메인 객체로 변환
-        Puppy savedPuppy = puppyPort.savePuppy(puppyToSave); // Port로 이어서 저장
-
+                .assignCustomer(command.userId());
+        Puppy savedPuppy = puppyPort.save(puppyToSave);
         return RegisterPuppyResult.from(savedPuppy);
     }
 
     @Override
-    public RegisterPuppyResult getPuppy(Long userId, Long puppyId){
-
-        // 반려견 조회
+    public GetPuppyDetailResult getPuppyDetail(Long userId, Long puppyId){
         Puppy puppy = puppyPort.findPuppy(userId, puppyId);
-        return RegisterPuppyResult.from(puppy);
+        return GetPuppyDetailResult.from(puppy);
     }
 
     @Override
     @Transactional
-    public RegisterPuppyResult updatePuppy(UpdatePuppyCommand command){
-
-        // 기존 반려견 조회 및 업데이트 Port로 호출
-        Puppy existingPuppy = puppyPort.findPuppy(command.userId(), command.puppyId());
-        // PuppyProfile 생성 및 업데이트
-        PuppyProfile profile = command.toPuppyProfile();
-        existingPuppy.updatePuppyProfile(profile);
-
-        // 저장 및 결과 반환
-        Puppy savedPuppy = puppyPort.updatePuppy(existingPuppy);
-        return RegisterPuppyResult.from(savedPuppy);
+    public UpdatePuppyDetailResult updatePuppyDetail(Long userId, Long puppyId, UpdatePuppyDetailCommand command){
+        Puppy puppyToUpdate = puppyPort.findPuppy (userId, puppyId);
+        puppyToUpdate.updateName(command.name());
+        puppyToUpdate.updateBreed(command.breed());
+        puppyToUpdate.updateWeight(command.weight());
+        puppyToUpdate.updateSex(command.sex());
+        puppyToUpdate.updateAge(command.age());
+        puppyToUpdate.updateBirthdate(command.birthdate());
+        puppyToUpdate.updateDetail(command.detail());
+        puppyToUpdate.updateDisease(command.disease());
+        puppyToUpdate.updateDiseaseDescription(command.diseaseDescription());
+        puppyToUpdate.updateProfileImageUrl(command.profileImageUrl());
+        puppyToUpdate.updatePuppySize(command.puppySize());
+        Puppy updatedPuppy = puppyPort.save(puppyToUpdate);
+        return UpdatePuppyDetailResult.from(updatedPuppy);
     }
 
     @Override
@@ -59,9 +66,5 @@ public class PuppyServiceImpl implements PuppyService {
         // 삭제
         puppyPort.deletePuppy(puppyId);
     }
-
-
-
-
 
 }
