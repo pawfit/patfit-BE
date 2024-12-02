@@ -70,6 +70,10 @@ public class DesignerServiceImpl implements DesignerService {
 
         Designer savedDesigner = designerPort.save(designerToCreate);
         Workspace savedWorkspace = workspacePort.save(workspaceToCreate, savedDesigner.getDesignerId());
+        Workspace getRating = workspacePort.getByDesignerId(userId);
+
+        savedWorkspace.updateRating(getRating.getRating());
+        savedDesigner.updateBadges(designerPort.getBadges(userId));
 
         return CreateDesignerWorkspaceResult.from(savedDesigner, savedWorkspace);
     }
@@ -79,6 +83,7 @@ public class DesignerServiceImpl implements DesignerService {
         Designer designer = designerPort.getAllDesignerDataByDesignerId(userId);
         Workspace workspace = workspacePort.getByDesignerId(userId);
 
+        designer.updateBadges(designerPort.getBadges(userId));
         return GetDesignerWorkspaceResult.from(designer, workspace);
     }
 

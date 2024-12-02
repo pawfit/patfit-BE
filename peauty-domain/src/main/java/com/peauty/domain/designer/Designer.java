@@ -73,10 +73,6 @@ public class Designer {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public void updateBannerImageUrl(String bannerImageUrl) {
-        this.profileImageUrl = bannerImageUrl;
-    }
-
     public void updateEmail(String email) {
         this.email = email;
     }

@@ -26,7 +26,6 @@ public class DesignerAdapter implements DesignerPort {
     private final LicenseRepository licenseRepository;
     private final DesignerBadgeRepository designerBadgeRepository;
     private final BadgeRepository badgeRepository;
-    private final RatingRepository ratingRepository;
 
     @Override
     public void checkDesignerNicknameDuplicated(String nickname) {
@@ -94,9 +93,18 @@ public class DesignerAdapter implements DesignerPort {
                 .map(DesignerMapper::toLicenses)
                 .orElse(Collections.emptyList());
 
+        List<Badge> badges = getBadges(userId);
+
+        designer.updateLicenses(licenses);
+        designer.updateBadges(badges);
+        return designer;
+    }
+
+    @Override
+    public List<Badge> getBadges(Long userId) {
         List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
         List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
-        List<Badge> badges = badgeEntities.stream()
+        return badgeEntities.stream()
                 .map(badgeEntity -> Badge.builder()
                         .badgeId(badgeEntity.getId())
                         .badgeName(badgeEntity.getBadgeName())
@@ -105,9 +113,5 @@ public class DesignerAdapter implements DesignerPort {
                         .isRepresentativeBadge(true)
                         .build())
                 .collect(Collectors.toList());
-
-        designer.updateLicenses(licenses);
-        designer.updateBadges(badges);
-        return designer;
     }
 }
