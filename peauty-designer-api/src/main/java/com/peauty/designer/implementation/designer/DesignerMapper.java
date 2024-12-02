@@ -24,7 +24,7 @@ public class DesignerMapper {
                 .socialId(designerEntity.getSocialId())
                 .socialPlatform(designerEntity.getSocialPlatform())
                 .name(designerEntity.getName())
-                .phoneNumber(designerEntity.getPhoneNum())
+                .phoneNumber(designerEntity.getPhoneNumber())
                 .email(designerEntity.getEmail())
                 .status(designerEntity.getStatus())
                 .role(Role.ROLE_DESIGNER)

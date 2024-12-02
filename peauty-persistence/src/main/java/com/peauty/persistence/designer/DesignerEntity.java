@@ -35,7 +35,7 @@ public class DesignerEntity extends BaseTimeEntity {
     private String nickname;
 
     @Column(name = "phone_number", length = 50)
-    private String phoneNum;
+    private String phoneNumber;
 
     @Column(name = "address")
     private String address;
