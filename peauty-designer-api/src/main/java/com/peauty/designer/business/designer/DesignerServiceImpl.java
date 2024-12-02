@@ -55,7 +55,7 @@ public class DesignerServiceImpl implements DesignerService {
 
     @Override
     public void checkDesignerNicknameDuplicated(String nickname) {
-        designerPort.checkCustomerNicknameDuplicated(nickname);
+        designerPort.checkDesignerNicknameDuplicated(nickname);
     }
 
     @Override

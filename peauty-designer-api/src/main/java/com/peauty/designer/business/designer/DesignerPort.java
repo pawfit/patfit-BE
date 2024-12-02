@@ -6,9 +6,9 @@ import com.peauty.domain.designer.Designer;
 import java.util.Optional;
 
 public interface DesignerPort {
-    void checkCustomerNicknameDuplicated(String nickname);
+    void checkDesignerNicknameDuplicated(String nickname);
 
-    void checkCustomerPhoneNumDuplicated(String phoneNum);
+    void checkDesignerPhoneNumDuplicated(String phoneNum);
 
     Optional<Designer> findBySocialId(String socialId);
 

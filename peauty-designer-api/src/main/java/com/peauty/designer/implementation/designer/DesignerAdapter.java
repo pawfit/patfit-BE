@@ -29,14 +29,14 @@ public class DesignerAdapter implements DesignerPort {
     private final RatingRepository ratingRepository;
 
     @Override
-    public void checkCustomerNicknameDuplicated(String nickname) {
+    public void checkDesignerNicknameDuplicated(String nickname) {
         if (designerRepository.existsByNickname(nickname)) {
             throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_USER);
         }
     }
 
     @Override
-    public void checkCustomerPhoneNumDuplicated(String phoneNum) {
+    public void checkDesignerPhoneNumDuplicated(String phoneNum) {
         if (designerRepository.existsByPhoneNumber(phoneNum)) {
             throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUM);
         }
