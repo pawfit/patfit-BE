@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class GroomingBiddingThreadTest {
 
@@ -47,7 +46,7 @@ class GroomingBiddingThreadTest {
             // given
             GroomingBiddingThread.ID threadId = new GroomingBiddingThread.ID(1L);
             GroomingBiddingThreadStep step = GroomingBiddingThreadStep.ESTIMATE_RESPONSE;
-            GroomingBiddingThreadStatus status = GroomingBiddingThreadStatus.ONGOING;
+            GroomingBiddingThreadStatus status = GroomingBiddingThreadStatus.NORMAL;
             GroomingBiddingThreadTimeInfo timeInfo = mock(GroomingBiddingThreadTimeInfo.class);
 
             // when
@@ -64,97 +63,94 @@ class GroomingBiddingThreadTest {
     @DisplayName("스레드 단계 진행 테스트")
     class ProgressStepTest {
         private GroomingBiddingThread thread;
+        private GroomingBiddingThreadTimeInfo mockTimeInfo;
 
         @BeforeEach
         void setUp() {
-            thread = GroomingBiddingThread.createNewThread(puppyId, designerId);
+            mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
+            thread = GroomingBiddingThread.loadThread(
+                    new GroomingBiddingThread.ID(1L),
+                    puppyId,
+                    designerId,
+                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
+                    GroomingBiddingThreadStatus.NORMAL,
+                    mockTimeInfo
+            );
             thread.registerProcessObserver(mockProcess);
         }
 
         @Test
-        @DisplayName("스레드의 단계를 진행할 수 있다")
-        void progressStep() {
+        @DisplayName("견적 응답 단계로 진행할 수 있다")
+        void responseEstimate() {
             // when
-            thread.progressStep();
+            thread.responseEstimate();
 
             // then
             assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.ESTIMATE_RESPONSE);
+            verify(mockTimeInfo).onStepChange();
         }
 
         @Test
-        @DisplayName("예약 단계로 진행하면 프로세스에 통지한다")
-        void notifyProcessWhenReserved() {
+        @DisplayName("예약 단계로 진행할 수 있다")
+        void reserve() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
-                    puppyId,
-                    designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_RESPONSE,
-                    GroomingBiddingThreadStatus.ONGOING,
-                    mock(GroomingBiddingThreadTimeInfo.class)
-            );
-            thread.registerProcessObserver(mockProcess);
+            thread.responseEstimate();
 
             // when
-            thread.progressStep();
+            thread.reserve();
 
             // then
+            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.RESERVED);
             verify(mockProcess).onThreadReserved();
+            verify(mockTimeInfo, times(2)).onStepChange();
         }
 
         @Test
-        @DisplayName("완료 단계로 진행하면 프로세스에 통지한다")
-        void notifyProcessWhenCompleted() {
+        @DisplayName("완료 단계로 진행할 수 있다")
+        void complete() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
-                    puppyId,
-                    designerId,
-                    GroomingBiddingThreadStep.RESERVED,
-                    GroomingBiddingThreadStatus.ONGOING,
-                    mock(GroomingBiddingThreadTimeInfo.class)
-            );
-            thread.registerProcessObserver(mockProcess);
+            thread.responseEstimate();
+            thread.reserve();
 
             // when
-            thread.progressStep();
+            thread.complete();
 
             // then
+            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.COMPLETED);
+            verify(mockProcess).onThreadReserved();
             verify(mockProcess).onThreadCompleted();
+            verify(mockTimeInfo, times(3)).onStepChange();
+        }
+
+        @Test
+        @DisplayName("잘못된 순서로 단계를 진행할 수 없다")
+        void cannotProgressInvalidOrder() {
+            // given
+            thread.responseEstimate();
+            thread.reserve();
+
+            // when & then
+            assertThrows(PeautyException.class, () -> thread.reserve());
         }
 
         @Test
         @DisplayName("취소된 스레드는 단계를 진행할 수 없다")
         void cannotProgressCanceledThread() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
-                    puppyId,
-                    designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.CANCELED,
-                    mock(GroomingBiddingThreadTimeInfo.class)
-            );
+            thread.cancel();
 
             // when & then
-            assertThrows(PeautyException.class, () -> thread.progressStep());
+            assertThrows(PeautyException.class, () -> thread.responseEstimate());
         }
 
         @Test
         @DisplayName("대기 중인 스레드는 단계를 진행할 수 없다")
         void cannotProgressWaitingThread() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
-                    puppyId,
-                    designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.WAITING,
-                    mock(GroomingBiddingThreadTimeInfo.class)
-            );
+            thread.waiting();
 
             // when & then
-            assertThrows(PeautyException.class, () -> thread.progressStep());
+            assertThrows(PeautyException.class, () -> thread.responseEstimate());
         }
     }
 
@@ -172,7 +168,7 @@ class GroomingBiddingThreadTest {
                     puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
             thread.registerProcessObserver(mockProcess);
@@ -198,7 +194,7 @@ class GroomingBiddingThreadTest {
                     puppyId,
                     designerId,
                     GroomingBiddingThreadStep.RESERVED,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
             thread.registerProcessObserver(mockProcess);
@@ -236,7 +232,7 @@ class GroomingBiddingThreadTest {
                     puppyId,
                     designerId,
                     GroomingBiddingThreadStep.COMPLETED,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
 
@@ -259,7 +255,7 @@ class GroomingBiddingThreadTest {
                     puppyId,
                     designerId,
                     GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.ONGOING,
+                    GroomingBiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
         }
@@ -292,7 +288,7 @@ class GroomingBiddingThreadTest {
             thread.release();
 
             // then
-            assertThat(thread.getStatus()).isEqualTo(GroomingBiddingThreadStatus.ONGOING);
+            assertThat(thread.getStatus()).isEqualTo(GroomingBiddingThreadStatus.NORMAL);
             verify(mockTimeInfo).onStatusChange();
         }
     }

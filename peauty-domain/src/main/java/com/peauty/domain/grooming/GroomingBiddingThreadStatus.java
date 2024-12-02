@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Getter
 public enum GroomingBiddingThreadStatus {
 
-    ONGOING("진행 중"),
+    NORMAL("정상"),
     CANCELED("취소"),
     WAITING("대기");
 
@@ -23,8 +23,8 @@ public enum GroomingBiddingThreadStatus {
         return this == CANCELED;
     }
 
-    public boolean isOngoing() {
-        return this == ONGOING;
+    public boolean isNormal() {
+        return this == NORMAL;
     }
 
     public boolean isWaiting() {
