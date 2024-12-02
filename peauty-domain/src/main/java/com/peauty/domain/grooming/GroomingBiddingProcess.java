@@ -60,11 +60,6 @@ public class GroomingBiddingProcess {
         return newProcess;
     }
 
-    public void cancel() {
-        validateProcessStatus();
-        changeStatus(GroomingBiddingProcessStatus.CANCELED);
-    }
-
     public void addNewThread(DesignerId targetDesignerId) {
         validateProcessStatus();
         checkThreadAlreadyInProcess(targetDesignerId);
@@ -73,38 +68,53 @@ public class GroomingBiddingProcess {
         this.threads.add(newThread);
     }
 
-    public void progressThreadStep(GroomingBiddingThread.ID targetThreadId) {
+    public void cancel() {
         validateProcessStatus();
-        GroomingBiddingThread thread = getThreadByThreadId(targetThreadId);
-        thread.progressStep();
+        changeStatus(GroomingBiddingProcessStatus.CANCELED);
     }
 
-    public void progressThreadStep(DesignerId targetThreadDesignerId) {
-        validateProcessStatus();
-        GroomingBiddingThread thread = getThreadByDesignerId(targetThreadDesignerId);
-        thread.progressStep();
+    public void responseEstimateThread(GroomingBiddingThread.ID targetThreadId) {
+        getThreadForChangeState(targetThreadId).responseEstimate();
+    }
+
+    public void reserveThread(GroomingBiddingThread.ID targetThreadId) {
+        getThreadForChangeState(targetThreadId).reserve();
+    }
+
+    public void completeThread(GroomingBiddingThread.ID targetThreadId) {
+        getThreadForChangeState(targetThreadId).complete();
+    }
+
+    public void responseEstimateThread(DesignerId targetThreadDesignerId) {
+        getThreadForChangeState(targetThreadDesignerId).responseEstimate();
+    }
+
+    public void reserveThread(DesignerId targetThreadDesignerId) {
+        getThreadForChangeState(targetThreadDesignerId).reserve();
+    }
+
+    public void completeThread(DesignerId targetThreadDesignerId) {
+        getThreadForChangeState(targetThreadDesignerId).complete();
     }
 
     public void cancelThread(GroomingBiddingThread.ID targetThreadId) {
-        GroomingBiddingThread thread = getThreadByThreadId(targetThreadId);
-        thread.cancel();
+        getThreadForChangeState(targetThreadId).cancel();
     }
 
-    public void cancelThread(DesignerId targetDesignerId) {
-        GroomingBiddingThread thread = getThreadByDesignerId(targetDesignerId);
-        thread.cancel();
+    public void cancelThread(DesignerId targetThreadDesignerId) {
+        getThreadForChangeState(targetThreadDesignerId).cancel();
     }
 
-    public GroomingBiddingThread getThreadByThreadId(GroomingBiddingThread.ID threadId) {
+    public GroomingBiddingThread getThread(GroomingBiddingThread.ID threadThreadId) {
         return threads.stream()
-                .filter(thread -> thread.getId().value().equals(threadId.value()))
+                .filter(thread -> thread.getId().value().equals(threadThreadId.value()))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
 
-    public GroomingBiddingThread getThreadByDesignerId(DesignerId designerId) {
+    public GroomingBiddingThread getThread(DesignerId threadThreadDesignerId) {
         return threads.stream()
-                .filter(thread -> thread.getDesignerId().value().equals(designerId.value()))
+                .filter(thread -> thread.getDesignerId().value().equals(threadThreadDesignerId.value()))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
@@ -121,6 +131,16 @@ public class GroomingBiddingProcess {
 
     public void onThreadCompleted() {
         changeStatus(GroomingBiddingProcessStatus.COMPLETED);
+    }
+
+    private GroomingBiddingThread getThreadForChangeState(DesignerId targetThreadDesignerId) {
+        validateProcessStatus();
+        return getThread(targetThreadDesignerId);
+    }
+
+    private GroomingBiddingThread getThreadForChangeState(GroomingBiddingThread.ID targetThreaId) {
+        validateProcessStatus();
+        return getThread(targetThreaId);
     }
 
     private void validateProcessStatus() {

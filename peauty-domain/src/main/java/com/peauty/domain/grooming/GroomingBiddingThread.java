@@ -32,7 +32,7 @@ public class GroomingBiddingThread {
                 puppyId,
                 designerId,
                 GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                GroomingBiddingThreadStatus.ONGOING,
+                GroomingBiddingThreadStatus.NORMAL,
                 GroomingBiddingThreadTimeInfo.createNewTimeInfo(),
                 null
         );
@@ -42,14 +42,24 @@ public class GroomingBiddingThread {
         this.processObserver = process;
     }
 
-    public void progressStep() {
-        validateProgressingStep();
+    public void responseEstimate() {
+        validateStatusForStepProgressing();
+        validateProgressTo(GroomingBiddingThreadStep.ESTIMATE_RESPONSE);
         changeToNextStep();
-        if (step.isReserved()) {
-            processObserver.onThreadReserved();
-        } else if (step.isCompleted()) {
-            processObserver.onThreadCompleted();
-        }
+    }
+
+    public void reserve() {
+        validateStatusForStepProgressing();
+        validateProgressTo(GroomingBiddingThreadStep.RESERVED);
+        changeToNextStep();
+        processObserver.onThreadReserved();
+    }
+
+    public void complete() {
+        validateStatusForStepProgressing();
+        validateProgressTo(GroomingBiddingThreadStep.COMPLETED);
+        changeToNextStep();
+        processObserver.onThreadCompleted();
     }
 
     public void cancel() {
@@ -64,14 +74,23 @@ public class GroomingBiddingThread {
     }
 
     public void waiting() {
-        if (status.isOngoing() & step.isBefore(GroomingBiddingThreadStep.RESERVED)) {
+        if (status.isNormal() & step.isBefore(GroomingBiddingThreadStep.RESERVED)) {
             changeStatus(GroomingBiddingThreadStatus.WAITING);
         }
     }
 
     public void release() {
         if (status.isWaiting()) {
-            changeStatus(GroomingBiddingThreadStatus.ONGOING);
+            changeStatus(GroomingBiddingThreadStatus.NORMAL);
+        }
+    }
+
+    private void validateProgressTo(GroomingBiddingThreadStep nextStep) {
+        if (step.isCompleted()) {
+            throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_THREAD);
+        }
+        if (nextStep.getStep() - step.getStep() != 1) {
+            throw new PeautyException(PeautyResponseCode.INVALID_STEP_PROGRESSING);
         }
     }
 
@@ -84,15 +103,12 @@ public class GroomingBiddingThread {
         }
     }
 
-    private void validateProgressingStep() {
+    private void validateStatusForStepProgressing() {
         if (status.isCanceled()) {
             throw new PeautyException(PeautyResponseCode.CANNOT_PROGRESS_CANCELED_THREAD_STEP);
         }
         if (status.isWaiting()) {
             throw new PeautyException(PeautyResponseCode.CANNOT_PROGRESS_WAITING_THREAD_STEP);
-        }
-        if (step.hasNotNextStep()) {
-            throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_THREAD);
         }
     }
 

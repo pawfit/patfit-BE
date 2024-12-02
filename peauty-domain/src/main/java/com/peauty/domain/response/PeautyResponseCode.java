@@ -51,6 +51,8 @@ public enum PeautyResponseCode {
     CANNOT_CANCEL_COMPLETED_THREAD("1313", "Cannot Cancel Completed Thread", "완료된 입찰 스레드는 취소할 수 없습니다."),
     CANNOT_PROGRESS_CANCELED_THREAD_STEP("1314", "Cannot Progress Canceled Thread Step", "취소된 스레드의 단계는 변경할 수 없습니다."),
     CANNOT_PROGRESS_WAITING_THREAD_STEP("1315", "Cannot Progress Waiting Thread Step", "대기 중인 스레드의 단계는 변경할 수 없습니다."),
+    INVALID_STEP_PROGRESSING("1316", "Invalid Step Progressing", "해당 단계로 올릴 수 있는 단계가 아닙니다."),
+
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),
 
