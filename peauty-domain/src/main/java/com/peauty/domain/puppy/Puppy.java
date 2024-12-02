@@ -29,7 +29,7 @@ public class Puppy {
     private PuppySize puppySize;        // 분류
 
     // 강아지 이미지 목록
-    private List<AddyImage> Addy;       // Addy URL
+    private List<AddyImage> addyImages;       // Addy URL
 
     public Puppy assignCustomer(Long customerId) {
         this.customerId = customerId;
