@@ -9,18 +9,17 @@ public record CreateDesignerWorkspaceResult(
         String workspaceName,
         Double reviewRating,
         Integer reviewsCount,
-        // String scissor,
+        Scissor scissor,
         String introduceTitle,
         String introduce,
-        // TODO: 뱃지는 어떤 도메인에 넣을 것인지 생각
-        // List<String> representativeBadgeNames,
+        List<String> representativeBadgeNames,
         String noticeTitle,
         String notice,
         String address,
         String phoneNumber,
         Integer yearOfExperience,
         List<String> licenses,
-        List<PaymentOption> paymentType,
+        List<PaymentOption> paymentOptions,
         String openHours,
         String closeHours,
         String openDays,
@@ -32,16 +31,21 @@ public record CreateDesignerWorkspaceResult(
                 .map(License::getLicenseImageUrl)
                 .toList();
 
+        List<String> badges = designer.getBadges().stream()
+                .map(Badge::getBadgeContent)
+                .toList();
+
         return new CreateDesignerWorkspaceResult(
                 designer.getProfileImageUrl(),
                 designer.getNickname(),
                 workspace.getReviewRating(),
                 workspace.getReviewCount(),
-                //workspace.getRating().getScissor().toString(),
-               workspace.getIntroduceTitle(),
-               workspace.getIntroduce(),
-               workspace.getNoticeTitle(),
-               workspace.getNotice(),
+                workspace.getRating().getScissor(),
+                workspace.getIntroduceTitle(),
+                workspace.getIntroduce(),
+                badges,
+                workspace.getNoticeTitle(),
+                workspace.getNotice(),
                 designer.getAddress(),
                 designer.getPhoneNumber(),
                 designer.getYearOfExperience(),

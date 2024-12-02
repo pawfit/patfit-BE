@@ -10,20 +10,18 @@ import java.util.List;
 public record UpdateDesignerWorkspaceResponse(
         @Schema(description = "배너 이미지 URL", example = "이미지 url")
         String bannerImageUrl,
-//        @Schema(description = "닉네임", example = "value")
-//        String nickname,
-        String string, @Schema(description = "평점", example = "4.5")
+        @Schema(description = "가게 이름", example = "호키포키")
+        String workspace,
+        @Schema(description = "평점", example = "4.5")
         Double reviewRating,
         @Schema(description = "리뷰 수", example = "5")
         Integer reviewsCount,
-        // TODO: 처음에 가위종류는 None로 처리해서 진행할 것인가?
-        @Schema(description = "가위 종류", example = "gold scissor")
+        @Schema(description = "가위 종류", example = "GOLD")
         Scissor scissors,
         @Schema(description = "소개 제목", example = "호키포키에 오신 여러분들 환영합니다!")
         String introduceTitle,
         @Schema(description = "소개", example = "안녕하세요. 말티즈 및 푸들 모발 케어 호키포키입니다.")
         String introduce,
-        // TODO : 뱃지는 어느 도메인에 넣을지 생각하기
         @Schema(description = "대표 배지 이름들", example = "[\"사업자 등록 인증\", \"말티즈 전문가\"]")
         List<String> representativeBadgeNames,
         @Schema(description = "공지사항", example = "5주년 특별 공지 사항")
@@ -38,7 +36,7 @@ public record UpdateDesignerWorkspaceResponse(
         Integer yearOfExperience,
         @Schema(description = "자격증 이미지 URL들", example = "[\"자격증 이미지 url1\", \"자격증 이미지 url2\"]")
         List<String> licenses,
-        @Schema(description = "결제 방식", example = "[\"계좌 이체\", \"현금 결제\", \"카드 결제\"]")
+        @Schema(description = "결제 방식", example = "[\"ACCOUNT\", \"CASH\", \"CARD\"]")
         List<PaymentOption> paymentOptions,
         @Schema(description = "오픈 시간", example = "10:00")
         String openHours,
