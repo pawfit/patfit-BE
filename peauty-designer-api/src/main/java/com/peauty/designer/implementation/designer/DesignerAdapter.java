@@ -5,7 +5,6 @@ import com.peauty.designer.business.designer.DesignerPort;
 import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
-import com.peauty.domain.designer.Rating;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
@@ -50,7 +49,7 @@ public class DesignerAdapter implements DesignerPort {
                 .map(DesignerMapper::toDesignerDomain);
     }
 
-        @Override
+    @Override
     public Designer save(Designer designer) {
         DesignerEntity designerEntityToSave = DesignerMapper.toEntity(designer);
         List<LicenseEntity> licenseEntityToSave = DesignerMapper.toLicenseEntity(designer);

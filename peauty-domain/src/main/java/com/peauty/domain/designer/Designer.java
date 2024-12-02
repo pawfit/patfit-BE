@@ -7,7 +7,6 @@ import com.peauty.domain.user.Status;
 import lombok.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Builder

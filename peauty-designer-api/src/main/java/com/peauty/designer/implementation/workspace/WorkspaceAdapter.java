@@ -11,7 +11,6 @@ import com.peauty.persistence.designer.WorkspaceEntity;
 import com.peauty.persistence.designer.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -51,7 +50,7 @@ public class WorkspaceAdapter implements WorkspacePort {
                 .orElse(null);
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
-        log.info("======================== scisossors : {} ",rating.getScissor().toString());
+        log.info("======================== scisossors : {} ", rating.getScissor().toString());
         Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity);
         updatedWorkspace.updateRating(rating);
         return updatedWorkspace;
