@@ -3,13 +3,20 @@ package com.peauty.designer.implementation.workspace;
 import com.peauty.designer.business.shop.WorkspacePort;
 import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Workspace;
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.designer.RatingEntity;
 import com.peauty.persistence.designer.RatingRepository;
 import com.peauty.persistence.designer.WorkspaceEntity;
 import com.peauty.persistence.designer.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class WorkspaceAdapter implements WorkspacePort {
@@ -25,11 +32,28 @@ public class WorkspaceAdapter implements WorkspacePort {
 
     @Override
     public Workspace getByDesignerId(Long userId) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId);
-        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId());
+        WorkspaceEntity workspaceEntity = Optional.ofNullable(workspaceRepository.findByDesignerId(userId))
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+        RatingEntity ratingEntity = Optional.ofNullable(ratingRepository.findByWorkspaceId(workspaceEntity.getId()))
+                .orElse(null);
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
         workspace.updateRating(rating);
         return workspace;
+    }
+
+    @Override
+    public Workspace updateDesginerWorkspace(Long userId, Workspace workspace) {
+        WorkspaceEntity workspaceEntityToUpdate = WorkspaceMapper.toEntity(workspace, userId);
+        WorkspaceEntity updatedWorkspaceEntity = workspaceRepository.save(workspaceEntityToUpdate);
+
+        RatingEntity ratingEntity = Optional.ofNullable(ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId()))
+                .orElse(null);
+
+        Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
+        log.info("======================== scisossors : {} ",rating.getScissor().toString());
+        Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity);
+        updatedWorkspace.updateRating(rating);
+        return updatedWorkspace;
     }
 }

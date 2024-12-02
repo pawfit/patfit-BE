@@ -7,12 +7,14 @@ import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.Workspace;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -57,6 +59,7 @@ public class DesignerServiceImpl implements DesignerService {
     }
 
     @Override
+    @Transactional
     public CreateDesignerWorkspaceResult createDesignerWorkspace(Long userId, CreateDesignerWorkspaceCommand command) {
         Designer designerToCreate = designerPort.getByDesignerId(userId);
         Workspace workspaceToCreate = CreateDesignerWorkspaceCommand.toWorkspace(command);
@@ -65,10 +68,10 @@ public class DesignerServiceImpl implements DesignerService {
         designerToCreate.updateYearOfExperience(command.yearOfExperience());
         designerToCreate.updateLicenses(licenseToCreate);
 
-        Designer designer = designerPort.save(designerToCreate);
-        Workspace workspace = workspacePort.save(workspaceToCreate, designer.getDesignerId());
+        Designer savedDesigner = designerPort.save(designerToCreate);
+        Workspace savedWorkspace = workspacePort.save(workspaceToCreate, savedDesigner.getDesignerId());
 
-        return CreateDesignerWorkspaceResult.from(designer, workspace);
+        return CreateDesignerWorkspaceResult.from(savedDesigner, savedWorkspace);
     }
 
     @Override
@@ -77,5 +80,18 @@ public class DesignerServiceImpl implements DesignerService {
         Workspace workspace = workspacePort.getByDesignerId(userId);
 
         return GetDesignerWorkspaceResult.from(designer, workspace);
+    }
+
+    @Override
+    @Transactional
+    public UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command) {
+        Workspace workspaceToUpdate = workspacePort.getByDesignerId(userId);
+        workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
+
+        Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
+        Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
+
+        log.info(updatedWorkspace.getRating().getScissor().toString());
+        return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
     }
 }

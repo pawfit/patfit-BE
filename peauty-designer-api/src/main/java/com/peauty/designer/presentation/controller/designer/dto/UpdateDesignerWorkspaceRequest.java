@@ -1,12 +1,12 @@
 package com.peauty.designer.presentation.controller.designer.dto;
 
-import com.peauty.designer.business.designer.dto.CreateDesignerWorkspaceCommand;
+import com.peauty.designer.business.designer.dto.UpdateDesignerWorkspaceCommand;
 import com.peauty.domain.designer.PaymentOption;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-public record CreateDesignerWorkspaceRequest(
+public record UpdateDesignerWorkspaceRequest(
 
         @Schema(description = "배너 이미지 URL", example = "이미지 url")
         String bannerImageUrl,
@@ -51,21 +51,22 @@ public record CreateDesignerWorkspaceRequest(
         @Schema(description = "방향 안내", example = "방향 안내 내용")
         String directionGuide
 ) {
-    public CreateDesignerWorkspaceCommand toCommand() {
-        return new CreateDesignerWorkspaceCommand(
-                this.bannerImageUrl,
-                this.workspaceName,
-                this.introduceTitle,
-                this.introduce,
-                this.noticeTitle,
-                this.notice,
-                this.yearOfExperience,
-                this.licenses,
-                this.paymentOptions,
-                this.openHours,
-                this.closeHours,
-                this.openDays,
-                this.directionGuide
-        );
-    }
+        public UpdateDesignerWorkspaceCommand toCommand() {
+                return new UpdateDesignerWorkspaceCommand(
+                        this.bannerImageUrl,
+                        this.workspaceName,
+                        this.introduceTitle,
+                        this.introduce,
+                        this.noticeTitle,
+                        this.notice,
+                        this.address,
+                        this.yearOfExperience,
+                        this.licenses,
+                        this.paymentOptions,
+                        this.openHours,
+                        this.closeHours,
+                        this.openDays,
+                        this.directionGuide
+                );
+        }
 }

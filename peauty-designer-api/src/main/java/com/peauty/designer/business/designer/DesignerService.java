@@ -10,4 +10,5 @@ public interface DesignerService {
     void checkDesignerNicknameDuplicated(String nickname);
     CreateDesignerWorkspaceResult createDesignerWorkspace(Long userId, CreateDesignerWorkspaceCommand command);
     GetDesignerWorkspaceResult getDesignerWorkspace(Long workspaceId);
+    UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command);
 }

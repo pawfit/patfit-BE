@@ -6,4 +6,5 @@ public interface WorkspacePort {
     Workspace save(Workspace workspace, Long designerId);
 
     Workspace getByDesignerId(Long userId);
+    Workspace updateDesginerWorkspace(Long userId, Workspace workspace);
 }

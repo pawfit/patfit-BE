@@ -93,4 +93,5 @@ public class Designer {
     public void updateBadges(List<Badge> badges) {
         this.badges = badges;
     }
+
 }

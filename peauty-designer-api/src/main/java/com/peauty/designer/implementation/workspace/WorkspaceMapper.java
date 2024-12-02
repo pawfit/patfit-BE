@@ -1,6 +1,7 @@
 package com.peauty.designer.implementation.workspace;
 
 import com.peauty.domain.designer.Rating;
+import com.peauty.domain.designer.Scissor;
 import com.peauty.domain.designer.Workspace;
 import com.peauty.persistence.designer.RatingEntity;
 import com.peauty.persistence.designer.WorkspaceEntity;
@@ -51,6 +52,14 @@ public class WorkspaceMapper {
     }
 
     public static Rating toRatingDomain(RatingEntity rating) {
+        if (rating == null) {
+            return Rating.builder()
+                    .ratingId(0L)
+                    .totalScore(0.0)
+                    .scissor(Scissor.NONE)
+                    .build();
+        }
+
         return Rating.builder()
                 .ratingId(rating.getId())
                 .totalScore(rating.getTotalScore())

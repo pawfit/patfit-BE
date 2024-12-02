@@ -5,6 +5,7 @@ import com.peauty.designer.business.designer.DesignerPort;
 import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
+import com.peauty.domain.designer.Rating;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
@@ -26,6 +27,7 @@ public class DesignerAdapter implements DesignerPort {
     private final LicenseRepository licenseRepository;
     private final DesignerBadgeRepository designerBadgeRepository;
     private final BadgeRepository badgeRepository;
+    private final RatingRepository ratingRepository;
 
     @Override
     public void checkCustomerNicknameDuplicated(String nickname) {
@@ -94,11 +96,7 @@ public class DesignerAdapter implements DesignerPort {
                 .map(DesignerMapper::toLicenses)
                 .orElse(Collections.emptyList());
 
-        // 디자이너뱃지 테이블에서 뱃지 테이블로 매핑
-        // 디자이너 아이디로 먼저 뱃지 아이디 가져오기
         List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
-
-        // 뱃지 아이디로 뱃지 레파지토리에서 정보 가져오기
         List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
         List<Badge> badges = badgeEntities.stream()
                 .map(badgeEntity -> Badge.builder()

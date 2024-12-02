@@ -1,18 +1,20 @@
 package com.peauty.designer.business.designer.dto;
 
+
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.PaymentOption;
 import com.peauty.domain.designer.Workspace;
 
 import java.util.List;
 
-public record CreateDesignerWorkspaceCommand(
+public record UpdateDesignerWorkspaceCommand(
         String bannerImageUrl,
         String workspaceName,
         String introduceTitle,
         String introduce,
         String noticeTitle,
         String notice,
+        String address,
         Integer yearOfExperience,
         List<String> licenses,
         List<PaymentOption> paymentOptions,
@@ -21,7 +23,7 @@ public record CreateDesignerWorkspaceCommand(
         String openDays,
         String directionGuide
 ) {
-    public static Workspace toWorkspace(CreateDesignerWorkspaceCommand command) {
+    public static Workspace toWorkspace(UpdateDesignerWorkspaceCommand command) {
         return Workspace.builder()
                 .bannerImageUrl(command.bannerImageUrl())
                 .workspaceName(command.workspaceName())
@@ -44,5 +46,4 @@ public record CreateDesignerWorkspaceCommand(
                         .build())
                 .toList();
     }
-
 }

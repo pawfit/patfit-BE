@@ -1,6 +1,7 @@
 package com.peauty.designer.presentation.controller.designer;
 
 import com.peauty.designer.business.designer.DesignerService;
+import com.peauty.designer.business.designer.UpdateDesignerWorkspaceResult;
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.presentation.controller.designer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,12 +52,19 @@ public class DesignerController {
         CreateDesignerWorkspaceResult result = designerService.createDesignerWorkspace(userId, request.toCommand());
         return CreateDesignerWorkspaceResponse.from(result);
     }
-    //
+
     @GetMapping(value ="/{userId}/shop")
     @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
     public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
         GetDesignerWorkspaceResult result = designerService.getDesignerWorkspace(userId);
         return GetDesignerWorkspaceResponse.from(result);
+    }
+
+    @PutMapping(value = "/{userId}/shop")
+    @Operation(summary = "디자이너 워크 스페이스 수정", description = "디자이너 워크 스페이스 수정 API 진입점입니다.")
+    public UpdateDesignerWorkspaceResponse updateDesignerWorkspace(@PathVariable Long userId, @RequestBody UpdateDesignerWorkspaceRequest request){
+        UpdateDesignerWorkspaceResult result = designerService.updateDesignerWorkspace(userId, request.toCommand());
+        return UpdateDesignerWorkspaceResponse.from(result);
     }
 
 
