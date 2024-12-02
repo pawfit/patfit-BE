@@ -78,4 +78,12 @@ public class CustomerAdapter implements CustomerPort {
                 .map(CustomerMapper::toDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
     }
+
+    @Override
+    public Customer findByCustomerById(Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(CustomerMapper::toDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+    }
+
 }

@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -53,6 +55,14 @@ public class PuppyAdapter implements PuppyPort {
         PuppyEntity puppyEntityToSave = PuppyMapper.toEntity(puppy, customer);
         PuppyEntity savedPuppyEntity = puppyRepository.save(puppyEntityToSave);
         return PuppyMapper.toDomain(savedPuppyEntity);
+    }
+
+    @Override
+    public List<Puppy> findAllByCustomerId(Long customerId){
+        return puppyRepository.findAllByCustomerId(customerId)
+                .stream()
+                .map(PuppyMapper::toDomain)
+                .toList();
     }
 
 

@@ -1,12 +1,16 @@
 package com.peauty.customer.business.puppy;
 
+import com.peauty.customer.business.customer.CustomerPort;
 import com.peauty.customer.business.internal.InternalPort;
 import com.peauty.customer.business.puppy.dto.*;
+import com.peauty.domain.customer.Customer;
 import com.peauty.domain.puppy.Puppy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +19,7 @@ public class PuppyServiceImpl implements PuppyService {
 
     private final PuppyPort puppyPort;
     private final InternalPort internalPort;
+    private final CustomerPort customerPort;
 
     @Override
     @Transactional
@@ -67,4 +72,18 @@ public class PuppyServiceImpl implements PuppyService {
         puppyPort.deletePuppy(puppyId);
     }
 
+    @Override
+    public List<GetPuppyProfileResult> getPuppyProfiles(Long customerId) {
+
+        Customer customer = customerPort.findByCustomerById(customerId);
+        // 고객 ID로 반려견 목록 조회
+        List<Puppy> puppies = puppyPort.findAllByCustomerId(customerId);
+
+        return puppies.stream()
+                .map(puppy -> GetPuppyProfileResult.from(customer, puppy))
+                .toList();
+    }
 }
+
+
+

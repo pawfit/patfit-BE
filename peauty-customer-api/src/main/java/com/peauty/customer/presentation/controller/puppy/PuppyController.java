@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @Tag(name = "Puppy", description = "Puppy API")
 @RequestMapping("/v1/users")
@@ -64,6 +66,22 @@ public class PuppyController {
     ) {
         puppyService.deletePuppy(userId, puppyId);
         return new DeletePuppyResponse("삭제되었습니다.");
+    }
+
+    ////////////////////////
+    // 반려견 전체 조회 API
+    @GetMapping("/{userId}/puppies")
+    @Operation(summary = "반려견 전체 조회", description = "고객 본인의 전체 반려견을 조회하는 API 진입점입니다.")
+    public List<GetPuppyProfileResponse> getPuppyProfiles(@PathVariable Long userId){
+        List<GetPuppyProfileResult> results = puppyService.getPuppyProfiles(userId);
+        return results.stream()
+                .map(GetPuppyProfileResponse::from)
+                .toList(); // TODO
+        /*
+                return results.stream()
+                .map(GetPuppyProfileResponse::from)
+                .collect(Collectors.toList());
+        */
     }
 
 }
