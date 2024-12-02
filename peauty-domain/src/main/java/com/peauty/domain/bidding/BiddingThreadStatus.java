@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 @Getter
-public enum GroomingBiddingThreadStatus {
+public enum BiddingThreadStatus {
 
     NORMAL("정상"),
     CANCELED("취소"),
@@ -15,7 +15,7 @@ public enum GroomingBiddingThreadStatus {
 
     private final String description;
 
-    GroomingBiddingThreadStatus(String description) {
+    BiddingThreadStatus(String description) {
         this.description = description;
     }
 
@@ -31,8 +31,8 @@ public enum GroomingBiddingThreadStatus {
         return this == WAITING;
     }
 
-    public static GroomingBiddingThreadStatus from(String description) {
-        return Arrays.stream(GroomingBiddingThreadStatus.values())
+    public static BiddingThreadStatus from(String description) {
+        return Arrays.stream(BiddingThreadStatus.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_BIDDING_THREAD_EXCEPTION_STATUS));

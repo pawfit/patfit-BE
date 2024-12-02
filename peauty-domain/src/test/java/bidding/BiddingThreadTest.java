@@ -1,7 +1,7 @@
-package grooming;
+package bidding;
 
 import com.peauty.domain.exception.PeautyException;
-import com.peauty.domain.grooming.*;
+import com.peauty.domain.bidding.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,15 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class GroomingBiddingThreadTest {
+class BiddingThreadTest {
 
-    private GroomingBiddingProcess mockProcess;
+    private BiddingProcess mockProcess;
     private PuppyId puppyId;
     private DesignerId designerId;
 
     @BeforeEach
     void setUp() {
-        mockProcess = mock(GroomingBiddingProcess.class);
+        mockProcess = mock(BiddingProcess.class);
         puppyId = new PuppyId(1L);
         designerId = new DesignerId(1L);
     }
@@ -31,26 +31,26 @@ class GroomingBiddingThreadTest {
         @DisplayName("새로운 스레드를 생성할 수 있다")
         void createNewThread() {
             // when
-            GroomingBiddingThread thread = GroomingBiddingThread.createNewThread(puppyId, designerId);
+            BiddingThread thread = BiddingThread.createNewThread(puppyId, designerId);
 
             // then
             assertThat(thread.getId()).isNull();
             assertThat(thread.getPuppyId()).isEqualTo(puppyId);
             assertThat(thread.getDesignerId()).isEqualTo(designerId);
-            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.ESTIMATE_REQUEST);
+            assertThat(thread.getStep()).isEqualTo(BiddingThreadStep.ESTIMATE_REQUEST);
         }
 
         @Test
         @DisplayName("기존 스레드를 로드할 수 있다")
         void loadThread() {
             // given
-            GroomingBiddingThread.ID threadId = new GroomingBiddingThread.ID(1L);
-            GroomingBiddingThreadStep step = GroomingBiddingThreadStep.ESTIMATE_RESPONSE;
-            GroomingBiddingThreadStatus status = GroomingBiddingThreadStatus.NORMAL;
-            GroomingBiddingThreadTimeInfo timeInfo = mock(GroomingBiddingThreadTimeInfo.class);
+            BiddingThread.ID threadId = new BiddingThread.ID(1L);
+            BiddingThreadStep step = BiddingThreadStep.ESTIMATE_RESPONSE;
+            BiddingThreadStatus status = BiddingThreadStatus.NORMAL;
+            BiddingThreadTimeInfo timeInfo = mock(BiddingThreadTimeInfo.class);
 
             // when
-            GroomingBiddingThread thread = GroomingBiddingThread.loadThread(
+            BiddingThread thread = BiddingThread.loadThread(
                     threadId, puppyId, designerId, step, status, timeInfo);
 
             // then
@@ -62,18 +62,18 @@ class GroomingBiddingThreadTest {
     @Nested
     @DisplayName("스레드 단계 진행 테스트")
     class ProgressStepTest {
-        private GroomingBiddingThread thread;
-        private GroomingBiddingThreadTimeInfo mockTimeInfo;
+        private BiddingThread thread;
+        private BiddingThreadTimeInfo mockTimeInfo;
 
         @BeforeEach
         void setUp() {
-            mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            mockTimeInfo = mock(BiddingThreadTimeInfo.class);
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.NORMAL,
+                    BiddingThreadStep.ESTIMATE_REQUEST,
+                    BiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
             thread.registerProcessObserver(mockProcess);
@@ -86,7 +86,7 @@ class GroomingBiddingThreadTest {
             thread.responseEstimate();
 
             // then
-            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.ESTIMATE_RESPONSE);
+            assertThat(thread.getStep()).isEqualTo(BiddingThreadStep.ESTIMATE_RESPONSE);
             verify(mockTimeInfo).onStepChange();
         }
 
@@ -100,7 +100,7 @@ class GroomingBiddingThreadTest {
             thread.reserve();
 
             // then
-            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.RESERVED);
+            assertThat(thread.getStep()).isEqualTo(BiddingThreadStep.RESERVED);
             verify(mockProcess).onThreadReserved();
             verify(mockTimeInfo, times(2)).onStepChange();
         }
@@ -116,7 +116,7 @@ class GroomingBiddingThreadTest {
             thread.complete();
 
             // then
-            assertThat(thread.getStep()).isEqualTo(GroomingBiddingThreadStep.COMPLETED);
+            assertThat(thread.getStep()).isEqualTo(BiddingThreadStep.COMPLETED);
             verify(mockProcess).onThreadReserved();
             verify(mockProcess).onThreadCompleted();
             verify(mockTimeInfo, times(3)).onStepChange();
@@ -157,18 +157,18 @@ class GroomingBiddingThreadTest {
     @Nested
     @DisplayName("스레드 취소 테스트")
     class CancelTest {
-        private GroomingBiddingThread thread;
-        private GroomingBiddingThreadTimeInfo mockTimeInfo;
+        private BiddingThread thread;
+        private BiddingThreadTimeInfo mockTimeInfo;
 
         @BeforeEach
         void setUp() {
-            mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            mockTimeInfo = mock(BiddingThreadTimeInfo.class);
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.NORMAL,
+                    BiddingThreadStep.ESTIMATE_REQUEST,
+                    BiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
             thread.registerProcessObserver(mockProcess);
@@ -181,7 +181,7 @@ class GroomingBiddingThreadTest {
             thread.cancel();
 
             // then
-            assertThat(thread.getStatus()).isEqualTo(GroomingBiddingThreadStatus.CANCELED);
+            assertThat(thread.getStatus()).isEqualTo(BiddingThreadStatus.CANCELED);
             verify(mockTimeInfo).onStatusChange();
         }
 
@@ -189,12 +189,12 @@ class GroomingBiddingThreadTest {
         @DisplayName("예약된 스레드를 취소하면 프로세스에 통지한다")
         void notifyProcessWhenReservedThreadCanceled() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.RESERVED,
-                    GroomingBiddingThreadStatus.NORMAL,
+                    BiddingThreadStep.RESERVED,
+                    BiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
             thread.registerProcessObserver(mockProcess);
@@ -210,12 +210,12 @@ class GroomingBiddingThreadTest {
         @DisplayName("이미 취소된 스레드는 다시 취소할 수 없다")
         void cannotCancelCanceledThread() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.CANCELED,
+                    BiddingThreadStep.ESTIMATE_REQUEST,
+                    BiddingThreadStatus.CANCELED,
                     mockTimeInfo
             );
 
@@ -227,12 +227,12 @@ class GroomingBiddingThreadTest {
         @DisplayName("완료된 스레드는 취소할 수 없다")
         void cannotCancelCompletedThread() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.COMPLETED,
-                    GroomingBiddingThreadStatus.NORMAL,
+                    BiddingThreadStep.COMPLETED,
+                    BiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
 
@@ -244,18 +244,18 @@ class GroomingBiddingThreadTest {
     @Nested
     @DisplayName("스레드 상태 변경 테스트")
     class StatusChangeTest {
-        private GroomingBiddingThread thread;
-        private GroomingBiddingThreadTimeInfo mockTimeInfo;
+        private BiddingThread thread;
+        private BiddingThreadTimeInfo mockTimeInfo;
 
         @BeforeEach
         void setUp() {
-            mockTimeInfo = mock(GroomingBiddingThreadTimeInfo.class);
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            mockTimeInfo = mock(BiddingThreadTimeInfo.class);
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.NORMAL,
+                    BiddingThreadStep.ESTIMATE_REQUEST,
+                    BiddingThreadStatus.NORMAL,
                     mockTimeInfo
             );
         }
@@ -267,7 +267,7 @@ class GroomingBiddingThreadTest {
             thread.waiting();
 
             // then
-            assertThat(thread.getStatus()).isEqualTo(GroomingBiddingThreadStatus.WAITING);
+            assertThat(thread.getStatus()).isEqualTo(BiddingThreadStatus.WAITING);
             verify(mockTimeInfo).onStatusChange();
         }
 
@@ -275,12 +275,12 @@ class GroomingBiddingThreadTest {
         @DisplayName("대기 중인 스레드를 진행 중 상태로 변경할 수 있다")
         void canRelease() {
             // given
-            thread = GroomingBiddingThread.loadThread(
-                    new GroomingBiddingThread.ID(1L),
+            thread = BiddingThread.loadThread(
+                    new BiddingThread.ID(1L),
                     puppyId,
                     designerId,
-                    GroomingBiddingThreadStep.ESTIMATE_REQUEST,
-                    GroomingBiddingThreadStatus.WAITING,
+                    BiddingThreadStep.ESTIMATE_REQUEST,
+                    BiddingThreadStatus.WAITING,
                     mockTimeInfo
             );
 
@@ -288,7 +288,7 @@ class GroomingBiddingThreadTest {
             thread.release();
 
             // then
-            assertThat(thread.getStatus()).isEqualTo(GroomingBiddingThreadStatus.NORMAL);
+            assertThat(thread.getStatus()).isEqualTo(BiddingThreadStatus.NORMAL);
             verify(mockTimeInfo).onStatusChange();
         }
     }

@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 @Getter
-public enum GroomingBiddingThreadStep {
+public enum BiddingThreadStep {
 
     ESTIMATE_REQUEST("견적요청", 1),
     ESTIMATE_RESPONSE("견적응답", 2),
@@ -17,7 +17,7 @@ public enum GroomingBiddingThreadStep {
     private final String description;
     private final int step;
 
-    GroomingBiddingThreadStep(String description, int step) {
+    BiddingThreadStep(String description, int step) {
         this.description = description;
         this.step = step;
     }
@@ -38,15 +38,15 @@ public enum GroomingBiddingThreadStep {
         return this == COMPLETED;
     }
 
-    public boolean isBefore(GroomingBiddingThreadStep other) {
+    public boolean isBefore(BiddingThreadStep other) {
         return this.step < other.step;
     }
 
-    public boolean isAfter(GroomingBiddingThreadStep other) {
+    public boolean isAfter(BiddingThreadStep other) {
         return this.step > other.step;
     }
 
-    public GroomingBiddingThreadStep getNextStep() {
+    public BiddingThreadStep getNextStep() {
         return fromStep(Math.min(this.step + 1, COMPLETED.step));
     }
 
@@ -54,15 +54,15 @@ public enum GroomingBiddingThreadStep {
         return this.step >= COMPLETED.step;
     }
 
-    public static GroomingBiddingThreadStep fromDescription(String description) {
-        return Arrays.stream(GroomingBiddingThreadStep.values())
+    public static BiddingThreadStep fromDescription(String description) {
+        return Arrays.stream(BiddingThreadStep.values())
                 .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_BIDDING_THREAD_STEP_DESCRIPTION));
     }
 
-    public static GroomingBiddingThreadStep fromStep(int step) {
-        return Arrays.stream(GroomingBiddingThreadStep.values())
+    public static BiddingThreadStep fromStep(int step) {
+        return Arrays.stream(BiddingThreadStep.values())
                 .filter(it -> it.step == step)
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_BIDDING_THREAD_STEP));

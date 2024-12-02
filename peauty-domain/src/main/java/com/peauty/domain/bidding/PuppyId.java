@@ -1,4 +1,4 @@
-package com.peauty.domain.grooming;
+package com.peauty.domain.bidding;
 
 public record PuppyId(Long value) {
     public boolean isSameId(Long id) {
