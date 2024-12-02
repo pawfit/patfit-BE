@@ -13,6 +13,7 @@ import java.util.List;
 public class Review {
 
     private Long reviewId;                      // 리뷰 ID
+    private Long biddingThreadId;               // 입찰 스레드 ID
     private ReviewRating reviewRating;          // 별점
     private String contentDetail;               // 상세리뷰
     private ContentGeneral contentGeneral;      // 일반리뷰
