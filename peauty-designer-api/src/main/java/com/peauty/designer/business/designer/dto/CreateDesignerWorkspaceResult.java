@@ -23,8 +23,7 @@ public record CreateDesignerWorkspaceResult(
         String openHours,
         String closeHours,
         String openDays,
-        String directionGuide
-) {
+        String directionGuide) {
 
     public static CreateDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
         List<String> licenses = designer.getLicenses().stream()
@@ -35,9 +34,10 @@ public record CreateDesignerWorkspaceResult(
                 .map(Badge::getBadgeContent)
                 .toList();
 
+        // 필드 순서에 맞춘 매핑
         return new CreateDesignerWorkspaceResult(
                 designer.getProfileImageUrl(),
-                designer.getNickname(),
+                workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
                 workspace.getReviewCount(),
                 workspace.getRating().getScissor(),

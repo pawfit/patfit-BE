@@ -9,6 +9,7 @@ import java.util.List;
 public record CreateDesignerWorkspaceCommand(
         String bannerImageUrl,
         String workspaceName,
+        String address,
         String introduceTitle,
         String introduce,
         String noticeTitle,
@@ -33,6 +34,7 @@ public record CreateDesignerWorkspaceCommand(
                 .openHours(command.openHours())
                 .closeHours(command.closeHours())
                 .openDays(command.openDays())
+                .address(command.address)
                 .directionGuide(command.directionGuide())
                 .build();
     }

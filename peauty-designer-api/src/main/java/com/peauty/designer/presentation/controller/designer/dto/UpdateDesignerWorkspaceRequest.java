@@ -38,7 +38,6 @@ public record UpdateDesignerWorkspaceRequest(
         @Schema(description = "결제 방식 목록", example = "[\"ACCOUNT\"]")
         List<PaymentOption> paymentOptions,
 
-        // TODO : 바뀔 수 있을 것 같다.
         @Schema(description = "영업 시작 시간", example = "10:00")
         String openHours,
 
@@ -48,7 +47,7 @@ public record UpdateDesignerWorkspaceRequest(
         @Schema(description = "영업일", example = "주말휴무")
         String openDays,
 
-        @Schema(description = "방향 안내", example = "방향 안내 내용")
+        //@Schema(description = "방향 안내", example = "방향 안내 내용")
         String directionGuide
 ) {
         public UpdateDesignerWorkspaceCommand toCommand() {

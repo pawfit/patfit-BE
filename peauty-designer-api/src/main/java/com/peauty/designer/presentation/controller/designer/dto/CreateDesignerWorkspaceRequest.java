@@ -59,6 +59,7 @@ public record CreateDesignerWorkspaceRequest(
                 this.introduce,
                 this.noticeTitle,
                 this.notice,
+                this.address,
                 this.yearOfExperience,
                 this.licenses,
                 this.paymentOptions,

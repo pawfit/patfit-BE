@@ -43,32 +43,32 @@ public record CreateDesignerWorkspaceResponse(
         String openHours,
         @Schema(description = "마감 시간", example = "20:00")
         String closeHours,
-        @Schema(description = "영업일", example = "주말휴무")
+        @Schema(description = "영업일", example = "연중무휴")
         String openDay,
         @Schema(description = "매장까지의 거리 정보(시간)", example = "위례역 도보 3분 거리")
         String directionGuide
 ) {
-    public static CreateDesignerWorkspaceResponse from(CreateDesignerWorkspaceResult result) {
-        return new CreateDesignerWorkspaceResponse(
-                result.bannerImageUrl(),
-                result.workspaceName(),
-                result.reviewRating(),
-                result.reviewsCount(),
-                result.scissor(),
-                result.introduce(),
-                result.introduceTitle(),
-                result.representativeBadgeNames(),
-                result.notice(),
-                result.noticeTitle(),
-                result.address(),
-                result.phoneNumber(),
-                result.yearOfExperience(),
-                result.licenses(),
-                result.paymentOptions(),
-                result.openHours(),
-                result.closeHours(),
-                result.openDays(),
-                result.directionGuide()
-        );
-    }
+        public static CreateDesignerWorkspaceResponse from(CreateDesignerWorkspaceResult result) {
+                return new CreateDesignerWorkspaceResponse(
+                        result.bannerImageUrl(),
+                        result.workspaceName(),
+                        result.reviewRating(),
+                        result.reviewsCount(),
+                        result.scissor(),
+                        result.introduceTitle(),
+                        result.introduce(),
+                        result.representativeBadgeNames(),
+                        result.noticeTitle(),
+                        result.notice(),
+                        result.address(),
+                        result.phoneNumber(),
+                        result.yearOfExperience(),
+                        result.licenses(),
+                        result.paymentOptions(),
+                        result.openHours(),
+                        result.closeHours(),
+                        result.openDays(),
+                        result.directionGuide()
+                );
+        }
 }
