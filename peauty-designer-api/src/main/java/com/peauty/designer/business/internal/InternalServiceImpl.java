@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InternalServiceImpl implements InternalService {
@@ -13,5 +15,10 @@ public class InternalServiceImpl implements InternalService {
     @Override
     public String uploadImage(MultipartFile image) {
         return internalPort.uploadImage(image);
+    }
+
+    @Override
+    public List<String> uploadImages(List<MultipartFile> images) {
+        return internalPort.uploadImages(images);
     }
 }
