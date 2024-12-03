@@ -1,5 +1,6 @@
 package com.peauty.persistence.designer;
 
+import com.peauty.domain.designer.Scissor;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,13 +17,13 @@ public class RatingEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designer_id")
-    private DesignerEntity designer;
+    @Column(name = "workspace_id", nullable = false)
+    private Long workspaceId;
 
     @Column(name = "total_score")
-    private Integer totalScore;
+    private Double totalScore;
 
-    @Column(name = "scissors")
-    private Float scissors;
+    @Column(name = "scissor")
+    @Enumerated(EnumType.STRING)
+    private Scissor scissor;
 }

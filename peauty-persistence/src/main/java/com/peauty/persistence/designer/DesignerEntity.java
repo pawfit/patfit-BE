@@ -37,22 +37,20 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "phone_number", length = 50)
     private String phoneNumber;
 
+    @Column(name = "address")
+    private String address;
+
     @Lob
     @Column(name = "profile_image_url")
     private String profileImageUrl;
+
+    @Column(name = "years_of_experience")
+    private Integer yearsOfExperience;
 
     // TODO domain 의 의존성 끊기 고려
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private DesignerInfoEntity designerInfo;
-
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private ShopEntity shop;
-
-    @OneToOne(mappedBy = "designer", cascade = CascadeType.ALL)
-    private RatingEntity rating;
 }
 

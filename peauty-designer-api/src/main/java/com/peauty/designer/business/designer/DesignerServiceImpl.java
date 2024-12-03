@@ -2,12 +2,19 @@ package com.peauty.designer.business.designer;
 
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.business.internal.InternalPort;
+import com.peauty.designer.business.workspace.WorkspacePort;
 import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
+import com.peauty.domain.designer.Workspace;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -15,6 +22,7 @@ public class DesignerServiceImpl implements DesignerService {
 
     private final DesignerPort designerPort;
     private final InternalPort internalPort;
+    private final WorkspacePort workspacePort;
 
     @Override
     @Transactional
@@ -46,9 +54,48 @@ public class DesignerServiceImpl implements DesignerService {
     }
 
     @Override
-    public void checkDesignerNicknameDuplicated(String nickname){
-        designerPort.checkCustomerNicknameDuplicated(nickname);
+    public void checkDesignerNicknameDuplicated(String nickname) {
+        designerPort.checkDesignerNicknameDuplicated(nickname);
     }
 
+    @Override
+    @Transactional
+    public CreateDesignerWorkspaceResult createDesignerWorkspace(Long userId, CreateDesignerWorkspaceCommand command) {
+        Designer designerToCreate = designerPort.getByDesignerId(userId);
+        Workspace workspaceToCreate = CreateDesignerWorkspaceCommand.toWorkspace(command);
+        List<License> licenseToCreate = CreateDesignerWorkspaceCommand.toLicense(command);
 
+        designerToCreate.updateYearOfExperience(command.yearOfExperience());
+        designerToCreate.updateLicenses(licenseToCreate);
+
+        Designer savedDesigner = designerPort.save(designerToCreate);
+        Workspace savedWorkspace = workspacePort.save(workspaceToCreate, savedDesigner.getDesignerId());
+        Workspace getRating = workspacePort.getByDesignerId(userId);
+
+        savedWorkspace.updateRating(getRating.getRating());
+        savedDesigner.updateBadges(designerPort.getBadges(userId));
+
+        return CreateDesignerWorkspaceResult.from(savedDesigner, savedWorkspace);
+    }
+
+    @Override
+    public GetDesignerWorkspaceResult getDesignerWorkspace(Long userId) {
+        Designer designer = designerPort.getAllDesignerDataByDesignerId(userId);
+        Workspace workspace = workspacePort.getByDesignerId(userId);
+
+        designer.updateBadges(designerPort.getBadges(userId));
+        return GetDesignerWorkspaceResult.from(designer, workspace);
+    }
+
+    @Override
+    @Transactional
+    public UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command) {
+        Workspace workspaceToUpdate = workspacePort.getByDesignerId(userId);
+        workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
+
+        Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
+        Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
+
+        return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
+    }
 }

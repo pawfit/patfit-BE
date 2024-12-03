@@ -6,7 +6,7 @@ import com.peauty.domain.user.SocialPlatform;
 import com.peauty.domain.user.Status;
 import lombok.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @Getter
 @Builder
@@ -27,9 +27,9 @@ public class Designer {
     private String nickname;
     private String address;
     private String profileImageUrl;
-    private DesignerInfo designerInfo;
-    private Shop shop;
-    private Rating rating;
+    private Integer yearOfExperience;
+    private List<License> licenses;
+    private List<Badge> badges;
 
     public AuthInfo getAuthInfo() {
         return new AuthInfo(
@@ -39,14 +39,6 @@ public class Designer {
                 status,
                 role
         );
-    }
-
-    public Optional<DesignerInfo> getDesignerInfoOptional() {
-        return Optional.ofNullable(designerInfo);
-    }
-
-    public Optional<Shop> getShopOptional() {
-        return Optional.ofNullable(shop);
     }
 
     public void deactivate() {
@@ -81,12 +73,20 @@ public class Designer {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public void updateBannerImageUrl(String bannerImageUrl) {
-        this.profileImageUrl = bannerImageUrl;
-    }
-
     public void updateEmail(String email) {
         this.email = email;
+    }
+
+    public void updateYearOfExperience(Integer yearOfExperience) {
+        this.yearOfExperience = yearOfExperience;
+    }
+
+    public void updateLicenses(List<License> licenses) {
+        this.licenses = licenses;
+    }
+
+    public void updateBadges(List<Badge> badges) {
+        this.badges = badges;
     }
 
 }

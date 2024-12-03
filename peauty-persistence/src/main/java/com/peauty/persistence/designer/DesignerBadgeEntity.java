@@ -16,13 +16,11 @@ public class DesignerBadgeEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
-    private DesignerEntity designer;
+    private Long designerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_id")
-    private BadgeEntity badge;
+    private Long badgeId;
 
     @Column(name = "is_representative_badge", nullable = false)
     private boolean isRepresentativeBadge;      // 대표 뱃지 여부
