@@ -53,6 +53,11 @@ public enum PeautyResponseCode {
     CANNOT_PROGRESS_CANCELED_THREAD_STEP("1314", "Cannot Progress Canceled Thread Step", "취소된 스레드의 단계는 변경할 수 없습니다."),
     CANNOT_PROGRESS_WAITING_THREAD_STEP("1315", "Cannot Progress Waiting Thread Step", "대기 중인 스레드의 단계는 변경할 수 없습니다."),
     INVALID_STEP_PROGRESSING("1316", "Invalid Step Progressing", "해당 단계로 올릴 수 있는 단계가 아닙니다."),
+    ONLY_BELONGING_PROCESS_CAN_BE_OBSERVER("1317", "Invalid Process Observer", "속한 프로세스가 아닌 다른 프로세스의 상태는 변경할 수 없습니다."),
+    PROCESS_OBSERVER_NOT_REGISTERED("1318", "Observer Not Registered", "스레드의 상태가 변경되면 속한 프로세스의 상태도 변경될 수 있어야합니다."),
+    PROCESS_NOT_REGISTERED("1319", "Process Not Registered", "스레드는 등록되지 않은 프로세스에 속할 수 없습니다."),
+    NOT_INITIALIZED_PROCESS("1320", "Not Initialized Process", "초기화되지 않은 프로세스입니다."),
+    NOT_FOUND_BIDDING_PROCESS("1321", "Not Found Bidding Process", "해당 입찰 프로세스를 찾을 수 없습니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

@@ -12,7 +12,7 @@ public class BiddingProcessTimeInfo {
     private LocalDateTime createdAt;
     private LocalDateTime statusModifiedAt;
 
-    public void onStatusChange() {
+    protected void onStatusChange() {
         this.statusModifiedAt = LocalDateTime.now();
     }
 

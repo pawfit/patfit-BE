@@ -13,11 +13,11 @@ public class BiddingThreadTimeInfo {
     private LocalDateTime stepModifiedAt;
     private LocalDateTime statusModifiedAt;
 
-    public void onStepChange() {
+    protected void onStepChange() {
         this.stepModifiedAt = LocalDateTime.now();
     }
 
-    public void onStatusChange() {
+    protected void onStatusChange() {
         this.statusModifiedAt = LocalDateTime.now();
     }
 

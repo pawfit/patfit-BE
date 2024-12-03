@@ -4,32 +4,34 @@ import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.*;
 
+import java.util.Optional;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BiddingThread {
 
-    @Getter private final ID id; // TODO Optional Getter 적용하기
-    @Getter private final PuppyId puppyId;
+    private final ID id;
+    @Getter private final BiddingProcess.ID processId;
     @Getter private final DesignerId designerId;
     @Getter private BiddingThreadStep step;
     @Getter private BiddingThreadStatus status;
     @Getter private BiddingThreadTimeInfo timeInfo;
-    private BiddingProcess processObserver;
+    private BiddingProcess belongingProcessObserver;
 
     public static BiddingThread loadThread(
             ID id,
-            PuppyId puppyId,
+            BiddingProcess.ID processId,
             DesignerId designerId,
             BiddingThreadStep step,
             BiddingThreadStatus status,
             BiddingThreadTimeInfo timeInfo
     ) {
-        return new BiddingThread(id, puppyId, designerId, step, status, timeInfo, null);
+        return new BiddingThread(id, processId, designerId, step, status, timeInfo, null);
     }
 
-    public static BiddingThread createNewThread(PuppyId puppyId, DesignerId designerId) {
+    protected static BiddingThread createNewThread(BiddingProcess.ID processId, DesignerId designerId) {
         return new BiddingThread(
                 null,
-                puppyId,
+                processId,
                 designerId,
                 BiddingThreadStep.ESTIMATE_REQUEST,
                 BiddingThreadStatus.NORMAL,
@@ -38,50 +40,69 @@ public class BiddingThread {
         );
     }
 
-    public void registerProcessObserver(BiddingProcess process) {
-        this.processObserver = process;
+    public Optional<ID> getId() {
+        return Optional.ofNullable(id);
     }
 
-    public void responseEstimate() {
+    protected void registerBelongingProcessObserver(BiddingProcess belongingProcess) {
+        Long processId = belongingProcess.getId()
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.PROCESS_NOT_REGISTERED))
+                .value();
+        if (!this.processId.isSameId(processId)) {
+            throw new PeautyException(PeautyResponseCode.ONLY_BELONGING_PROCESS_CAN_BE_OBSERVER);
+        }
+        this.belongingProcessObserver = belongingProcess;
+    }
+
+    protected void responseEstimate() {
         validateStatusForStepProgressing();
         validateProgressTo(BiddingThreadStep.ESTIMATE_RESPONSE);
         changeToNextStep();
     }
 
-    public void reserve() {
+    protected void reserve() {
         validateStatusForStepProgressing();
         validateProgressTo(BiddingThreadStep.RESERVED);
         changeToNextStep();
-        processObserver.onThreadReserved();
+        validateObserverRegistered();
+        belongingProcessObserver.onThreadReserved();
     }
 
-    public void complete() {
+    protected void complete() {
         validateStatusForStepProgressing();
         validateProgressTo(BiddingThreadStep.COMPLETED);
         changeToNextStep();
-        processObserver.onThreadCompleted();
+        validateObserverRegistered();
+        belongingProcessObserver.onThreadCompleted();
     }
 
-    public void cancel() {
+    protected void cancel() {
         validateCancellation();
         if (step.isReserved()) {
             // TODO 결제 환불
             changeStatus(BiddingThreadStatus.CANCELED);
-            processObserver.onReservedThreadCancel();
+            validateObserverRegistered();
+            belongingProcessObserver.onReservedThreadCancel();
             return;
         }
         changeStatus(BiddingThreadStatus.CANCELED);
     }
 
-    public void waiting() {
+    protected void waiting() {
         if (status.isNormal() & step.isBefore(BiddingThreadStep.RESERVED)) {
             changeStatus(BiddingThreadStatus.WAITING);
         }
     }
 
-    public void release() {
+    protected void release() {
         if (status.isWaiting()) {
             changeStatus(BiddingThreadStatus.NORMAL);
+        }
+    }
+
+    private void validateObserverRegistered() {
+        if (belongingProcessObserver == null) {
+            throw new PeautyException(PeautyResponseCode.PROCESS_OBSERVER_NOT_REGISTERED);
         }
     }
 
