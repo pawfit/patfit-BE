@@ -100,18 +100,18 @@ public class BiddingProcess {
         getThreadForChangeState(targetThreadDesignerId).cancel();
     }
 
-    public BiddingThread getThread(BiddingThread.ID threadThreadId) {
+    public BiddingThread getThread(BiddingThread.ID targetThreadId) {
         return threads.stream()
                 .filter(thread -> thread.getId()
-                        .map(id -> id.value().equals(threadThreadId.value()))
+                        .map(id -> id.value().equals(targetThreadId.value()))
                         .orElse(false))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
 
-    public BiddingThread getThread(DesignerId threadThreadDesignerId) {
+    public BiddingThread getThread(DesignerId targetThreadDesignerId) {
         return threads.stream()
-                .filter(thread -> thread.getDesignerId().value().equals(threadThreadDesignerId.value()))
+                .filter(thread -> thread.getDesignerId().value().equals(targetThreadDesignerId.value()))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
