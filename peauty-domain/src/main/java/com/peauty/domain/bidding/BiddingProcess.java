@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class BiddingProcess {
 
-    @Getter private final ID id; // TODO Optional Getter 적용하기
+    private final ID id;
     @Getter private final PuppyId puppyId;
     @Getter private BiddingProcessStatus status;
     @Getter private final BiddingProcessTimeInfo timeInfo;
@@ -28,7 +28,7 @@ public class BiddingProcess {
         this.status = status;
         this.timeInfo = timeInfo;
         this.threads = new ArrayList<>(threads);
-        threads.forEach(thread -> thread.registerProcessObserver(this));
+        threads.forEach(thread -> thread.registerBelongingProcessObserver(this));
     }
 
     public static BiddingProcess loadProcess(
@@ -51,20 +51,15 @@ public class BiddingProcess {
         );
     }
 
-    public static BiddingProcess createNewProcess(
-            PuppyId puppyId,
-            DesignerId designerId
-    ) {
-        BiddingProcess newProcess = createNewProcess(puppyId);
-        newProcess.addNewThread(designerId);
-        return newProcess;
+    public Optional<ID> getId() {
+        return Optional.ofNullable(this.id);
     }
 
     public void addNewThread(DesignerId targetDesignerId) {
         validateProcessStatus();
         checkThreadAlreadyInProcess(targetDesignerId);
-        BiddingThread newThread = BiddingThread.createNewThread(this.puppyId, targetDesignerId);
-        newThread.registerProcessObserver(this);
+        BiddingThread newThread = BiddingThread.createNewThread(this.id, targetDesignerId);
+        newThread.registerBelongingProcessObserver(this);
         this.threads.add(newThread);
     }
 
@@ -107,7 +102,9 @@ public class BiddingProcess {
 
     public BiddingThread getThread(BiddingThread.ID threadThreadId) {
         return threads.stream()
-                .filter(thread -> thread.getId().value().equals(threadThreadId.value()))
+                .filter(thread -> thread.getId()
+                        .map(id -> id.value().equals(threadThreadId.value()))
+                        .orElse(false))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
@@ -119,17 +116,17 @@ public class BiddingProcess {
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_THREAD_IN_PROCESS));
     }
 
-    public void onReservedThreadCancel() {
+    protected void onReservedThreadCancel() {
         threads.forEach(BiddingThread::release);
         changeStatus(BiddingProcessStatus.RESERVED_YET);
     }
 
-    public void onThreadReserved() {
+    protected void onThreadReserved() {
         threads.forEach(BiddingThread::waiting);
         changeStatus(BiddingProcessStatus.RESERVED);
     }
 
-    public void onThreadCompleted() {
+    protected void onThreadCompleted() {
         changeStatus(BiddingProcessStatus.COMPLETED);
     }
 
@@ -163,10 +160,6 @@ public class BiddingProcess {
     private void changeStatus(BiddingProcessStatus status) {
         this.status = status;
         timeInfo.onStatusChange();
-    }
-
-    public Optional<BiddingProcess.ID> getId() {
-        return Optional.ofNullable(this.id);
     }
 
     public record ID(Long value) {
