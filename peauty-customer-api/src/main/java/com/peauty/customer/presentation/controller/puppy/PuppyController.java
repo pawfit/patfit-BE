@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @Tag(name = "Puppy", description = "Puppy API")
 @RequestMapping("/v1/users")
@@ -27,7 +29,7 @@ public class PuppyController {
         return UploadPuppyImageResponse.from(result);
     }
 
-    // 반려견 등록 API 수정 버전
+    // 반려견 등록 API
     @PostMapping("/{userId}/puppies")
     @Operation(summary = "반려견 등록", description = "반려견을 등록하는 API 진입점입니다.")
     public RegisterPuppyResponse registerPuppy(@PathVariable Long userId, @RequestBody RegisterPuppyRequest req){
@@ -36,7 +38,7 @@ public class PuppyController {
         return RegisterPuppyResponse.from(result);
     }
 
-    // 반려견 조회 API 수정 버전
+    // 반려견 조회 API
     @GetMapping("/{userId}/puppies/{puppyId}")
     @Operation(summary = "반려견 조회", description = "반려견을 조회하는 API 진입점입니다.")
     public GetPuppyDetailResponse getPuppyDetail(@PathVariable Long userId, @PathVariable Long puppyId){
@@ -44,7 +46,7 @@ public class PuppyController {
         return GetPuppyDetailResponse.from(result);
     }
 
-    // 반려견 수정 API 수정 버전
+    // 반려견 수정 API
     @PutMapping("/{userId}/puppies/{puppyId}")
     @Operation(summary = "반려견 수정", description = "반려견을 수정하는 API 진입점입니다.")
     public UpdatePuppyDetailResponse updatePuppyDetail(@PathVariable Long userId,
@@ -54,9 +56,8 @@ public class PuppyController {
         return UpdatePuppyDetailResponse.from(result);
     }
 
-    ////////////////////////
-
-    @DeleteMapping("/{userId}/puppies/{puppyId}/11")
+    // 반려견 삭제 API
+    @DeleteMapping("/{userId}/puppies/{puppyId}")
     @Operation(summary = "반려견 삭제", description = "반려견을 삭제합니다.")
     public DeletePuppyResponse deletePuppy(
             @Parameter(description = "사용자 ID", example = "1") @PathVariable Long userId,
@@ -64,6 +65,14 @@ public class PuppyController {
     ) {
         puppyService.deletePuppy(userId, puppyId);
         return new DeletePuppyResponse("삭제되었습니다.");
+    }
+
+    // 반려견 전체 조회 API
+    @GetMapping("/{userId}/puppies")
+    @Operation(summary = "반려견 전체 조회", description = "고객 본인의 전체 반려견을 조회하는 API 진입점입니다.")
+    public GetPuppyProfilesResponse getPuppyProfiles(@PathVariable Long userId) {
+        GetPuppyProfilesResult result = puppyService.getPuppyProfiles(userId);
+        return GetPuppyProfilesResponse.from(result);
     }
 
 }
