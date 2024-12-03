@@ -5,9 +5,6 @@ import com.peauty.customer.business.puppy.dto.GetPuppyProfileResult;
 import java.util.List;
 
 public record GetPuppyProfileResponse(
-        Long customerId,
-        String nickname,
-        String customerImageUrl,
         Long puppyId,
         String name,
         String breed,
@@ -17,12 +14,8 @@ public record GetPuppyProfileResponse(
         List<String> disease,
         String puppyProfileImageUrl
 ) {
-
     public static GetPuppyProfileResponse from(GetPuppyProfileResult result){
         return new GetPuppyProfileResponse(
-                result.customerId(),
-                result.nickname(),
-                result.customerImageUrl(),
                 result.puppyId(),
                 result.name(),
                 result.breed(),
@@ -33,5 +26,4 @@ public record GetPuppyProfileResponse(
                 result.puppyProfileImageUrl()
         );
     }
-
 }

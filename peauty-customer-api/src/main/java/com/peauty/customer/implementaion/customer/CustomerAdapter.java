@@ -80,7 +80,7 @@ public class CustomerAdapter implements CustomerPort {
     }
 
     @Override
-    public Customer findByCustomerById(Long customerId) {
+    public Customer getByCustomerById(Long customerId) {
         return customerRepository.findById(customerId)
                 .map(CustomerMapper::toDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));

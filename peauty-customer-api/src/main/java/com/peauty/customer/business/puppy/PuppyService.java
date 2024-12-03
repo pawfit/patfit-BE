@@ -11,7 +11,7 @@ public interface PuppyService {
     RegisterPuppyResult registerPuppy(RegisterPuppyCommand command);
     GetPuppyDetailResult getPuppyDetail(Long userId, Long puppyId);
     UpdatePuppyDetailResult updatePuppyDetail(Long customerId, Long puppyId, UpdatePuppyDetailCommand command);
-    List<GetPuppyProfileResult> getPuppyProfiles(Long customerId);
+    GetPuppyProfilesResult getPuppyProfiles(Long customerId);
 
 }
 

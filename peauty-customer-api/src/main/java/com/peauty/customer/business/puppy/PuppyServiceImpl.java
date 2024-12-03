@@ -67,22 +67,18 @@ public class PuppyServiceImpl implements PuppyService {
     @Override
     @Transactional
     public void deletePuppy(Long userId, Long puppyId) {
-
         // 삭제
         puppyPort.deletePuppy(puppyId);
     }
 
+
     @Override
-    public List<GetPuppyProfileResult> getPuppyProfiles(Long customerId) {
-
-        Customer customer = customerPort.findByCustomerById(customerId);
-        // 고객 ID로 반려견 목록 조회
+    public GetPuppyProfilesResult getPuppyProfiles(Long customerId) {
+        Customer customer = customerPort.getByCustomerById(customerId);
         List<Puppy> puppies = puppyPort.findAllByCustomerId(customerId);
-
-        return puppies.stream()
-                .map(puppy -> GetPuppyProfileResult.from(customer, puppy))
-                .toList();
+        return GetPuppyProfilesResult.from(customer, puppies);
     }
+
 }
 
 
