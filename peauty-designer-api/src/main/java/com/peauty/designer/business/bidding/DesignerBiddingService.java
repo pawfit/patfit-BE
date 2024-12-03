@@ -9,6 +9,7 @@ public interface DesignerBiddingService {
     SendEstimateResult sendEstimate(
             Long userId,
             Long processId,
+            Long threadId,
             SendEstimateCommand command
     );
 
