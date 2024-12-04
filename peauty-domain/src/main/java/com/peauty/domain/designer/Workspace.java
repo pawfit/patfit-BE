@@ -30,6 +30,8 @@ public class Workspace {
     private String addressDetail;
     private String phoneNumber;
 
+    private Long designerId;
+
     public void updateRating(Rating rating) {
         this.rating = rating;
     }

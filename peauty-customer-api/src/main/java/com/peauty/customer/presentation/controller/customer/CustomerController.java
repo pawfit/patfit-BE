@@ -2,6 +2,7 @@ package com.peauty.customer.presentation.controller.customer;
 
 import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
+import com.peauty.customer.presentation.controller.customer.dto.GetAroundWorkspacesResponse;
 import com.peauty.customer.presentation.controller.customer.dto.GetCustomerProfileResponse;
 import com.peauty.customer.presentation.controller.customer.dto.UploadProfileImageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,4 +50,12 @@ public class CustomerController {
         customerService.checkCustomerNicknameDuplicated(nickname);
         return new CheckCustomerNicknameDuplicatedResponse("사용해도 좋은 닉네임입니다.");
     }
+
+    @GetMapping("/{userId}/serach")
+    @Operation(summary = "주변 디자이너 매장 조회", description = "고객 주소와 같은 디자이너의 매장을 조회하는 API 진입점입니다.")
+    public GetAroundWorkspacesResponse getAroundWorkspaces(@PathVariable Long userId) {
+        GetAroundWorkspacesResult result = customerService.getAroundWorkspaces(userId);
+        return GetAroundWorkspacesResponse.from(result);
+    }
+
 }
