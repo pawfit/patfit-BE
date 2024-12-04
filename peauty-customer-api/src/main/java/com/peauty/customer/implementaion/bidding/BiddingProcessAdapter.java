@@ -4,10 +4,10 @@ import com.peauty.customer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.persistence.bidding.BiddingProcessEntity;
-import com.peauty.persistence.bidding.BiddingProcessRepository;
-import com.peauty.persistence.bidding.BiddingThreadEntity;
-import com.peauty.persistence.bidding.BiddingThreadRepository;
+import com.peauty.persistence.bidding.process.BiddingProcessEntity;
+import com.peauty.persistence.bidding.process.BiddingProcessRepository;
+import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
+import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

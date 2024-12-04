@@ -1,4 +1,4 @@
-package com.peauty.persistence.bidding;
+package com.peauty.persistence.bidding.process;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

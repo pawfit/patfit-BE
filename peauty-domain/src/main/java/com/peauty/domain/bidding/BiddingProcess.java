@@ -55,6 +55,10 @@ public class BiddingProcess {
         return Optional.ofNullable(this.id);
     }
 
+    public ID getSavedProcessId() {
+        return id;
+    }
+
     public void addNewThread(DesignerId targetDesignerId) {
         validateProcessStatus();
         checkThreadAlreadyInProcess(targetDesignerId);

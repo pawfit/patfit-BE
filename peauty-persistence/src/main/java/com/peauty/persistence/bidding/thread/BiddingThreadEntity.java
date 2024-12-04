@@ -1,4 +1,4 @@
-package com.peauty.persistence.bidding;
+package com.peauty.persistence.bidding.thread;
 
 import com.peauty.domain.bidding.BiddingThreadStatus;
 import com.peauty.domain.bidding.BiddingThreadStep;
