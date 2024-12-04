@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface
 WorkspaceRepository extends JpaRepository<WorkspaceEntity, Long> {
     WorkspaceEntity findByDesignerId(Long userId);
+
+    boolean existsByDesignerId(Long designerId);
 }
