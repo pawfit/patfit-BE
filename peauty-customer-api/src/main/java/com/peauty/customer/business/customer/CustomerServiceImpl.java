@@ -2,6 +2,7 @@ package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.business.internal.InternalPort;
+import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.customer.Customer;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.Workspace;
@@ -21,6 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerPort customerPort;
     private final InternalPort internalPort;
+    private final WorkspacePort workspacePort;
 
     @Override
     @Transactional
@@ -55,48 +57,6 @@ public class CustomerServiceImpl implements CustomerService {
         customerPort.checkCustomerNicknameDuplicated(nickname);
     }
 
-/*    @Override
-    public GetAroundDesignersResult getAroundDesigners(Long customerId) {
-        // 고객 정보 가져오기
-        Customer customer = customerPort.getCustomerById(customerId);
-        // 고객 주소와 같은 디자이너 조회
-        List<Designer> designers = customerPort.findDesignersByAddress(customer.getAddress());
-        // 디자이너들의 작업공간 정보 가져오기
-        List<Workspace> workspaces = designers.stream()
-                .map(designer -> customerPort.getWorkspaceByDesignerId(designer.getDesignerId()))
-                .toList();
-
-        return GetAroundDesignersResult.from(customer, designers, workspaces);
-    }*/
-
-/*  TEST
-    @Override
-    public GetAroundWorkspacesResult getAroundWorkspaces(Long customerId) {
-        // 고객 정보 조회와 상위 주소를 추출
-        Customer customer = customerPort.getCustomerById(customerId);
-        String customerBaseAddress = extractBaseAddress(customer.getAddress());
-        // 고객의 상위 주소와 일치하는 미용실을 조회
-        List<Workspace> workspaces = customerPort.findAllWorkspaceByAddress(customerBaseAddress);
-        // 일치하는 미용실과 디자이너의 정보를 매핑
-        List<GetAroundWorkspacesResult.WorkspaceWithDesigner> workspaceWithDesigners = workspaces.stream()
-                .map(workspace -> {
-                    Designer designer = customerPort.findDesignerById(workspace.getDesignerId());
-                    return new GetAroundWorkspacesResult.WorkspaceWithDesigner(
-                            workspace.getWorkspaceId(),
-                            workspace.getWorkspaceName(),
-                            workspace.getAddress(),
-                            workspace.getAddressDetail(),
-                            workspace.getBannerImageUrl(),
-                            workspace.getReviewCount(),
-                            workspace.getReviewRating(),
-                            designer.getName(),
-                            designer.getYearOfExperience()
-                    );
-                })
-                .toList();
-
-        return new GetAroundWorkspacesResult(customer.getCustomerId(), customer.getAddress(), workspaceWithDesigners);
-    }*/
     @Override
     public GetAroundWorkspacesResult getAroundWorkspaces(Long customerId) {
         // 고객 정보 조회
@@ -104,12 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
         // OO시 OO구 까지 추출
         String customerBaseAddress = extractBaseAddress(customer.getAddress());
         // 고객의 상위주소와 맞는 미용실 전체 조회
-        List<Workspace> workspaces = customerPort.findAllWorkspaceByAddress(customerBaseAddress);
+        List<Workspace> workspaces = workspacePort.findAllWorkspaceByAddress(customerBaseAddress);
         // 각 미용실에 해당하는 디자이너 정보를 매핑
         List<GetAroundWorkspaceResult> workspaceResults = workspaces.stream()
                 .map(workspace -> {
                     // 미용실을 소유한 디자이너 조회
-                    Designer designer = customerPort.findDesignerById(workspace.getDesignerId());
+                    Designer designer = workspacePort.findDesignerById(workspace.getDesignerId());
                     return GetAroundWorkspaceResult.from(workspace, designer);
                 })
                 .toList();
