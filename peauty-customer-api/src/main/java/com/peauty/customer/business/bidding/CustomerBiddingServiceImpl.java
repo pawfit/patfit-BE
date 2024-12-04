@@ -3,9 +3,7 @@ package com.peauty.customer.business.bidding;
 import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalCommand;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
-import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.DesignerId;
-import com.peauty.domain.bidding.PuppyId;
+import com.peauty.domain.bidding.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerBiddingServiceImpl implements CustomerBiddingService {
 
     private final BiddingProcessPort biddingProcessPort;
+    private final EstimateProposalPort estimateProposalPort;
 
     // TODO 프로세스 접근 검증 ex) 올바른 유저인지...
-    // TODO 견적요청서 저장
     @Override
     @Transactional
     public SendEstimateProposalResult sendEstimateProposal(
@@ -27,6 +25,8 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             SendEstimateProposalCommand command
     ) {
         BiddingProcess process = biddingProcessPort.initProcess(BiddingProcess.createNewProcess(new PuppyId(puppyId)));
+        EstimateProposal proposal = command.toEstimateProposal(process.getSavedProcessId());
+        estimateProposalPort.save(proposal);
         command.designerIds()
                 .forEach(id -> process.addNewThread(new DesignerId(id)));
         BiddingProcess savedProcess = biddingProcessPort.save(process);
