@@ -30,22 +30,18 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
         BiddingProcessEntity savedProcessEntity = processRepository.save(
                 BiddingMapper.toProcessEntity(process)
         );
-
         List<BiddingThreadEntity> threadEntities = process.getThreads().stream()
                 .map(thread -> BiddingMapper.toThreadEntity(thread, savedProcessEntity))
                 .toList();
-
         List<BiddingThreadEntity> savedThreads = threadRepository.saveAll(threadEntities);
-        savedProcessEntity.setThreads(savedThreads);
-
-        return BiddingMapper.toProcessDomain(savedProcessEntity);
+        return BiddingMapper.toProcessDomain(savedProcessEntity, savedThreads);
     }
 
     @Override
     public BiddingProcess getProcessById(Long processId) {
-        BiddingProcessEntity foundProcessEntity = processRepository.findByIdWithThread(processId)
+        BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
-
-        return BiddingMapper.toProcessDomain(foundProcessEntity);
+         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 }

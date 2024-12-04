@@ -8,18 +8,18 @@ import java.util.List;
 
 public class BiddingMapper {
 
-    public static BiddingProcess toProcessDomain(BiddingProcessEntity entity) {
-        List<BiddingThread> threads = entity.getThreads().stream()
+    public static BiddingProcess toProcessDomain(BiddingProcessEntity processEntity, List<BiddingThreadEntity> threadEntities) {
+        List<BiddingThread> threads = threadEntities.stream()
                 .map(BiddingMapper::toThreadDomain)
                 .toList();
 
         return BiddingProcess.loadProcess(
-                new BiddingProcess.ID(entity.getId()),
-                new PuppyId(entity.getPuppyId()),
-                entity.getStatus(),
+                new BiddingProcess.ID(processEntity.getId()),
+                new PuppyId(processEntity.getPuppyId()),
+                processEntity.getStatus(),
                 new BiddingProcessTimeInfo(
-                        entity.getCreatedAt(),
-                        entity.getStatusModifiedAt()
+                        processEntity.getCreatedAt(),
+                        processEntity.getStatusModifiedAt()
                 ),
                 threads
         );
