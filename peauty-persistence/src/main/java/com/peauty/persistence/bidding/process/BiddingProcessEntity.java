@@ -1,7 +1,6 @@
 package com.peauty.persistence.bidding.process;
 
 import com.peauty.domain.bidding.BiddingProcessStatus;
-import com.peauty.domain.bidding.BiddingProcessTimeInfo;
 import jakarta.persistence.*;
 import lombok.*;
 

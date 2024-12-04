@@ -8,10 +8,7 @@ import java.util.List;
 
 public class BiddingMapper {
 
-    public static BiddingProcess toProcessDomain(
-            BiddingProcessEntity processEntity,
-            List<BiddingThreadEntity> threadEntities
-    ) {
+    public static BiddingProcess toProcessDomain(BiddingProcessEntity processEntity, List<BiddingThreadEntity> threadEntities) {
         List<BiddingThread> threads = threadEntities.stream()
                 .map(BiddingMapper::toThreadDomain)
                 .toList();
@@ -20,52 +17,49 @@ public class BiddingMapper {
                 new BiddingProcess.ID(processEntity.getId()),
                 new PuppyId(processEntity.getPuppyId()),
                 processEntity.getStatus(),
-                new BiddingProcessTimeInfo(processEntity.getCreatedAt(), processEntity.getStatusModifiedAt()),
+                new BiddingProcessTimeInfo(
+                        processEntity.getCreatedAt(),
+                        processEntity.getStatusModifiedAt()
+                ),
                 threads
         );
     }
 
-    public static BiddingProcessEntity toProcessEntity(BiddingProcess process) {
+    public static BiddingProcessEntity toProcessEntity(BiddingProcess domain) {
         return BiddingProcessEntity.builder()
-                .id(process.getId().map(BiddingProcess.ID::value).orElse(null))
-                .puppyId(process.getPuppyId().value())
-                .status(process.getStatus())
-                .createdAt(process.getTimeInfo().getCreatedAt())
-                .statusModifiedAt(process.getTimeInfo().getStatusModifiedAt())
+                .id(domain.getId().map(BiddingProcess.ID::value).orElse(null))
+                .puppyId(domain.getPuppyId().value())
+                .status(domain.getStatus())
+                .createdAt(domain.getTimeInfo().getCreatedAt())
+                .statusModifiedAt(domain.getTimeInfo().getStatusModifiedAt())
                 .build();
     }
 
-    public static BiddingThread toThreadDomain(BiddingThreadEntity threadEntity) {
+    public static BiddingThread toThreadDomain(BiddingThreadEntity entity) {
         return BiddingThread.loadThread(
-                new BiddingThread.ID(threadEntity.getId()),
-                new BiddingProcess.ID(threadEntity.getBiddingProcessId()),
-                new DesignerId(threadEntity.getDesignerId()),
-                threadEntity.getStep(),
-                threadEntity.getStatus(),
+                new BiddingThread.ID(entity.getId()),
+                new BiddingProcess.ID(entity.getBiddingProcess().getId()),
+                new DesignerId(entity.getDesignerId()),
+                entity.getStep(),
+                entity.getStatus(),
                 new BiddingThreadTimeInfo(
-                        threadEntity.getCreatedAt(),
-                        threadEntity.getStepModifiedAt(),
-                        threadEntity.getStatusModifiedAt()
+                        entity.getCreatedAt(),
+                        entity.getStepModifiedAt(),
+                        entity.getStatusModifiedAt()
                 )
         );
     }
 
-    public static BiddingThreadEntity toThreadEntity(BiddingThread thread) {
+    public static BiddingThreadEntity toThreadEntity(BiddingThread domain, BiddingProcessEntity processEntity) {
         return BiddingThreadEntity.builder()
-                .id(thread.getId().map(BiddingThread.ID::value).orElse(null))
-                .biddingProcessId(thread.getProcessId().value())
-                .designerId(thread.getDesignerId().value())
-                .step(thread.getStep())
-                .status(thread.getStatus())
-                .createdAt(thread.getTimeInfo().getCreatedAt())
-                .stepModifiedAt(thread.getTimeInfo().getStepModifiedAt())
-                .statusModifiedAt(thread.getTimeInfo().getStatusModifiedAt())
+                .id(domain.getId().map(BiddingThread.ID::value).orElse(null))
+                .biddingProcess(processEntity)
+                .designerId(domain.getDesignerId().value())
+                .step(domain.getStep())
+                .status(domain.getStatus())
+                .createdAt(domain.getTimeInfo().getCreatedAt())
+                .stepModifiedAt(domain.getTimeInfo().getStepModifiedAt())
+                .statusModifiedAt(domain.getTimeInfo().getStatusModifiedAt())
                 .build();
-    }
-
-    public static List<BiddingThreadEntity> toThreadEntities(List<BiddingThread> threads) {
-        return threads.stream()
-                .map(BiddingMapper::toThreadEntity)
-                .toList();
     }
 }

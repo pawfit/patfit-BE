@@ -6,5 +6,4 @@ public interface BiddingProcessPort {
 
     BiddingProcess getProcessById(Long processId);
     BiddingProcess save(BiddingProcess process);
-    BiddingProcess initProcess(BiddingProcess process);
 }

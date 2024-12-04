@@ -8,45 +8,40 @@ import com.peauty.persistence.bidding.process.BiddingProcessEntity;
 import com.peauty.persistence.bidding.process.BiddingProcessRepository;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BiddingProcessAdapter implements BiddingProcessPort {
 
-    private final BiddingProcessRepository biddingProcessRepository;
-    private final BiddingThreadRepository biddingThreadRepository;
-
-    @Override
-    public BiddingProcess getProcessById(Long processId) {
-        BiddingProcessEntity foundProcessEntity = biddingProcessRepository.findById(processId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
-        List<BiddingThreadEntity> foundBiddingThreadEntities = biddingThreadRepository.findByBiddingProcessId(processId);
-        return BiddingMapper.toProcessDomain(foundProcessEntity, foundBiddingThreadEntities);
-    }
+    private final BiddingProcessRepository processRepository;
+    private final BiddingThreadRepository threadRepository;
+    @PersistenceContext private EntityManager em;
 
     @Override
     public BiddingProcess save(BiddingProcess process) {
-        checkInitProcess(process);
-        BiddingProcessEntity processEntityToSave = BiddingMapper.toProcessEntity(process);
-        List<BiddingThreadEntity> threadEntitiesToSave = BiddingMapper.toThreadEntities(process.getThreads());
-        BiddingProcessEntity savedProcessEntity = biddingProcessRepository.save(processEntityToSave);
-        List<BiddingThreadEntity> savedThreadEntities = biddingThreadRepository.saveAll(threadEntitiesToSave);
-        return BiddingMapper.toProcessDomain(savedProcessEntity, savedThreadEntities);
+        BiddingProcessEntity savedProcessEntity = processRepository.save(
+                BiddingMapper.toProcessEntity(process)
+        );
+        List<BiddingThreadEntity> threadEntities = process.getThreads().stream()
+                .map(thread -> BiddingMapper.toThreadEntity(thread, savedProcessEntity))
+                .toList();
+        List<BiddingThreadEntity> savedThreads = threadRepository.saveAll(threadEntities);
+        return BiddingMapper.toProcessDomain(savedProcessEntity, savedThreads);
     }
 
     @Override
-    public BiddingProcess initProcess(BiddingProcess process) {
-        BiddingProcessEntity processEntityToSave = BiddingMapper.toProcessEntity(process);
-        BiddingProcessEntity savedProcessEntity = biddingProcessRepository.save(processEntityToSave);
-        return BiddingMapper.toProcessDomain(savedProcessEntity, List.of());
-    }
-
-    // TODO init 을 강제하기 위함인데.. 다른 방법이 있나 알아보기
-    private void checkInitProcess(BiddingProcess process) {
-        process.getId().orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_INITIALIZED_PROCESS));
+    public BiddingProcess getProcessById(Long processId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 }

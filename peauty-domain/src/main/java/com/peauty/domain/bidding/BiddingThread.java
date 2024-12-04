@@ -1,9 +1,11 @@
 package com.peauty.domain.bidding;
 
+import com.peauty.domain.customer.Customer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.*;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -45,6 +47,14 @@ public class BiddingThread {
     }
 
     protected void registerBelongingProcessObserver(BiddingProcess belongingProcess) {
+
+        // 새로운 프로세스-스레드 생성 케이스
+        if (belongingProcess.getId().isEmpty() && this.processId == null) {
+            this.belongingProcessObserver = belongingProcess;
+            return;
+        }
+
+        // 저장된 프로세스-스레드 연결 케이스
         Long processId = belongingProcess.getId()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.PROCESS_NOT_REGISTERED))
                 .value();
