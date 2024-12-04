@@ -68,7 +68,7 @@ public class DesignerServiceImpl implements DesignerService {
         designerToCreate.updateLicenses(licenseToCreate);
 
         Designer savedDesigner = designerPort.save(designerToCreate);
-        Workspace savedWorkspace = workspacePort.save(workspaceToCreate, savedDesigner.getDesignerId());
+        Workspace savedWorkspace = workspacePort.registerNew(workspaceToCreate, savedDesigner.getDesignerId());
         Workspace getRating = workspacePort.getByDesignerId(userId);
 
         savedWorkspace.updateRating(getRating.getRating());
