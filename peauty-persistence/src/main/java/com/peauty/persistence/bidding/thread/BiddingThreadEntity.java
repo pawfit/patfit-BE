@@ -3,6 +3,7 @@ package com.peauty.persistence.bidding.thread;
 import com.peauty.domain.bidding.BiddingThreadStatus;
 import com.peauty.domain.bidding.BiddingThreadStep;
 import com.peauty.domain.bidding.BiddingThreadTimeInfo;
+import com.peauty.persistence.bidding.process.BiddingProcessEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +21,9 @@ public class BiddingThreadEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "bidding_process_id", nullable = false)
-    private Long biddingProcessId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bidding_process_id", nullable = false)
+    private BiddingProcessEntity biddingProcess;
 
     @Column(name = "designer_id", nullable = false)
     private Long designerId;

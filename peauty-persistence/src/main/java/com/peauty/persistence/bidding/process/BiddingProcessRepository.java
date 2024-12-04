@@ -11,21 +11,13 @@ import java.util.Optional;
 @Repository
 public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEntity, Long> {
 
-    List<BiddingProcessEntity> findByPuppyId(Long puppyId);
+    @Query("SELECT p FROM BiddingProcessEntity p " +
+            "LEFT JOIN FETCH p.threads " +
+            "WHERE p.puppyId = :puppyId")
+    List<BiddingProcessEntity> findByPuppyIdWithThread(@Param("puppyId") Long puppyId);
 
-    @Query("""
-            SELECT p\s
-            FROM BiddingProcessEntity p, BiddingThreadEntity t\s
-            WHERE t.biddingProcessId = p.id\s
-            AND t.id = :threadId
-            """)
-    Optional<BiddingProcessEntity> findByThreadId(@Param("threadId") Long threadId);
-
-    @Query("""
-            SELECT DISTINCT p\s
-            FROM BiddingProcessEntity p, BiddingThreadEntity t\s
-            WHERE t.biddingProcessId = p.id\s
-            AND t.designerId = :designerId
-            """)
-    List<BiddingProcessEntity> findAllByDesignerId(@Param("designerId") Long designerId);
+    @Query("SELECT p FROM BiddingProcessEntity p " +
+            "LEFT JOIN FETCH p.threads " +
+            "WHERE p.id = :id")
+    Optional<BiddingProcessEntity> findByIdWithThread(@Param("id") Long id);
 }

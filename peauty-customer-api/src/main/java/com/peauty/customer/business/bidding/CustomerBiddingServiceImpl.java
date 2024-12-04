@@ -24,12 +24,11 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long puppyId,
             SendEstimateProposalCommand command
     ) {
-        BiddingProcess process = biddingProcessPort.initProcess(BiddingProcess.createNewProcess(new PuppyId(puppyId)));
-        EstimateProposal proposal = command.toEstimateProposal(process.getSavedProcessId());
-        estimateProposalPort.save(proposal);
-        command.designerIds()
-                .forEach(id -> process.addNewThread(new DesignerId(id)));
-        BiddingProcess savedProcess = biddingProcessPort.save(process);
+        BiddingProcess newProcess = BiddingProcess.createNewProcess(new PuppyId(puppyId));
+        command.designerIds().forEach(id -> newProcess.addNewThread(new DesignerId(id)));
+        BiddingProcess savedProcess = biddingProcessPort.save(newProcess);
+        EstimateProposal newProposal = command.toEstimateProposal(savedProcess.getSavedProcessId());
+        estimateProposalPort.save(newProposal);;
         return SendEstimateProposalResult.from(savedProcess);
     }
 
