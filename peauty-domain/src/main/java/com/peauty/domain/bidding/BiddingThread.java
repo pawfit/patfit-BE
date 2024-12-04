@@ -1,11 +1,11 @@
 package com.peauty.domain.bidding;
 
-import com.peauty.domain.customer.Customer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -44,6 +44,10 @@ public class BiddingThread {
 
     public Optional<ID> getId() {
         return Optional.ofNullable(id);
+    }
+
+    public ID getSavedThreadId() {
+        return id;
     }
 
     protected void registerBelongingProcessObserver(BiddingProcess belongingProcess) {
