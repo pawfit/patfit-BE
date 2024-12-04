@@ -24,7 +24,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long puppyId,
             SendEstimateProposalCommand command
     ) {
-        BiddingProcess process = biddingProcessPort.initProcess(BiddingProcess.createNewProcess(new PuppyId(puppyId)));
+    BiddingProcess process = biddingProcessPort.initProcess(BiddingProcess.createNewProcess(new PuppyId(puppyId)));
         EstimateProposal proposal = command.toEstimateProposal(process.getSavedProcessId());
         estimateProposalPort.save(proposal);
         command.designerIds()
