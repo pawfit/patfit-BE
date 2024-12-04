@@ -30,6 +30,7 @@ public class WorkspaceMapper {
                                 .orElse(0))
                 .reviewRating(Optional.ofNullable(workspace.getReviewRating())
                                 .orElse(0.0))
+                .phoneNumber(workspace.getPhoneNumber())
                 .build();
     }
 
@@ -51,6 +52,7 @@ public class WorkspaceMapper {
                 .directionGuide(workspaceEntity.getDirectionGuide())
                 .reviewCount(workspaceEntity.getReviewCount())
                 .reviewRating(workspaceEntity.getReviewRating())
+                .phoneNumber(workspaceEntity.getPhoneNumber())
                 .build();
     }
 

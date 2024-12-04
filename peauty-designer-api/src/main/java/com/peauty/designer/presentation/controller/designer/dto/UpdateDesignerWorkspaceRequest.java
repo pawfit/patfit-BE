@@ -51,7 +51,10 @@ public record UpdateDesignerWorkspaceRequest(
         String openDays,
 
         @Schema(description = "방향 안내", example = "방향 안내 내용")
-        String directionGuide
+        String directionGuide,
+
+        @Schema(description = "전화번호", example = "01012341234")
+        String phoneNumber
 ) {
         public UpdateDesignerWorkspaceCommand toCommand() {
                 return new UpdateDesignerWorkspaceCommand(
@@ -69,7 +72,8 @@ public record UpdateDesignerWorkspaceRequest(
                         this.openHours,
                         this.closeHours,
                         this.openDays,
-                        this.directionGuide
+                        this.directionGuide,
+                        this.phoneNumber
                 );
         }
 }

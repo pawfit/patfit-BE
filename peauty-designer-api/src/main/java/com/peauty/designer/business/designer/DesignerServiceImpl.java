@@ -86,8 +86,8 @@ public class DesignerServiceImpl implements DesignerService {
         return GetDesignerWorkspaceResult.from(designer, workspace);
     }
 
-    @Override
     @Transactional
+    @Override
     public UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command) {
         Workspace workspaceToUpdate = workspacePort.getByDesignerId(userId);
         workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
