@@ -1,8 +1,8 @@
 package com.peauty.customer.implementaion.bidding;
 
 import com.peauty.domain.bidding.*;
-import com.peauty.persistence.bidding.BiddingProcessEntity;
-import com.peauty.persistence.bidding.BiddingThreadEntity;
+import com.peauty.persistence.bidding.process.BiddingProcessEntity;
+import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 
 import java.util.List;
 

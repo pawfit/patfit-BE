@@ -51,7 +51,10 @@ public record CreateDesignerWorkspaceRequest(
         String openDays,
 
         @Schema(description = "방향 안내", example = "방향 안내 내용")
-        String directionGuide
+        String directionGuide,
+
+        @Schema(description = "전화번호", example = "01012341234")
+        String phoneNumber
 ) {
     public CreateDesignerWorkspaceCommand toCommand() {
         return new CreateDesignerWorkspaceCommand(
@@ -69,7 +72,9 @@ public record CreateDesignerWorkspaceRequest(
                 this.openHours,
                 this.closeHours,
                 this.openDays,
-                this.directionGuide
+                this.directionGuide,
+                this.phoneNumber
+
         );
     }
 }

@@ -28,6 +28,7 @@ public class Workspace {
     private Rating rating;
     private String address;
     private String addressDetail;
+    private String phoneNumber;
 
     private Long designerId;
 
@@ -54,6 +55,8 @@ public class Workspace {
         this.closeHours = workspace.getCloseHours();
         this.openDays = workspace.getOpenDays();
         this.directionGuide = workspace.getDirectionGuide();
+        this.address = workspace.getAddress();
+        this.addressDetail = workspace.getAddressDetail();
+        this.phoneNumber = workspace.getPhoneNumber();
     }
-
 }

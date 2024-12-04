@@ -12,6 +12,9 @@ import java.util.Optional;
 public interface
 WorkspaceRepository extends JpaRepository<WorkspaceEntity, Long> {
     WorkspaceEntity findByDesignerId(Long userId);
+
+    boolean existsByDesignerId(Long designerId);
+
     Optional<WorkspaceEntity> findAllByDesignerId(Long designerId);
     List<WorkspaceEntity> findByAddress(String address);
 
