@@ -27,6 +27,7 @@ public class Workspace {
     private Double reviewRating;
     private Rating rating;
     private String address;
+    private String addressDetail;
 
     public void updateRating(Rating rating) {
         this.rating = rating;

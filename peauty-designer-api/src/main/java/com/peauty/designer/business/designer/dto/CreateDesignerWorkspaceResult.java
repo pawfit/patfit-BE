@@ -5,6 +5,8 @@ import com.peauty.domain.designer.*;
 import java.util.List;
 
 public record CreateDesignerWorkspaceResult(
+        Long designerId,
+        Long workspaceId,
         String bannerImageUrl,
         String workspaceName,
         Double reviewRating,
@@ -12,18 +14,20 @@ public record CreateDesignerWorkspaceResult(
         Scissor scissor,
         String introduceTitle,
         String introduce,
-        List<String> representativeBadgeNames,
         String noticeTitle,
         String notice,
         String address,
+        String addressDetail,
         String phoneNumber,
         Integer yearOfExperience,
-        List<String> licenses,
-        List<PaymentOption> paymentOptions,
         String openHours,
         String closeHours,
         String openDays,
-        String directionGuide) {
+        String directionGuide,
+        List<String> licenses,
+        List<PaymentOption> paymentOptions,
+        List<String> representativeBadgeNames
+) {
 
     public static CreateDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
         List<String> licenses = designer.getLicenses().stream()
@@ -36,6 +40,8 @@ public record CreateDesignerWorkspaceResult(
 
         // 필드 순서에 맞춘 매핑
         return new CreateDesignerWorkspaceResult(
+                designer.getDesignerId(),
+                workspace.getWorkspaceId(),
                 designer.getProfileImageUrl(),
                 workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
@@ -43,18 +49,19 @@ public record CreateDesignerWorkspaceResult(
                 workspace.getRating().getScissor(),
                 workspace.getIntroduceTitle(),
                 workspace.getIntroduce(),
-                badges,
                 workspace.getNoticeTitle(),
                 workspace.getNotice(),
-                designer.getAddress(),
+                workspace.getAddress(),
+                workspace.getAddressDetail(),
                 designer.getPhoneNumber(),
                 designer.getYearOfExperience(),
-                licenses,
-                workspace.getPaymentOptions(),
                 workspace.getOpenHours(),
                 workspace.getCloseHours(),
                 workspace.getOpenDays(),
-                workspace.getDirectionGuide()
+                workspace.getDirectionGuide(),
+                licenses,
+                workspace.getPaymentOptions(),
+                badges
         );
     }
 }

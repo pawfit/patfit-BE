@@ -9,11 +9,12 @@ import java.util.List;
 public record CreateDesignerWorkspaceCommand(
         String bannerImageUrl,
         String workspaceName,
-        String address,
         String introduceTitle,
         String introduce,
         String noticeTitle,
         String notice,
+        String address,
+        String addressDetail,
         Integer yearOfExperience,
         List<String> licenses,
         List<PaymentOption> paymentOptions,
@@ -30,11 +31,12 @@ public record CreateDesignerWorkspaceCommand(
                 .introduce(command.introduce())
                 .noticeTitle(command.noticeTitle())
                 .notice(command.notice())
+                .address(command.address())
+                .addressDetail(command.addressDetail())
                 .paymentOptions(command.paymentOptions())
                 .openHours(command.openHours())
                 .closeHours(command.closeHours())
                 .openDays(command.openDays())
-                .address(command.address)
                 .directionGuide(command.directionGuide())
                 .build();
     }

@@ -25,7 +25,6 @@ public class Designer {
     private Status status;
     private Role role;
     private String nickname;
-    private String address;
     private String profileImageUrl;
     private Integer yearOfExperience;
     private List<License> licenses;
@@ -61,10 +60,6 @@ public class Designer {
         this.nickname = nickname;
     }
 
-    public void updateAddress(String address) {
-        this.address = address;
-    }
-
     public void updatePhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -76,6 +71,8 @@ public class Designer {
     public void updateEmail(String email) {
         this.email = email;
     }
+
+
 
     public void updateYearOfExperience(Integer yearOfExperience) {
         this.yearOfExperience = yearOfExperience;

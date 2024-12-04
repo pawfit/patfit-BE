@@ -29,6 +29,9 @@ public record UpdateDesignerWorkspaceRequest(
         @Schema(description = "주소", example = "성남시 위례구")
         String address,
 
+        @Schema(description = "상세 주소", example = "사미동 대상 베르힐 힐스테이트 1602호")
+        String addressDetail,
+
         @Schema(description = "경력 연수", example = "5")
         Integer yearOfExperience,
 
@@ -47,7 +50,7 @@ public record UpdateDesignerWorkspaceRequest(
         @Schema(description = "영업일", example = "주말휴무")
         String openDays,
 
-        //@Schema(description = "방향 안내", example = "방향 안내 내용")
+        @Schema(description = "방향 안내", example = "방향 안내 내용")
         String directionGuide
 ) {
         public UpdateDesignerWorkspaceCommand toCommand() {
@@ -59,6 +62,7 @@ public record UpdateDesignerWorkspaceRequest(
                         this.noticeTitle,
                         this.notice,
                         this.address,
+                        this.addressDetail,
                         this.yearOfExperience,
                         this.licenses,
                         this.paymentOptions,

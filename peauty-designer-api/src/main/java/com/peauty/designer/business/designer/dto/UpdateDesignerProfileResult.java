@@ -7,7 +7,6 @@ public record UpdateDesignerProfileResult(
         String name,
         String nickname,
         String phoneNumber,
-        String address,
         String profileImageUrl,
         String email
 ) {
@@ -17,7 +16,6 @@ public record UpdateDesignerProfileResult(
                 designer.getName(),
                 designer.getNickname(),
                 designer.getPhoneNumber(),
-                designer.getAddress(),
                 designer.getProfileImageUrl(),
                 designer.getEmail()
         );

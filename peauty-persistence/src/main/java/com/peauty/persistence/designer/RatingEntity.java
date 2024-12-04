@@ -20,7 +20,7 @@ public class RatingEntity extends BaseTimeEntity {
     @Column(name = "workspace_id", nullable = false)
     private Long workspaceId;
 
-    @Column(name = "total_score")
+    @Column(name = "total_score", nullable = false)
     private Double totalScore;
 
     @Column(name = "scissor")

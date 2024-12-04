@@ -47,7 +47,6 @@ public class DesignerServiceImpl implements DesignerService {
         designerToUpdate.updatePhoneNumber(command.phoneNumber());
         designerToUpdate.updateNickname(command.nickname());
         designerToUpdate.updateProfileImageUrl(command.profileImageUrl());
-        designerToUpdate.updateAddress(command.address());
         designerToUpdate.updateEmail(command.email());
         Designer updatedDesigner = designerPort.save(designerToUpdate);
         return UpdateDesignerProfileResult.from(updatedDesigner);

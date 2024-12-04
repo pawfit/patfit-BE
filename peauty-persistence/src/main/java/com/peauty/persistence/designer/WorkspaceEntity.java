@@ -34,8 +34,11 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "notice_title", length = 125)
     private String noticeTitle;
 
-    @Column(name = "address", length = 255)
+    @Column(name = "address", length = 255, nullable = false)
     private String address;
+
+    @Column(name = "address_detail", length = 255, nullable = false)
+    private String addressDetail;
 
     @Column(name = "workspace_name", length = 125, nullable = false)
     private String workspaceName;
