@@ -3,15 +3,20 @@ package com.peauty.customer.implementaion.customer;
 import com.peauty.customer.business.auth.dto.SignUpCommand;
 import com.peauty.customer.business.customer.CustomerPort;
 import com.peauty.domain.customer.Customer;
+import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.customer.CustomerRepository;
+import com.peauty.persistence.designer.DesignerRepository;
+import com.peauty.persistence.designer.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,6 +24,8 @@ import java.util.Optional;
 public class CustomerAdapter implements CustomerPort {
 
     private final CustomerRepository customerRepository;
+    private final DesignerRepository designerRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     @Override
     public void checkCustomerSocialIdDuplicated(String socialId) {
@@ -84,6 +91,21 @@ public class CustomerAdapter implements CustomerPort {
         return customerRepository.findById(customerId)
                 .map(CustomerMapper::toDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+    }
+
+    @Override
+    public List<Workspace> findAllWorkspaceByAddress(String baseAddress) {
+        return workspaceRepository.findByBaseAddress(baseAddress)
+                .stream()
+                .map(CustomerMapper::toWorkspaceDomain)
+                .toList();
+    }
+
+    @Override
+    public Designer findDesignerById(Long designerId) {
+        return designerRepository.findById(designerId)
+                .map(CustomerMapper::toDesignerDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));
     }
 
 }

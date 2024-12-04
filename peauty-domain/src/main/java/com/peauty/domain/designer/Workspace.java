@@ -29,6 +29,8 @@ public class Workspace {
     private String address;
     private String addressDetail;
 
+    private Long designerId;
+
     public void updateRating(Rating rating) {
         this.rating = rating;
     }
