@@ -29,6 +29,9 @@ public record CreateDesignerWorkspaceRequest(
         @Schema(description = "주소", example = "성남시 위례구")
         String address,
 
+        @Schema(description = "상세 주소", example = "사미동 대상 베르힐 힐스테이트 1602호")
+        String addressDetail,
+
         @Schema(description = "경력 연수", example = "5")
         Integer yearOfExperience,
 
@@ -38,7 +41,6 @@ public record CreateDesignerWorkspaceRequest(
         @Schema(description = "결제 방식 목록", example = "[\"ACCOUNT\"]")
         List<PaymentOption> paymentOptions,
 
-        // TODO : 바뀔 수 있을 것 같다.
         @Schema(description = "영업 시작 시간", example = "10:00")
         String openHours,
 
@@ -59,6 +61,8 @@ public record CreateDesignerWorkspaceRequest(
                 this.introduce,
                 this.noticeTitle,
                 this.notice,
+                this.address,
+                this.addressDetail,
                 this.yearOfExperience,
                 this.licenses,
                 this.paymentOptions,

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record GetDesignerWorkspaceResult(
+        Long designerId,
+        Long workspaceId,
         String bannerImageUrl,
         String workspaceName,
         Double reviewRating,
@@ -13,18 +15,19 @@ public record GetDesignerWorkspaceResult(
         Scissor scissor,
         String introduceTitle,
         String introduce,
-        List<String> representativeBadgeNames,
         String noticeTitle,
         String notice,
         String address,
+        String addressDetail,
         String phoneNumber,
         Integer yearOfExperience,
-        List<String> licenses,
-        List<PaymentOption> paymentType,
         String openHours,
         String closeHours,
         String openDays,
-        String directionGuide
+        String directionGuide,
+        List<String> licenses,
+        List<PaymentOption> paymentOptions,
+        List<String> representativeBadgeNames
 ) {
     public static GetDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
         List<String> licenses = designer.getLicenses().stream()
@@ -32,6 +35,8 @@ public record GetDesignerWorkspaceResult(
                 .toList();
 
         return new GetDesignerWorkspaceResult(
+                designer.getDesignerId(),
+                workspace.getWorkspaceId(),
                 workspace.getBannerImageUrl(),
                 workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
@@ -39,20 +44,21 @@ public record GetDesignerWorkspaceResult(
                 workspace.getRating().getScissor(),
                 workspace.getIntroduceTitle(),
                 workspace.getIntroduce(),
-                designer.getBadges().stream()
-                        .map(Badge::getBadgeName) // Badge 객체에서 badgeName만 추출
-                        .collect(Collectors.toList()),
                 workspace.getNoticeTitle(),
                 workspace.getNotice(),
-                designer.getAddress(),
+                workspace.getAddress(),
+                workspace.getAddressDetail(),
                 designer.getPhoneNumber(),
                 designer.getYearOfExperience(),
-                licenses,
-                workspace.getPaymentOptions(),
                 workspace.getOpenHours(),
                 workspace.getCloseHours(),
                 workspace.getOpenDays(),
-                workspace.getDirectionGuide()
+                workspace.getDirectionGuide(),
+                licenses,
+                workspace.getPaymentOptions(),
+                designer.getBadges().stream()
+                        .map(Badge::getBadgeName)
+                        .collect(Collectors.toList())
         );
     }
 }

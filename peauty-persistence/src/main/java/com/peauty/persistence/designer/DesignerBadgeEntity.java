@@ -16,10 +16,10 @@ public class DesignerBadgeEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "designer_id")
+    @JoinColumn(name = "designer_id", nullable = false)
     private Long designerId;
 
-    @JoinColumn(name = "badge_id")
+    @JoinColumn(name = "badge_id", nullable = false)
     private Long badgeId;
 
     @Column(name = "is_representative_badge", nullable = false)

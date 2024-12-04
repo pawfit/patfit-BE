@@ -29,7 +29,6 @@ public class DesignerMapper {
                 .status(designerEntity.getStatus())
                 .role(Role.ROLE_DESIGNER)
                 .nickname(designerEntity.getNickname())
-                .address(designerEntity.getAddress())
                 .profileImageUrl(designerEntity.getProfileImageUrl())
                 .licenses(Optional.ofNullable(licenseEntities)
                         .orElseGet(Collections::emptyList)

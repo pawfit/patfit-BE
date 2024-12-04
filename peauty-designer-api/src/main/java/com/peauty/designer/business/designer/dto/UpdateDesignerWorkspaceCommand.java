@@ -15,6 +15,7 @@ public record UpdateDesignerWorkspaceCommand(
         String noticeTitle,
         String notice,
         String address,
+        String addressDetail,
         Integer yearOfExperience,
         List<String> licenses,
         List<PaymentOption> paymentOptions,
@@ -31,6 +32,8 @@ public record UpdateDesignerWorkspaceCommand(
                 .introduce(command.introduce())
                 .noticeTitle(command.noticeTitle())
                 .notice(command.notice())
+                .address(command.address())
+                .addressDetail(command.addressDetail())
                 .paymentOptions(command.paymentOptions())
                 .openHours(command.openHours())
                 .closeHours(command.closeHours())

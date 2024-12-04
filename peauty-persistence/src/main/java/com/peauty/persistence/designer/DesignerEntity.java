@@ -37,9 +37,6 @@ public class DesignerEntity extends BaseTimeEntity {
     @Column(name = "phone_number", length = 50)
     private String phoneNumber;
 
-    @Column(name = "address")
-    private String address;
-
     @Lob
     @Column(name = "profile_image_url")
     private String profileImageUrl;

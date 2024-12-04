@@ -7,7 +7,6 @@ public record GetDesignerProfileResult(
         String name,
         String nickname,
         String profileImageUrl,
-        String address,
         String email,
         String phoneNum
 ) {
@@ -18,7 +17,6 @@ public record GetDesignerProfileResult(
                 designer.getName(),
                 designer.getNickname(),
                 designer.getProfileImageUrl(),
-                designer.getAddress(),
                 designer.getEmail(),
                 designer.getPhoneNumber()
         );
