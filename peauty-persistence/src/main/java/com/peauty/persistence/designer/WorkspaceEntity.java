@@ -70,4 +70,7 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "review_rating", nullable = false)
     private Double reviewRating;
 
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
 }

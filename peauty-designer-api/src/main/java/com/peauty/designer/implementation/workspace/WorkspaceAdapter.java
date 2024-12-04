@@ -23,8 +23,12 @@ public class WorkspaceAdapter implements WorkspacePort {
     private final RatingRepository ratingRepository;
 
     @Override
-    public Workspace save(Workspace workspace, Long designerId) {
+    public Workspace registerNew(Workspace workspace, Long designerId) {
         WorkspaceEntity workspaceEntityToSave = WorkspaceMapper.toEntity(workspace, designerId);
+        if(workspaceRepository.existsByDesignerId(workspaceEntityToSave.getDesignerId())){
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_WORKSPACE);
+        }
+
         WorkspaceEntity savedWorkspaceEntity = workspaceRepository.save(workspaceEntityToSave);
         return WorkspaceMapper.toDomain(savedWorkspaceEntity);
     }

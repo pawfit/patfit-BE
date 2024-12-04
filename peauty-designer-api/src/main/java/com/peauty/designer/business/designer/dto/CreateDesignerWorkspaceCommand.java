@@ -21,7 +21,8 @@ public record CreateDesignerWorkspaceCommand(
         String openHours,
         String closeHours,
         String openDays,
-        String directionGuide
+        String directionGuide,
+        String phoneNumber
 ) {
     public static Workspace toWorkspace(CreateDesignerWorkspaceCommand command) {
         return Workspace.builder()
@@ -38,6 +39,7 @@ public record CreateDesignerWorkspaceCommand(
                 .closeHours(command.closeHours())
                 .openDays(command.openDays())
                 .directionGuide(command.directionGuide())
+                .phoneNumber(command.phoneNumber())
                 .build();
     }
 

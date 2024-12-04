@@ -22,7 +22,8 @@ public record UpdateDesignerWorkspaceCommand(
         String openHours,
         String closeHours,
         String openDays,
-        String directionGuide
+        String directionGuide,
+        String phoneNumber
 ) {
     public static Workspace toWorkspace(UpdateDesignerWorkspaceCommand command) {
         return Workspace.builder()

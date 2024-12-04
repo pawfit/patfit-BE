@@ -48,7 +48,7 @@ public record UpdateDesignerWorkspaceResult(
                 workspace.getNotice(),
                 workspace.getAddress(),
                 workspace.getAddressDetail(),
-                designer.getPhoneNumber(),
+                workspace.getPhoneNumber(),
                 designer.getYearOfExperience(),
                 workspace.getOpenHours(),
                 workspace.getCloseHours(),

@@ -66,7 +66,5 @@ public class DesignerController {
         UpdateDesignerWorkspaceResult result = designerService.updateDesignerWorkspace(userId, request.toCommand());
         return UpdateDesignerWorkspaceResponse.from(result);
     }
-
-
 }
 
