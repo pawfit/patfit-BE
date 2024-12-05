@@ -105,14 +105,14 @@ public class CustomerMapper {
             return Rating.builder()
                     .ratingId(0L)
                     .totalScore(0.0)
-                    .scissor(Scissor.NONE)
+                    .scissors(Scissors.NONE)
                     .build();
         }
 
         return Rating.builder()
                 .ratingId(rating.getId())
                 .totalScore(rating.getTotalScore())
-                .scissor(rating.getScissor())
+                .scissors(rating.getScissors())
                 .build();
     }
 

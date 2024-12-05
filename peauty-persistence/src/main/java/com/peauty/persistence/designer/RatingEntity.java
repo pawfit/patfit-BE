@@ -1,6 +1,6 @@
 package com.peauty.persistence.designer;
 
-import com.peauty.domain.designer.Scissor;
+import com.peauty.domain.designer.Scissors;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +23,7 @@ public class RatingEntity extends BaseTimeEntity {
     @Column(name = "total_score", nullable = false)
     private Double totalScore;
 
-    @Column(name = "scissor")
+    @Column(name = "scissors")
     @Enumerated(EnumType.STRING)
-    private Scissor scissor;
+    private Scissors scissors;
 }

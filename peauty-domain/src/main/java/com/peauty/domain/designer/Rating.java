@@ -11,5 +11,13 @@ import lombok.*;
 public class Rating {
     private Long ratingId;
     private Double totalScore;
-    private Scissor scissor;
+    private Scissors scissors;
+
+    public void updateTotalScore(Double totalScore) {
+        this.totalScore = totalScore;
+    }
+    public void updateScissors(Scissors scissors) {
+        this.scissors = scissors;
+    }
+
 }

@@ -13,15 +13,15 @@ public enum ContentGeneral {
     KIND("친절해요"),
     MYPICK("견적서대로 해줘요");
 
-    private final String contentGeneral;
+    private final String contentGeneralReview;
 
-    ContentGeneral(String contentGeneral) {
-        this.contentGeneral = contentGeneral;
+    ContentGeneral(String contentGeneralReview) {
+        this.contentGeneralReview = contentGeneralReview;
     }
 
     public static ContentGeneral from(String contentGeneral) {
         return Arrays.stream(ContentGeneral.values())
-                .filter(it -> it.contentGeneral.equalsIgnoreCase(contentGeneral))
+                .filter(it -> it.contentGeneralReview.equalsIgnoreCase(contentGeneral))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.INVALID_GENERAL_CONTENT));
     }
