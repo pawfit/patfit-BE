@@ -8,8 +8,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "estimate_proposal")
@@ -24,7 +22,7 @@ public class EstimateProposalEntity extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "bidding_process_id")
-    private Long biddingProcessId;
+    private Long processId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

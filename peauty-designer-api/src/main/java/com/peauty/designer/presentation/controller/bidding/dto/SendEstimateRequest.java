@@ -3,21 +3,24 @@ package com.peauty.designer.presentation.controller.bidding.dto;
 import com.peauty.designer.business.bidding.dto.SendEstimateCommand;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public record SendEstimateRequest(
         String content,
-        Integer cost,
-        LocalDate date,
-        String proposalImageUrl
+        String availableGroomingDate,
+        String estimatedDuration,
+        Long estimatedCost,
+        List<String> imageUrls
 ) {
 
     public SendEstimateCommand toCommand() {
         return SendEstimateCommand.builder()
                 .content(content)
-                .cost(cost)
-                .date(date)
-                .proposalImageUrl(proposalImageUrl)
+                .availableGroomingDate(availableGroomingDate)
+                .estimatedDuration(estimatedDuration)
+                .estimatedCost(estimatedCost)
+                .imageUrls(imageUrls)
                 .build();
     }
 }
