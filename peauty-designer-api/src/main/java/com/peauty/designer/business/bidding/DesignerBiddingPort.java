@@ -1,11 +1,11 @@
 package com.peauty.designer.business.bidding;
 
+import com.peauty.domain.bidding.Estimate;
+
 public interface DesignerBiddingPort {
-    Estimate sendEstimate(
+    Estimate savedEstimate(
             Long userId,
             Long processId,
             Long threadId,
             Estimate estimate);
-
-    Process isValidProcess(Long processId);
 }
