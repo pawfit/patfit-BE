@@ -57,7 +57,7 @@ public class AuthController {
     private void redirectBySignInResult(HttpServletResponse response, SignInResult result) throws IOException {
         if (result.accessToken() == null) {
             String redirectUrl = UriComponentsBuilder.fromUriString(frontendRedirectUrl)
-                    .path("/signup")
+                    .path("/customer/signup")
                     .queryParam("socialId", result.socialId())
                     .queryParam("socialPlatform", result.socialPlatform())
                     .queryParam("nickname", result.nickname())
@@ -69,7 +69,7 @@ public class AuthController {
             return;
         }
         String redirectUrl = UriComponentsBuilder.fromUriString(frontendRedirectUrl)
-                .path("/signin")
+                .path("/customer/signin")
                 .queryParam("accessToken", result.accessToken())
                 .queryParam("refreshToken", result.refreshToken())
                 .build()
