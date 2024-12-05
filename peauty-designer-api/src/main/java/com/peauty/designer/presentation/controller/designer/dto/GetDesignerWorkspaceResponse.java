@@ -2,7 +2,7 @@ package com.peauty.designer.presentation.controller.designer.dto;
 
 import com.peauty.designer.business.designer.dto.GetDesignerWorkspaceResult;
 import com.peauty.domain.designer.PaymentOption;
-import com.peauty.domain.designer.Scissor;
+import com.peauty.domain.designer.Scissors;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public record GetDesignerWorkspaceResponse(
         @Schema(description = "리뷰 수", example = "5")
         Integer reviewsCount,
         @Schema(description = "가위 종류", example = "GOLD")
-        Scissor scissors,
+        Scissors scissors,
         @Schema(description = "소개 제목", example = "호키포키에 오신 여러분들 환영합니다!")
         String introduceTitle,
         @Schema(description = "소개", example = "안녕하세요. 말티즈 및 푸들 모발 케어 호키포키입니다.")
@@ -63,7 +63,7 @@ public record GetDesignerWorkspaceResponse(
                 result.workspaceName(),
                 result.reviewRating(),
                 result.reviewsCount(),
-                result.scissor(),
+                result.scissors(),
                 result.introduceTitle(),
                 result.introduce(),
                 result.noticeTitle(),

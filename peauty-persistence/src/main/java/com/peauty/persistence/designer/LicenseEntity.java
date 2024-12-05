@@ -1,5 +1,6 @@
 package com.peauty.persistence.designer;
 
+import com.peauty.domain.designer.LicenseVerification;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,9 @@ public class LicenseEntity {
     @Lob
     @Column(name = "license_image_url", nullable = false)
     private String licenseImageUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "license_verification", nullable = false)
+    private LicenseVerification licenseVerification;
+
 }

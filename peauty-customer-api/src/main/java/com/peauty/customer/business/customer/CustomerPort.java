@@ -14,4 +14,7 @@ public interface CustomerPort {
     Customer registerNewCustomer(SignUpCommand command);
     Customer getByCustomerIdWithoutPuppies(Long customerId);
     Customer getCustomerById(Long customerId);
+
+
+
 }

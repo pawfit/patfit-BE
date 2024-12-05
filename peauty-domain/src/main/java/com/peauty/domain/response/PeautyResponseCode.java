@@ -34,6 +34,10 @@ public enum PeautyResponseCode {
     INVALID_GENERAL_CONTENT("1212", "Invalid GENERAL CONTENT", "잘못된 리뷰 선택 컨텐츠입니다."),
     INVALID_PAYMENT_OPTION("1213", "Invalid Payment Options", "잘못된 결제 방식입니다"),
     ALREADY_EXIST_WORKSPACE("1214", "Already Exist Workspace", "해당 유저는 이미 가게가 존재합니다."),
+    INVALID_ADDRESS_FORMAT("1215", "Invalid Address Format", "잘못된 주소 형식입니다."),
+    NOT_EXIST_DESIGNER("1216", "Designer Not Found", "찾을 수 없는 디자이너입니다."),
+    INVALID_LICENSE_VERIFICATION_OPTION("1217", "Invalid License Verification Option", "잘못된 자격증 검증 옵션입니다."),
+    INVALID_SCISSORS_RANK_OPTION("1218", "Invalid Scissors Rank Option", "잘못된 시저 랭크 옵션입니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
@@ -61,6 +65,7 @@ public enum PeautyResponseCode {
     NOT_FOUND_BIDDING_PROCESS("1321", "Not Found Bidding Process", "해당 입찰 프로세스를 찾을 수 없습니다."),
 
     INVALID_GROOMING_TYPE("1400", "Invalid Grooming Type", "올바르지 않은 미용 타입입니다."),
+
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

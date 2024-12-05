@@ -3,7 +3,6 @@ package com.peauty.customer.presentation.controller.bidding;
 import com.peauty.customer.business.bidding.CustomerBiddingService;
 import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
-import com.peauty.customer.presentation.controller.bidding.dto.AcceptEstimateRequest;
 import com.peauty.customer.presentation.controller.bidding.dto.AcceptEstimateResponse;
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalRequest;
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalResponse;
@@ -35,8 +34,7 @@ public class CustomerBiddingController {
             @PathVariable Long userId,
             @PathVariable Long puppyId,
             @PathVariable Long processId,
-            @PathVariable Long threadId,
-            @RequestBody AcceptEstimateRequest request
+            @PathVariable Long threadId
     ) {
         AcceptEstimateResult result = customerBiddingService.acceptEstimate(
                 userId,
