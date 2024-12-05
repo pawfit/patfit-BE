@@ -11,14 +11,14 @@ public enum LicenseVerification {
     COMPLETE("검증 완료"),
     INCOMPLETE("검증 미완료");
 
-    private final String verifiCation;
+    private final String value;
 
-    LicenseVerification(String verifiCation) {
-        this.verifiCation = verifiCation;
+    LicenseVerification(String value) {
+        this.value = value;
     }
-    public static LicenseVerification from(String verifiCation) {
+    public static LicenseVerification from(String verification) {
         return Arrays.stream(LicenseVerification.values())
-                .filter(it -> it.verifiCation.equalsIgnoreCase(verifiCation))
+                .filter(it -> it.value.equalsIgnoreCase(verification))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.INVALID_LICENSE_VERIFICATION_OPTION));
     }
