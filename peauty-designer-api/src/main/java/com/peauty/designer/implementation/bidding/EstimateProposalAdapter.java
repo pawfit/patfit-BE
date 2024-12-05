@@ -21,18 +21,6 @@ public class EstimateProposalAdapter implements EstimateProposalPort {
     private final EstimateProposalImageRepository estimateProposalImageRepository;
 
     @Override
-    public EstimateProposal save(EstimateProposal proposal) {
-        EstimateProposalEntity savedProposalEntity = estimateProposalRepository.save(
-                EstimateProposalMapper.toProposalEntity(proposal)
-        );
-        List<EstimateProposalImageEntity> imageEntities = proposal.getImages().stream()
-                .map(image -> EstimateProposalMapper.toImageEntity(image, savedProposalEntity))
-                .toList();
-        List<EstimateProposalImageEntity> savedImageEntities = estimateProposalImageRepository.saveAll(imageEntities);
-        return EstimateProposalMapper.toProposalDomain(savedProposalEntity, savedImageEntities);
-    }
-
-    @Override
     public EstimateProposal getProposalById(Long proposalId) {
         EstimateProposalEntity foundProposalEntity = estimateProposalRepository.findById(proposalId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE_PROPOSAL));
