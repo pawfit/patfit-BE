@@ -10,8 +10,4 @@ import java.util.Optional;
 @Repository
 public interface EstimateProposalRepository extends JpaRepository<EstimateProposalEntity, Long> {
 
-    @Query("SELECT p FROM EstimateProposalEntity p " +
-            "LEFT JOIN FETCH p.images " +
-            "WHERE p.id = :id")
-    Optional<EstimateProposalEntity> findByIdWithImages(@Param("id") Long id);
 }

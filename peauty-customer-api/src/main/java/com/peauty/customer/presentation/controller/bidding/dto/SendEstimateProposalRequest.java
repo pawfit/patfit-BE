@@ -2,6 +2,8 @@ package com.peauty.customer.presentation.controller.bidding.dto;
 
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalCommand;
 import com.peauty.domain.bidding.GroomingType;
+import com.peauty.domain.bidding.TotalGroomingBodyType;
+import com.peauty.domain.bidding.TotalGroomingFaceType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,8 +15,8 @@ public record SendEstimateProposalRequest(
         List<String> imageUrls,
         Long desiredCost,
         LocalDateTime desiredDateTime,
-        String body,
-        String face
+        TotalGroomingBodyType totalGroomingBodyType,
+        TotalGroomingFaceType totalGroomingFaceType
 ) {
     public SendEstimateProposalCommand toCommand() {
         return new SendEstimateProposalCommand(
@@ -24,8 +26,8 @@ public record SendEstimateProposalRequest(
                 imageUrls,
                 desiredCost,
                 desiredDateTime,
-                body,
-                face
+                totalGroomingBodyType,
+                totalGroomingFaceType
         );
     }
 }

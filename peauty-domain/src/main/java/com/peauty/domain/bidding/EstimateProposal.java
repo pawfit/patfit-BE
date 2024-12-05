@@ -19,8 +19,8 @@ public class EstimateProposal {
     @Getter private LocalDateTime desiredDateTime;
 
     // can be null depends on grooming type
-    @Getter private String body;
-    @Getter private String face;
+    @Getter private TotalGroomingBodyType totalGroomingBodyType;
+    @Getter private TotalGroomingFaceType totalGroomingFaceType;
 
     public Optional<EstimateProposal.ID> getId() {
         return Optional.ofNullable(id);

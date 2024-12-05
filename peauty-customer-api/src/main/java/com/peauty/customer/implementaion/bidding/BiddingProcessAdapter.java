@@ -8,22 +8,17 @@ import com.peauty.persistence.bidding.process.BiddingProcessEntity;
 import com.peauty.persistence.bidding.process.BiddingProcessRepository;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BiddingProcessAdapter implements BiddingProcessPort {
 
     private final BiddingProcessRepository processRepository;
     private final BiddingThreadRepository threadRepository;
-    @PersistenceContext private EntityManager em;
 
     @Override
     public BiddingProcess save(BiddingProcess process) {
