@@ -40,6 +40,10 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long processId,
             Long threadId
     ) {
-        return null;
+        BiddingProcess process = biddingProcessPort.getProcessById(processId);
+        process.reserveThread(new BiddingThread.ID(threadId));
+        BiddingProcess savedProcess = biddingProcessPort.save(process);
+        BiddingThread reservedThread = savedProcess.getThread(new BiddingThread.ID(threadId));
+        return AcceptEstimateResult.from(savedProcess, reservedThread);
     }
 }
