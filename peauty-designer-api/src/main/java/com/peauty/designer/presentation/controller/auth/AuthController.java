@@ -70,7 +70,7 @@ public class AuthController {
             return;
         }
         String redirectUrl = UriComponentsBuilder.fromUriString(frontendRedirectUrl)
-                .path("/designer/signin")
+                .path("/signin")
                 .queryParam("accessToken", result.accessToken())
                 .queryParam("refreshToken", result.refreshToken())
                 .build()
