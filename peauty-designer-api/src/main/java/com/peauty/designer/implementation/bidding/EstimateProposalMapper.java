@@ -10,15 +10,15 @@ import java.util.List;
 
 public class EstimateProposalMapper {
 
-    public static EstimateProposalEntity toEntity(EstimateProposal domain) {
+    public static EstimateProposalEntity toProposalEntity(EstimateProposal domain) {
         return EstimateProposalEntity.builder()
                 .biddingProcessId(domain.getProcessId().value())
                 .type(domain.getType())
                 .detail(domain.getDetail())
                 .desiredCost(domain.getDesiredCost())
                 .desiredDateTime(domain.getDesiredDateTime())
-                .body(domain.getBody())
-                .face(domain.getFace())
+                .totalGroomingBodyType(domain.getTotalGroomingBodyType())
+                .totalGroomingFaceType(domain.getTotalGroomingFaceType())
                 .build();
     }
 
@@ -29,7 +29,7 @@ public class EstimateProposalMapper {
                 .build();
     }
 
-    public static EstimateProposal toDomain(EstimateProposalEntity entity, List<EstimateProposalImageEntity> images) {
+    public static EstimateProposal toProposalDomain(EstimateProposalEntity entity, List<EstimateProposalImageEntity> images) {
         List<EstimateProposalImage> proposalImages = images.stream()
                 .map(EstimateProposalMapper::toImageDomain)
                 .toList();
@@ -41,8 +41,8 @@ public class EstimateProposalMapper {
                 .detail(entity.getDetail())
                 .desiredCost(entity.getDesiredCost())
                 .desiredDateTime(entity.getDesiredDateTime())
-                .body(entity.getBody())
-                .face(entity.getFace())
+                .totalGroomingBodyType(entity.getTotalGroomingBodyType())
+                .totalGroomingFaceType(entity.getTotalGroomingFaceType())
                 .images(proposalImages)
                 .build();
     }
