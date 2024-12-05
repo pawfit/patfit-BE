@@ -41,13 +41,11 @@ public class DesignerBiddingController {
             @PathVariable Long userId,
             @PathVariable Long processId,
             @PathVariable Long threadId
-            // @RequestBody CompleteGroomingCommand request
     ) {
         CompleteGroomingResult result = designerBiddingService.completeGrooming(
                 userId,
                 processId,
                 threadId
-                // request.toCommand()
         );
         return CompleteGroomingResponse.from(result);
     }
