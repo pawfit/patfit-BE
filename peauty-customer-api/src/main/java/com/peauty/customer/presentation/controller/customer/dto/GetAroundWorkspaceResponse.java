@@ -15,7 +15,7 @@ public record GetAroundWorkspaceResponse(
         Double reviewRating,
         String designerName,
         Integer yearOfExperience,
-//        List<String> representativeBadgesName,
+        List<String> representativeBadgesName,
         Scissors scissorsRank
 ) {
     public static GetAroundWorkspaceResponse from(GetAroundWorkspaceResult result) {
@@ -29,7 +29,7 @@ public record GetAroundWorkspaceResponse(
                 result.reviewRating(),
                 result.designerName(),
                 result.yearOfExperience(),
-//                result.representativeBadgesName(),
+                result.representativeBadgesName(),
                 result.scissorsRank()
         );
     }

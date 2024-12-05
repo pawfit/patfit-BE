@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -31,8 +32,8 @@ public class WorkspaceAdapter implements WorkspacePort {
                 })
                 .toList();
     }
-
-/*    @Override
+/*  TODO: 뱃지 붙이기 전의 findDesignerById
+    @Override
     public Designer findDesignerById(Long designerId) {
         return designerRepository.findById(designerId)
                 .map(CustomerMapper::toDesignerDomain)
@@ -62,11 +63,26 @@ public Designer findDesignerById(Long designerId) {
 
     @Override
     public Rating getRatingByWorkspaceId(Long workspaceId) {
-        return ratingRepository.findByWorkspaceId(workspaceId)
+        return ratingRepository.findRatingByWorkspaceId(workspaceId)
                 .map(CustomerMapper::toRatingDomain)
                 .orElseGet(() -> Rating.builder()
                         .scissors(Scissors.NONE)
                         .build());
+    }
+    // 대표뱃지 조회
+    @Override
+    public List<Badge> getBadges(Long userId) {
+        List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
+        List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
+        return badgeEntities.stream()
+                .map(badgeEntity -> Badge.builder()
+                        .badgeId(badgeEntity.getId())
+                        .badgeName(badgeEntity.getBadgeName())
+                        .badgeContent(badgeEntity.getBadgeContent())
+                        .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+                        .isRepresentativeBadge(true)
+                        .build())
+                .collect(Collectors.toList());
     }
 
 
