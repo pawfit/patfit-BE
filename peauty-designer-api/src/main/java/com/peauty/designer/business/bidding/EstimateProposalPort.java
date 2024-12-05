@@ -1,4 +1,4 @@
-package com.peauty.customer.business.bidding;
+package com.peauty.designer.business.bidding;
 
 import com.peauty.domain.bidding.EstimateProposal;
 

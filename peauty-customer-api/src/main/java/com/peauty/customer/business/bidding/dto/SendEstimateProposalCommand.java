@@ -1,9 +1,6 @@
 package com.peauty.customer.business.bidding.dto;
 
-import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.EstimateProposal;
-import com.peauty.domain.bidding.EstimateProposalImage;
-import com.peauty.domain.bidding.GroomingType;
+import com.peauty.domain.bidding.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +12,8 @@ public record SendEstimateProposalCommand(
         List<String> imageUrls,
         Long desiredCost,
         LocalDateTime desiredDateTime,
-        String body,
-        String face
+        TotalGroomingBodyType totalGroomingBodyType,
+        TotalGroomingFaceType totalGroomingFaceType
 ) {
 
     public EstimateProposal toEstimateProposal(BiddingProcess.ID processId) {
@@ -34,8 +31,8 @@ public record SendEstimateProposalCommand(
                         .toList())
                 .desiredCost(desiredCost)
                 .desiredDateTime(desiredDateTime)
-                .body(body)
-                .face(face)
+                .totalGroomingBodyType(totalGroomingBodyType)
+                .totalGroomingFaceType(totalGroomingFaceType)
                 .build();
     }
 }

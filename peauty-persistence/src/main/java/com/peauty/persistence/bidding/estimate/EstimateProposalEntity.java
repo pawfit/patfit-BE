@@ -1,6 +1,8 @@
 package com.peauty.persistence.bidding.estimate;
 
 import com.peauty.domain.bidding.GroomingType;
+import com.peauty.domain.bidding.TotalGroomingBodyType;
+import com.peauty.domain.bidding.TotalGroomingFaceType;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,19 +33,17 @@ public class EstimateProposalEntity extends BaseTimeEntity {
     @Column(length = 1000)
     private String detail;
 
-    @OneToMany(mappedBy = "estimateProposal")
-    @Builder.Default
-    private List<EstimateProposalImageEntity> images = new ArrayList<>();
-
     @Column(name = "desired_cost")
     private Long desiredCost;
 
     @Column(name = "desired_date_time")
     private LocalDateTime desiredDateTime;
 
-    @Column
-    private String body;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "total_grooming_body_type")
+    private TotalGroomingBodyType totalGroomingBodyType;
 
-    @Column
-    private String face;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "total_grooming_face_type")
+    private TotalGroomingFaceType totalGroomingFaceType;
 }

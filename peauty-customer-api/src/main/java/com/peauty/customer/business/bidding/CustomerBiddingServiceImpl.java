@@ -28,7 +28,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         command.designerIds().forEach(id -> newProcess.addNewThread(new DesignerId(id)));
         BiddingProcess savedProcess = biddingProcessPort.save(newProcess);
         EstimateProposal newProposal = command.toEstimateProposal(savedProcess.getSavedProcessId());
-        estimateProposalPort.save(newProposal);;
+        estimateProposalPort.save(newProposal);
         return SendEstimateProposalResult.from(savedProcess);
     }
 

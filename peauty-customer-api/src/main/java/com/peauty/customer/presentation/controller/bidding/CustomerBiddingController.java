@@ -7,12 +7,14 @@ import com.peauty.customer.presentation.controller.bidding.dto.AcceptEstimateRes
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalRequest;
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "Customer Bidding API", description = "사용자와 관련된 입찰 프로세스 API")
 public class CustomerBiddingController {
 
     private final CustomerBiddingService customerBiddingService;
@@ -28,7 +30,7 @@ public class CustomerBiddingController {
         return SendEstimateProposalResponse.from(result);
     }
 
-    @PostMapping("/{userId}/puppies/{puppyId}/biddings/{processId}/threads/{threadId}/accept")
+    @PostMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/accept")
     @Operation(summary = "견적 수락", description = "디자이너가 제안한 견적을 수락합니다.")
     public AcceptEstimateResponse acceptEstimate(
             @PathVariable Long userId,

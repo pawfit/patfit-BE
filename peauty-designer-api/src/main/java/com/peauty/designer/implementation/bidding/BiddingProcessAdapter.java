@@ -1,7 +1,8 @@
-package com.peauty.customer.implementaion.bidding;
+package com.peauty.designer.implementation.bidding;
 
-import com.peauty.customer.business.bidding.BiddingProcessPort;
+import com.peauty.designer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
+import com.peauty.domain.bidding.BiddingProcessStatus;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.bidding.process.BiddingProcessEntity;
@@ -36,7 +37,17 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     public BiddingProcess getProcessById(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
-         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
         return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
+    }
+
+    @Override
+    public void isValidStatus(BiddingProcessStatus status) {
+        if(status.isCanceled()){
+            throw new PeautyException(PeautyResponseCode.ALREADY_CANCELED_BIDDING_PROCESS);
+        }
+        if(status.isCompleted()){
+            throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_PROCESS);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.peauty.customer.implementaion.bidding;
+package com.peauty.designer.implementation.bidding;
 
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.bidding.EstimateProposal;

@@ -1,6 +1,6 @@
-package com.peauty.customer.implementaion.bidding;
+package com.peauty.designer.implementation.bidding;
 
-import com.peauty.customer.business.bidding.EstimateProposalPort;
+import com.peauty.designer.business.bidding.EstimateProposalPort;
 import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
