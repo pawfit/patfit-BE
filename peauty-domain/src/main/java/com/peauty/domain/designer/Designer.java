@@ -72,8 +72,6 @@ public class Designer {
         this.email = email;
     }
 
-
-
     public void updateYearOfExperience(Integer yearOfExperience) {
         this.yearOfExperience = yearOfExperience;
     }
