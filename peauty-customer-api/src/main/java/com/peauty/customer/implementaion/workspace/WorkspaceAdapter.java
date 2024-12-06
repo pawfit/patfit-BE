@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -68,21 +67,6 @@ public Designer findDesignerById(Long designerId) {
                 .orElseGet(() -> Rating.builder()
                         .scissors(Scissors.NONE)
                         .build());
-    }
-    // 대표뱃지 조회
-    @Override
-    public List<Badge> getBadges(Long userId) {
-        List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
-        List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
-        return badgeEntities.stream()
-                .map(badgeEntity -> Badge.builder()
-                        .badgeId(badgeEntity.getId())
-                        .badgeName(badgeEntity.getBadgeName())
-                        .badgeContent(badgeEntity.getBadgeContent())
-                        .badgeImageUrl(badgeEntity.getBadgeImageUrl())
-                        .isRepresentativeBadge(true)
-                        .build())
-                .collect(Collectors.toList());
     }
 
 

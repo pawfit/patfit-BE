@@ -1,6 +1,7 @@
 package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.customer.dto.*;
+import com.peauty.customer.business.designer.DesignerPort;
 import com.peauty.customer.business.internal.InternalPort;
 import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.customer.Customer;
@@ -24,6 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerPort customerPort;
     private final InternalPort internalPort;
     private final WorkspacePort workspacePort;
+    private final DesignerPort designerPort;
 
     @Override
     @Transactional
@@ -72,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
                     // 미용실을 소유한 디자이너 조회
                     Designer designer = workspacePort.findDesignerById(workspace.getDesignerId());
                     // 대표 뱃지 이름 가져오기
-                    List<String> representativeBadges = workspacePort.getBadges(designer.getDesignerId())
+                    List<String> representativeBadges = designerPort.getBadges(designer.getDesignerId())
                             .stream()
                             .map(Badge::getBadgeName)
                             .toList();
