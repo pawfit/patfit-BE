@@ -99,7 +99,7 @@ public class DesignerServiceImpl implements DesignerService {
         return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
     }
 
-
+    // TODO: 조인쿼리로 변환하면 좋겠다
     @Override
     public GetDesignerBadgesResult getDesignerBadges(Long userId) {
         // 디자이너가 획득한 뱃지 조회
