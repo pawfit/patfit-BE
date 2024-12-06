@@ -1,7 +1,9 @@
 package com.peauty.customer.business.customer.dto;
 
-import com.peauty.domain.designer.Designer;
-import com.peauty.domain.designer.Workspace;
+import com.peauty.domain.designer.*;
+
+import java.util.List;
+import java.util.Optional;
 
 public record GetAroundWorkspaceResult(
         Long workspaceId,
@@ -12,9 +14,12 @@ public record GetAroundWorkspaceResult(
         Integer reviewCount,
         Double reviewRating,
         String designerName,
-        Integer yearOfExperience
+        Integer yearOfExperience,
+        List<String> representativeBadgesName,
+        Scissors scissorsRank
 ) {
-    public static GetAroundWorkspaceResult from(Workspace workspace, Designer designer) {
+    public static GetAroundWorkspaceResult from(Workspace workspace, Designer designer, List<String> badges) {
+
         return new GetAroundWorkspaceResult(
                 workspace.getWorkspaceId(),
                 workspace.getWorkspaceName(),
@@ -24,7 +29,9 @@ public record GetAroundWorkspaceResult(
                 workspace.getReviewCount(),
                 workspace.getReviewRating(),
                 designer.getName(),
-                designer.getYearOfExperience()
+                designer.getYearOfExperience(),
+                badges,
+                workspace.getRating().getScissors()
         );
     }
 }

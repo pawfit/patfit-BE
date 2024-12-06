@@ -4,10 +4,7 @@ import com.peauty.domain.customer.Customer;
 import com.peauty.domain.designer.*;
 import com.peauty.domain.user.Role;
 import com.peauty.persistence.customer.CustomerEntity;
-import com.peauty.persistence.designer.DesignerEntity;
-import com.peauty.persistence.designer.LicenseEntity;
-import com.peauty.persistence.designer.RatingEntity;
-import com.peauty.persistence.designer.WorkspaceEntity;
+import com.peauty.persistence.designer.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +57,7 @@ public class CustomerMapper {
                 .build();
     }
     // 엔티티 -> 도메인
-    public static Workspace toWorkspaceDomain(WorkspaceEntity entity) {
+    public static Workspace toWorkspaceDomain(WorkspaceEntity entity, Rating rating) {
         return Workspace.builder()
                 .workspaceId(entity.getId())
                 .designerId(entity.getDesignerId())
@@ -70,6 +67,16 @@ public class CustomerMapper {
                 .bannerImageUrl(entity.getBannerImageUrl())
                 .reviewCount(entity.getReviewCount())
                 .reviewRating(entity.getReviewRating())
+                .rating(rating) // Rating 포함
+                .build();
+    }
+
+    public static Badge toBadgeDomain(BadgeEntity entity) {
+        return Badge.builder()
+                .badgeId(entity.getId())
+                .badgeName(entity.getBadgeName())
+                .badgeContent(entity.getBadgeContent())
+                .badgeImageUrl(entity.getBadgeImageUrl())
                 .build();
     }
 
