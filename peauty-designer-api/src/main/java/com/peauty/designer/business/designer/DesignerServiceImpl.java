@@ -100,28 +100,6 @@ public class DesignerServiceImpl implements DesignerService {
     }
 
 
-/*
-    @Override
-    public GetDesignerBadgesResult getDesignerBadges(Long userId) {
-        // 디자이너가 획득한 뱃지 조회
-        List<Badge> acquiredBadges = designerPort.getBadges(userId);
-
-        // 대표 뱃지 필터링
-        List<Badge> representativeBadges = acquiredBadges.stream()
-                .filter(Badge::getIsRepresentativeBadge)
-                .toList();
-
-        // 모든 뱃지 목록에서 획득하지 않은 뱃지를 계산
-        List<Badge> allBadges = designerPort.getAllBadges();
-        List<Badge> unacquiredBadges = allBadges.stream()
-                .filter(badge -> acquiredBadges.stream()
-                        .noneMatch(acquired -> acquired.getBadgeId().equals(badge.getBadgeId())))
-                .toList();
-
-//        return GetDesignerBadgesResult.from(acquiredBadges, unacquiredBadges, representativeBadges);
-        return new GetDesignerBadgesResult(acquiredBadges, unacquiredBadges, representativeBadges);
-    }
-*/
     @Override
     public GetDesignerBadgesResult getDesignerBadges(Long userId) {
         // 디자이너가 획득한 뱃지 조회
