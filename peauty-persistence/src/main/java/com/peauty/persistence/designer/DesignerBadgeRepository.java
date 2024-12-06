@@ -14,4 +14,6 @@ public interface DesignerBadgeRepository extends JpaRepository<DesignerBadgeEnti
 
     List<DesignerBadgeEntity> findAllByDesignerIdAndIsRepresentativeBadge(Long designerId, boolean isRepresentativeBadge);
 
+    List<DesignerBadgeEntity> findAllByDesignerId(Long designerId);
+
 }
