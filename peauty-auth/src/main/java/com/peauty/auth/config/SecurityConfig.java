@@ -79,7 +79,9 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
-                "https://peauty.click"
+                "https://peauty.click",
+                "https://dev.peauty.click",
+                "https://d1w4idl4c6ezdk.cloudfront.net"
         ));
         configuration.setAllowedMethods(Arrays.asList(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
