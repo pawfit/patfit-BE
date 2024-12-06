@@ -1,7 +1,6 @@
 package com.peauty.designer.presentation.controller.designer;
 
 import com.peauty.designer.business.designer.DesignerService;
-import com.peauty.designer.business.designer.UpdateDesignerWorkspaceResult;
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.presentation.controller.designer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
