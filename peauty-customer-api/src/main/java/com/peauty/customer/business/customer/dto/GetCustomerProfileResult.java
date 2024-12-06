@@ -7,7 +7,8 @@ public record GetCustomerProfileResult(
         String name,
         String nickname,
         String profileImageUrl,
-        String address
+        String address,
+        String phoneNumber
 ) {
 
     public static GetCustomerProfileResult from(Customer customer) {
@@ -16,7 +17,8 @@ public record GetCustomerProfileResult(
                 customer.getName(),
                 customer.getNickname(),
                 customer.getProfileImageUrl(),
-                customer.getAddress()
+                customer.getAddress(),
+                customer.getPhoneNumber()
         );
     }
 }

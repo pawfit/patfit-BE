@@ -68,6 +68,7 @@ public enum PeautyResponseCode {
     INVALID_FACE_TYPE("1401", "Invalid Face Type", "올바르지 않은 얼굴 미용 타입입니다."),
     INVALID_BODY_TYPE("1402", "Invalid Body Type", "올바르지 않은 몸 미용 타입입니다."),
     NOT_FOUND_ESTIMATE_PROPOSAL("1403", "Not Found Estimate Proposal", "견적 제안서를 찾을 수 없습니다."),
+    NOT_FOUND_ESTIMATE("1404", "Not Found Estimate", "견적서를 찾을 수 없습니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

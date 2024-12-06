@@ -63,20 +63,4 @@ public class BiddingMapper {
                 .statusModifiedAt(domain.getTimeInfo().getStatusModifiedAt())
                 .build();
     }
-
-    public static EstimateEntity toEstimateEntity(Estimate domain) {
-        return EstimateEntity.builder()
-                .id(domain.getId().map(Estimate.ID::value).orElse(null))
-                .biddingThreadId(domain.getThreadId().value())
-                .content(domain.getContent())
-                .date(domain.getDate())
-                .cost(domain.getCost())
-                .proposalImageUrl(domain.getProposalImageUrl())
-                .build();
-    }
-
-
-    public static Estimate toEstimateDomain(EstimateEntity savedEstimateEntity) {
-        return null;
-    }
 }
