@@ -12,7 +12,10 @@ public class EstimateProposalMapper {
 
     public static EstimateProposalEntity toProposalEntity(EstimateProposal domain) {
         return EstimateProposalEntity.builder()
-                .biddingProcessId(domain.getProcessId().value())
+                .id(domain.getId()
+                        .map(EstimateProposal.ID::value)
+                        .orElse(null))
+                .processId(domain.getProcessId().value())
                 .type(domain.getType())
                 .detail(domain.getDetail())
                 .desiredCost(domain.getDesiredCost())
@@ -24,6 +27,9 @@ public class EstimateProposalMapper {
 
     public static EstimateProposalImageEntity toImageEntity(EstimateProposalImage domain, EstimateProposalEntity proposalEntity) {
         return EstimateProposalImageEntity.builder()
+                .id(domain.getId()
+                        .map(EstimateProposalImage.ID::value)
+                        .orElse(null))
                 .estimateProposal(proposalEntity)
                 .imageUrl(domain.getImageUrl())
                 .build();
@@ -36,7 +42,7 @@ public class EstimateProposalMapper {
 
         return EstimateProposal.builder()
                 .id(new EstimateProposal.ID(entity.getId()))
-                .processId(new BiddingProcess.ID(entity.getBiddingProcessId()))
+                .processId(new BiddingProcess.ID(entity.getProcessId()))
                 .type(entity.getType())
                 .detail(entity.getDetail())
                 .desiredCost(entity.getDesiredCost())

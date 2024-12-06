@@ -6,13 +6,13 @@ import lombok.Getter;
 import java.util.Optional;
 
 @Builder
-public class EstimateProposalImage {
+public class EstimateImage {
 
     private ID id;
-    @Getter private EstimateProposal.ID estimateProposalId;
+    @Getter private Estimate.ID estimateId;
     @Getter private String imageUrl;
 
-    public Optional<EstimateProposalImage.ID> getId() {
+    public Optional<ID> getId() {
         return Optional.ofNullable(id);
     }
 
