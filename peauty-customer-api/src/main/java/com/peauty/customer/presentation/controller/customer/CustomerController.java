@@ -4,6 +4,7 @@ import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.presentation.controller.customer.dto.GetAroundWorkspacesResponse;
 import com.peauty.customer.presentation.controller.customer.dto.GetCustomerProfileResponse;
+import com.peauty.customer.presentation.controller.customer.dto.GetDesignerBadgesForCustomerResponse;
 import com.peauty.customer.presentation.controller.customer.dto.UploadProfileImageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CustomerController {
 
     private final CustomerService customerService;
+//    private final DesignerService designerService;
 
     @PostMapping(value = "/{userId}/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "고객 프로필 이미지 업로드", description = "고객의 프로필 이미지 업로드 API 진입점입니다.")
@@ -56,6 +58,13 @@ public class CustomerController {
     public GetAroundWorkspacesResponse getAroundWorkspaces(@PathVariable Long userId) {
         GetAroundWorkspacesResult result = customerService.getAroundWorkspaces(userId);
         return GetAroundWorkspacesResponse.from(result);
+    }
+
+    @GetMapping("/search/{designerId}/badges")
+    @Operation(summary = "고객 관점 디자이너 뱃지 조회", description = "고객 관점에서 디자이너의 획득한 뱃지를 조회하는 API 진입점입니다.")
+    public GetDesignerBadgesForCustomerResponse getDesignerBadgesForCustomer(@PathVariable Long designerId) {
+        GetDesignerBadgesForCustomerResult result = customerService.getDesignerBadgesByCustomer(designerId);
+        return GetDesignerBadgesForCustomerResponse.from(result);
     }
 
 }
