@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class CustomerController {
 
     private final CustomerService customerService;
-//    private final DesignerService designerService;
 
     @PostMapping(value = "/users/{userId}/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "고객 프로필 이미지 업로드", description = "고객의 프로필 이미지 업로드 API 진입점입니다.")
