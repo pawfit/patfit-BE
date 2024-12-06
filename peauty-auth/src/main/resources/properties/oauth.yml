@@ -26,7 +26,7 @@ oauth:
   kakao-redirect-url: https://customer-dev.peauty.click/v1/auth/kakao-sign-in
   apple-redirect-url: https://customer-dev.peauty.click/v1/auth/apple-sign-in
   google-redirect-url: https://customer-dev.peauty.click/v1/auth/google-sign-in
-  frontend-redirect-url: https://peauty.click
+  frontend-redirect-url: http://localhost:5173
 
 ---
 spring:
@@ -59,7 +59,7 @@ oauth:
   kakao-redirect-url: https://designer-dev.peauty.click/v1/auth/kakao-sign-in
   apple-redirect-url: https://designer-dev.peauty.click/v1/auth/apple-sign-in
   google-redirect-url: https://designer-dev.peauty.click/v1/auth/google-sign-in
-  frontend-redirect-url: https://peauty.click
+  frontend-redirect-url: http://localhost:5173
 
 ---
 spring:
