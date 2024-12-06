@@ -97,6 +97,19 @@ public class CustomerServiceImpl implements CustomerService {
         return addressParts[0] + " " + addressParts[1];
     }
 
+    @Override
+    public GetDesignerBadgesForCustomerResult getDesignerBadgesByCustomer(Long designerId) {
+        // 디자이너가 획득한 뱃지 가져오기
+        List<Badge> acquiredBadges = designerPort.getAcquiredBadges(designerId);
+
+        // 대표 뱃지 필터링
+        List<Badge> representativeBadges = acquiredBadges.stream()
+                .filter(Badge::getIsRepresentativeBadge)
+                .toList();
+
+        return GetDesignerBadgesForCustomerResult.from(acquiredBadges, representativeBadges);
+    }
+
 
 
 }

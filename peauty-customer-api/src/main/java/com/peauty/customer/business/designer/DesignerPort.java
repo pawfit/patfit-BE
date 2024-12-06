@@ -7,4 +7,8 @@ import java.util.List;
 public interface DesignerPort {
 
     List<Badge> getRepresentativeBadges(Long userId);
+
+    List<Badge> getAllBadges(); // 전체 뱃지
+
+    List<Badge> getAcquiredBadges(Long userId);
 }
