@@ -2,10 +2,12 @@ package com.peauty.domain.designer;
 
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
+import lombok.Getter;
 
 import java.util.Arrays;
 
-public enum Color {
+@Getter
+public enum BadgeColor {
 
     BLUE("블루"),
     GREEN("그린"),
@@ -13,17 +15,17 @@ public enum Color {
     SILVER("실버"),
     GOLD("골드");
 
-    private final String badgeColor;
+    private final String colorName;
 
-    Color(String badgeColor) {
-        this.badgeColor = badgeColor;
+    BadgeColor(String colorName) {
+        this.colorName = colorName;
     }
-    public static Color from(String color){
-        return Arrays.stream(Color.values())
-                .filter(it -> it.badgeColor.equalsIgnoreCase(color))
+
+    public static BadgeColor from(String badgeColor){
+        return Arrays.stream(BadgeColor.values())
+                .filter(it -> it.colorName.equalsIgnoreCase(badgeColor))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.INVALID_COLOR_OPTION));
+
     }
-
-
 }

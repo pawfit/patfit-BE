@@ -1,6 +1,6 @@
 package com.peauty.persistence.designer;
 
-import com.peauty.domain.designer.Color;
+import com.peauty.domain.designer.BadgeColor;
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +28,7 @@ public class BadgeEntity extends BaseTimeEntity {
     private String badgeImageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "color", nullable = false)
-    private Color color;
+    @Column(name = "badge_color", nullable = false)
+    private BadgeColor badgeColor;
 
 }
