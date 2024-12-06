@@ -9,4 +9,5 @@ public interface CustomerService {
     UpdateCustomerProfileResult updateCustomerProfile(Long customerId, UpdateCustomerProfileCommand command);
     void checkCustomerNicknameDuplicated(String nickname);
     GetAroundWorkspacesResult getAroundWorkspaces(Long customerId);
+    GetDesignerBadgesForCustomerResult getDesignerBadgesByCustomer(Long designerId);
 }

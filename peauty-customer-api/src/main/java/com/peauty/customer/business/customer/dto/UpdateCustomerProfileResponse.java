@@ -4,7 +4,7 @@ public record UpdateCustomerProfileResponse(
         Long customerId,
         String name,
         String nickname,
-        String phoneNum,
+        String phoneNumber,
         String address,
         String profileImageUrl
 ) {

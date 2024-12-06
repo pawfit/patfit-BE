@@ -12,4 +12,8 @@ public interface DesignerBadgeRepository extends JpaRepository<DesignerBadgeEnti
     @Query("SELECT db.badgeId FROM DesignerBadgeEntity db WHERE db.designerId = :designerId AND db.isRepresentativeBadge = true")
     List<Long> findRepresentativeBadgeIdsByDesignerId(@Param("designerId") Long designerId);
 
+    List<DesignerBadgeEntity> findAllByDesignerIdAndIsRepresentativeBadge(Long designerId, boolean isRepresentativeBadge);
+
+    List<DesignerBadgeEntity> findAllByDesignerId(Long designerId);
+
 }

@@ -9,8 +9,6 @@ import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.customer.CustomerRepository;
-import com.peauty.persistence.designer.DesignerRepository;
-import com.peauty.persistence.designer.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -37,9 +35,9 @@ public class CustomerAdapter implements CustomerPort {
     }
 
     @Override
-    public void checkCustomerPhoneNumDuplicated(String phoneNum) {
-        if (customerRepository.existsByPhoneNum(phoneNum)) {
-            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUM);
+    public void checkCustomerPhoneNumberDuplicated(String phoneNumber) {
+        if (customerRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUMBER);
         }
     }
 

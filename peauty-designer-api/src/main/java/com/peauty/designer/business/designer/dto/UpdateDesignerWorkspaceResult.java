@@ -1,4 +1,4 @@
-package com.peauty.designer.business.designer;
+package com.peauty.designer.business.designer.dto;
 
 import com.peauty.domain.designer.*;
 

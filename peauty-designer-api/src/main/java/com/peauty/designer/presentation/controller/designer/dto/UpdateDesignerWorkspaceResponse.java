@@ -1,6 +1,6 @@
 package com.peauty.designer.presentation.controller.designer.dto;
 
-import com.peauty.designer.business.designer.UpdateDesignerWorkspaceResult;
+import com.peauty.designer.business.designer.dto.UpdateDesignerWorkspaceResult;
 import com.peauty.domain.designer.PaymentOption;
 import com.peauty.domain.designer.Scissors;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -23,7 +23,7 @@ public class RatingEntity extends BaseTimeEntity {
     @Column(name = "total_score", nullable = false)
     private Double totalScore;
 
-    @Column(name = "scissors")
     @Enumerated(EnumType.STRING)
+    @Column(name = "scissors", nullable = false)
     private Scissors scissors;
 }

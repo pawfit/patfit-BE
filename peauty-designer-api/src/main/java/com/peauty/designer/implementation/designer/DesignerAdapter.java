@@ -37,7 +37,7 @@ public class DesignerAdapter implements DesignerPort {
     @Override
     public void checkDesignerPhoneNumDuplicated(String phoneNum) {
         if (designerRepository.existsByPhoneNumber(phoneNum)) {
-            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUM);
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUMBER);
         }
     }
 
@@ -114,4 +114,44 @@ public class DesignerAdapter implements DesignerPort {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Badge> getAllBadges() {
+        return badgeRepository.findAll().stream()
+                .map(badgeEntity -> Badge.builder()
+                        .badgeId(badgeEntity.getId())
+                        .badgeName(badgeEntity.getBadgeName())
+                        .badgeContent(badgeEntity.getBadgeContent())
+                        .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<Badge> getAcquiredBadges(Long userId) {
+        List<DesignerBadgeEntity> designerBadges = designerBadgeRepository.findAllByDesignerId(userId);
+        List<Long> badgeIds = designerBadges.stream()
+                .map(DesignerBadgeEntity::getBadgeId)
+                .toList();
+
+        List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
+
+        return badgeEntities.stream()
+                .map(badgeEntity -> {
+                            // 뱃지 ID가 일치하면서 대표뱃지가 True인 항목이 있는지 확인
+                    boolean isRepresentative = designerBadges.stream()
+                            .anyMatch(designerBadgeEntity -> designerBadgeEntity.getBadgeId().equals(badgeEntity.getId()) && designerBadgeEntity.isRepresentativeBadge());
+                    return Badge.builder()
+                            .badgeId(badgeEntity.getId())
+                            .badgeName(badgeEntity.getBadgeName())
+                            .badgeContent(badgeEntity.getBadgeContent())
+                            .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+                            .isRepresentativeBadge(isRepresentative)
+                            .build();
+                })
+                .toList();
+    }
+
+
+
 }

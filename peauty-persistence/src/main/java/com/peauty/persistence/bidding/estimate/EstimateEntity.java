@@ -1,11 +1,11 @@
 package com.peauty.persistence.bidding.estimate;
 
+import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Date;
-
 
 @Entity
 @Table(name = "estimate")
@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class EstimateEntity {
+public class EstimateEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,16 +21,15 @@ public class EstimateEntity {
     @Column(name = "bidding_thread_id", nullable = false)
     private Long biddingThreadId;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     private String content;
 
+    @Column(name = "available_grooming_date")
+    private String availableGroomingDate;
+
+    @Column(name = "estimate_duration")
+    private String estimatedDuration;
+
     @Column(name = "cost", nullable = false)
-    private Integer cost;
-
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
-
-    @Lob
-    @Column(name = "proposal_image_url")
-    private String proposalImageUrl;
+    private Long estimatedCost;
 }

@@ -1,7 +1,6 @@
 package com.peauty.designer.presentation.controller.designer;
 
 import com.peauty.designer.business.designer.DesignerService;
-import com.peauty.designer.business.designer.UpdateDesignerWorkspaceResult;
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.presentation.controller.designer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,5 +65,13 @@ public class DesignerController {
         UpdateDesignerWorkspaceResult result = designerService.updateDesignerWorkspace(userId, request.toCommand());
         return UpdateDesignerWorkspaceResponse.from(result);
     }
+
+    @GetMapping("/{userId}/badges")
+    @Operation(summary = " 디자이너 본인 뱃지 조회", description =  "디자이너 본인의 뱃지를 조회하는 API 진입점입니다.")
+    public GetDesignerBadgesResponse getDesignerBadges(@PathVariable Long userId) {
+        GetDesignerBadgesResult result = designerService.getDesignerBadges(userId);
+        return GetDesignerBadgesResponse.from(result);
+    }
+
 }
 
