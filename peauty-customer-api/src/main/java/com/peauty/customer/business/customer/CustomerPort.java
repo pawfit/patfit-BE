@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CustomerPort {
     void checkCustomerSocialIdDuplicated(String socialId);
     void checkCustomerNicknameDuplicated(String nickname);
-    void checkCustomerPhoneNumDuplicated(String phoneNum);
+    void checkCustomerPhoneNumberDuplicated(String phoneNum);
     Optional<Customer> findBySocialId(String socialId);
     Customer save(Customer customer);
     Customer registerNewCustomer(SignUpCommand command);

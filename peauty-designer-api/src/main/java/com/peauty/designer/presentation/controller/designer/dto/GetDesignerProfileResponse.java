@@ -8,7 +8,7 @@ public record GetDesignerProfileResponse(
         String nickname,
         String profileImageUrl,
         String email,
-        String phoneNum
+        String phoneNumber
 ) {
 
     public static GetDesignerProfileResponse from(GetDesignerProfileResult result) {
@@ -18,7 +18,7 @@ public record GetDesignerProfileResponse(
                 result.nickname(),
                 result.profileImageUrl(),
                 result.email(),
-                result.phoneNum()
+                result.phoneNumber()
         );
     }
 }

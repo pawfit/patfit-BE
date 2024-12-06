@@ -11,7 +11,7 @@ public record UpdateDesignerProfileRequest(
         String nickname,
 
         @Schema(description = "디자이너 전화번호", example = "01012345678")
-        String phoneNum,
+        String phoneNumber,
 
         @Schema(description = "디자이너 주소", example = "서울특별시 강남구 테헤란로 123")
         String address,
@@ -26,7 +26,7 @@ public record UpdateDesignerProfileRequest(
         return new UpdateDesignerProfileCommand(
                 this.name,
                 this.nickname,
-                this.phoneNum,
+                this.phoneNumber,
                 this.address,
                 this.profileImageUrl,
                 this.email

@@ -37,7 +37,7 @@ public class DesignerAdapter implements DesignerPort {
     @Override
     public void checkDesignerPhoneNumDuplicated(String phoneNum) {
         if (designerRepository.existsByPhoneNumber(phoneNum)) {
-            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUM);
+            throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_PHONE_NUMBER);
         }
     }
 

@@ -12,7 +12,7 @@ public record SignUpRequest(
         @Schema(description = "사용자의 이름", example = "홍길동")
         String name,
         @Schema(description = "사용자의 전화번호", example = "010-1234-5678")
-        String phoneNum,
+        String phoneNumber,
         @Schema(description = "사용자의 주소", example = "서울시 강남구 선릉동")
         String address,
         @Schema(description = "사용자의 닉네임", example = "MrHong")
@@ -26,7 +26,7 @@ public record SignUpRequest(
                 this.socialId,
                 this.socialPlatform,
                 this.name,
-                this.phoneNum,
+                this.phoneNumber,
                 this.address,
                 this.nickname,
                 this.profileImageUrl
