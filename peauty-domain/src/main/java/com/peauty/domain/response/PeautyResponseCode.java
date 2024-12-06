@@ -38,6 +38,7 @@ public enum PeautyResponseCode {
     NOT_EXIST_DESIGNER("1216", "Designer Not Found", "찾을 수 없는 디자이너입니다."),
     INVALID_LICENSE_VERIFICATION_OPTION("1217", "Invalid License Verification Option", "잘못된 자격증 검증 옵션입니다."),
     INVALID_SCISSORS_RANK_OPTION("1218", "Invalid Scissors Rank Option", "잘못된 시저 랭크 옵션입니다."),
+    INVALID_COLOR_OPTION("1219", "Invalid Color Option", "잘못된 컬러 옵션입니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
