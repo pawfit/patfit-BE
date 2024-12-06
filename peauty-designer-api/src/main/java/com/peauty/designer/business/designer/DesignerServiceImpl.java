@@ -3,6 +3,7 @@ package com.peauty.designer.business.designer;
 import com.peauty.designer.business.designer.dto.*;
 import com.peauty.designer.business.internal.InternalPort;
 import com.peauty.designer.business.workspace.WorkspacePort;
+import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.Workspace;
@@ -97,4 +98,28 @@ public class DesignerServiceImpl implements DesignerService {
 
         return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
     }
+
+    // TODO: 조인쿼리로 변환하면 좋겠다
+    @Override
+    public GetDesignerBadgesResult getDesignerBadges(Long userId) {
+        // 디자이너가 획득한 뱃지 조회
+        List<Badge> acquiredBadges = designerPort.getAcquiredBadges(userId);
+
+        // 대표 뱃지 필터링
+        List<Badge> representativeBadges = acquiredBadges.stream()
+                .filter(Badge::getIsRepresentativeBadge)
+                .toList();
+
+        // 모든 뱃지 목록에서 획득하지 않은 뱃지를 계산
+        List<Badge> allBadges = designerPort.getAllBadges();
+        List<Badge> unacquiredBadges = allBadges.stream()
+                .filter(badge -> acquiredBadges.stream()
+                        .noneMatch(acquired -> acquired.getBadgeId().equals(badge.getBadgeId())))
+                .toList();
+
+        return GetDesignerBadgesResult.from(acquiredBadges, unacquiredBadges, representativeBadges);
+    }
+
+
+
 }
