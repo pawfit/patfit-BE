@@ -5,6 +5,7 @@ import com.peauty.domain.bidding.Estimate;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.bidding.estimate.*;
+import com.peauty.persistence.bidding.mapper.EstimateMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

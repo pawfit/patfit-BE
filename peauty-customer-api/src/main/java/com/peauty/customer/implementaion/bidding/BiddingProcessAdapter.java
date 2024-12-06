@@ -4,6 +4,7 @@ import com.peauty.customer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
+import com.peauty.persistence.bidding.mapper.BiddingMapper;
 import com.peauty.persistence.bidding.process.BiddingProcessEntity;
 import com.peauty.persistence.bidding.process.BiddingProcessRepository;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;

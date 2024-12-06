@@ -1,4 +1,4 @@
-package com.peauty.persistence.designer;
+package com.peauty.persistence.designer.license;
 
 import com.peauty.domain.designer.LicenseVerification;
 import jakarta.persistence.*;

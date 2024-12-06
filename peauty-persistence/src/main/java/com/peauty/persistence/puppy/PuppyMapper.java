@@ -1,4 +1,4 @@
-package com.peauty.customer.implementaion.puppy;
+package com.peauty.persistence.puppy;
 
 import com.peauty.domain.puppy.Puppy;
 import com.peauty.persistence.customer.CustomerEntity;
