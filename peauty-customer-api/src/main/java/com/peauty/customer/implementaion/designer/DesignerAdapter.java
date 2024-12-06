@@ -18,7 +18,7 @@ public class DesignerAdapter implements DesignerPort {
 
     // 대표뱃지 조회
     @Override
-    public List<Badge> getBadges(Long userId) {
+    public List<Badge> getRepresentativeBadges(Long userId) {
         List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
         List<BadgeEntity> badgeEntities = badgeRepository.findAllById(badgeIds);
         return badgeEntities.stream()

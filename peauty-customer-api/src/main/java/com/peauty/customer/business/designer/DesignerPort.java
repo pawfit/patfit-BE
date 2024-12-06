@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface DesignerPort {
 
-    List<Badge> getBadges(Long userId);
+    List<Badge> getRepresentativeBadges(Long userId);
 }

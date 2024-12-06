@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
                     // 미용실을 소유한 디자이너 조회
                     Designer designer = workspacePort.findDesignerById(workspace.getDesignerId());
                     // 대표 뱃지 이름 가져오기
-                    List<String> representativeBadges = designerPort.getBadges(designer.getDesignerId())
+                    List<String> representativeBadges = designerPort.getRepresentativeBadges(designer.getDesignerId())
                             .stream()
                             .map(Badge::getBadgeName)
                             .toList();
