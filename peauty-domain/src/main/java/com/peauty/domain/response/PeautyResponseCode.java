@@ -23,7 +23,7 @@ public enum PeautyResponseCode {
     ALREADY_EXIST_USER("1202", "User Already Exists", "이미 가입한 유저입니다."),
     INVALID_USER_TYPE("1203", "Invalid User Type", "디자이너 혹은 고객 타입의 유저만 가능합니다."),
     ALREADY_EXIST_NICKNAME("1204", "Nickname Already Exits", "이미 존재하는 닉네임입니다."),
-    ALREADY_EXIST_PHONE_NUM("1205", "Phone Num Already Exits", "이미 존재하는 휴대폰 번호입니다."),
+    ALREADY_EXIST_PHONE_NUMBER("1205", "Phone Num Already Exits", "이미 존재하는 휴대폰 번호입니다."),
     NOT_EXISTS_BREED("1206", "Breed Not Found", "존재하지 않는 견종입니다."),
     NOT_EXISTS_DISEASE("1207", "Disease Not Found", "존재하지 않는 병명입니다."),
     WRONG_SEX("1208", "Invalid Puppy's Sex", "잘못된 애완견의 성별입니다."),

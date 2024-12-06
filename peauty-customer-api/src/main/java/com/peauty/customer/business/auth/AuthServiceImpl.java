@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public SignUpResult signUp(SignUpCommand command) {
         customerPort.checkCustomerSocialIdDuplicated(command.socialId());
-        customerPort.checkCustomerPhoneNumDuplicated(command.phoneNumber());
+        customerPort.checkCustomerPhoneNumberDuplicated(command.phoneNumber());
         customerPort.checkCustomerNicknameDuplicated(command.nickname());
         Customer registeredCustomer = customerPort.registerNewCustomer(command);
         SignTokens signTokens = authPort.generateSignTokens(registeredCustomer.getAuthInfo());

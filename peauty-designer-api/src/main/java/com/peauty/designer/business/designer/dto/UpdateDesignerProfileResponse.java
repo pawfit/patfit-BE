@@ -13,7 +13,7 @@ public record UpdateDesignerProfileResponse(
         String nickname,
 
         @Schema(description = "디자이너 전화번호", example = "01012345678")
-        String phoneNum,
+        String phoneNumber,
 
         @Schema(description = "프로필 이미지 URL", example = "https://example.com/images/profile.jpg")
         String profileImageUrl,

@@ -3,7 +3,7 @@ package com.peauty.customer.business.customer.dto;
 public record UpdateCustomerProfileRequest(
         String name,
         String nickname,
-        String phoneNum,
+        String phoneNumber,
         String address,
         String profileImageUrl
 ) {
@@ -12,7 +12,7 @@ public record UpdateCustomerProfileRequest(
         return new UpdateCustomerProfileCommand(
                 this.name,
                 this.nickname,
-                this.phoneNum,
+                this.phoneNumber,
                 this.address,
                 this.profileImageUrl
         );
