@@ -2,7 +2,10 @@ package com.peauty.customer.implementaion.designer;
 
 import com.peauty.customer.business.designer.DesignerPort;
 import com.peauty.domain.designer.Badge;
-import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.badge.BadgeRepository;
+import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
+import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,10 +1,10 @@
-package com.peauty.designer.implementation.designer;
+package com.peauty.persistence.designer.mapper;
 
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.user.Role;
 import com.peauty.persistence.designer.DesignerEntity;
-import com.peauty.persistence.designer.LicenseEntity;
+import com.peauty.persistence.designer.license.LicenseEntity;
 
 import java.util.Collections;
 import java.util.List;

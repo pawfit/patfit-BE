@@ -10,6 +10,13 @@ import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.badge.BadgeRepository;
+import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
+import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
+import com.peauty.persistence.designer.license.LicenseEntity;
+import com.peauty.persistence.designer.license.LicenseRepository;
+import com.peauty.persistence.designer.mapper.DesignerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

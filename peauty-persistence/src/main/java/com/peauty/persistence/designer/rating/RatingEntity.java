@@ -1,4 +1,4 @@
-package com.peauty.persistence.designer;
+package com.peauty.persistence.designer.rating;
 
 import com.peauty.domain.designer.Scissors;
 import com.peauty.persistence.config.BaseTimeEntity;

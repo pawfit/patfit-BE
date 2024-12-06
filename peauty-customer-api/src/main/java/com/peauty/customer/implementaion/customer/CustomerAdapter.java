@@ -7,6 +7,7 @@ import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
+import com.peauty.persistence.customer.CustomerMapper;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.customer.CustomerRepository;
 import lombok.RequiredArgsConstructor;

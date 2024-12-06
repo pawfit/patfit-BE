@@ -1,4 +1,4 @@
-package com.peauty.persistence.designer;
+package com.peauty.persistence.designer.workspace;
 
 import com.peauty.domain.designer.PaymentOption;
 import com.peauty.persistence.config.BaseTimeEntity;

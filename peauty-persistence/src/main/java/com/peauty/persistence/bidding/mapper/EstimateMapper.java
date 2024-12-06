@@ -1,4 +1,4 @@
-package com.peauty.designer.implementation.bidding;
+package com.peauty.persistence.bidding.mapper;
 
 import com.peauty.domain.bidding.BiddingThread;
 import com.peauty.domain.bidding.Estimate;

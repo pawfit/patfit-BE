@@ -1,10 +1,10 @@
-package com.peauty.designer.implementation.workspace;
+package com.peauty.persistence.designer.mapper;
 
 import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Scissors;
 import com.peauty.domain.designer.Workspace;
-import com.peauty.persistence.designer.RatingEntity;
-import com.peauty.persistence.designer.WorkspaceEntity;
+import com.peauty.persistence.designer.rating.RatingEntity;
+import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 
 import java.util.Optional;
 

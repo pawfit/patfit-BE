@@ -1,11 +1,16 @@
 package com.peauty.customer.implementaion.workspace;
 
 import com.peauty.customer.business.workspace.WorkspacePort;
-import com.peauty.customer.implementaion.customer.CustomerMapper;
 import com.peauty.domain.designer.*;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
+import com.peauty.persistence.customer.CustomerMapper;
 import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.badge.BadgeRepository;
+import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
+import com.peauty.persistence.designer.rating.RatingRepository;
+import com.peauty.persistence.designer.workspace.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

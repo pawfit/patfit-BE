@@ -8,6 +8,7 @@ import com.peauty.persistence.bidding.estimate.EstimateProposalEntity;
 import com.peauty.persistence.bidding.estimate.EstimateProposalImageEntity;
 import com.peauty.persistence.bidding.estimate.EstimateProposalImageRepository;
 import com.peauty.persistence.bidding.estimate.EstimateProposalRepository;
+import com.peauty.persistence.bidding.mapper.EstimateProposalMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
