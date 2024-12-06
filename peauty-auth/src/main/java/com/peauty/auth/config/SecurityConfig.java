@@ -78,6 +78,11 @@ public class SecurityConfig implements WebMvcConfigurer {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
+                "http://customer-dev.peauty.click",
+                "https://customer-dev.peauty.click",
+                "http://designer-dev.peauty.click",
+                "https://designer-dev.peauty.click",
+
                 "http://localhost:5173",
                 "https://peauty.click",
                 "https://dev.peauty.click",
