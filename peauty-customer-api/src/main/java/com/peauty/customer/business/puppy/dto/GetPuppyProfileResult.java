@@ -19,11 +19,11 @@ public record GetPuppyProfileResult(
         return new GetPuppyProfileResult(
                 puppy.getPuppyId(),
                 puppy.getName(),
-                puppy.getBreed().name(),
+                puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex().name(),
                 puppy.getAge(),
-                puppy.getDisease().stream().map(Disease::name).toList(),
+                puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getProfileImageUrl()
         );
     }
