@@ -2,7 +2,7 @@ package com.peauty.designer.business.designer.dto;
 
 import com.peauty.domain.designer.Designer;
 
-public record GetDesignerProfileResult(
+public record GetDesignerAccountResult(
         Long designerId,
         String name,
         String nickname,
@@ -11,8 +11,8 @@ public record GetDesignerProfileResult(
         String phoneNumber
 ) {
 
-    public static GetDesignerProfileResult from(Designer designer){
-        return new GetDesignerProfileResult(
+    public static GetDesignerAccountResult from(Designer designer){
+        return new GetDesignerAccountResult(
                 designer.getDesignerId(),
                 designer.getName(),
                 designer.getNickname(),
