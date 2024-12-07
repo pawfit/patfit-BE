@@ -28,6 +28,31 @@ public class Estimate {
         return id;
     }
 
+    public Profile getProfile() {
+        return Profile.builder()
+                .id(id.value())
+                .content(content)
+                .availableGroomingDate(availableGroomingDate)
+                .estimatedDuration(estimatedDuration)
+                .estimatedCost(estimatedCost)
+                .imageUrls(images.stream()
+                        .map(EstimateImage::getImageUrl)
+                        .toList()
+                )
+                .build();
+    }
+
+    @Builder
+    public record Profile(
+            Long id,
+            String content,
+            String availableGroomingDate,
+            String estimatedDuration,
+            Long estimatedCost,
+            List<String> imageUrls
+    ) {
+    }
+    
     public record ID(Long value) {
         public boolean isSameId(Long id) {
             return value.equals(id);
