@@ -8,13 +8,13 @@ import java.util.List;
 public record UpdatePuppyDetailResult(
         Long puppyId,
         String name,
-        Breed breed,
+        String breed,
         Long weight,
         Sex sex,
         Integer age,
         LocalDate birthdate,
         String detail,
-        List<Disease> disease,
+        List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
         PuppySize puppySize
@@ -23,13 +23,13 @@ public record UpdatePuppyDetailResult(
         return new UpdatePuppyDetailResult(
                 puppy.getPuppyId(),
                 puppy.getName(),
-                puppy.getBreed(),
+                puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex(),
                 puppy.getAge(),
                 puppy.getBirthdate(),
                 puppy.getDetail(),
-                puppy.getDisease(),
+                puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
                 puppy.getPuppySize()
