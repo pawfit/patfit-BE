@@ -2,10 +2,7 @@ package com.peauty.customer.presentation.controller.customer;
 
 import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
-import com.peauty.customer.presentation.controller.customer.dto.GetAroundWorkspacesResponse;
-import com.peauty.customer.presentation.controller.customer.dto.GetCustomerProfileResponse;
-import com.peauty.customer.presentation.controller.customer.dto.GetDesignerBadgesForCustomerResponse;
-import com.peauty.customer.presentation.controller.customer.dto.UploadProfileImageResponse;
+import com.peauty.customer.presentation.controller.customer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +62,14 @@ public class CustomerController {
         GetDesignerBadgesForCustomerResult result = customerService.getDesignerBadgesByCustomer(designerId);
         return GetDesignerBadgesForCustomerResponse.from(result);
     }
+/*
+
+    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")
+    @Operation(summary = "리뷰 작성", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 작성하는 API 진입점입니다.")
+    public RegisterReviewResponse registerReview(@PathVariable Long userId, @RequestBody RegisterReviewRequest request){
+        RegisterReviewResult result = customerService.registerReview(userId, request.toCommand());
+        return RegisterReviewResponse.from(result);
+    }
+*/
 
 }
