@@ -30,6 +30,33 @@ public class Designer {
     private List<License> licenses;
     private List<Badge> badges;
 
+    @Builder
+    public record Profile(
+            Long designerId,
+            String workspaceName,
+            String designerName,
+            Integer reviewCount,
+            Double reviewRating,
+            String profileImageUrl,
+            Integer yearOfExperience,
+            List<Badge> badges,
+            String address
+    ){
+    }
+
+    public Profile getProfile(Workspace workspace) {
+        return Profile.builder()
+                .designerName(this.name)
+                .badges(this.badges)
+                .profileImageUrl(this.profileImageUrl)
+                .yearOfExperience(this.yearOfExperience)
+                .reviewCount(workspace.getReviewCount())
+                .reviewRating(workspace.getReviewRating())
+                .workspaceName(workspace.getWorkspaceName())
+                .address(workspace.getAddress())
+                .build();
+    }
+
     public AuthInfo getAuthInfo() {
         return new AuthInfo(
                 designerId,

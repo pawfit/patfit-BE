@@ -1,6 +1,7 @@
 package com.peauty.customer.business.designer;
 
 import com.peauty.domain.designer.Badge;
+import com.peauty.domain.designer.Designer;
 
 import java.util.List;
 
@@ -11,4 +12,9 @@ public interface DesignerPort {
     List<Badge> getAllBadges(); // 전체 뱃지
 
     List<Badge> getAcquiredBadges(Long userId);
+
+    Designer getAllDesignerDataByDesignerId(Long userId);
+
+    Designer.Profile getDesignerProfileByDesignerId(Long designerId);
+
 }

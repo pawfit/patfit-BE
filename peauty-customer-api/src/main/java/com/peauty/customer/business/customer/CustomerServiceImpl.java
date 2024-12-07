@@ -11,12 +11,14 @@ import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -90,7 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
         // 서울 강남구 대치동 -> 서울 강남구
         String[] addressParts = address.split(" ");
         if (addressParts.length < 2) {
-        // "" or "서울시"
+            // "" or "서울시"
             throw new PeautyException(PeautyResponseCode.INVALID_ADDRESS_FORMAT);
         }
         // 상위 주소만 딱 반환해버리기
@@ -109,7 +111,4 @@ public class CustomerServiceImpl implements CustomerService {
 
         return GetDesignerBadgesForCustomerResult.from(acquiredBadges, representativeBadges);
     }
-
-
-
 }

@@ -15,5 +15,4 @@ public class Badge {
     private String badgeImageUrl;
     private Boolean isRepresentativeBadge;
     private BadgeColor badgeColor;
-
 }
