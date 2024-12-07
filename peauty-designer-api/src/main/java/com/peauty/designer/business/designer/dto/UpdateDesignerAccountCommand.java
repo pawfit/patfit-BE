@@ -1,6 +1,6 @@
 package com.peauty.designer.business.designer.dto;
 
-public record UpdateDesignerProfileCommand(
+public record UpdateDesignerAccountCommand(
         String name,
         String nickname,
         String phoneNumber,

@@ -1,8 +1,8 @@
 package com.peauty.designer.presentation.controller.designer.dto;
 
-import com.peauty.designer.business.designer.dto.GetDesignerProfileResult;
+import com.peauty.designer.business.designer.dto.GetDesignerAccountResult;
 
-public record GetDesignerProfileResponse(
+public record GetDesignerAccountResponse(
         Long designerId,
         String name,
         String nickname,
@@ -11,8 +11,8 @@ public record GetDesignerProfileResponse(
         String phoneNumber
 ) {
 
-    public static GetDesignerProfileResponse from(GetDesignerProfileResult result) {
-        return new GetDesignerProfileResponse(
+    public static GetDesignerAccountResponse from(GetDesignerAccountResult result) {
+        return new GetDesignerAccountResponse(
                 result.designerId(),
                 result.name(),
                 result.nickname(),
