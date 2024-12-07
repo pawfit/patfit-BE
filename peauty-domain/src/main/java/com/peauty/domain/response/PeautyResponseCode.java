@@ -39,6 +39,8 @@ public enum PeautyResponseCode {
     INVALID_LICENSE_VERIFICATION_OPTION("1217", "Invalid License Verification Option", "잘못된 자격증 검증 옵션입니다."),
     INVALID_SCISSORS_RANK_OPTION("1218", "Invalid Scissors Rank Option", "잘못된 시저 랭크 옵션입니다."),
     INVALID_COLOR_OPTION("1219", "Invalid Color Option", "잘못된 컬러 옵션입니다."),
+    ALREADY_FULL_BADGE("1220", "Already Full Representative Badge", "이미 대표 뱃지가 3개입니다."),
+    NOT_EXIST_BADGE("1221", "Not Exist Badge", "해당 뱃지를 찾을 수 없습니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),

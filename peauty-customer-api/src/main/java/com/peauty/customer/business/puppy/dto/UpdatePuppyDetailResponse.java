@@ -11,13 +11,13 @@ import java.util.List;
 public record UpdatePuppyDetailResponse(
         Long puppyId,
         String name,
-        Breed breed,
+        String breed,
         Long weight,
         Sex sex,
         Integer age,
         LocalDate birthdate,
         String detail,
-        List<Disease> disease,
+        List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
         PuppySize puppySize

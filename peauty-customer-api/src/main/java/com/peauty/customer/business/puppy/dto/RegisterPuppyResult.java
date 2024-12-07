@@ -24,13 +24,13 @@ public record RegisterPuppyResult(
         return new RegisterPuppyResult(
                 puppy.getPuppyId(),
                 puppy.getName(),
-                puppy.getBreed().name(),
+                puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex().name(),
                 puppy.getAge(),
                 puppy.getBirthdate(),
                 puppy.getDetail(),
-                puppy.getDisease().stream().map(Disease::name).toList(),
+                puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
                 puppy.getPuppySize().name()
