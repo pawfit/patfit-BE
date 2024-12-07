@@ -15,7 +15,7 @@ public record OrderResult(
         return OrderResult.builder()
                 .orderId(order.getOrderId())
                 .cost(order.getCost())
-                .paymentStatus(order.getPaymentStatus())
+                .paymentStatus(order.getIsPaymentCompleted())
                 .build();
     }
 }

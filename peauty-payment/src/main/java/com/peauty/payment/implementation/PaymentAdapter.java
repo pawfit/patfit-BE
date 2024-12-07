@@ -14,7 +14,7 @@ public class PaymentAdapter implements PaymentPort {
 
     private final OrderRepository orderRepository;
 
-    public Order saveNewOrder(Order order) {
+    public Order save(Order order) {
         OrderEntity orderEntityToSave = PaymentMapper.toOrderEntity(order);
         OrderEntity orderEntity = orderRepository.save(orderEntityToSave);
         return PaymentMapper.toOrderDomain(orderEntity);

@@ -8,7 +8,7 @@ public class PaymentMapper {
         return OrderEntity.builder()
                 .threadId(order.getThreadId())
                 .cost(order.getCost())
-                .paymentStatus(order.getPaymentStatus())
+                .isPaymentCompleted(order.getIsPaymentCompleted())
                 .orderDate(order.getOrderDate())
                 .uuid(order.getOrderUuid())
                 .build();
@@ -18,7 +18,7 @@ public class PaymentMapper {
         return Order.builder()
                 .orderId(orderEntity.getId())
                 .cost(orderEntity.getCost())
-                .paymentStatus(orderEntity.getPaymentStatus())
+                .isPaymentCompleted(orderEntity.getIsPaymentCompleted())
                 .threadId(orderEntity.getThreadId())
                 .orderUuid(orderEntity.getUuid())
                 .orderDate(orderEntity.getOrderDate())

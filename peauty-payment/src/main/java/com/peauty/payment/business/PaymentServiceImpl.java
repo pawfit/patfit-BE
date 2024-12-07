@@ -31,17 +31,16 @@ public class PaymentServiceImpl implements PaymentService {
         // TODO: 유저 검증
         // TODO: 요청서 & 견적서 정보 검증 (요청서, 견적서가 DB에 있는지 검증)
 
-        Order orderToSave = command.toDomain(userId, processId, threadId);
-        UUID uuid = UUID.randomUUID();
-        orderToSave.updateOrderUuid(uuid.toString());
-        orderToSave.updateOrderDate(LocalDateTime.now());
+        String uuid = UUID.randomUUID().toString();
+        LocalDateTime orderDate = LocalDateTime.now();
         // TODO: status 어떻게 관리할지 확인하기!
-        orderToSave.updatePaymentStatus(false);
+        Boolean isPaymentCompleted = false;
 
-        log.info("=========== orderToSave: {}", orderToSave);
+        Order orderToSave = command.toDomain(userId, processId, threadId, uuid, orderDate, isPaymentCompleted);
+
         // 예약금 변환을 thread에서 가져와서 변환을 해야함 -> 그 금액과 같은지 확인해야 함
         orderToSave.transferReservationCost(orderToSave.getCost());
-        Order savedOrder = paymentPort.saveNewOrder(orderToSave);
+        Order savedOrder = paymentPort.save(orderToSave);
         return OrderResult.from(savedOrder);
     }
 

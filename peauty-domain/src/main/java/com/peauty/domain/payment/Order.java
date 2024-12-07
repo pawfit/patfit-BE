@@ -14,7 +14,7 @@ public class Order {
     private Long orderId;
     private Long threadId;
     private Integer cost;
-    private Boolean paymentStatus;
+    private Boolean isPaymentCompleted;
     private LocalDateTime orderDate;
     private String orderUuid;
 
@@ -23,7 +23,7 @@ public class Order {
     }
 
     public void updatePaymentStatus(Boolean paymentStatus) {
-        this.paymentStatus = paymentStatus;
+        this.isPaymentCompleted = paymentStatus;
     }
 
     public void updateOrderUuid(String orderUuid) {

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "`order`")
@@ -25,7 +24,7 @@ public class OrderEntity {
     private Integer cost;
 
     @Column(name = "payment_status", nullable = false)
-    private Boolean paymentStatus;
+    private Boolean isPaymentCompleted;
 
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
