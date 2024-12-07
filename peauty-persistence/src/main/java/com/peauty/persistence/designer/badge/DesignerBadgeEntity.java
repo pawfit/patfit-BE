@@ -1,4 +1,4 @@
-package com.peauty.persistence.designer;
+package com.peauty.persistence.designer.badge;
 
 import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;

@@ -4,6 +4,7 @@ import com.peauty.customer.business.puppy.PuppyPort;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
+import com.peauty.persistence.puppy.PuppyMapper;
 import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.customer.CustomerRepository;
 import com.peauty.persistence.puppy.PuppyEntity;

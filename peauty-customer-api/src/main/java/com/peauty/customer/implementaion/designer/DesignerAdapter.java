@@ -2,7 +2,10 @@ package com.peauty.customer.implementaion.designer;
 
 import com.peauty.customer.business.designer.DesignerPort;
 import com.peauty.domain.designer.Badge;
-import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.badge.BadgeRepository;
+import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
+import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +31,7 @@ public class DesignerAdapter implements DesignerPort {
                         .badgeContent(badgeEntity.getBadgeContent())
                         .badgeImageUrl(badgeEntity.getBadgeImageUrl())
                         .isRepresentativeBadge(true)
+                        .badgeColor(badgeEntity.getBadgeColor())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -41,6 +45,7 @@ public class DesignerAdapter implements DesignerPort {
                         .badgeName(badgeEntity.getBadgeName())
                         .badgeContent(badgeEntity.getBadgeContent())
                         .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+//                        .badgeColor(badgeEntity.getBadgeColor())
                         .build())
                 .toList();
     }
@@ -65,6 +70,7 @@ public class DesignerAdapter implements DesignerPort {
                             .badgeContent(badgeEntity.getBadgeContent())
                             .badgeImageUrl(badgeEntity.getBadgeImageUrl())
                             .isRepresentativeBadge(isRepresentative)
+                            .badgeColor(badgeEntity.getBadgeColor())
                             .build();
                 })
                 .toList();

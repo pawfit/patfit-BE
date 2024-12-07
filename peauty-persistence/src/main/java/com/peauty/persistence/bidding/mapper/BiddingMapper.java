@@ -1,7 +1,6 @@
-package com.peauty.designer.implementation.bidding;
+package com.peauty.persistence.bidding.mapper;
 
 import com.peauty.domain.bidding.*;
-import com.peauty.persistence.bidding.estimate.EstimateEntity;
 import com.peauty.persistence.bidding.process.BiddingProcessEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 

@@ -3,7 +3,6 @@ package com.peauty.customer.business.customer.dto;
 import com.peauty.domain.designer.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public record GetAroundWorkspaceResult(
         Long workspaceId,

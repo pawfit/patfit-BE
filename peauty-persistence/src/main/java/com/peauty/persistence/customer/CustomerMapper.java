@@ -1,10 +1,13 @@
-package com.peauty.customer.implementaion.customer;
+package com.peauty.persistence.customer;
 
 import com.peauty.domain.customer.Customer;
 import com.peauty.domain.designer.*;
 import com.peauty.domain.user.Role;
-import com.peauty.persistence.customer.CustomerEntity;
 import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.license.LicenseEntity;
+import com.peauty.persistence.designer.rating.RatingEntity;
+import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 
 import java.util.Collections;
 import java.util.List;
