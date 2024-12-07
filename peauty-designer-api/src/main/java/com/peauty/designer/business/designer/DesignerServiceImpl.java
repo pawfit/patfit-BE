@@ -38,14 +38,14 @@ public class DesignerServiceImpl implements DesignerService {
     }
 
     @Override
-    public GetDesignerProfileResult getDesignerProfile(Long designerId) {
+    public GetDesignerAccountResult getDesignerAccount(Long designerId) {
         Designer designer = designerPort.getByDesignerId(designerId);
-        return GetDesignerProfileResult.from(designer);
+        return GetDesignerAccountResult.from(designer);
     }
 
     @Override
     @Transactional
-    public UpdateDesignerProfileResult updateDesignerProfile(Long designerId, UpdateDesignerProfileCommand command) {
+    public UpdateDesignerAccountResult updateDesignerAccount(Long designerId, UpdateDesignerAccountCommand command) {
         Designer designerToUpdate = designerPort.getByDesignerId(designerId);
         designerToUpdate.updateName(command.name());
         designerToUpdate.updatePhoneNumber(command.phoneNumber());
@@ -53,7 +53,7 @@ public class DesignerServiceImpl implements DesignerService {
         designerToUpdate.updateProfileImageUrl(command.profileImageUrl());
         designerToUpdate.updateEmail(command.email());
         Designer updatedDesigner = designerPort.save(designerToUpdate);
-        return UpdateDesignerProfileResult.from(updatedDesigner);
+        return UpdateDesignerAccountResult.from(updatedDesigner);
     }
 
     @Override

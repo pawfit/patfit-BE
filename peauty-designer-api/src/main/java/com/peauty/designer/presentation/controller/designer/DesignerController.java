@@ -25,18 +25,18 @@ public class DesignerController {
         return UploadProfileImageResponse.from(result);
     }
     // 디자이너 프로필 조회
-    @GetMapping("/{userId}/profile")
-    @Operation(summary = "디자이너 프로필 조회", description = "디자이너의 프로필 조회 API 진입점입니다.")
-    public GetDesignerProfileResponse getDesignerProfile(@PathVariable Long userId){
-        GetDesignerProfileResult result = designerService.getDesignerProfile(userId);
-        return GetDesignerProfileResponse.from(result);
+    @GetMapping("/{userId}/account")
+    @Operation(summary = "디자이너 계정 정보 조회", description = "디자이너의 계정 정보 조회 API 진입점입니다.")
+    public GetDesignerAccountResponse getDesignerAccount(@PathVariable Long userId){
+        GetDesignerAccountResult result = designerService.getDesignerAccount(userId);
+        return GetDesignerAccountResponse.from(result);
     }
     // 디자이너 프로필 수정
-    @PutMapping("/{userId}/profile")
-    @Operation(summary = "디자이너 프로필 수정", description = "디자이너의 프로필 수정 API 진입점입니다.")
-    public UpdateDesignerProfileResponse updateDesignerProfile(@PathVariable Long userId, @RequestBody UpdateDesignerProfileRequest request){
-        UpdateDesignerProfileResult result = designerService.updateDesignerProfile(userId, request.toCommand());
-        return UpdateDesignerProfileResponse.from(result);
+    @PutMapping("/{userId}/account")
+    @Operation(summary = "디자이너 계정 정보 수정", description = "디자이너의 계정 정보 수정 API 진입점입니다.")
+    public UpdateDesignerAccountResponse updateDesignerAccount(@PathVariable Long userId, @RequestBody UpdateDesignerAccountRequest request){
+        UpdateDesignerAccountResult result = designerService.updateDesignerAccount(userId, request.toCommand());
+        return UpdateDesignerAccountResponse.from(result);
     }
     // 닉네임 중복 체크
     @GetMapping("/check")

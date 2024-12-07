@@ -5,8 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface DesignerService {
     UploadProfileImageResult uploadProfileImage(Long userId, MultipartFile file);
-    GetDesignerProfileResult getDesignerProfile(Long designerId);
-    UpdateDesignerProfileResult updateDesignerProfile(Long designerId, UpdateDesignerProfileCommand command);
+    GetDesignerAccountResult getDesignerAccount(Long designerId);
+    UpdateDesignerAccountResult updateDesignerAccount(Long designerId, UpdateDesignerAccountCommand command);
     void checkDesignerNicknameDuplicated(String nickname);
     CreateDesignerWorkspaceResult createDesignerWorkspace(Long userId, CreateDesignerWorkspaceCommand command);
     GetDesignerWorkspaceResult getDesignerWorkspace(Long workspaceId);
