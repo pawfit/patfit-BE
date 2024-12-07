@@ -59,7 +59,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void checkCustomerNicknameDuplicated(String nickname) {
-        designerPort.getDesignerProfileByDesignerId(1L);
         customerPort.checkCustomerNicknameDuplicated(nickname);
     }
 
