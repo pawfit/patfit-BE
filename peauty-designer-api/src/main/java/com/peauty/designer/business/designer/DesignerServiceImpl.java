@@ -126,8 +126,6 @@ public class DesignerServiceImpl implements DesignerService {
     @Transactional
     @Override
     public UpdateRepresentativeBadgeResult updateRepresentativeBadge(Long userId, Long badgeId, UpdateRepresentativeBadgeCommand command) {
-        // 디자이너와 획득한 뱃지 조회
-        Designer designer = designerPort.getByDesignerId(userId);
         List<Badge> acquiredBadges = designerPort.getAcquiredBadges(userId);
 
         // 기존 대표 뱃지 확인
