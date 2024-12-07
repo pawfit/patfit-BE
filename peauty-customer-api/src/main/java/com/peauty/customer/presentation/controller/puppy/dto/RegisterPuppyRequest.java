@@ -16,9 +16,9 @@ public record RegisterPuppyRequest(
         @Schema(description = "반려견 이름", example = "꼬미")
         @NotEmpty
         String name,
-        @Schema(description = "반려견 품종", example = "RETRIEVER")
+        @Schema(description = "반려견 품종", example = "리트리버")
         @NotNull
-        Breed breed,
+        String breed,
         @Schema(description = "반려견 무게(kg)", example = "10")
         @NotNull
         Long weight,
@@ -33,8 +33,8 @@ public record RegisterPuppyRequest(
         LocalDate birthdate,
         @Schema(description = "특이사항", example = "잘 짖지 않아요")
         String detail,
-        @Schema(description = "질병 목록", example = "[\"FLEAS\", \"KENNEL_COUGH\"]")
-        List<Disease> disease,
+        @Schema(description = "질병 목록", example = "[\"기침 감기\", \"사상충\"]")
+        List<String> disease,
         @Schema(description = "기타 질병 설명", example = "심하게 흥분하면 기침을 합니다")
         String diseaseDescription,
 
@@ -46,13 +46,13 @@ public record RegisterPuppyRequest(
         return new RegisterPuppyCommand(
                 userId,
                 name,
-                breed,
+                Breed.from(breed),
                 weight,
                 sex,
                 age,
                 birthdate,
                 detail,
-                disease,
+                disease.stream().map(Disease::from).toList(),
                 diseaseDescription,
                 profileImageUrl,
                 puppySize

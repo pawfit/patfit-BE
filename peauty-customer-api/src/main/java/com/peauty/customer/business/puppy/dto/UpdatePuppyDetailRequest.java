@@ -10,13 +10,13 @@ import java.util.List;
 
 public record UpdatePuppyDetailRequest(
         String name,
-        Breed breed,
+        String breed,
         Long weight,
         Sex sex,
         Integer age,
         LocalDate birthdate,
         String detail,
-        List<Disease> disease,
+        List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
         PuppySize puppySize
@@ -24,13 +24,13 @@ public record UpdatePuppyDetailRequest(
     public UpdatePuppyDetailCommand toCommand(){
         return new UpdatePuppyDetailCommand(
                 this.name,
-                this.breed,
+                Breed.from(this.breed),
                 this.weight,
                 this.sex,
                 this.age,
                 this.birthdate,
                 this.detail,
-                this.disease,
+                this.disease.stream().map(Disease::from).toList(),
                 this.diseaseDescription,
                 this.profileImageUrl,
                 this.puppySize
