@@ -39,6 +39,7 @@ public enum PeautyResponseCode {
     INVALID_LICENSE_VERIFICATION_OPTION("1217", "Invalid License Verification Option", "잘못된 자격증 검증 옵션입니다."),
     INVALID_SCISSORS_RANK_OPTION("1218", "Invalid Scissors Rank Option", "잘못된 시저 랭크 옵션입니다."),
     INVALID_COLOR_OPTION("1219", "Invalid Color Option", "잘못된 컬러 옵션입니다."),
+    NOT_OWNER_OF_PUPPY("1220", "Not Owner Of The Puppy", "해당 유저가 소유하고 있는 강아지가 아닙니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
@@ -70,6 +71,7 @@ public enum PeautyResponseCode {
     INVALID_BODY_TYPE("1402", "Invalid Body Type", "올바르지 않은 몸 미용 타입입니다."),
     NOT_FOUND_ESTIMATE_PROPOSAL("1403", "Not Found Estimate Proposal", "견적 제안서를 찾을 수 없습니다."),
     NOT_FOUND_ESTIMATE("1404", "Not Found Estimate", "견적서를 찾을 수 없습니다."),
+    PROCESS_ALREADY_IN_PROGRESS("1405", "Bidding Process Already In Progress", "이미 진행 중이거나 예약된 입찰 프로세스가 있습니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),
