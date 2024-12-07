@@ -28,5 +28,7 @@ public interface DesignerPort {
 
     List<Badge> getAcquiredBadges(Long userId);
 
+    void updateBadgeStatus(Badge badge, Long userId);
+
 }
 

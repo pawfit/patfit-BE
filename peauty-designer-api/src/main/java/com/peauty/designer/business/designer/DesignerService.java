@@ -12,4 +12,5 @@ public interface DesignerService {
     GetDesignerWorkspaceResult getDesignerWorkspace(Long workspaceId);
     UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command);
     GetDesignerBadgesResult getDesignerBadges(Long designerId);
+    UpdateRepresentativeBadgeResult updateRepresentativeBadge(Long userId, Long badgeId, UpdateRepresentativeBadgeCommand command);
 }

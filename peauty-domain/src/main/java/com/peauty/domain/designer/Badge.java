@@ -16,4 +16,8 @@ public class Badge {
     private Boolean isRepresentativeBadge;
     private BadgeColor badgeColor;
 
+    public void updateIsRepresentativeBadge(boolean isRepresentativeBadge) {
+        this.isRepresentativeBadge = isRepresentativeBadge;
+    }
+
 }

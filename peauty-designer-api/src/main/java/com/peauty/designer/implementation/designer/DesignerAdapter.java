@@ -10,12 +10,10 @@ import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
 import com.peauty.persistence.designer.*;
-import com.peauty.persistence.designer.badge.BadgeEntity;
-import com.peauty.persistence.designer.badge.BadgeRepository;
-import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
-import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
+import com.peauty.persistence.designer.badge.*;
 import com.peauty.persistence.designer.license.LicenseEntity;
 import com.peauty.persistence.designer.license.LicenseRepository;
+import com.peauty.persistence.designer.mapper.BadgeMapper;
 import com.peauty.persistence.designer.mapper.DesignerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -161,6 +159,16 @@ public class DesignerAdapter implements DesignerPort {
                 .toList();
     }
 
+    @Override
+    public void updateBadgeStatus(Badge badge, Long userId) {
+        DesignerBadgeEntity existingBadgeEntity = designerBadgeRepository
+                .findByDesignerIdAndBadgeId(userId, badge.getBadgeId())
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_BADGE));
+        // 업데이트 엔티티
+        DesignerBadgeEntity updatedBadgeEntity = BadgeMapper.updateEntity(existingBadgeEntity, badge);
+        // 엔티티 저장
+        designerBadgeRepository.save(updatedBadgeEntity);
+    }
 
 
 }
