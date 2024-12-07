@@ -52,7 +52,7 @@ public class Estimate {
             List<String> imageUrls
     ) {
     }
-    
+
     public record ID(Long value) {
         public boolean isSameId(Long id) {
             return value.equals(id);
