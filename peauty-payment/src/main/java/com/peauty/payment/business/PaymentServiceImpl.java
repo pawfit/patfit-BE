@@ -1,6 +1,8 @@
 package com.peauty.payment.business;
 
 import com.peauty.domain.payment.Order;
+import com.peauty.payment.business.dto.CompletePaymentCommand;
+import com.peauty.payment.business.dto.CompletePaymentResult;
 import com.peauty.payment.business.dto.OrderCommand;
 import com.peauty.payment.business.dto.OrderResult;
 import lombok.AllArgsConstructor;
@@ -45,7 +47,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public void ValidatePayment(Object command) {
-
+    public CompletePaymentResult completePayment(Long userId, Long threadId, Long processId,
+                                                 CompletePaymentCommand command) {
+        // TODO 1. 포트원에서 정보 가져오기
+        // TODO 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
+        // TODO 3. 확인 후, 포트원에 결제 완료 API 보내기
+        // TODO 4. 값을 받고 나서 상태를 바꿔주면서 클라이언트로 전송하기
+        return null;
     }
+
 }
