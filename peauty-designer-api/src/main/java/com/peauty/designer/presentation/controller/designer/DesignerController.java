@@ -73,5 +73,16 @@ public class DesignerController {
         return GetDesignerBadgesResponse.from(result);
     }
 
+    @PutMapping("/{userId}/badges/{badgeId}/representative")
+    @Operation(summary = "디자이너 대표 뱃지 설정", description = "디자이너가 본인이 가진 뱃지 중 대표 뱃지로 설정하는 API입니다.")
+    public UpdateRepresentativeBadgeResponse updateRepresentativeBadge(@PathVariable Long userId,
+                                                                       @PathVariable Long badgeId,
+                                                                       @RequestBody UpdateRepresentativeBadgeRequest request){
+
+        UpdateRepresentativeBadgeResult result = designerService.updateRepresentativeBadge(userId, badgeId, request.toCommand());
+        return UpdateRepresentativeBadgeResponse.from(result);
+    }
+
+
 }
 

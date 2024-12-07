@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DesignerBadgeRepository extends JpaRepository<DesignerBadgeEntity, Long> {
@@ -15,5 +16,7 @@ public interface DesignerBadgeRepository extends JpaRepository<DesignerBadgeEnti
     List<DesignerBadgeEntity> findAllByDesignerIdAndIsRepresentativeBadge(Long designerId, boolean isRepresentativeBadge);
 
     List<DesignerBadgeEntity> findAllByDesignerId(Long designerId);
+
+    Optional<DesignerBadgeEntity> findByDesignerIdAndBadgeId(Long designerId, Long badgeId);
 
 }

@@ -7,6 +7,8 @@ import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.License;
 import com.peauty.domain.designer.Workspace;
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -99,7 +102,7 @@ public class DesignerServiceImpl implements DesignerService {
         return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
     }
 
-    // TODO: 조인쿼리로 변환하면 좋겠다
+    // TODO: 조인쿼리로 변환하면 좋겠다.
     @Override
     public GetDesignerBadgesResult getDesignerBadges(Long userId) {
         // 디자이너가 획득한 뱃지 조회
@@ -119,6 +122,37 @@ public class DesignerServiceImpl implements DesignerService {
 
         return GetDesignerBadgesResult.from(acquiredBadges, unacquiredBadges, representativeBadges);
     }
+
+    @Transactional
+    @Override
+    public UpdateRepresentativeBadgeResult updateRepresentativeBadge(Long userId, Long badgeId, UpdateRepresentativeBadgeCommand command) {
+        // 디자이너와 획득한 뱃지 조회
+        Designer designer = designerPort.getByDesignerId(userId);
+        List<Badge> acquiredBadges = designerPort.getAcquiredBadges(userId);
+
+        // 기존 대표 뱃지 확인
+        List<Badge> representativeBadges = acquiredBadges.stream()
+                .filter(Badge::getIsRepresentativeBadge)
+                .collect(Collectors.toList());
+
+        // 대표 뱃지가 3개 이상일 경우 접근 막음. 더 이상 추가할 수 없도록 하는 로직
+        if (representativeBadges.size() >= 3 && command.isRepresentativeBadge()) {
+            throw new PeautyException(PeautyResponseCode.ALREADY_FULL_BADGE);
+        }
+
+        // 해상 뱃지 조회
+        Badge targetBadge = acquiredBadges.stream()
+                .filter(b -> b.getBadgeId().equals(badgeId))
+                .findFirst()
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_BADGE));
+        // 업데이트
+        targetBadge.updateIsRepresentativeBadge(command.isRepresentativeBadge());
+        // 저장
+        designerPort.updateBadgeStatus(targetBadge, userId);
+        // 결과 반환
+        return UpdateRepresentativeBadgeResult.from(targetBadge.getBadgeId(), targetBadge.getBadgeName(), targetBadge.getIsRepresentativeBadge());
+    }
+
 
 
 
