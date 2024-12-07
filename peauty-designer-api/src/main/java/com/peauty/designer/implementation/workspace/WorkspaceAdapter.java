@@ -38,7 +38,7 @@ public class WorkspaceAdapter implements WorkspacePort {
     public Workspace getByDesignerId(Long userId) {
         WorkspaceEntity workspaceEntity = Optional.ofNullable(workspaceRepository.findByDesignerId(userId))
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
-        RatingEntity ratingEntity = Optional.ofNullable(ratingRepository.findByWorkspaceId(workspaceEntity.getId()))
+        RatingEntity ratingEntity =ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
@@ -52,7 +52,7 @@ public class WorkspaceAdapter implements WorkspacePort {
         WorkspaceEntity workspaceEntityToUpdate = WorkspaceMapper.toEntity(workspace, userId);
         WorkspaceEntity updatedWorkspaceEntity = workspaceRepository.save(workspaceEntityToUpdate);
 
-        RatingEntity ratingEntity = Optional.ofNullable(ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId()))
+        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId())
                 .orElse(null);
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);

@@ -40,7 +40,8 @@ public class Designer {
             String profileImageUrl,
             Integer yearOfExperience,
             List<Badge> badges,
-            String address
+            String address,
+            Scissors scissors
     ){
     }
 
@@ -54,6 +55,7 @@ public class Designer {
                 .reviewRating(workspace.getReviewRating())
                 .workspaceName(workspace.getWorkspaceName())
                 .address(workspace.getAddress())
+                .scissors(workspace.getRating().getScissors())
                 .build();
     }
 

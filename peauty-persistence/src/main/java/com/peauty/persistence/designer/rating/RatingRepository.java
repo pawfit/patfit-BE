@@ -7,8 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
-
         Optional<RatingEntity> findRatingByWorkspaceId(Long workspaceId);
-        RatingEntity findByWorkspaceId(Long id);
-
+        Optional<RatingEntity> findByWorkspaceId(Long id);
 }

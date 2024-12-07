@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.peauty.domain.designer.LicenseVerification.INCOMPLETE;
+
 public class DesignerMapper {
 
     private DesignerMapper() {
@@ -79,6 +81,7 @@ public class DesignerMapper {
                 .map(licenseEntity -> License.builder()
                         .licenseId(licenseEntity.getId())
                         .licenseImageUrl(licenseEntity.getLicenseImageUrl())
+                        .licenseVerification(INCOMPLETE)
                         .build())
                 .collect(Collectors.toList());
     }
@@ -92,6 +95,7 @@ public class DesignerMapper {
         return licenses.stream()
                 .map(license -> LicenseEntity.builder()
                         .licenseImageUrl(license.getLicenseImageUrl()) // License 이미지 URL 설정
+                        .licenseVerification(INCOMPLETE)
                         .designerId(designer.getDesignerId()) // Designer의 ID 설정
                         .build())
                 .collect(Collectors.toList());

@@ -80,10 +80,11 @@ public Designer findDesignerById(Long designerId) {
 
     @Override
     public Workspace getByDesignerId(Long userId) {
+
         WorkspaceEntity workspaceEntity = Optional.ofNullable(workspaceRepository.findByDesignerId(userId))
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
-        RatingEntity ratingEntity = Optional.ofNullable(ratingRepository.findByWorkspaceId(workspaceEntity.getId()))
-                .orElse(null);
+        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
+                .orElseGet(null);
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
