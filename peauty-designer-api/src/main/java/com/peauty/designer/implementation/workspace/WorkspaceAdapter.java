@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class WorkspaceAdapter implements WorkspacePort {
     @Override
     public Workspace registerNew(Workspace workspace, Long designerId) {
         WorkspaceEntity workspaceEntityToSave = WorkspaceMapper.toEntity(workspace, designerId);
-        if(workspaceRepository.existsByDesignerId(workspaceEntityToSave.getDesignerId())){
+        if (workspaceRepository.existsByDesignerId(workspaceEntityToSave.getDesignerId())) {
             throw new PeautyException(PeautyResponseCode.ALREADY_EXIST_WORKSPACE);
         }
 
@@ -36,9 +34,9 @@ public class WorkspaceAdapter implements WorkspacePort {
 
     @Override
     public Workspace getByDesignerId(Long userId) {
-        WorkspaceEntity workspaceEntity = Optional.ofNullable(workspaceRepository.findByDesignerId(userId))
+        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
-        RatingEntity ratingEntity =ratingRepository.findByWorkspaceId(workspaceEntity.getId())
+        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
