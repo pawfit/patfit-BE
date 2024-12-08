@@ -2,6 +2,7 @@ package com.peauty.customer.implementaion.bidding;
 
 import com.peauty.customer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
+import com.peauty.domain.bidding.BiddingProcessStatus;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.bidding.mapper.BiddingMapper;
@@ -34,10 +35,37 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
-    public BiddingProcess getProcessById(Long processId) {
+    public void verifyNoProcessInProgress(Long customerId) {
+        long count = processRepository.countByPuppyIdAndStatusIn(
+                customerId,
+                List.of(BiddingProcessStatus.RESERVED_YET, BiddingProcessStatus.RESERVED)
+        );
+        if (count > 0) {
+            throw new PeautyException(PeautyResponseCode.PROCESS_ALREADY_IN_PROGRESS);
+        }
+    }
+
+    @Override
+    public BiddingProcess getProcessByProcessId(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
          List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
+    }
+
+    @Override
+    public BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByIdAndPuppyId(processId, puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
+    }
+
+    @Override
+    public BiddingProcess getProcessByPuppyId(Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByPuppyId(puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
         return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 }

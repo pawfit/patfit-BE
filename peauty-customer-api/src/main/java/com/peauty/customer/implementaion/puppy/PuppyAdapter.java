@@ -24,7 +24,7 @@ public class PuppyAdapter implements PuppyPort {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Puppy findPuppy(Long userId, Long puppyId) {
+    public Puppy getPuppyByCustomerIdAndPuppyId(Long userId, Long puppyId) {
         // 반려견 엔티티 조회
         PuppyEntity puppyEntity = puppyRepository.findByIdAndCustomerId(puppyId, userId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
@@ -43,7 +43,7 @@ public class PuppyAdapter implements PuppyPort {
 
 
     @Override
-    public Puppy getByPuppyId(Long puppyId){
+    public Puppy getPuppyByPuppyId(Long puppyId){
         return puppyRepository.findById(puppyId)
                 .map(PuppyMapper::toDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
@@ -66,5 +66,10 @@ public class PuppyAdapter implements PuppyPort {
                 .toList();
     }
 
-
+    @Override
+    public void verifyPuppyOwnership(Long puppyId, Long customerId) {
+        if (!puppyRepository.existsByIdAndCustomerId(puppyId, customerId)) {
+            throw new PeautyException(PeautyResponseCode.NOT_OWNER_OF_PUPPY);
+        }
+    }
 }

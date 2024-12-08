@@ -11,15 +11,15 @@ public enum Sex {
     M("수컷"),
     F("암컷");
 
-    private final String value;
+    private final String description;
 
-    Sex(String value) {
-        this.value = value;
+    Sex(String description) {
+        this.description = description;
     }
 
-    public static Sex from(String value){
+    public static Sex from(String description){
         return Arrays.stream(Sex.values())
-                .filter(it -> it.value.equalsIgnoreCase(value))
+                .filter(it -> it.description.equalsIgnoreCase(description))
                 .findFirst()
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.WRONG_SEX));
     }

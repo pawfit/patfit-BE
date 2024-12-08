@@ -24,7 +24,7 @@ public class PuppyServiceImpl implements PuppyService {
     @Override
     @Transactional
     public UploadPuppyImageResult uploadPuppyImage(Long customerId, Long puppyId, MultipartFile file) {
-        Puppy puppyImageToUpload = puppyPort.getByPuppyId(puppyId);
+        Puppy puppyImageToUpload = puppyPort.getPuppyByPuppyId(puppyId);
         String uploadedPuppyImageUrl = internalPort.uploadImage(file);
         puppyImageToUpload.updateProfileImageUrl(uploadedPuppyImageUrl);
         return UploadPuppyImageResult.from(puppyPort.save(puppyImageToUpload));
@@ -41,14 +41,14 @@ public class PuppyServiceImpl implements PuppyService {
 
     @Override
     public GetPuppyDetailResult getPuppyDetail(Long userId, Long puppyId){
-        Puppy puppy = puppyPort.findPuppy(userId, puppyId);
+        Puppy puppy = puppyPort.getPuppyByCustomerIdAndPuppyId(userId, puppyId);
         return GetPuppyDetailResult.from(puppy);
     }
 
     @Override
     @Transactional
     public UpdatePuppyDetailResult updatePuppyDetail(Long userId, Long puppyId, UpdatePuppyDetailCommand command){
-        Puppy puppyToUpdate = puppyPort.findPuppy (userId, puppyId);
+        Puppy puppyToUpdate = puppyPort.getPuppyByCustomerIdAndPuppyId(userId, puppyId);
         puppyToUpdate.updateName(command.name());
         puppyToUpdate.updateBreed(command.breed());
         puppyToUpdate.updateWeight(command.weight());

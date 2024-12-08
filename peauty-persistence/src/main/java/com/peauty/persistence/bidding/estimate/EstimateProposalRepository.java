@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface EstimateProposalRepository extends JpaRepository<EstimateProposalEntity, Long> {
 
+    Optional<EstimateProposalEntity> findByProcessId(Long processId);
 }
