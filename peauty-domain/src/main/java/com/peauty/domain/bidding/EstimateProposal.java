@@ -26,6 +26,35 @@ public class EstimateProposal {
         return Optional.ofNullable(id);
     }
 
+    public Profile getProfile() {
+        return Profile.builder()
+                .id(id.value())
+                .type(type.getDescription())
+                .detail(detail)
+                .imageUrls(images.stream()
+                        .map(EstimateProposalImage::getImageUrl)
+                        .toList()
+                )
+                .desiredCost(desiredCost)
+                .desiredDateTime(desiredDateTime)
+                .totalGroomingBodyType(totalGroomingBodyType == null ? null : totalGroomingBodyType.getDescription())
+                .totalGroomingFaceType(totalGroomingFaceType == null ? null : totalGroomingFaceType.getDescription())
+                .build();
+    }
+
+    @Builder
+    public record Profile(
+            Long id,
+            String type,
+            String detail,
+            List<String> imageUrls,
+            Long desiredCost,
+            LocalDateTime desiredDateTime,
+            String totalGroomingBodyType,
+            String totalGroomingFaceType
+    ) {
+    }
+
     public record ID(Long value) {
         public boolean isSameId(Long id) {
             return value.equals(id);

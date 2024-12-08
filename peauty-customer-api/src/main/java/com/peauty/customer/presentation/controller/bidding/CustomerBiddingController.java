@@ -2,8 +2,10 @@ package com.peauty.customer.presentation.controller.bidding;
 
 import com.peauty.customer.business.bidding.CustomerBiddingService;
 import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
+import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
 import com.peauty.customer.presentation.controller.bidding.dto.AcceptEstimateResponse;
+import com.peauty.customer.presentation.controller.bidding.dto.GetEstimateAndProposalDetailsResponse;
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalRequest;
 import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,5 +47,22 @@ public class CustomerBiddingController {
                 threadId
         );
         return AcceptEstimateResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}")
+    @Operation(summary = "견적요청서 & 견적서 상세정보 조회", description = "해당하는 견적요청서와 견적서의 상세정보를 조회합니다.")
+    public GetEstimateAndProposalDetailsResponse getEstimateAndProposalDetails(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @PathVariable Long processId,
+            @PathVariable Long threadId
+    ) {
+        GetEstimateAndProposalDetailsResult result = customerBiddingService.getEstimateAndProposalDetails(
+                userId,
+                puppyId,
+                processId,
+                threadId
+        );
+        return GetEstimateAndProposalDetailsResponse.from(result);
     }
 }

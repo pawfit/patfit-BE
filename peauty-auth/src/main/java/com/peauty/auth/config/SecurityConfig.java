@@ -86,6 +86,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 "http://localhost:5173",
                 "https://peauty.click",
                 "https://dev.peauty.click",
+                "https://staging.d34w656xpr542p.amplifyapp.com",
                 "https://d1w4idl4c6ezdk.cloudfront.net"
         ));
         configuration.setAllowedMethods(Arrays.asList(

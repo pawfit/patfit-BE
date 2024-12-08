@@ -30,6 +30,7 @@ public class DesignerAdapter implements DesignerPort {
     private final LicenseRepository licenseRepository;
     private final WorkspacePort workspacePort;
 
+
     @Override
     public List<Badge> getRepresentativeBadges(Long userId) {
         List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);
@@ -45,7 +46,6 @@ public class DesignerAdapter implements DesignerPort {
                         .build())
                 .collect(Collectors.toList());
     }
-
 
     @Override
     public List<Badge> getAllBadges() {
@@ -95,7 +95,6 @@ public class DesignerAdapter implements DesignerPort {
         List<License> licenses = Optional.ofNullable(licenseRepository.findByDesignerId(userId))
                 .map(DesignerMapper::toLicenses)
                 .orElse(Collections.emptyList());
-
         List<Badge> badges = getRepresentativeBadges(userId);
 
         designer.updateLicenses(licenses);
@@ -108,5 +107,6 @@ public class DesignerAdapter implements DesignerPort {
         Designer designer = getAllDesignerDataByDesignerId(designerId);
         Workspace workspace = workspacePort.getByDesignerId(designerId);
         return designer.getProfile(workspace);
+
     }
 }
