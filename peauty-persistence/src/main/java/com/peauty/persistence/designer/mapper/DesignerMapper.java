@@ -81,7 +81,7 @@ public class DesignerMapper {
                 .map(licenseEntity -> License.builder()
                         .licenseId(licenseEntity.getId())
                         .licenseImageUrl(licenseEntity.getLicenseImageUrl())
-                        .licenseVerification(INCOMPLETE)
+                        .licenseVerification(licenseEntity.getLicenseVerification())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -28,6 +28,7 @@ public class DesignerAdapter implements DesignerPort {
     private final DesignerBadgeRepository designerBadgeRepository;
     private final DesignerRepository designerRepository;
     private final LicenseRepository licenseRepository;
+    // TODO : 포트가 포트가 물고 있는 구조 -> 리팩토링 필수!
     private final WorkspacePort workspacePort;
 
     @Override
