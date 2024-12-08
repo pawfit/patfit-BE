@@ -35,7 +35,7 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
-    public BiddingProcess getProcessById(Long processId) {
+    public BiddingProcess getProcessByProcessId(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
@@ -43,12 +43,18 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
-    public void isValidStatus(BiddingProcessStatus status) {
-        if(status.isCanceled()){
-            throw new PeautyException(PeautyResponseCode.ALREADY_CANCELED_BIDDING_PROCESS);
-        }
-        if(status.isCompleted()){
-            throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_PROCESS);
-        }
+    public BiddingProcess getProcessByPuppyId(Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByPuppyId(puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
+    }
+
+    @Override
+    public BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByIdAndPuppyId(processId, puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 }

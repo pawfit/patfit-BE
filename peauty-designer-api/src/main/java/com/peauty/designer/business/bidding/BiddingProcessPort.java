@@ -1,11 +1,11 @@
 package com.peauty.designer.business.bidding;
 
 import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.BiddingProcessStatus;
 
 public interface BiddingProcessPort {
 
-    BiddingProcess getProcessById(Long processId);
+    BiddingProcess getProcessByProcessId(Long processId);
+    BiddingProcess getProcessByPuppyId(Long puppyId);
+    BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId);
     BiddingProcess save(BiddingProcess process);
-    void isValidStatus(BiddingProcessStatus status);
 }

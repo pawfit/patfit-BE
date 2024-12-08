@@ -1,6 +1,7 @@
 package com.peauty.designer.business.bidding;
 
 import com.peauty.designer.business.bidding.dto.CompleteGroomingResult;
+import com.peauty.designer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
 import com.peauty.designer.business.bidding.dto.SendEstimateCommand;
 import com.peauty.designer.business.bidding.dto.SendEstimateResult;
 
@@ -14,6 +15,12 @@ public interface DesignerBiddingService {
     );
 
     CompleteGroomingResult completeGrooming(
+            Long userId,
+            Long processId,
+            Long threadId
+    );
+
+    GetEstimateAndProposalDetailsResult getEstimateAndProposalDetails(
             Long userId,
             Long processId,
             Long threadId
