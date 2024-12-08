@@ -8,7 +8,7 @@ import java.util.List;
 
 public record SendEstimateRequest(
         String content,
-        String availableGroomingDate,
+//        String availableGroomingDate,
         String estimatedDuration,
         Long estimatedCost,
         List<String> imageUrls
@@ -17,7 +17,7 @@ public record SendEstimateRequest(
     public SendEstimateCommand toCommand() {
         return SendEstimateCommand.builder()
                 .content(content)
-                .availableGroomingDate(availableGroomingDate)
+                .availableGroomingDate("matches customer needs")  // TODO 채팅 개발 후 고객과 디자이너가 논의가 가능해지면 인풋으로 받기
                 .estimatedDuration(estimatedDuration)
                 .estimatedCost(estimatedCost)
                 .imageUrls(imageUrls)

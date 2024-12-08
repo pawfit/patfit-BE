@@ -4,6 +4,7 @@ import com.peauty.domain.bidding.EstimateProposal;
 
 public interface EstimateProposalPort {
 
-    EstimateProposal getProposalById(Long proposalId);
+    EstimateProposal getProposalByProposalId(Long proposalId);
+    EstimateProposal getProposalByProcessId(Long processId);
     EstimateProposal save(EstimateProposal proposal);
 }

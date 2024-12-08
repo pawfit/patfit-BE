@@ -36,39 +36,77 @@ public class Puppy {
         return this;
     }
 
-
-    public void updateName(String name){
+    public void updateName(String name) {
         this.name = name;
     }
-    public void updateBreed(Breed breed){
+
+    public void updateBreed(Breed breed) {
         this.breed = breed;
     }
-    public void updateWeight(Long weight){
+
+    public void updateWeight(Long weight) {
         this.weight = weight;
     }
-    public void updateSex(Sex sex){
+
+    public void updateSex(Sex sex) {
         this.sex = sex;
     }
-    public void updateAge(Integer age){
+
+    public void updateAge(Integer age) {
         this.age = age;
     }
-    public void updateBirthdate(LocalDate birthdate){
+
+    public void updateBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
-    public void updateDetail(String detail){
+
+    public void updateDetail(String detail) {
         this.detail = detail;
     }
-    public void updateDisease(List<Disease> disease){
+
+    public void updateDisease(List<Disease> disease) {
         this.disease = disease;
     }
-    public void updateDiseaseDescription(String diseaseDescription){
+
+    public void updateDiseaseDescription(String diseaseDescription) {
         this.diseaseDescription = diseaseDescription;
     }
-    public void updateProfileImageUrl(String profileImageUrl){
+
+    public void updateProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
-    public void updatePuppySize(PuppySize puppySize){
+
+    public void updatePuppySize(PuppySize puppySize) {
         this.puppySize = puppySize;
+    }
+
+    public Profile getProfile() {
+        return new Profile(
+                puppyId,
+                customerId,
+                name,
+                breed.getBreedName(),
+                weight,
+                sex.getDescription(),
+                age,
+                birthdate,
+                profileImageUrl,
+                puppySize.getDescription()
+        );
+    }
+
+    public record Profile(
+            Long puppyId,
+            Long customerId,
+            String name,
+            String breed,
+            Long weight,
+            String sex,
+            Integer age,
+            LocalDate birthdate,
+            String profileImageUrl,
+            String puppySize
+    ) {
     }
 
 /*    public void updatePuppyProfile(PuppyProfile profileToUpdate) {

@@ -15,7 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 "com.peauty.auth",
                 "com.peauty.cache",
                 "com.peauty.aws",
-                "com.peauty.customer"
+                "com.peauty.customer",
+                "com.peauty.payment"
         }
 )
 public class PeautyCustomerApplication {

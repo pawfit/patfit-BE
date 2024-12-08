@@ -1,9 +1,13 @@
 package com.peauty.customer.business.bidding;
 
 import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
+import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalCommand;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
+import com.peauty.customer.business.designer.DesignerPort;
+import com.peauty.customer.business.puppy.PuppyPort;
 import com.peauty.domain.bidding.*;
+import com.peauty.domain.puppy.Puppy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +19,10 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
 
     private final BiddingProcessPort biddingProcessPort;
     private final EstimateProposalPort estimateProposalPort;
+    private final EstimatePort estimatePort;
+    private final PuppyPort puppyPort;
+    private final DesignerPort designerPort;
 
-    // TODO 프로세스 접근 검증 ex) 올바른 유저인지...
     @Override
     @Transactional
     public SendEstimateProposalResult sendEstimateProposal(
@@ -24,6 +30,8 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long puppyId,
             SendEstimateProposalCommand command
     ) {
+        puppyPort.verifyPuppyOwnership(puppyId, userId);
+        biddingProcessPort.verifyNoProcessInProgress(puppyId);
         BiddingProcess newProcess = BiddingProcess.createNewProcess(new PuppyId(puppyId));
         command.designerIds().forEach(id -> newProcess.addNewThread(new DesignerId(id)));
         BiddingProcess savedProcess = biddingProcessPort.save(newProcess);
@@ -40,10 +48,33 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long processId,
             Long threadId
     ) {
-        BiddingProcess process = biddingProcessPort.getProcessById(processId);
+        puppyPort.verifyPuppyOwnership(puppyId, userId);
+        BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppyId);
         process.reserveThread(new BiddingThread.ID(threadId));
         BiddingProcess savedProcess = biddingProcessPort.save(process);
         BiddingThread reservedThread = savedProcess.getThread(new BiddingThread.ID(threadId));
         return AcceptEstimateResult.from(savedProcess, reservedThread);
+    }
+
+    @Override
+    public GetEstimateAndProposalDetailsResult getEstimateAndProposalDetails(
+            Long userId,
+            Long puppyId,
+            Long processId,
+            Long threadId
+    ) {
+        Puppy puppy = puppyPort.getPuppyByCustomerIdAndPuppyId(userId, puppyId);
+        BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppy.getPuppyId());
+        BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
+        EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
+        Estimate estimate = estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value());
+        // TODO 미용사 프로필도 추가할 수 있음
+        return GetEstimateAndProposalDetailsResult.from(
+                process,
+                thread,
+                puppy,
+                estimateProposal,
+                estimate
+        );
     }
 }
