@@ -42,6 +42,7 @@ public enum PeautyResponseCode {
     ALREADY_FULL_BADGE("1220", "Already Full Representative Badge", "이미 대표 뱃지가 3개입니다."),
     NOT_EXIST_BADGE("1221", "Not Exist Badge", "해당 뱃지를 찾을 수 없습니다."),
     NOT_OWNER_OF_PUPPY("1222", "Not Owner Of The Puppy", "해당 유저가 소유하고 있는 강아지가 아닙니다."),
+    INVALID_REVIEW_USER("1223", "Invalid Review User", "해당 유저는 이 스레드에 대한 리뷰를 할 수 없습니다."),
 
 
     // 비딩 관련 (1300 ~ 1350)
