@@ -73,10 +73,14 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(workspace -> {
                     // 미용실을 소유한 디자이너 조회
                     Designer designer = workspacePort.findDesignerById(workspace.getDesignerId());
-                    // 대표 뱃지 이름 가져오기
-                    List<String> representativeBadges = designerPort.getRepresentativeBadges(designer.getDesignerId())
+                    // 대표 뱃지 정보 가져오기 (이름과 색상 포함)
+                    List<GetAroundWorkspaceResult.Badge> representativeBadges = designerPort.getRepresentativeBadges(designer.getDesignerId())
                             .stream()
-                            .map(Badge::getBadgeName)
+                            .map(badge -> new GetAroundWorkspaceResult.Badge(
+                                    badge.getBadgeId(),
+                                    badge.getBadgeName(),
+                                    badge.getBadgeColor()
+                            ))
                             .toList();
                     return GetAroundWorkspaceResult.from(workspace, designer, representativeBadges);
                 })
