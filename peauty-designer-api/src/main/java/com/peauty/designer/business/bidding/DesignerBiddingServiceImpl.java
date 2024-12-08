@@ -62,6 +62,7 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
         EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
         Estimate estimate = estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value());
         Puppy puppy = puppyPort.getPuppyByPuppyId(process.getPuppyId().value());
+        // TODO 이 스레드가 본인의 스레드인지 검증
         return GetEstimateAndProposalDetailsResult.from(
                 process,
                 thread,
