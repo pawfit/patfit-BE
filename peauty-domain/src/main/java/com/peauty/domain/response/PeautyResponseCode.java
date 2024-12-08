@@ -29,7 +29,7 @@ public enum PeautyResponseCode {
     WRONG_SEX("1208", "Invalid Puppy's Sex", "잘못된 애완견의 성별입니다."),
     WRONG_SIZE("1209", "Invalid Puppy's Size", "잘못된 애완견의 크기입니다."),
     NOT_FOUND_PUPPY("1210", "Puppy Not Found", "찾을 수 없는 반려견입니다."),
-    NOT_FOUND_WORKSPACE("1211", "Workspace Not Found", "가게가 존재하지 않습니다."),
+    NOT_EXIST_WORKSPACE("1211", "Workspace Not Found", "가게가 존재하지 않습니다."),
     INVALID_RATING("1211", "Invalid Rating", "잘못된 리뷰 평점입니다."),
     INVALID_GENERAL_CONTENT("1212", "Invalid GENERAL CONTENT", "잘못된 리뷰 선택 컨텐츠입니다."),
     INVALID_PAYMENT_OPTION("1213", "Invalid Payment Options", "잘못된 결제 방식입니다"),

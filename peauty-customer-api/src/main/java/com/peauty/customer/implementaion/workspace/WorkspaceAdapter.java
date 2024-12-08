@@ -9,12 +9,16 @@ import com.peauty.persistence.designer.*;
 import com.peauty.persistence.designer.badge.BadgeEntity;
 import com.peauty.persistence.designer.badge.BadgeRepository;
 import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
+import com.peauty.persistence.designer.mapper.WorkspaceMapper;
+import com.peauty.persistence.designer.rating.RatingEntity;
 import com.peauty.persistence.designer.rating.RatingRepository;
+import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -74,5 +78,17 @@ public Designer findDesignerById(Long designerId) {
                         .build());
     }
 
+    @Override
+    public Workspace getByDesignerId(Long userId) {
 
+        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
+                .orElse(null);
+
+        Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        workspace.updateRating(rating);
+        return workspace;
+    }
 }

@@ -19,5 +19,4 @@ public class Badge {
     public void updateIsRepresentativeBadge(boolean isRepresentativeBadge) {
         this.isRepresentativeBadge = isRepresentativeBadge;
     }
-
 }

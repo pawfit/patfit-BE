@@ -10,4 +10,5 @@ public interface DesignerPort {
     List<Badge> getAllBadges(); // 전체 뱃지
     List<Badge> getAcquiredBadges(Long userId);
     Designer getAllDesignerDataByDesignerId(Long userId);
+    Designer.Profile getDesignerProfileByDesignerId(Long designerId);
 }
