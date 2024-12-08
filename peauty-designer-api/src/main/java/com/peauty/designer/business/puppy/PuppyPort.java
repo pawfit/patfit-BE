@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PuppyPort {
 
-    Puppy getPuppyByCustomerIdAndPuppyId(Long userId, Long puppyId);
+    Puppy getPuppyByCustomerIdAndPuppyId(Long customerId, Long puppyId);
     Puppy getPuppyByPuppyId(Long puppyId);
-    List<Puppy> findAllByCustomerId(Long customerId);
+    List<Puppy> getAllPuppiesByCustomerId(Long customerId);
 }

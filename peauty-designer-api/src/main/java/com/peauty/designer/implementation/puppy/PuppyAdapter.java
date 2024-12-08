@@ -4,8 +4,6 @@ import com.peauty.designer.business.puppy.PuppyPort;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.persistence.customer.CustomerEntity;
-import com.peauty.persistence.customer.CustomerRepository;
 import com.peauty.persistence.puppy.PuppyEntity;
 import com.peauty.persistence.puppy.PuppyMapper;
 import com.peauty.persistence.puppy.PuppyRepository;
@@ -23,8 +21,8 @@ public class PuppyAdapter implements PuppyPort {
     private final PuppyRepository puppyRepository;
 
     @Override
-    public Puppy getPuppyByCustomerIdAndPuppyId(Long userId, Long puppyId) {
-        PuppyEntity puppyEntity = puppyRepository.findByIdAndCustomerId(puppyId, userId)
+    public Puppy getPuppyByCustomerIdAndPuppyId(Long customerId, Long puppyId) {
+        PuppyEntity puppyEntity = puppyRepository.findByIdAndCustomerId(puppyId, customerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PUPPY));
         return PuppyMapper.toDomain(puppyEntity);
     }
@@ -37,7 +35,7 @@ public class PuppyAdapter implements PuppyPort {
     }
 
     @Override
-    public List<Puppy> findAllByCustomerId(Long customerId){
+    public List<Puppy> getAllPuppiesByCustomerId(Long customerId){
         return puppyRepository.findAllByCustomerId(customerId)
                 .stream()
                 .map(PuppyMapper::toDomain)
