@@ -14,8 +14,8 @@ public record GetAroundWorkspaceResult(
         Double reviewRating,
         String designerName,
         Integer yearOfExperience,
-        List<Badge> representativeBadges, // 변경
-        String scissorsRank
+        List<Badge> representativeBadges // 변경
+//        String scissorsRank
 ) {
     public record Badge(
             Long badgeId,
@@ -35,8 +35,8 @@ public record GetAroundWorkspaceResult(
                 workspace.getReviewRating(),
                 designer.getName(),
                 designer.getYearOfExperience(),
-                badges,
-                workspace.getRating().getScissors().getScissorsRank()
+                badges
+//                workspace.getRating().getScissors().getScissorsRank()
         );
     }
 }
