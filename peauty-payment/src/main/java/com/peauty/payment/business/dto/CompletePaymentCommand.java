@@ -1,4 +1,11 @@
 package com.peauty.payment.business.dto;
 
-public record CompletePaymentCommand() {
+import com.peauty.domain.payment.Order;
+
+public record CompletePaymentCommand(
+        String uuid
+) {
+    public Order toDomain() {
+        return null;
+    }
 }

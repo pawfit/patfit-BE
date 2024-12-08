@@ -6,6 +6,12 @@ jar {
     enabled = true
 }
 
+repositories {
+    mavenCentral()
+    maven {url 'https://jitpack.io'}
+}
+
+
 dependencies {
     implementation(project(':peauty-persistence'))
     implementation(project(':peauty-domain'))
@@ -13,4 +19,5 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.21'
 }
