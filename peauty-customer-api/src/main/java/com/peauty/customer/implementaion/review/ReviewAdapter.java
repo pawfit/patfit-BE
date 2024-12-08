@@ -16,7 +16,7 @@ public class ReviewAdapter implements ReviewPort {
     private final ReviewImageRepository reviewImageRepository;
 
     @Override
-    public Review save(Review review){
+    public Review registerNewReview(Review review){
         ReviewEntity registerReviewEntity = reviewRepository.save(
                 ReviewMapper.toReviewEntity(review)
         );

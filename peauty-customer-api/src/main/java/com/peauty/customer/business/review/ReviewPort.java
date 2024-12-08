@@ -4,6 +4,6 @@ import com.peauty.domain.review.Review;
 
 public interface ReviewPort {
 
-    Review save(Review review);
+    Review registerNewReview(Review review);
 //    Review getById(Long reviewId);
 }

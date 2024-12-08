@@ -35,12 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 스레드 상태가 COMPLETED인지 확인
         if (!thread.getStep().isCompleted()) {
-            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER);
+            throw new PeautyException(PeautyResponseCode.CANNOT_REVIEW_INCOMPLETED_THREAD);
         }
 
         // 리뷰 생성 및 저장
         Review newReview = command.toReview(thread.getSavedThreadId().value());
-        Review savedReview = reviewPort.save(newReview);
+        Review savedReview = reviewPort.registerNewReview(newReview);
 
         return RegisterReviewResult.from(savedReview);
 
