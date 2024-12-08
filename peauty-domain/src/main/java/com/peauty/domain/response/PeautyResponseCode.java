@@ -42,7 +42,7 @@ public enum PeautyResponseCode {
     ALREADY_FULL_BADGE("1220", "Already Full Representative Badge", "이미 대표 뱃지가 3개입니다."),
     NOT_EXIST_BADGE("1221", "Not Exist Badge", "해당 뱃지를 찾을 수 없습니다."),
     NOT_OWNER_OF_PUPPY("1222", "Not Owner Of The Puppy", "해당 유저가 소유하고 있는 강아지가 아닙니다."),
-    CANNOT_REVIEW_INCOMPLETED_THREAD("1223", "Invalid Review User", "아직 미용이 완료되지 않아 리뷰를 작성할 수 없습니다."),
+    CANNOT_REVIEW_INCOMPLETED_THREAD("1223", "Can Not Review Incompleted Thread", "아직 미용이 완료되지 않아 리뷰를 작성할 수 없습니다."),
 
 
     // 비딩 관련 (1300 ~ 1350)
