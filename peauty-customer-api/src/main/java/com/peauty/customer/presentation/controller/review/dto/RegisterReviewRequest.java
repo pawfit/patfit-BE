@@ -1,4 +1,4 @@
-package com.peauty.customer.presentation.controller.customer.dto;
+package com.peauty.customer.presentation.controller.review.dto;
 
 import com.peauty.customer.business.review.dto.RegisterReviewCommand;
 import com.peauty.domain.review.ContentGeneral;
