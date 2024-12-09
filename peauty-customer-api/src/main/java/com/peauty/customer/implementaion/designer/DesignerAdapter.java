@@ -108,6 +108,5 @@ public class DesignerAdapter implements DesignerPort {
         Designer designer = getAllDesignerDataByDesignerId(designerId);
         Workspace workspace = workspacePort.getByDesignerId(designerId);
         return designer.getProfile(workspace);
-
     }
 }
