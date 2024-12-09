@@ -64,17 +64,15 @@ public class ReviewServiceImpl implements ReviewService {
         if (!existingReview.getThreadId().value().equals(threadId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
         }
-        // 스레드가 유효한 사용자의 프로세스에 포함되었는지 확인
+
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
+
         // 프로세스가 요청한 userId와 puppyId에 연결되어 있는지 확인
         if (!process.getPuppyId().value().equals(puppyId) || !thread.getProcessId().value().equals(processId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
         }
-/*        existingReview.updateRatingService(command.reviewRating());
-        existingReview.updateContentDetail(command.contentDetail());
-        existingReview.updateContentGeneral(command.contentGeneral());
-        existingReview.updateReviewImageUrl(command.reviewImages());*/
+
         existingReview.updateReview(
                 command.reviewRating(),
                 command.contentDetail(),
