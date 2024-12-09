@@ -2,9 +2,7 @@ package com.peauty.payment.implementation;
 
 import com.peauty.domain.payment.Order;
 import com.peauty.payment.business.PaymentPort;
-import com.peauty.persistence.payment.OrderEntity;
-import com.peauty.persistence.payment.OrderRepository;
-import com.peauty.persistence.payment.PaymentMapper;
+import com.peauty.persistence.payment.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +11,16 @@ import org.springframework.stereotype.Component;
 public class PaymentAdapter implements PaymentPort {
 
     private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
 
     public Order save(Order order) {
         OrderEntity orderEntityToSave = PaymentMapper.toOrderEntity(order);
-        OrderEntity orderEntity = orderRepository.save(orderEntityToSave);
-        return PaymentMapper.toOrderDomain(orderEntity);
+        OrderEntity savedOrderEntity = orderRepository.save(orderEntityToSave);
+
+        PaymentEntity paymentEntityToSave = PaymentMapper.toPaymentEntity(order.getPayment());
+        PaymentEntity savedPaymentEntity = paymentRepository.save(paymentEntityToSave);
+        return PaymentMapper.toOrderDomain(savedOrderEntity, PaymentMapper.toPayment(savedPaymentEntity));
+
     }
 
     @Override

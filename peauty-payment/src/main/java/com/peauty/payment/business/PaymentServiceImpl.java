@@ -1,6 +1,7 @@
 package com.peauty.payment.business;
 
 import com.peauty.domain.payment.Order;
+import com.peauty.domain.payment.Payment;
 import com.peauty.payment.business.dto.CompletePaymentCommand;
 import com.peauty.payment.business.dto.CompletePaymentResult;
 import com.peauty.payment.business.dto.OrderCommand;
@@ -9,7 +10,6 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,16 +38,16 @@ public class PaymentServiceImpl implements PaymentService {
     public OrderResult saveOrder(Long userId, Long processId, Long threadId, OrderCommand command) {
         // TODO: 유저 검증
         // TODO: 요청서 & 견적서 정보 검증 (요청서, 견적서가 DB에 있는지 검증)
-
         String uuid = UUID.randomUUID().toString();
         LocalDateTime orderDate = LocalDateTime.now();
-        // TODO: status 어떻게 관리할지 확인하기!
-        Boolean isPaymentCompleted = false;
+        Payment paymentToSave = Payment.initializePayment(userId, command);
 
-        Order orderToSave = command.toDomain(userId, processId, threadId, uuid, orderDate, isPaymentCompleted);
+        Order orderToSave = command.toDomain(
+                userId, processId, threadId,
+                uuid, orderDate, paymentToSave);
 
         // 예약금 변환을 thread에서 가져와서 변환을 해야함 -> 그 금액과 같은지 확인해야 함
-        orderToSave.transferReservationCost(orderToSave.getCost());
+        orderToSave.transferReservationCost(orderToSave.getPrice());
         Order savedOrder = paymentPort.save(orderToSave);
         return OrderResult.from(savedOrder);
     }
@@ -56,11 +56,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public CompletePaymentResult completePayment(Long userId, Long threadId, Long processId,
                                                  CompletePaymentCommand command) {
-
-        // TODO 1. 포트원에서 정보 가져오기
+        Order order = paymentPort.getOrder(userId);
+        Payment savedPayment = order.getPayment();
         try {
-            IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(command.uuid());
-            Order order = paymentPort.getOrder(userId);
+            IamportResponse<com.siot.IamportRestClient.response.Payment>
+                    iamportResponse = iamportClient.paymentByImpUid(command.uuid());
 
             if (!"paid".equals(iamportResponse.getResponse().getStatus())) {
                 paymentPort.orderDelete(order);
@@ -69,7 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
 
             int actualAmount = iamportResponse.getResponse().getAmount().intValue();
-            Integer expectedAmount = order.getCost();
+            Integer expectedAmount = order.getPrice();
             if (!expectedAmount.equals(actualAmount)) {
                 iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getResponse().getImpUid(), true, new BigDecimal(actualAmount)));
                 throw new RuntimeException("결제 금액 위변조");

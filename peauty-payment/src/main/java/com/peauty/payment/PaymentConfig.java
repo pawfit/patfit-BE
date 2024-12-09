@@ -16,12 +16,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PaymentConfig {
-
         @Bean
         public IamportClient iamportClient() {
-                String apiKey = "4872684828305477";
-                String apiSecret = "lXOXhJGVQOxLwvOkij5GUMNSByXfsFmla2EQSD6PgJGr76NLfvirFxUScqf8cGToSjvKJtB8xKntCQr8";
+                String apiKey = "${IAMPORT_API_KEY}";
+                String apiSecret = "${IAMPORT_API_SECRET_KEY}";
                 return new IamportClient(apiKey, apiSecret);
         }
-
 }
