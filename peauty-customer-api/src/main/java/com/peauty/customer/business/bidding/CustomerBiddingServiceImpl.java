@@ -78,6 +78,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         );
     }
 
+    // TODO 쿼리 dsl 을 이용한 효율적인 쿼리 도입
     @Override
     public GetEstimateDesignerProfilesResult getEstimateDesignerProfiles(
             Long userId,
