@@ -1,6 +1,8 @@
 package com.peauty.customer.implementaion.review;
 
 import com.peauty.customer.business.review.ReviewPort;
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
 import com.peauty.persistence.review.*;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class ReviewAdapter implements ReviewPort {
     @Override
     public Review findReviewById(Long reviewId) {
         ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("Review not found")); // Replace with proper exception
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_REVIEW));
         List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
         return ReviewMapper.toReviewDomain(reviewEntity, reviewImageEntities);
     }
