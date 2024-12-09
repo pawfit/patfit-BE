@@ -31,10 +31,17 @@ public class EstimateAdapter implements EstimatePort {
     }
 
     @Override
-    public Estimate getById(Long estimateId) {
+    public Estimate getEstimateByEstimateId(Long estimateId) {
         EstimateEntity foundEstimateEntity = estimateRepository.findById(estimateId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE));
         List<EstimateImageEntity> foundImageEntities = estimateImageRepository.findByEstimateId(foundEstimateEntity.getId());
         return EstimateMapper.toEstimateDomain(foundEstimateEntity, foundImageEntities);
     }
-}
+
+    @Override
+    public Estimate getEstimateByThreadId(Long threadId) {
+        EstimateEntity foundEstimateEntity = estimateRepository.findByBiddingThreadId(threadId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE));
+        List<EstimateImageEntity> foundImageEntities = estimateImageRepository.findByEstimateId(foundEstimateEntity.getId());
+        return EstimateMapper.toEstimateDomain(foundEstimateEntity, foundImageEntities);
+    }}

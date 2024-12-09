@@ -5,5 +5,6 @@ import com.peauty.domain.bidding.Estimate;
 public interface EstimatePort {
 
     Estimate save(Estimate estimate);
-    Estimate getById(Long estimateId);
+    Estimate getEstimateByEstimateId(Long estimateId);
+    Estimate getEstimateByThreadId(Long threadId);
 }

@@ -2,8 +2,10 @@ package com.peauty.designer.presentation.controller.bidding;
 
 import com.peauty.designer.business.bidding.DesignerBiddingService;
 import com.peauty.designer.business.bidding.dto.CompleteGroomingResult;
+import com.peauty.designer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
 import com.peauty.designer.business.bidding.dto.SendEstimateResult;
 import com.peauty.designer.presentation.controller.bidding.dto.CompleteGroomingResponse;
+import com.peauty.designer.presentation.controller.bidding.dto.GetEstimateAndProposalDetailsResponse;
 import com.peauty.designer.presentation.controller.bidding.dto.SendEstimateRequest;
 import com.peauty.designer.presentation.controller.bidding.dto.SendEstimateResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,5 +50,20 @@ public class DesignerBiddingController {
                 threadId
         );
         return CompleteGroomingResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/bidding/processes/{processId}/threads/{threadId}")
+    @Operation(summary = "견적요청서 & 견적서 상세정보 조회", description = "해당하는 견적요청서와 견적서의 상세정보를 조회합니다.")
+    public GetEstimateAndProposalDetailsResponse getEstimateAndProposalDetails(
+            @PathVariable Long userId,
+            @PathVariable Long processId,
+            @PathVariable Long threadId
+    ) {
+        GetEstimateAndProposalDetailsResult result = designerBiddingService.getEstimateAndProposalDetails(
+                userId,
+                processId,
+                threadId
+        );
+        return GetEstimateAndProposalDetailsResponse.from(result);
     }
 }
