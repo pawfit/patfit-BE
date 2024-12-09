@@ -1,12 +1,15 @@
 package com.peauty.customer.business.review;
 
 import com.peauty.customer.business.bidding.BiddingProcessPort;
-import com.peauty.customer.business.review.dto.RegisterReviewCommand;
-import com.peauty.customer.business.review.dto.RegisterReviewResult;
-import com.peauty.customer.business.review.dto.UpdateReviewCommand;
-import com.peauty.customer.business.review.dto.UpdateReviewResult;
+import com.peauty.customer.business.bidding.EstimatePort;
+import com.peauty.customer.business.designer.DesignerPort;
+import com.peauty.customer.business.review.dto.*;
+import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.bidding.BiddingThread;
+import com.peauty.domain.bidding.Estimate;
+import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
@@ -21,6 +24,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewPort reviewPort;
     private final BiddingProcessPort biddingProcessPort;
+    private final EstimatePort estimatePort;
+    private final DesignerPort designerPort;
+    private final WorkspacePort workspacePort;
 
     @Override
     @Transactional
@@ -99,6 +105,28 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewPort.deleteReviewById(reviewId);
     }
+
+    @Override
+    public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long threadId, Long processId) {
+        // 프로세스와 스레드 검증
+        BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
+        BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
+        if (!process.getPuppyId().value().equals(puppyId)) {
+            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
+        }
+
+        // Estimate 가져오기
+        Estimate.Profile estimateProfile = estimatePort.getEstimateByThreadId(threadId)
+                .getProfile();
+
+        // 디자이너,워크스페이스 가져오기
+        Designer designer = designerPort.getAllDesignerDataByDesignerId(thread.getDesignerId().value());
+        Workspace workspace = workspacePort.getByDesignerId(thread.getDesignerId().value());
+
+        return GetEstimateDataResult.from(estimateProfile, designer, workspace);
+    }
+
+
 
 
 }
