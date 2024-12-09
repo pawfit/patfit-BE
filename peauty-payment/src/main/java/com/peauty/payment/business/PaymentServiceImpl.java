@@ -7,6 +7,7 @@ import com.peauty.payment.business.dto.OrderCommand;
 import com.peauty.payment.business.dto.OrderResult;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -54,11 +56,26 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public CompletePaymentResult completePayment(Long userId, Long threadId, Long processId,
                                                  CompletePaymentCommand command) {
-        Order order = paymentPort.getOrder(userId);
 
         // TODO 1. 포트원에서 정보 가져오기
         try {
             IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(command.uuid());
+            Order order = paymentPort.getOrder(userId);
+
+            if (!"paid".equals(iamportResponse.getResponse().getStatus())) {
+                paymentPort.orderDelete(order);
+                paymentPort.paymentDelete(order);
+                throw new RuntimeException("결제 미완료");
+            }
+
+            int actualAmount = iamportResponse.getResponse().getAmount().intValue();
+            Integer expectedAmount = order.getCost();
+            if (!expectedAmount.equals(actualAmount)) {
+                iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getResponse().getImpUid(), true, new BigDecimal(actualAmount)));
+                throw new RuntimeException("결제 금액 위변조");
+            }
+
+            // order.getPayment().changePaymentBySuccess(PaymentStatus.OK, iamportResponse.getResponse().getImpUid());
 
         } catch (IamportResponseException e) {
             throw new RuntimeException(e);

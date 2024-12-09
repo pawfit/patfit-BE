@@ -19,7 +19,6 @@ public class PaymentController {
 
     // 주문 정보 API
     // TODO: 이런 URL을 가져가야 하는 것이 맞는가?
-    // URL은 받되 유효성 검증은 좀 나중에 진행하자.
     @PostMapping("/users/{userId}/processes/{processId}/threads/{threadId}/order")
     public OrderResponse saveOrder(
             @PathVariable Long userId,

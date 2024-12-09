@@ -6,4 +6,8 @@ public interface PaymentPort {
     Order save(Order order);
 
     Order getOrder(Long userId);
+
+    void orderDelete(Order order);
+
+    void paymentDelete(Order order);
 }

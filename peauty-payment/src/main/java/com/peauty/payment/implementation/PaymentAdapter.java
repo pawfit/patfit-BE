@@ -19,4 +19,19 @@ public class PaymentAdapter implements PaymentPort {
         OrderEntity orderEntity = orderRepository.save(orderEntityToSave);
         return PaymentMapper.toOrderDomain(orderEntity);
     }
+
+    @Override
+    public Order getOrder(Long userId) {
+        return null;
+    }
+
+    @Override
+    public void orderDelete(Order order) {
+
+    }
+
+    @Override
+    public void paymentDelete(Order order) {
+
+    }
 }
