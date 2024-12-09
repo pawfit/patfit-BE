@@ -22,8 +22,16 @@ public class EstimateProposalAdapter implements EstimateProposalPort {
     private final EstimateProposalImageRepository estimateProposalImageRepository;
 
     @Override
-    public EstimateProposal getProposalById(Long proposalId) {
+    public EstimateProposal getProposalByProposalId(Long proposalId) {
         EstimateProposalEntity foundProposalEntity = estimateProposalRepository.findById(proposalId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE_PROPOSAL));
+        List<EstimateProposalImageEntity> foundProposalImageEntities = estimateProposalImageRepository.findByEstimateProposalId(foundProposalEntity.getId());
+        return EstimateProposalMapper.toProposalDomain(foundProposalEntity, foundProposalImageEntities);
+    }
+
+    @Override
+    public EstimateProposal getProposalByProcessId(Long processId) {
+        EstimateProposalEntity foundProposalEntity = estimateProposalRepository.findByProcessId(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE_PROPOSAL));
         List<EstimateProposalImageEntity> foundProposalImageEntities = estimateProposalImageRepository.findByEstimateProposalId(foundProposalEntity.getId());
         return EstimateProposalMapper.toProposalDomain(foundProposalEntity, foundProposalImageEntities);
