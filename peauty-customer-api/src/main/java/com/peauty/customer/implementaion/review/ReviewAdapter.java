@@ -27,5 +27,24 @@ public class ReviewAdapter implements ReviewPort {
         return ReviewMapper.toReviewDomain(registerReviewEntity, registerReviewImageEntities);
     }
 
+    @Override
+    public Review findReviewById(Long reviewId) {
+        ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("Review not found")); // Replace with proper exception
+        List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
+        return ReviewMapper.toReviewDomain(reviewEntity, reviewImageEntities);
+    }
+
+    @Override
+    public Review saveReview(Review review) {
+        ReviewEntity updatedReviewEntity = reviewRepository.save(
+                ReviewMapper.toReviewEntity(review)
+        );
+        List<ReviewImageEntity> updatedReviewImageEntities = review.getReviewImages().stream()
+                .map(image -> ReviewMapper.toReviewImageEntity(image, updatedReviewEntity))
+                .toList();
+        reviewImageRepository.saveAll(updatedReviewImageEntities);
+        return ReviewMapper.toReviewDomain(updatedReviewEntity, updatedReviewImageEntities);
+    }
 
 }

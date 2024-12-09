@@ -46,4 +46,11 @@ public class Review {
         this.reviewImages = reviewImages;
     }
 
+    public void updateReview(ReviewRating reviewRating, String contentDetail, ContentGeneral contentGeneral, List<ReviewImage> reviewImages) {
+        this.reviewRating = reviewRating;
+        this.contentDetail = contentDetail;
+        this.contentGeneral = contentGeneral;
+        this.reviewImages = reviewImages;
+    }
+
 }

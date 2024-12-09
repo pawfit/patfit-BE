@@ -6,4 +6,7 @@ public interface ReviewPort {
 
     Review registerNewReview(Review review);
 //    Review getById(Long reviewId);
+    Review findReviewById(Long reviewId);
+
+    Review saveReview(Review review);
 }

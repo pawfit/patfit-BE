@@ -43,7 +43,8 @@ public enum PeautyResponseCode {
     NOT_EXIST_BADGE("1221", "Not Exist Badge", "해당 뱃지를 찾을 수 없습니다."),
     NOT_OWNER_OF_PUPPY("1222", "Not Owner Of The Puppy", "해당 유저가 소유하고 있는 강아지가 아닙니다."),
     CANNOT_REVIEW_INCOMPLETED_THREAD("1223", "Can Not Review Incompleted Thread", "아직 미용이 완료되지 않아 리뷰를 작성할 수 없습니다."),
-
+    INVALID_REVIEW_THREAD_MISMATCH("1224", "Invalid Review Thread Mismatch", "해당 미용과 리뷰가 일치하지 않아 수정할 수 없습니다."),
+    INVALID_REVIEW_USER_OR_PUPPY("1225", "Invalid Review User Or Puppy", "본인이 아니면 해당 리뷰를 수정할 수 없습니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
