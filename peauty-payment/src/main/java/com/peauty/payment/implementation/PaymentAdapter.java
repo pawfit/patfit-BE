@@ -1,6 +1,7 @@
 package com.peauty.payment.implementation;
 
 import com.peauty.domain.payment.Order;
+import com.peauty.domain.payment.Payment;
 import com.peauty.payment.business.PaymentPort;
 import com.peauty.persistence.payment.*;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class PaymentAdapter implements PaymentPort {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
 
-    public Order save(Order order) {
+    public Order saveOrder(Order order) {
         OrderEntity orderEntityToSave = PaymentMapper.toOrderEntity(order);
         OrderEntity savedOrderEntity = orderRepository.save(orderEntityToSave);
 
@@ -36,5 +37,15 @@ public class PaymentAdapter implements PaymentPort {
     @Override
     public void paymentDelete(Order order) {
 
+    }
+
+    @Override
+    public Payment getByPaymentId(Long paymentId) {
+        return null;
+    }
+
+    @Override
+    public Payment savePaymentToComplete(Payment paymentToSave) {
+        return null;
     }
 }

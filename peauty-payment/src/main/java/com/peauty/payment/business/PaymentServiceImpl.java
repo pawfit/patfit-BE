@@ -2,14 +2,13 @@ package com.peauty.payment.business;
 
 import com.peauty.domain.payment.Order;
 import com.peauty.domain.payment.Payment;
-import com.peauty.payment.business.dto.CompletePaymentCommand;
-import com.peauty.payment.business.dto.CompletePaymentResult;
+import com.peauty.payment.business.dto.CompletePaymentCallbackCommand;
+import com.peauty.payment.business.dto.CompletePaymentCallbackResult;
 import com.peauty.payment.business.dto.OrderCommand;
 import com.peauty.payment.business.dto.OrderResult;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
-import com.siot.IamportRestClient.response.IamportResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,44 +47,52 @@ public class PaymentServiceImpl implements PaymentService {
 
         // 예약금 변환을 thread에서 가져와서 변환을 해야함 -> 그 금액과 같은지 확인해야 함
         orderToSave.transferReservationCost(orderToSave.getPrice());
-        Order savedOrder = paymentPort.save(orderToSave);
+        Order savedOrder = paymentPort.saveOrder(orderToSave);
         return OrderResult.from(savedOrder);
     }
 
     @Transactional
     @Override
-    public CompletePaymentResult completePayment(Long userId, Long threadId, Long processId,
-                                                 CompletePaymentCommand command) {
+    public CompletePaymentCallbackResult completePayment(
+            Long userId, Long threadId, Long processId,
+            CompletePaymentCallbackCommand command) {
+        // 해당 값이 유효한지 체크
         Order order = paymentPort.getOrder(userId);
-        Payment savedPayment = order.getPayment();
-        try {
-            IamportResponse<com.siot.IamportRestClient.response.Payment>
-                    iamportResponse = iamportClient.paymentByImpUid(command.uuid());
+        Payment payment = order.getPayment();
 
-            if (!"paid".equals(iamportResponse.getResponse().getStatus())) {
+        try {
+            com.siot.IamportRestClient.response.Payment iamportResponse =
+                    iamportClient.paymentByImpUid(command.uuid()).getResponse();
+            String iamportPaymentStatus = iamportResponse.getStatus();
+
+            // TODO 1. 포트원에서는 제대로 결제가 되었는지 확인하기
+            if (!"paid".equals(iamportPaymentStatus)) {
                 paymentPort.orderDelete(order);
                 paymentPort.paymentDelete(order);
                 throw new RuntimeException("결제 미완료");
             }
 
-            int actualAmount = iamportResponse.getResponse().getAmount().intValue();
+            // TODO 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
+            int actualAmount = iamportResponse.getAmount().intValue();
             Integer expectedAmount = order.getPrice();
             if (!expectedAmount.equals(actualAmount)) {
-                iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getResponse().getImpUid(), true, new BigDecimal(actualAmount)));
+                iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getImpUid()
+                        , true, new BigDecimal(actualAmount)));
                 throw new RuntimeException("결제 금액 위변조");
             }
 
-            // order.getPayment().changePaymentBySuccess(PaymentStatus.OK, iamportResponse.getResponse().getImpUid());
+            // TODO 3. 확인 후, Payment 값 저장 이후 포트원에 결제 완료 API 보내기
+            // 저장 시 값 바꿔주기
+            Payment paymentToSave = paymentPort.getByPaymentId(payment.getPaymentId());
+            paymentToSave.updatePayment();
+            Payment savedPayment = paymentPort.savePaymentToComplete(paymentToSave);
 
+            // TODO 4. 결제 이후 해당 결제에 관련된 데이터를 찾아서 모두 보내주기 (Order 도메인 조회)
+            return CompletePaymentCallbackResult.from(savedPayment);
         } catch (IamportResponseException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        // TODO 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
-        // TODO 3. 확인 후, 포트원에 결제 완료 API 보내기
-        // TODO 4. 값을 받고 나서 상태를 바꿔주면서 클라이언트로 전송하기
-        return null;
     }
-
 }

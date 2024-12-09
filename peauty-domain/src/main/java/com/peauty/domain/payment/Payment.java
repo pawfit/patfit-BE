@@ -26,4 +26,16 @@ public class Payment {
                 .status(PaymentStatus.READY)
                 .build();
     }
+
+    public void validationSuccess() {
+
+    }
+
+    public void updatePayment() {
+        this.paymentId = paymentId;
+        this.price = price;
+        this.status = PaymentStatus.COMPLETED;
+        this.paymentDate = LocalDateTime.now();
+        this.paymentUuid = paymentUuid;
+    }
 }

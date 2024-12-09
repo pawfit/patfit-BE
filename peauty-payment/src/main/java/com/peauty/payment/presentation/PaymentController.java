@@ -1,10 +1,10 @@
 package com.peauty.payment.presentation;
 
 import com.peauty.payment.business.PaymentService;
-import com.peauty.payment.business.dto.CompletePaymentResult;
+import com.peauty.payment.business.dto.CompletePaymentCallbackResult;
 import com.peauty.payment.business.dto.OrderResult;
-import com.peauty.payment.presentation.dto.CompletePaymentRequest;
-import com.peauty.payment.presentation.dto.CompletePaymentResponse;
+import com.peauty.payment.presentation.dto.CompletePaymentCallbackRequest;
+import com.peauty.payment.presentation.dto.CompletePaymentCallbackResponse;
 import com.peauty.payment.presentation.dto.OrderRequest;
 import com.peauty.payment.presentation.dto.OrderResponse;
 import lombok.AllArgsConstructor;
@@ -34,16 +34,16 @@ public class PaymentController {
     }
 
     @PostMapping("/users/{userId}/processes/{processId}/threads/{threadId}/payment")
-    public CompletePaymentResponse completePayment(
+    public CompletePaymentCallbackResponse completePayment(
             @PathVariable Long userId,
             @PathVariable Long threadId,
             @PathVariable Long processId,
-            @RequestBody CompletePaymentRequest request){
-        CompletePaymentResult result = paymentService.completePayment(
+            @RequestBody CompletePaymentCallbackRequest request){
+        CompletePaymentCallbackResult result = paymentService.completePayment(
                 userId,
                 threadId,
                 processId,
                 request.toCommand());
-        return CompletePaymentResponse.from(result);
+        return CompletePaymentCallbackResponse.from(result);
     }
 }
