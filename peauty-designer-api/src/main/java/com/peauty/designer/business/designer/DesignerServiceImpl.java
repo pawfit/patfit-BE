@@ -47,6 +47,7 @@ public class DesignerServiceImpl implements DesignerService {
     @Transactional
     public UpdateDesignerAccountResult updateDesignerAccount(Long designerId, UpdateDesignerAccountCommand command) {
         Designer designerToUpdate = designerPort.getByDesignerId(designerId);
+        // TODO: 추후 updateDesignerAccount를 도메인에 만들어 한 줄로 코드 변경 예정
         designerToUpdate.updateName(command.name());
         designerToUpdate.updatePhoneNumber(command.phoneNumber());
         designerToUpdate.updateNickname(command.nickname());
@@ -138,7 +139,7 @@ public class DesignerServiceImpl implements DesignerService {
             throw new PeautyException(PeautyResponseCode.ALREADY_FULL_BADGE);
         }
 
-        // 해상 뱃지 조회
+        // 해당 뱃지 조회
         Badge targetBadge = acquiredBadges.stream()
                 .filter(b -> b.getBadgeId().equals(badgeId))
                 .findFirst()

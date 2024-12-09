@@ -15,6 +15,7 @@ public class Badge {
     private String badgeImageUrl;
     private Boolean isRepresentativeBadge;
     private BadgeColor badgeColor;
+    private BadgeType badgeType;
 
     public void updateIsRepresentativeBadge(boolean isRepresentativeBadge) {
         this.isRepresentativeBadge = isRepresentativeBadge;
