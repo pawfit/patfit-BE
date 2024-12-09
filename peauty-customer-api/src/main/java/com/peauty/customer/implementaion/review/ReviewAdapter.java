@@ -5,6 +5,7 @@ import com.peauty.domain.review.Review;
 import com.peauty.persistence.review.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +46,16 @@ public class ReviewAdapter implements ReviewPort {
                 .toList();
         reviewImageRepository.saveAll(updatedReviewImageEntities);
         return ReviewMapper.toReviewDomain(updatedReviewEntity, updatedReviewImageEntities);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReviewById(Long reviewId) {
+        // 1. 연결된 ReviewImage 삭제
+        List<ReviewImageEntity> reviewImages = reviewImageRepository.findAllByReviewId(reviewId);
+        reviewImageRepository.deleteAll(reviewImages);
+        // 2. Review 삭제
+        reviewRepository.deleteById(reviewId);
     }
 
 }

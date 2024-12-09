@@ -58,19 +58,16 @@ public class ReviewServiceImpl implements ReviewService {
             Long reviewId,
             UpdateReviewCommand command
     ) {
-        // 1. 리뷰 ID로 리뷰를 조회
+        // 리뷰 ID로 리뷰를 조회
         Review existingReview = reviewPort.findReviewById(reviewId);
-
-        // 2. 리뷰와 관련된 스레드 ID가 요청 스레드 ID와 일치하지 않는 경우
+        // 리뷰와 관련된 스레드 ID가 요청 스레드 ID와 일치하지 않는 경우
         if (!existingReview.getThreadId().value().equals(threadId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
         }
-
-        // 3. 스레드가 유효한 사용자의 프로세스에 포함되었는지 확인
+        // 스레드가 유효한 사용자의 프로세스에 포함되었는지 확인
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
-
-        // 4. 프로세스가 요청한 userId와 puppyId에 연결되어 있는지 확인
+        // 프로세스가 요청한 userId와 puppyId에 연결되어 있는지 확인
         if (!process.getPuppyId().value().equals(puppyId) || !thread.getProcessId().value().equals(processId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
         }
@@ -88,6 +85,21 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewPort.saveReview(existingReview);
 
         return UpdateReviewResult.from(updatedReview);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReview(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId) {
+        Review review = reviewPort.findReviewById(reviewId);
+        if (!review.getThreadId().value().equals(threadId)) {
+            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
+        }
+        BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
+        if (!process.getPuppyId().value().equals(puppyId)) {
+            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
+        }
+
+        reviewPort.deleteReviewById(reviewId);
     }
 
 

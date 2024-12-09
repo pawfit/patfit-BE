@@ -9,4 +9,6 @@ public interface ReviewPort {
     Review findReviewById(Long reviewId);
 
     Review saveReview(Review review);
+
+    void deleteReviewById(Long reviewId);
 }

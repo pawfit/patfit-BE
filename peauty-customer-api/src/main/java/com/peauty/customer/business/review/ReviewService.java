@@ -24,4 +24,6 @@ public interface ReviewService {
             UpdateReviewCommand command
     );
 
+    void deleteReview(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId);
+
 }
