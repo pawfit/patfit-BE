@@ -90,7 +90,9 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         List<BiddingThread.Profile> threadProfiles = process.getThreads().stream()
                 .map(thread -> thread.getProfile(
                         designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
-                        estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile()
+                        estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value())
+                                .map(Estimate::getProfile)
+                                .orElse(null)
                 )).toList();
         return GetEstimateDesignerProfilesResult.from(process, threadProfiles);
     }
