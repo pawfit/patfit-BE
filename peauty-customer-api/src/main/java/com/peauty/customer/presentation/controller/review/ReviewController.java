@@ -64,7 +64,7 @@ public class ReviewController {
         reviewService.deleteReview(userId, puppyId, threadId, processId, reviewId);
         return new DeleteReviewResponse("리뷰가 삭제되었습니다.");
     }
-
+/* TODO: 추후 프론트 측에서 요청 시
     @GetMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/estimate")
     @Operation(summary = "견적서 데이터 조회", description = "고객이 자신의 강아지를 미용한 디자이너와의 견적서를 간단히 조회하는 API입니다.")
     public GetEstimateDataResponse getEstimateData(@PathVariable Long userId,
@@ -73,5 +73,5 @@ public class ReviewController {
                                                    @PathVariable Long processId) {
         GetEstimateDataResult result = reviewService.getEstimateData(userId, puppyId, threadId, processId);
         return GetEstimateDataResponse.from(result);
-    }
+    }*/
 }
