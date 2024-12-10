@@ -3,11 +3,9 @@ package com.peauty.customer.presentation.controller.bidding;
 import com.peauty.customer.business.bidding.CustomerBiddingService;
 import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
 import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
+import com.peauty.customer.business.bidding.dto.GetEstimateDesignerProfilesResult;
 import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
-import com.peauty.customer.presentation.controller.bidding.dto.AcceptEstimateResponse;
-import com.peauty.customer.presentation.controller.bidding.dto.GetEstimateAndProposalDetailsResponse;
-import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalRequest;
-import com.peauty.customer.presentation.controller.bidding.dto.SendEstimateProposalResponse;
+import com.peauty.customer.presentation.controller.bidding.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -64,5 +62,20 @@ public class CustomerBiddingController {
                 threadId
         );
         return GetEstimateAndProposalDetailsResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads")
+    @Operation(summary = "견적서 응답 미용사 프로필 조회", description = "해당하는 견적요청서에 견적서를 보내준 미용사들의 프로필을 조회합니다.")
+    public GetEstimateDesignerProfilesResponse getEstimateDesignerProfiles(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @PathVariable Long processId
+    ) {
+        GetEstimateDesignerProfilesResult result = customerBiddingService.getEstimateDesignerProfiles(
+                userId,
+                puppyId,
+                processId
+        );
+        return GetEstimateDesignerProfilesResponse.from(result);
     }
 }

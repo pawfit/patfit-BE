@@ -1,9 +1,11 @@
 package com.peauty.domain.bidding;
 
+import com.peauty.domain.designer.Designer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Optional;
@@ -161,5 +163,23 @@ public class BiddingThread {
         public boolean isSameId(Long id) {
             return value.equals(id);
         }
+    }
+
+    public Profile getProfile(Designer.Profile designerProfile) {
+        return Profile.builder()
+                .threadId(id.value())
+                .step(step.getDescription())
+                .status(status.getDescription())
+                .designerProfile(designerProfile)
+                .build();
+    }
+
+    @Builder
+    public record Profile(
+            Long threadId,
+            String step,
+            String status,
+            Designer.Profile designerProfile
+    ) {
     }
 }
