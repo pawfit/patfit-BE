@@ -2,6 +2,7 @@ package com.peauty.customer.presentation.controller.customer.dto;
 
 import com.peauty.customer.business.customer.dto.GetAroundWorkspaceResult;
 import com.peauty.domain.designer.BadgeColor;
+import com.peauty.domain.designer.BadgeType;
 import com.peauty.domain.designer.Scissors;
 
 import java.util.List;
@@ -42,13 +43,19 @@ public record GetAroundWorkspaceResponse(
     public record BadgeResponse(
             Long badgeId,
             String badgeName,
-            BadgeColor badgeColor
+            String badgeContent,
+            String badgeImageUrl,
+            BadgeColor badgeColor,
+            BadgeType badgeType
     ) {
         public static BadgeResponse from(GetAroundWorkspaceResult.Badge badge) {
             return new BadgeResponse(
                     badge.badgeId(),
                     badge.badgeName(),
-                    badge.badgeColor()
+                    badge.badgeContent(),
+                    badge.badgeImageUrl(),
+                    badge.badgeColor(),
+                    badge.badgeType()
             );
         }
     }

@@ -48,6 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public UpdateCustomerProfileResult updateCustomerProfile(Long customerId, UpdateCustomerProfileCommand command) {
         Customer customerToUpdate = customerPort.getByCustomerIdWithoutPuppies(customerId);
+        // TODO: 추후 updateCustomerProfile을 이용해 한 줄로 코드 변경 예정.
         customerToUpdate.updateName(command.name());
         customerToUpdate.updatePhoneNumber(command.phoneNumber());
         customerToUpdate.updateNickname(command.nickname());
@@ -75,13 +76,16 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(workspace -> {
                     // 미용실을 소유한 디자이너 조회
                     Designer designer = workspacePort.findDesignerById(workspace.getDesignerId());
-                    // 대표 뱃지 정보 가져오기 (이름과 색상 포함)
+                    // 대표 뱃지 정보 가져오기 (이름과 색상, 타입 포함)
                     List<GetAroundWorkspaceResult.Badge> representativeBadges = designerPort.getRepresentativeBadges(designer.getDesignerId())
                             .stream()
                             .map(badge -> new GetAroundWorkspaceResult.Badge(
                                     badge.getBadgeId(),
                                     badge.getBadgeName(),
-                                    badge.getBadgeColor()
+                                    badge.getBadgeContent(),
+                                    badge.getBadgeImageUrl(),
+                                    badge.getBadgeColor(),
+                                    badge.getBadgeType()
                             ))
                             .toList();
                     return GetAroundWorkspaceResult.from(workspace, designer, representativeBadges);

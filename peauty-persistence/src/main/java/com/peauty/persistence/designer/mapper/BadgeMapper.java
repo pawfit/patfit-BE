@@ -18,6 +18,7 @@ public class BadgeMapper {
                 .badgeContent(entity.getBadgeContent())
                 .badgeImageUrl(entity.getBadgeImageUrl())
                 .badgeColor(entity.getBadgeColor())
+                .badgeType(entity.getBadgeType())
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class BadgeMapper {
                 .badgeContent(domain.getBadgeContent())
                 .badgeImageUrl(domain.getBadgeImageUrl())
                 .badgeColor(domain.getBadgeColor())
+                .badgeType(domain.getBadgeType())
                 .build();
     }
 
