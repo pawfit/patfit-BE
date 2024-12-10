@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -57,7 +59,7 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
         EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
-        Estimate estimate = estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value());
+        Optional<Estimate> estimate = estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value());
         Puppy puppy = puppyPort.getPuppyByPuppyId(process.getPuppyId().value());
         // TODO 이 스레드가 본인의 스레드인지 검증
         return GetEstimateAndProposalDetailsResult.from(
