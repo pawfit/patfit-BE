@@ -13,6 +13,7 @@ import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
+import com.peauty.domain.review.ReviewRating;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final EstimatePort estimatePort;
     private final DesignerPort designerPort;
     private final WorkspacePort workspacePort;
+
+    //TODO: 리뷰 중복 작성 금지 로직
 
     @Override
     @Transactional
@@ -46,9 +49,13 @@ public class ReviewServiceImpl implements ReviewService {
             throw new PeautyException(PeautyResponseCode.CANNOT_REVIEW_INCOMPLETED_THREAD);
         }
 
-        // 리뷰 생성 및 저장
+        // 리뷰 생성, 저장
         Review newReview = command.toReview(thread.getSavedThreadId().value());
         Review savedReview = reviewPort.registerNewReview(newReview);
+
+        // 리뷰 통계 업데이트
+        Designer designer = designerPort.findDesignerById(thread.getDesignerId().value());
+        workspacePort.RegisterReviewStats(designer.getDesignerId(), savedReview.getReviewRating());
 
         return RegisterReviewResult.from(savedReview);
 
@@ -79,6 +86,8 @@ public class ReviewServiceImpl implements ReviewService {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
         }
 
+        ReviewRating previousRating = existingReview.getReviewRating();
+
         existingReview.updateReview(
                 command.reviewRating(),
                 command.contentDetail(),
@@ -87,6 +96,9 @@ public class ReviewServiceImpl implements ReviewService {
         );
 
         Review updatedReview = reviewPort.saveReview(existingReview);
+
+        // 리뷰 통계 업데이트 (이전 별점 제거 후 새 별점 반영)
+        workspacePort.UpdateReviewStats(thread.getDesignerId().value(), previousRating, updatedReview.getReviewRating());
 
         return UpdateReviewResult.from(updatedReview);
     }
@@ -102,8 +114,14 @@ public class ReviewServiceImpl implements ReviewService {
         if (!process.getPuppyId().value().equals(puppyId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
         }
+        // 리뷰 통계 업데이트 (삭제된 별점 제거)
+        ReviewRating deletedRating = review.getReviewRating();
 
         reviewPort.deleteReviewById(reviewId);
+
+        BiddingThread thread = biddingProcessPort.getProcessByProcessId(processId).getThread(new BiddingThread.ID(threadId));
+        workspacePort.DeleteReviewStats(thread.getDesignerId().value(), deletedRating);
+
     }
 
     @Override

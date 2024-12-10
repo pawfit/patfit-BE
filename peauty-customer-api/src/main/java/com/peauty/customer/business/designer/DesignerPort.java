@@ -11,4 +11,5 @@ public interface DesignerPort {
     List<Badge> getAcquiredBadges(Long userId);
     Designer getAllDesignerDataByDesignerId(Long userId);
     Designer.Profile getDesignerProfileByDesignerId(Long designerId);
+    Designer findDesignerById(Long designerId);
 }
