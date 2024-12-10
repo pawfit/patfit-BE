@@ -20,7 +20,7 @@ public record UpdatePuppyDetailResponse(
         List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
-        PuppySize puppySize
+        String puppySize
 ) {
 
     public static UpdatePuppyDetailResponse from(UpdatePuppyDetailResult result){
