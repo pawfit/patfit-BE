@@ -1,20 +1,21 @@
-package com.peauty.customer.presentation.controller.customer.dto;
+package com.peauty.customer.presentation.controller.review.dto;
 
-import com.peauty.customer.business.review.dto.RegisterReviewCommand;
+import com.peauty.customer.business.review.dto.UpdateReviewCommand;
 import com.peauty.domain.review.ContentGeneral;
+import com.peauty.domain.review.ReviewImage;
 import com.peauty.domain.review.ReviewRating;
 
 import java.util.List;
 
-public record RegisterReviewRequest(
+public record UpdateReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
         ContentGeneral contentGeneral,
-        List<String> reviewImages
+        List<ReviewImage> reviewImages
 ) {
 
-    public RegisterReviewCommand toCommand() {
-        return RegisterReviewCommand.builder()
+    public UpdateReviewCommand toCommand() {
+        return UpdateReviewCommand.builder()
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
                 .contentGeneral(contentGeneral)

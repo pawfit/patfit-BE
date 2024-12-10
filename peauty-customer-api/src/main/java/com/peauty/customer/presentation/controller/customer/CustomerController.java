@@ -5,6 +5,8 @@ import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.business.review.ReviewService;
 import com.peauty.customer.business.review.dto.RegisterReviewResult;
 import com.peauty.customer.presentation.controller.customer.dto.*;
+import com.peauty.customer.presentation.controller.review.dto.RegisterReviewRequest;
+import com.peauty.customer.presentation.controller.review.dto.RegisterReviewResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +68,7 @@ public class CustomerController {
         return GetDesignerBadgesForCustomerResponse.from(result);
     }
 
-    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")
+/*    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")
     @Operation(summary = "리뷰 작성", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 작성하는 API 진입점입니다.")
     public RegisterReviewResponse registerReview(@PathVariable Long userId,
                                                  @PathVariable Long puppyId,
@@ -80,6 +82,6 @@ public class CustomerController {
                 processId,
                 request.toCommand());
         return RegisterReviewResponse.from(result);
-    }
+    }*/
 
 }
