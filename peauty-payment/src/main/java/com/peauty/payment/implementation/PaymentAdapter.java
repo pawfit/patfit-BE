@@ -1,7 +1,9 @@
 package com.peauty.payment.implementation;
 
+import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.payment.Order;
 import com.peauty.domain.payment.Payment;
+import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.payment.business.PaymentPort;
 import com.peauty.persistence.payment.*;
 import lombok.RequiredArgsConstructor;
@@ -17,28 +19,28 @@ public class PaymentAdapter implements PaymentPort {
     public Order saveOrder(Order order) {
         OrderEntity orderEntityToSave = PaymentMapper.toOrderEntity(order);
         OrderEntity savedOrderEntity = orderRepository.save(orderEntityToSave);
-
-        PaymentEntity paymentEntityToSave = PaymentMapper.toPaymentEntity(order.getPayment());
-        PaymentEntity savedPaymentEntity = paymentRepository.save(paymentEntityToSave);
-        return PaymentMapper.toOrderDomain(savedOrderEntity, PaymentMapper.toPayment(savedPaymentEntity));
-
+        order.getPayment().updateOrderId(savedOrderEntity.getId());
+        Payment savedPayment = savePayment(order.getPayment());
+        return PaymentMapper.toOrderDomain(savedOrderEntity, savedPayment);
     }
 
     @Override
-    public Order getOrder(Long userId) {
-        return null;
+    public Order getById(Long userId) {
+        OrderEntity orderEntity = orderRepository.getById(userId);
+        return null; //PaymentMapper.toOrderDomain(orderEntity);
     }
 
     @Override
-    public Payment getByPaymentId(Long paymentId) {
-        return null;
+    public Payment getByOrderId(Long orderId) {
+        PaymentEntity paymentEntity = paymentRepository.getByOrderId(orderId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_PAYMENT));
+        return PaymentMapper.toPaymentDomain(paymentEntity);
     }
 
     @Override
-    public Payment savePaymentToComplete(Payment payment) {
+    public Payment savePayment(Payment payment) {
         PaymentEntity paymentEntityToSave = PaymentMapper.toPaymentEntity(payment);
         PaymentEntity savedPaymentEntity = paymentRepository.save(paymentEntityToSave);
-
-        return null;
+        return PaymentMapper.toPaymentDomain(savedPaymentEntity);
     }
 }

@@ -1,5 +1,7 @@
 package com.peauty.persistence.payment;
 
+import com.peauty.domain.payment.OrderStatus;
+import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class OrderEntity {
+public class OrderEntity  extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +22,12 @@ public class OrderEntity {
     @Column(name = "thread_id", nullable = false)
     private Long threadId;
 
-    @Column(name = "cost", nullable = false)
-    private Long cost;
+    @Column(name = "deposit_price", nullable = false)
+    private Long depositPrice;
 
-    @Column(name = "payment_status", nullable = false)
-    private Boolean isPaymentCompleted;
-
-    @Column(name = "order_date", nullable = false)
-    private LocalDateTime orderDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status", nullable = false)
+    private OrderStatus orderStatus;
 
     @Column(name = "uuid", nullable = false)
     private String uuid;

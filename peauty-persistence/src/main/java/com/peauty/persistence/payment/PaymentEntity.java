@@ -1,34 +1,37 @@
 package com.peauty.persistence.payment;
 
 import com.peauty.domain.payment.PaymentStatus;
+import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Builder
 @Entity(name = "payment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class PaymentEntity {
+public class PaymentEntity extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(generator = "")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "price", nullable = false)
-    Long price;
+    @Column(name= "order_id", nullable = false)
+    Long orderId;
 
-    @Column(name = "payment_date", nullable = false)
-    LocalDateTime paymentDate;
+    @Column(name = "depositPrice", nullable = false)
+    Long depositPrice;
 
-    @Column(name = "payment_uuid", nullable = false)
-    String paymentUuid;
+    @Column(name = "uuid", nullable = false)
+    String uuid;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status", nullable = false)
-    PaymentStatus paymentStatus;
+    @Column(name = "paymxent_status", nullable = false)
+    PaymentStatus status;
 
+    public void updateOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 }

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -36,16 +35,15 @@ public class PaymentServiceImpl implements PaymentService {
     public OrderResult saveOrder(Long userId, Long processId, Long threadId, OrderCommand command) {
         // TODO: 유저 검증
         // TODO: 요청서 & 견적서 정보 검증 (요청서, 견적서가 DB에 있는지 검증)
-        String uuid = UUID.randomUUID().toString();
-        LocalDateTime orderDate = LocalDateTime.now();
-        Payment paymentToSave = Payment.initializePayment(userId);
-
+        Payment paymentToSave = Payment.initializePayment(command.depositPrice());
         Order orderToSave = command.toDomain(
                 userId, processId, threadId,
-                uuid, orderDate, paymentToSave);
-
-        // 예약금 변환을 thread에서 가져와서 변환을 해야함 -> 그 금액과 같은지 확인해야 함
+                paymentToSave);
+        orderToSave.updateOrderUuid();
+        orderToSave.updateOrderStatus();
         orderToSave.transferReservationCost(orderToSave.getDepositPrice());
+        orderToSave.getPayment().updateOrderId(orderToSave.getOrderId());
+
         Order savedOrder = paymentPort.saveOrder(orderToSave);
         return OrderResult.from(savedOrder);
     }
@@ -57,37 +55,38 @@ public class PaymentServiceImpl implements PaymentService {
             Long userId, Long threadId, Long processId,
             CompletePaymentCallbackCommand command) {
 
-        Order order = paymentPort.getOrder(userId);
-        Payment payment = order.getPayment();
+        // OrderId에 해당하는 것을 DB에서 가져옴
+        Payment payment = paymentPort.getByOrderId(command.orderId());
 
         try {
+            // 프론트의 UUID가 실제로 포트원에 존재하는지 확인하기
             com.siot.IamportRestClient.response.Payment iamportResponse =
-                    iamportClient.paymentByImpUid(command.uuid()).getResponse();
+                    iamportClient.paymentByImpUid(command.paymentUuid()).getResponse();
 
             String iamportPaymentStatus = iamportResponse.getStatus();
-            Integer actualAmount = iamportResponse.getAmount().intValue();
-            
-            // 1. 포트원에서는 제대로 결제가 되었는지 확인하기
-            if(payment.checkIfPaymentFailed(iamportPaymentStatus)){
-                payment.updateStatusToCancel();
-                paymentPort.savePaymentToComplete(payment);
-            };
+            Long actualAmount = iamportResponse.getAmount().longValue();
 
-            // 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
-            if(!payment.checkIfPaymentPriceEquals(actualAmount)){
+            // 1. 포트원에서는 제대로 결제가 되었는지 확인하기
+            if (payment.checkIfPaymentFailed(iamportPaymentStatus)) {
                 payment.updateStatusToCancel();
-                paymentPort.savePaymentToComplete(payment);
+                paymentPort.savePayment(payment);
+            }
+
+            log.warn("payment price: {}\n actualAmount: {}", payment.getDepositPrice(), actualAmount);
+            // 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
+            if (!payment.checkIfPaymentPriceEquals(actualAmount)) {
+                payment.updateStatusToCancel();
+                paymentPort.savePayment(payment);
 
                 iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getImpUid()
                         , true, new BigDecimal(actualAmount)));
-                throw new RuntimeException("결제 금액 위변조");
+                throw new PeautyException(PeautyResponseCode.PAYMENT_AMOUNT_NOT_EQUALS);
             }
 
             // 3. 검증 완료 후, Payment 값 저장
+            payment.updateUuid(command.paymentUuid());
             payment.updateStatusToComplete();
-            Payment savedPayment = paymentPort.savePaymentToComplete(payment);
-
-            // 4. 결제 이후, 결제 완료 화면 데이터를 찾아서 모두 보내주기 (Order 도메인 조회)
+            Payment savedPayment = paymentPort.savePayment(payment);
             return CompletePaymentCallbackResult.from(savedPayment);
         } catch (IamportResponseException e) {
             throw new PeautyException(PeautyResponseCode.REQUEST_TIMEOUT);

@@ -5,10 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record CompletePaymentCallbackCommand(
-        Integer price,
-        String uuid
+        Long orderId,
+        Long depositPrice,
+        String paymentUuid
 ) {
-    public Order toDomain() {
-        return null;
+    public CompletePaymentCallbackResult from(Order order) {
+        return CompletePaymentCallbackResult.builder()
+                .build();
     }
 }

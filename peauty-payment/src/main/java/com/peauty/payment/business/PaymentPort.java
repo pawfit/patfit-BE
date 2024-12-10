@@ -5,7 +5,7 @@ import com.peauty.domain.payment.Payment;
 
 public interface PaymentPort {
     Order saveOrder(Order order);
-    Order getOrder(Long userId);
-    Payment getByPaymentId(Long paymentId);
-    Payment savePaymentToComplete(Payment paymentToSave);
+    Order getById(Long userId);
+    Payment getByOrderId(Long paymentId);
+    Payment savePayment(Payment payment);
 }

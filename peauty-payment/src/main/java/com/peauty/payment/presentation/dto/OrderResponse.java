@@ -7,14 +7,14 @@ import lombok.Builder;
 @Builder
 public record OrderResponse(
         Long orderId,
-        Long price,
+        Long depositPrice,
         String uuid,
         PaymentStatus paymentStatus
 ) {
     public static OrderResponse from(OrderResult orderResult) {
         return OrderResponse.builder()
                 .orderId(orderResult.orderId())
-                .price(orderResult.price())
+                .depositPrice(orderResult.depositPrice())
                 .uuid(orderResult.uuid())
                 .paymentStatus(orderResult.paymentStatus())
                 .build();

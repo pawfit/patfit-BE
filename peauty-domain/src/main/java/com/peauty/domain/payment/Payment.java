@@ -1,6 +1,7 @@
 package com.peauty.domain.payment;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
@@ -12,19 +13,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Payment {
     private Long paymentId;
+    private Long orderId;
     private Long depositPrice;
-    private Long grommingPrice;
     private LocalDateTime paymentDate;
     private String paymentUuid;
     private PaymentStatus status;
 
     private final String paymentPaidStatus = "paid";
 
-    public static Payment initializePayment(Long userId) {
+    public static Payment initializePayment(Long depositPrice) {
         return Payment.builder()
-                .paymentId(null)
-                .depositPrice(0L)
-                .paymentUuid(null)
+                .paymentId(0L)
+                .orderId(0L)
+                .depositPrice(depositPrice)
+                .paymentUuid("NOT UUID")
                 .paymentDate(LocalDateTime.now())
                 .status(PaymentStatus.READY)
                 .build();
@@ -43,14 +45,14 @@ public class Payment {
     }
 
     public Boolean checkIfPaymentFailed(String paymentStatus) {
-        if(paymentStatus.equals(paymentPaidStatus)){
+        return paymentStatus.equals(paymentPaidStatus);
+    }
+
+    public boolean checkIfPaymentPriceEquals(Long actualAmount) {
+        if(actualAmount.equals(depositPrice)) {
             return true;
         }
         return false;
-    }
-
-    public boolean checkIfPaymentPriceEquals(Integer actualAmount) {
-        return actualAmount.equals(this.depositPrice);
     }
 
     public void updateStatusToCancel() {
@@ -59,5 +61,13 @@ public class Payment {
 
     public void updateStatusToComplete() {
         this.status = PaymentStatus.COMPLETED;
+    }
+
+    public void updateOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public void updateUuid(String paymentUuid) {
+        this.paymentUuid = paymentUuid;
     }
 }

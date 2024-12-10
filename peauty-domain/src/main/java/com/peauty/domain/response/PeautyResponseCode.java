@@ -76,9 +76,10 @@ public enum PeautyResponseCode {
     NOT_FOUND_ESTIMATE("1404", "Not Found Estimate", "견적서를 찾을 수 없습니다."),
     PROCESS_ALREADY_IN_PROGRESS("1405", "Bidding Process Already In Progress", "이미 진행 중이거나 예약된 입찰 프로세스가 있습니다."),
 
-
+    // PAYMENT - IAMPORT
     IAMPORT_ERROR("1500", "Iamport Exception", "포트원 예외가 발생하였습니다. 잠시 후 다시 시도해주세요"),
-
+    PAYMENT_AMOUNT_NOT_EQUALS("1501", "Payment Not Equals", "실제 결제할 금액과 다릅니다. 결제 위변조 가능성이 있습니다."),
+    NOT_FOUND_PAYMENT("1502", "Payment Not Found", "해댱 결제건을 찾을 수 없습니다"),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),

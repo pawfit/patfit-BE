@@ -5,13 +5,15 @@ import lombok.Builder;
 
 @Builder
 public record CompletePaymentCallbackRequest(
-        Integer price,
+        Long orderId,
+        Long depositPrice,
         String paymentUuid
 ) {
     public CompletePaymentCallbackCommand toCommand() {
-        return new CompletePaymentCallbackCommand(
-                price,
-                paymentUuid
-        );
+        return CompletePaymentCallbackCommand.builder()
+                .depositPrice(depositPrice)
+                .paymentUuid(paymentUuid)
+                .orderId(orderId)
+                .build();
     }
 }
