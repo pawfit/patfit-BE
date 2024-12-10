@@ -20,6 +20,8 @@ public record GetAroundWorkspaceResult(
     public record Badge(
             Long badgeId,
             String badgeName,
+            String badgeContent,
+            String badgeImageUrl,
             BadgeColor badgeColor,
             BadgeType badgeType
     ) {

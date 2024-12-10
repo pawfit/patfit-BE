@@ -82,6 +82,8 @@ public class CustomerServiceImpl implements CustomerService {
                             .map(badge -> new GetAroundWorkspaceResult.Badge(
                                     badge.getBadgeId(),
                                     badge.getBadgeName(),
+                                    badge.getBadgeContent(),
+                                    badge.getBadgeImageUrl(),
                                     badge.getBadgeColor(),
                                     badge.getBadgeType()
                             ))

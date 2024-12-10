@@ -43,6 +43,8 @@ public record GetAroundWorkspaceResponse(
     public record BadgeResponse(
             Long badgeId,
             String badgeName,
+            String badgeContent,
+            String badgeImageUrl,
             BadgeColor badgeColor,
             BadgeType badgeType
     ) {
@@ -50,6 +52,8 @@ public record GetAroundWorkspaceResponse(
             return new BadgeResponse(
                     badge.badgeId(),
                     badge.badgeName(),
+                    badge.badgeContent(),
+                    badge.badgeImageUrl(),
                     badge.badgeColor(),
                     badge.badgeType()
             );
