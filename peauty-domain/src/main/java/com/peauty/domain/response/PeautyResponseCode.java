@@ -76,6 +76,10 @@ public enum PeautyResponseCode {
     NOT_FOUND_ESTIMATE("1404", "Not Found Estimate", "견적서를 찾을 수 없습니다."),
     PROCESS_ALREADY_IN_PROGRESS("1405", "Bidding Process Already In Progress", "이미 진행 중이거나 예약된 입찰 프로세스가 있습니다."),
 
+
+    IAMPORT_ERROR("1500", "Iamport Exception", "포트원 예외가 발생하였습니다. 잠시 후 다시 시도해주세요"),
+
+
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),
 
@@ -83,6 +87,7 @@ public enum PeautyResponseCode {
     APPLE_AUTH_CLIENT_ERROR("8100", "Apple auth client error", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),
     KAKAO_AUTH_CLIENT_ERROR("8200", "Kakao auth client error", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),
     GOOGLE_AUTH_CLIENT_ERROR("8300", "Google auth client error", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),
+
     // 클라이언트 에러
     BAD_REQUEST("9400", "Bad Request", "잘못된 요청입니다."),
     WRONG_PARAMETER("9401", "Invalid Parameter", "잘못된 파라미터입니다."),
@@ -91,6 +96,8 @@ public enum PeautyResponseCode {
     REQUEST_TIMEOUT("9900", "Request Timeout", "일시적인 에러가 발생하였습니다. 잠시 후 다시 시도해주세요."),
     NOT_YET_IMPLEMENTED("9901", "Not Yet Implemented", "아직 완성되지 않은 기능입니다."),
     INTERNAL_SERVER_ERROR("9999", "Internal Server Error", "내부 서버 에러가 발생하였습니다.");
+
+
 
     private final String code;
     private final String message;

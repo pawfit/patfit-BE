@@ -8,8 +8,7 @@ public class PaymentMapper {
     public static OrderEntity toOrderEntity(Order order) {
         return OrderEntity.builder()
                 .threadId(order.getThreadId())
-                .cost(order.getPrice())
-                .isPaymentCompleted(order.getIsPaymentCompleted())
+                .cost(order.getDepositPrice())
                 .orderDate(order.getOrderDate())
                 .uuid(order.getOrderUuid())
                 .build();
@@ -18,8 +17,7 @@ public class PaymentMapper {
     public static Order toOrderDomain(OrderEntity orderEntity, Payment payment) {
         return Order.builder()
                 .orderId(orderEntity.getId())
-                .price(orderEntity.getCost())
-                .isPaymentCompleted(orderEntity.getIsPaymentCompleted())
+                .depositPrice(orderEntity.getCost())
                 .threadId(orderEntity.getThreadId())
                 .orderUuid(orderEntity.getUuid())
                 .orderDate(orderEntity.getOrderDate())
@@ -28,7 +26,13 @@ public class PaymentMapper {
     }
 
     public static PaymentEntity toPaymentEntity(Payment payment) {
-        return null;
+        return PaymentEntity.builder()
+                .id(payment.getPaymentId())
+                .paymentUuid(payment.getPaymentUuid())
+                .paymentDate(payment.getPaymentDate())
+                .price(payment.getDepositPrice())
+                .paymentStatus(payment.getStatus())
+                .build();
     }
 
     public static Payment toPayment(PaymentEntity paymentEntity) {
@@ -37,6 +41,7 @@ public class PaymentMapper {
                 .paymentUuid(paymentEntity.paymentUuid)
                 .status(paymentEntity.paymentStatus)
                 .paymentDate(paymentEntity.paymentDate)
+                .depositPrice(paymentEntity.price)
                 .build();
     }
 }

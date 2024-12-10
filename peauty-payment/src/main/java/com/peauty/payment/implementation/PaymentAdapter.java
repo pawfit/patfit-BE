@@ -30,22 +30,15 @@ public class PaymentAdapter implements PaymentPort {
     }
 
     @Override
-    public void orderDelete(Order order) {
-
-    }
-
-    @Override
-    public void paymentDelete(Order order) {
-
-    }
-
-    @Override
     public Payment getByPaymentId(Long paymentId) {
         return null;
     }
 
     @Override
-    public Payment savePaymentToComplete(Payment paymentToSave) {
+    public Payment savePaymentToComplete(Payment payment) {
+        PaymentEntity paymentEntityToSave = PaymentMapper.toPaymentEntity(payment);
+        PaymentEntity savedPaymentEntity = paymentRepository.save(paymentEntityToSave);
+
         return null;
     }
 }

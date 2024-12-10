@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record OrderCommand(
-        Integer cost,
+        Long cost,
         Boolean orderStatus,
         String orderDate
 ) {
@@ -17,7 +17,7 @@ public record OrderCommand(
             Long userId, Long processId, Long threadId,
             String uuid, LocalDateTime orderDate, Payment paymentToSave) {
         return Order.builder()
-                .price(cost)
+                .depositPrice(cost)
                 .orderId(userId)
                 .threadId(threadId)
                 .orderDate(orderDate)

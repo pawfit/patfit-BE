@@ -7,7 +7,7 @@ import lombok.Builder;
 @Builder
 public record OrderResponse(
         Long orderId,
-        Integer price,
+        Long price,
         String uuid,
         PaymentStatus paymentStatus
 ) {
