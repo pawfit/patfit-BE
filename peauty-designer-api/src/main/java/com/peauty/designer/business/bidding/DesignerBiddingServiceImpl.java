@@ -1,9 +1,6 @@
 package com.peauty.designer.business.bidding;
 
-import com.peauty.designer.business.bidding.dto.CompleteGroomingResult;
-import com.peauty.designer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
-import com.peauty.designer.business.bidding.dto.SendEstimateCommand;
-import com.peauty.designer.business.bidding.dto.SendEstimateResult;
+import com.peauty.designer.business.bidding.dto.*;
 import com.peauty.designer.business.puppy.PuppyPort;
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.bidding.BiddingThread;
@@ -69,6 +66,19 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
                 puppy,
                 estimateProposal,
                 estimate
+        );
+    }
+
+    @Override
+    public GetEstimateProposalProfilesResult getEstimateProposalProfiles(Long userId) {
+        return GetEstimateProposalProfilesResult.from(
+                biddingProcessPort.getProcessesByDesignerId(userId)
+                        .stream()
+                        .map(process -> process.getProfile(
+                                puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
+                                userId
+                        ))
+                        .toList()
         );
     }
 }
