@@ -93,7 +93,7 @@ public Designer findDesignerById(Long designerId) {
     }
 
     @Override
-    public Workspace RegisterReviewStats(Long designerId, ReviewRating newRating) {
+    public Workspace registerReviewStats(Long designerId, ReviewRating newRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
 
@@ -107,7 +107,7 @@ public Designer findDesignerById(Long designerId) {
         return workspace;
     }
 
-    public Workspace UpdateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
+    public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
 
@@ -122,7 +122,7 @@ public Designer findDesignerById(Long designerId) {
         return workspace;
     }
 
-    public Workspace DeleteReviewStats(Long designerId, ReviewRating deletedRating) {
+    public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
 

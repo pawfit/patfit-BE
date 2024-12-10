@@ -55,7 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 리뷰 통계 업데이트
         Designer designer = designerPort.findDesignerById(thread.getDesignerId().value());
-        workspacePort.RegisterReviewStats(designer.getDesignerId(), savedReview.getReviewRating());
+        workspacePort.registerReviewStats(designer.getDesignerId(), savedReview.getReviewRating());
 
         return RegisterReviewResult.from(savedReview);
 
@@ -98,7 +98,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewPort.saveReview(existingReview);
 
         // 리뷰 통계 업데이트 (이전 별점 제거 후 새 별점 반영)
-        workspacePort.UpdateReviewStats(thread.getDesignerId().value(), previousRating, updatedReview.getReviewRating());
+        workspacePort.updateReviewStats(thread.getDesignerId().value(), previousRating, updatedReview.getReviewRating());
 
         return UpdateReviewResult.from(updatedReview);
     }
@@ -120,7 +120,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewPort.deleteReviewById(reviewId);
 
         BiddingThread thread = biddingProcessPort.getProcessByProcessId(processId).getThread(new BiddingThread.ID(threadId));
-        workspacePort.DeleteReviewStats(thread.getDesignerId().value(), deletedRating);
+        workspacePort.deleteReviewStats(thread.getDesignerId().value(), deletedRating);
 
     }
 

@@ -15,7 +15,7 @@ public interface WorkspacePort {
     Workspace getByDesignerId(Long designerId);
 
 //    void saveWorkspace(Workspace workspace);
-    Workspace RegisterReviewStats(Long workspaceId, ReviewRating newRating);
-    Workspace UpdateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating);
-    Workspace DeleteReviewStats(Long designerId, ReviewRating deletedRating);
+    Workspace registerReviewStats(Long workspaceId, ReviewRating newRating);
+    Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating);
+    Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating);
 }
