@@ -13,7 +13,10 @@ import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +38,17 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
-    public BiddingProcess getProcessById(Long processId) {
+    public List<BiddingProcess> getProcessesByDesignerId(Long designerId) {
+        return processRepository.findAllByDesignerId(designerId).stream()
+                .map(process -> BiddingMapper.toProcessDomain(
+                        process,
+                        threadRepository.findByBiddingProcessId(process.getId())
+                ))
+                .toList();
+    }
+
+    @Override
+    public BiddingProcess getProcessByProcessId(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
@@ -43,12 +56,18 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
-    public void isValidStatus(BiddingProcessStatus status) {
-        if(status.isCanceled()){
-            throw new PeautyException(PeautyResponseCode.ALREADY_CANCELED_BIDDING_PROCESS);
-        }
-        if(status.isCompleted()){
-            throw new PeautyException(PeautyResponseCode.ALREADY_COMPLETED_BIDDING_PROCESS);
-        }
+    public BiddingProcess getProcessByPuppyId(Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByPuppyId(puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
+    }
+
+    @Override
+    public BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId) {
+        BiddingProcessEntity foundProcessEntity = processRepository.findByIdAndPuppyId(processId, puppyId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
+        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
+        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 }

@@ -11,7 +11,7 @@ public record GetEstimateAndProposalDetailsResponse(
         Long threadId,
         String threadStatus,
         String threadStep,
-        Puppy.Profile puppyProfile,
+        Puppy.Profile puppy,
         EstimateProposal.Profile estimateProposal,
         Estimate.Profile estimate
 ) {

@@ -9,7 +9,16 @@ import java.util.Arrays;
 @Getter
 public enum Disease {
 
-    KENNEL_COUGH("기침 감기"),
+    NONE("없음"),
+    ETC("기타"),
+    PATELLA("슬개골"),
+    EAR_INFECTION("외이염"),
+    DERMATITIS("피부염"),
+    EYE_DISEASE("눈질환"),
+    HEART_DISEASE("심장병"),
+    ARTHRITIS("관절염");
+
+/*    KENNEL_COUGH("기침 감기"),
     CANINE_INFLUENZA("개 인플루엔자"),
     HEART_WORM("사상충"),
     PARVOVIRUS("홍반"),
@@ -17,7 +26,7 @@ public enum Disease {
     EAR_INFECTION("이염"),
     CANINE_DISTEMPER("홍역 바이러스"),
     FLEAS("벼룩"),
-    PARASITES("기생충");
+    PARASITES("기생충");*/
 
     private final String description;
 

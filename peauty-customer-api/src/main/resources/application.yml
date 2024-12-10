@@ -28,8 +28,6 @@ springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
-
-
 ---
 spring:
   config:
@@ -39,7 +37,7 @@ spring:
 
 logging:
   level:
-    root: WARN
+    root: warn
 
 server:
   port: 8080
@@ -58,6 +56,11 @@ spring:
   config:
     activate:
       on-profile: customer-prod
+
+logging:
+  level:
+    root: warn
+
 
 server:
   port: 8080

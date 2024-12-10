@@ -39,8 +39,8 @@ public record RegisterPuppyRequest(
         String diseaseDescription,
 
         String profileImageUrl,
-        @Schema(description = "분류", example = "LARGE")
-        PuppySize puppySize
+        @Schema(description = "분류", example = "대형견")
+        String puppySize
 ) {
     public RegisterPuppyCommand toCommand(Long userId){
         return new RegisterPuppyCommand(
@@ -55,7 +55,7 @@ public record RegisterPuppyRequest(
                 disease.stream().map(Disease::from).toList(),
                 diseaseDescription,
                 profileImageUrl,
-                puppySize
+                PuppySize.from(puppySize)
         );
     }
 }

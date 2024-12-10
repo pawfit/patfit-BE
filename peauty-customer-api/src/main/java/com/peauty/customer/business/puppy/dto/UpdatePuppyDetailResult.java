@@ -17,7 +17,7 @@ public record UpdatePuppyDetailResult(
         List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
-        PuppySize puppySize
+        String puppySize
 ) {
     public static UpdatePuppyDetailResult from(Puppy puppy) {
         return new UpdatePuppyDetailResult(
@@ -32,7 +32,7 @@ public record UpdatePuppyDetailResult(
                 puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
-                puppy.getPuppySize()
+                puppy.getPuppySize().getDescription()
         );
     }
 
