@@ -68,13 +68,14 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
         EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
         Estimate estimate = estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value());
-        // TODO 미용사 프로필도 추가할 수 있음
+        Designer.Profile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
         return GetEstimateAndProposalDetailsResult.from(
                 process,
                 thread,
                 puppy,
                 estimateProposal,
-                estimate
+                estimate,
+                designerProfile
         );
     }
 
@@ -87,10 +88,10 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     ) {
         BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppyId);
         List<BiddingThread.Profile> threadProfiles = process.getThreads().stream()
-                .map(thread -> {
-                    Designer.Profile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
-                    return thread.getProfile(designerProfile);
-                }).toList();
+                .map(thread -> thread.getProfile(
+                        designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
+                        estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile()
+                )).toList();
         return GetEstimateDesignerProfilesResult.from(process, threadProfiles);
     }
 }

@@ -165,12 +165,13 @@ public class BiddingThread {
         }
     }
 
-    public Profile getProfile(Designer.Profile designerProfile) {
+    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile) {
         return Profile.builder()
                 .threadId(id.value())
                 .step(step.getDescription())
                 .status(status.getDescription())
                 .designerProfile(designerProfile)
+                .estimateProfile(estimateProfile)
                 .build();
     }
 
@@ -179,7 +180,8 @@ public class BiddingThread {
             Long threadId,
             String step,
             String status,
-            Designer.Profile designerProfile
+            Designer.Profile designerProfile,
+            Estimate.Profile estimateProfile
     ) {
     }
 }
