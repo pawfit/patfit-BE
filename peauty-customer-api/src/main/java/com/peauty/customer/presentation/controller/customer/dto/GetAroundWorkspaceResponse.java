@@ -15,6 +15,7 @@ public record GetAroundWorkspaceResponse(
         String bannerImageUrl,
         Integer reviewCount,
         Double reviewRating,
+        Long designerId,
         String designerName,
         Integer yearOfExperience,
         List<BadgeResponse> representativeBadges // 변경
@@ -33,6 +34,7 @@ public record GetAroundWorkspaceResponse(
                 result.bannerImageUrl(),
                 result.reviewCount(),
                 result.reviewRating(),
+                result.designerId(),
                 result.designerName(),
                 result.yearOfExperience(),
                 badgeResponses
