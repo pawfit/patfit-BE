@@ -9,6 +9,8 @@ import java.util.Arrays;
 @Getter
 public enum Disease {
 
+    NONE("없음"),
+    ETC("기타"),
     PATELLA("슬개골"),
     EAR_INFECTION("외이염"),
     DERMATITIS("피부염"),
