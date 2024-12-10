@@ -21,9 +21,6 @@ server:
   port: 8080
   shutdown: graceful
 
-logging:
-  level:
-    root: warn
 
 springdoc:
   swagger-ui:
@@ -38,8 +35,11 @@ spring:
   config:
     activate:
       on-profile:
-        - customer-local
         - customer-dev
+
+logging:
+  level:
+    root: warn
 
 server:
   port: 8080
@@ -58,6 +58,11 @@ spring:
   config:
     activate:
       on-profile: customer-prod
+
+logging:
+  level:
+    root: warn
+
 
 server:
   port: 8080
