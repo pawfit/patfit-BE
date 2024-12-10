@@ -21,7 +21,7 @@ public class OrderEntity {
     private Long threadId;
 
     @Column(name = "cost", nullable = false)
-    private Integer cost;
+    private Long cost;
 
     @Column(name = "payment_status", nullable = false)
     private Boolean isPaymentCompleted;

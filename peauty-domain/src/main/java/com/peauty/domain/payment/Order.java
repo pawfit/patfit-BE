@@ -13,18 +13,14 @@ import java.time.LocalDateTime;
 public class Order {
     private Long orderId;
     private Long threadId;
-    private Integer price;
-    private Boolean isPaymentCompleted;
+    private Long depositPrice;
+    private Long grommingPrice;
     private LocalDateTime orderDate;
     private String orderUuid;
     private Payment payment;
 
-    public void updateCost(Integer cost) {
-        this.price = cost;
-    }
-
-    public void updatePaymentStatus(Boolean paymentStatus) {
-        this.isPaymentCompleted = paymentStatus;
+    public void updatePrice(Long cost) {
+        this.depositPrice = cost;
     }
 
     public void updateOrderUuid(String orderUuid) {
@@ -35,10 +31,9 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public void transferReservationCost(Integer cost) {
+    public void transferReservationCost(Long cost) {
         Double halfAmount = cost * 0.5;
-        // this.cost = (Integer) (Math.round(halfAmount/ 100.0) * 100);
-        this.price = Math.toIntExact(Math.round(halfAmount / 100.0) * 100);
+        this.depositPrice = (long) Math.toIntExact(Math.round(halfAmount / 100.0) * 100);
     }
 
 }

@@ -2,11 +2,16 @@ package com.peauty.persistence.payment;
 
 import com.peauty.domain.payment.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
+@Builder
+@Entity(name = "payment")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class PaymentEntity {
 
     @Id
@@ -14,7 +19,7 @@ public class PaymentEntity {
     Long id;
 
     @Column(name = "price", nullable = false)
-    Integer price;
+    Long price;
 
     @Column(name = "payment_date", nullable = false)
     LocalDateTime paymentDate;

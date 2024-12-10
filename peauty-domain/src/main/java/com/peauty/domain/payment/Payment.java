@@ -12,15 +12,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Payment {
     private Long paymentId;
-    private Integer price;
+    private Long depositPrice;
+    private Long grommingPrice;
     private LocalDateTime paymentDate;
     private String paymentUuid;
     private PaymentStatus status;
 
-    public static Payment initializePayment(Long userId, Object dto) {
+    private final String paymentPaidStatus = "paid";
+
+    public static Payment initializePayment(Long userId) {
         return Payment.builder()
                 .paymentId(null)
-                .price(100)
+                .depositPrice(0L)
                 .paymentUuid(null)
                 .paymentDate(LocalDateTime.now())
                 .status(PaymentStatus.READY)
@@ -33,9 +36,28 @@ public class Payment {
 
     public void updatePayment() {
         this.paymentId = paymentId;
-        this.price = price;
+        this.depositPrice = depositPrice;
         this.status = PaymentStatus.COMPLETED;
         this.paymentDate = LocalDateTime.now();
         this.paymentUuid = paymentUuid;
+    }
+
+    public Boolean checkIfPaymentFailed(String paymentStatus) {
+        if(paymentStatus.equals(paymentPaidStatus)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkIfPaymentPriceEquals(Integer actualAmount) {
+        return actualAmount.equals(this.depositPrice);
+    }
+
+    public void updateStatusToCancel() {
+        this.status = PaymentStatus.CANCELLED;
+    }
+
+    public void updateStatusToComplete() {
+        this.status = PaymentStatus.COMPLETED;
     }
 }
