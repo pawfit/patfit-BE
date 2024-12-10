@@ -25,7 +25,7 @@ public record GetEstimateAndProposalDetailsResponse(
                 result.thread().getStatus().getDescription(),
                 result.puppy().getProfile(),
                 result.estimateProposal().getProfile(),
-                result.estimate().getProfile()
+                result.estimate().map(Estimate::getProfile).orElse(null)
         );
     }
 }

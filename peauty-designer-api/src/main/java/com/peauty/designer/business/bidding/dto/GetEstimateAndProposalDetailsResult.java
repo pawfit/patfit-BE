@@ -6,12 +6,14 @@ import com.peauty.domain.bidding.Estimate;
 import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.puppy.Puppy;
 
+import java.util.Optional;
+
 public record GetEstimateAndProposalDetailsResult(
         BiddingProcess process,
         BiddingThread thread,
         Puppy puppy,
         EstimateProposal estimateProposal,
-        Estimate estimate
+        Optional<Estimate> estimate
 ) {
 
     public static GetEstimateAndProposalDetailsResult from(
@@ -19,7 +21,7 @@ public record GetEstimateAndProposalDetailsResult(
             BiddingThread thread,
             Puppy puppy,
             EstimateProposal estimateProposal,
-            Estimate estimate
+            Optional<Estimate> estimate
     ) {
         return new GetEstimateAndProposalDetailsResult(
                 process,

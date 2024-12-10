@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -44,4 +45,15 @@ public class EstimateAdapter implements EstimatePort {
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_ESTIMATE));
         List<EstimateImageEntity> foundImageEntities = estimateImageRepository.findByEstimateId(foundEstimateEntity.getId());
         return EstimateMapper.toEstimateDomain(foundEstimateEntity, foundImageEntities);
-    }}
+    }
+
+    @Override
+    public Optional<Estimate> findEstimateByThreadId(Long threadId) {
+        Optional<EstimateEntity> foundEstimateEntity = estimateRepository.findByBiddingThreadId(threadId);
+
+        return foundEstimateEntity.map(estimateEntity -> {
+            List<EstimateImageEntity> foundImageEntities = estimateImageRepository.findByEstimateId(estimateEntity.getId());
+            return EstimateMapper.toEstimateDomain(estimateEntity, foundImageEntities);
+        });
+    }
+}
