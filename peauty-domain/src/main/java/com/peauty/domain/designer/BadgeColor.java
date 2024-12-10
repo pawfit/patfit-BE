@@ -9,11 +9,11 @@ import java.util.Arrays;
 @Getter
 public enum BadgeColor {
 
-    BLUE("블루"),
-    GREEN("그린"),
-    BRONZE("브론즈"),
-    SILVER("실버"),
-    GOLD("골드");
+    BLUE("blue"),
+    GREEN("green"),
+    BRONZE("bronze"),
+    SILVER("silver"),
+    GOLD("gold");
 
     private final String colorName;
 

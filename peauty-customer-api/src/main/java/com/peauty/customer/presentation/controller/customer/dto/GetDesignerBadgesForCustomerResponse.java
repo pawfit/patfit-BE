@@ -3,6 +3,7 @@ package com.peauty.customer.presentation.controller.customer.dto;
 import com.peauty.customer.business.customer.dto.GetDesignerBadgesForCustomerResult;
 import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.BadgeColor;
+import com.peauty.domain.designer.BadgeType;
 
 import java.util.List;
 
@@ -26,7 +27,8 @@ public record GetDesignerBadgesForCustomerResponse(
             String badgeName,
             String badgeContent,
             String badgeImageUrl,
-            BadgeColor badgeColor
+            BadgeColor badgeColor,
+            BadgeType badgeType
     ) {
         public static BadgeResponse from(Badge badge) {
             return new BadgeResponse(
@@ -34,7 +36,8 @@ public record GetDesignerBadgesForCustomerResponse(
                     badge.getBadgeName(),
                     badge.getBadgeContent(),
                     badge.getBadgeImageUrl(),
-                    badge.getBadgeColor()
+                    badge.getBadgeColor(),
+                    badge.getBadgeType()
             );
         }
     }

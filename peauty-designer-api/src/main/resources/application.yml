@@ -38,6 +38,10 @@ server:
   port: 8080
   shutdown: graceful
 
+logging:
+  level:
+    root: warn
+
 springdoc:
   swagger-ui:
     path: /api-docs
@@ -55,6 +59,10 @@ spring:
   config:
     activate:
       on-profile: designer-prod
+
+logging:
+  level:
+    root: warn
 
 server:
   port: 8080

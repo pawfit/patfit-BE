@@ -12,13 +12,23 @@ public record GetAroundWorkspaceResult(
         String bannerImageUrl,
         Integer reviewCount,
         Double reviewRating,
+        Long designerId,
         String designerName,
         Integer yearOfExperience,
-        List<String> representativeBadgesName,
-        Scissors scissorsRank
+        List<Badge> representativeBadges // 변경
+//        String scissorsRank
 ) {
-    public static GetAroundWorkspaceResult from(Workspace workspace, Designer designer, List<String> badges) {
+    public record Badge(
+            Long badgeId,
+            String badgeName,
+            String badgeContent,
+            String badgeImageUrl,
+            BadgeColor badgeColor,
+            BadgeType badgeType
+    ) {
+    }
 
+    public static GetAroundWorkspaceResult from(Workspace workspace, Designer designer, List<Badge> badges) {
         return new GetAroundWorkspaceResult(
                 workspace.getWorkspaceId(),
                 workspace.getWorkspaceName(),
@@ -27,10 +37,11 @@ public record GetAroundWorkspaceResult(
                 workspace.getBannerImageUrl(),
                 workspace.getReviewCount(),
                 workspace.getReviewRating(),
+                designer.getDesignerId(),
                 designer.getName(),
                 designer.getYearOfExperience(),
-                badges,
-                workspace.getRating().getScissors()
+                badges
+//                workspace.getRating().getScissors().getScissorsRank()
         );
     }
 }

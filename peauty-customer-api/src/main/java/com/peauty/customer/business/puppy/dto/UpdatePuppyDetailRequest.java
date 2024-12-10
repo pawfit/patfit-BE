@@ -19,7 +19,7 @@ public record UpdatePuppyDetailRequest(
         List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
-        PuppySize puppySize
+        String puppySize
 ) {
     public UpdatePuppyDetailCommand toCommand(){
         return new UpdatePuppyDetailCommand(
@@ -33,7 +33,7 @@ public record UpdatePuppyDetailRequest(
                 this.disease.stream().map(Disease::from).toList(),
                 this.diseaseDescription,
                 this.profileImageUrl,
-                this.puppySize
+                PuppySize.from(this.puppySize)
         );
     }
 }

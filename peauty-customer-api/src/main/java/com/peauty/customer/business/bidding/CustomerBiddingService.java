@@ -1,10 +1,6 @@
 package com.peauty.customer.business.bidding;
 
-import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
-import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
-import com.peauty.customer.business.bidding.dto.SendEstimateProposalCommand;
-import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.peauty.customer.business.bidding.dto.*;
 
 public interface CustomerBiddingService {
 
@@ -26,5 +22,11 @@ public interface CustomerBiddingService {
             Long puppyId,
             Long processId,
             Long threadId
+    );
+
+    GetEstimateDesignerProfilesResult getEstimateDesignerProfiles(
+            Long userId,
+            Long puppyId,
+            Long processId
     );
 }

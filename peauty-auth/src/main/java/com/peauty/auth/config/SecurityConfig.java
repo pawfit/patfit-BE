@@ -62,7 +62,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/webjars/**",
-                        "/h2-console/**"
+                        "/h2-console/**",
+                        "/actuator/**",
+                        "/static/"
                 ).permitAll()
                 .requestMatchers(
                         "/sign-out"

@@ -1,7 +1,9 @@
 package com.peauty.domain.bidding;
 
 import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -170,5 +172,27 @@ public class BiddingProcess {
         public boolean isSameId(Long id) {
             return value.equals(id);
         }
+    }
+
+    public Profile getProfile(Puppy.Profile puppyProfile, Long designerId) {
+        BiddingThread thread = getThread(new DesignerId(designerId));
+        return Profile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .threadId(thread.getSavedThreadId().value())
+                .threadStatus(thread.getStatus().getDescription())
+                .puppyProfile(puppyProfile)
+                .build();
+    }
+
+    @Builder
+    public record Profile(
+            Long processId,
+            String processStatus,
+            Long threadId,
+            String threadStatus,
+            String threadStep,
+            Puppy.Profile puppyProfile
+    ) {
     }
 }

@@ -33,7 +33,7 @@ public record RegisterPuppyResult(
                 puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
-                puppy.getPuppySize().name()
+                puppy.getPuppySize().getDescription()
         );
     }
 }
