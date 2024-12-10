@@ -13,7 +13,10 @@ import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +35,16 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
                 .toList();
         List<BiddingThreadEntity> savedThreads = threadRepository.saveAll(threadEntities);
         return BiddingMapper.toProcessDomain(savedProcessEntity, savedThreads);
+    }
+
+    @Override
+    public List<BiddingProcess> getProcessesByDesignerId(Long designerId) {
+        return processRepository.findAllByDesignerId(designerId).stream()
+                .map(process -> BiddingMapper.toProcessDomain(
+                        process,
+                        threadRepository.findByBiddingProcessId(process.getId())
+                ))
+                .toList();
     }
 
     @Override

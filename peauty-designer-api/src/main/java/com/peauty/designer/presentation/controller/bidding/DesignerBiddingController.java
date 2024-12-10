@@ -3,11 +3,9 @@ package com.peauty.designer.presentation.controller.bidding;
 import com.peauty.designer.business.bidding.DesignerBiddingService;
 import com.peauty.designer.business.bidding.dto.CompleteGroomingResult;
 import com.peauty.designer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
+import com.peauty.designer.business.bidding.dto.GetEstimateProposalProfilesResult;
 import com.peauty.designer.business.bidding.dto.SendEstimateResult;
-import com.peauty.designer.presentation.controller.bidding.dto.CompleteGroomingResponse;
-import com.peauty.designer.presentation.controller.bidding.dto.GetEstimateAndProposalDetailsResponse;
-import com.peauty.designer.presentation.controller.bidding.dto.SendEstimateRequest;
-import com.peauty.designer.presentation.controller.bidding.dto.SendEstimateResponse;
+import com.peauty.designer.presentation.controller.bidding.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -65,5 +63,12 @@ public class DesignerBiddingController {
                 threadId
         );
         return GetEstimateAndProposalDetailsResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/bidding/processes")
+    @Operation(summary = "나에게 온 견적요청서 조회", description = "디자이너 본인에게 온 견적요청서들의 프로필을 조회합니다.")
+    public GetEstimateProposalProfilesResponse getEstimateProposalProfiles(@PathVariable Long userId) {
+        GetEstimateProposalProfilesResult result = designerBiddingService.getEstimateProposalProfiles(userId);
+        return GetEstimateProposalProfilesResponse.from(result);
     }
 }
