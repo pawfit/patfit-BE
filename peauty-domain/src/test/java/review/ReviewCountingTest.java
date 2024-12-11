@@ -67,7 +67,7 @@ class ReviewCountingTest {
     @DisplayName("리뷰 작성 시 평점이 워크스페이스에 반영된다")
     void reviewCreatesAndUpdatesWorkspaceRating() {
         // 리뷰 등록
-        workspace.RegisterReviewStats(review1.getReviewRating());
+        workspace.registerReviewStats(review1.getReviewRating());
 
         // 워크스페이스의 평점이 올바르게 반영되었는지 확인
         assertThat(workspace.getReviewCount()).isEqualTo(1);
@@ -79,14 +79,14 @@ class ReviewCountingTest {
     @DisplayName("두 개의 리뷰가 작성되면 워크스페이스 평점이 올바르게 재계산된다")
     void multipleReviewsUpdateWorkspaceRating() {
         // 첫 번째 리뷰 등록 (4점)
-        workspace.RegisterReviewStats(review1.getReviewRating());
+        workspace.registerReviewStats(review1.getReviewRating());
 
         // 첫 번째 리뷰 반영된 평점 확인
         assertThat(workspace.getReviewCount()).isEqualTo(1);
         assertThat(workspace.getReviewRating()).isEqualTo(4.0);
 
         // 두 번째 리뷰 등록 (5점)
-        workspace.RegisterReviewStats(review2.getReviewRating());
+        workspace.registerReviewStats(review2.getReviewRating());
 
         // 두 번째 리뷰 반영 후 평점 재계산 확인
         // (4점 + 5점) / 2 = 4.5
@@ -100,7 +100,7 @@ class ReviewCountingTest {
     @DisplayName("리뷰 업데이트 시 평점이 재계산된다")
     void updateReviewUpdatesWorkspaceRating() {
         // 리뷰 등록
-        workspace.RegisterReviewStats(review1.getReviewRating());
+        workspace.registerReviewStats(review1.getReviewRating());
 
         // 기존 리뷰 평점 확인
         assertThat(workspace.getReviewRating()).isEqualTo(4.0);
@@ -114,7 +114,7 @@ class ReviewCountingTest {
                 .build();
 
         // 기존 리뷰를 5점으로 업데이트
-        workspace.UpdateReviewStats(review1.getReviewRating(), updatedReview.getReviewRating());
+        workspace.updateReviewStats(review1.getReviewRating(), updatedReview.getReviewRating());
 
         // 평점이 올바르게 재계산되었는지 확인
         assertThat(workspace.getReviewRating()).isEqualTo(5.0); // 5점으로 변경되어야 한다.
@@ -124,10 +124,10 @@ class ReviewCountingTest {
     @DisplayName("리뷰 삭제 시 평점이 재계산된다")
     void deleteReviewUpdatesWorkspaceRating() {
         // 리뷰 등록
-        workspace.RegisterReviewStats(review1.getReviewRating());
+        workspace.registerReviewStats(review1.getReviewRating());
 
         // 리뷰 삭제 (4점 리뷰 삭제)
-        workspace.DeleteReviewStats(review1.getReviewRating());
+        workspace.deleteReviewStats(review1.getReviewRating());
 
         // 평점이 0으로 돌아갔는지 확인
         assertThat(workspace.getReviewCount()).isEqualTo(0);
@@ -139,16 +139,16 @@ class ReviewCountingTest {
     @DisplayName("리뷰 삭제 후 평점이 적절히 재계산된다")
     void deleteMultipleReviewsUpdatesWorkspaceRating() {
         // 첫 번째 리뷰 등록 (4점)
-        workspace.RegisterReviewStats(review1.getReviewRating());
+        workspace.registerReviewStats(review1.getReviewRating());
         // 두 번째 리뷰 등록 (5점)
-        workspace.RegisterReviewStats(review2.getReviewRating());
+        workspace.registerReviewStats(review2.getReviewRating());
 
         // 두 리뷰 반영된 평점 확인
         assertThat(workspace.getReviewCount()).isEqualTo(2);
         assertThat(workspace.getReviewRating()).isEqualTo(4.5);
 
         // 첫 번째 리뷰 삭제 (4점)
-        workspace.DeleteReviewStats(review1.getReviewRating());
+        workspace.deleteReviewStats(review1.getReviewRating());
 
         // 첫 번째 리뷰 삭제 후 평점 재계산
         // (5점) / 1 = 5.0
@@ -156,7 +156,7 @@ class ReviewCountingTest {
         assertThat(workspace.getReviewRating()).isEqualTo(5.0); // 나머지 리뷰는 5점
 
         // 두 번째 리뷰 삭제 (5점)
-        workspace.DeleteReviewStats(review2.getReviewRating());
+        workspace.deleteReviewStats(review2.getReviewRating());
 
         // 모든 리뷰 삭제 후 평점 0으로 리셋
         assertThat(workspace.getReviewCount()).isEqualTo(0);
