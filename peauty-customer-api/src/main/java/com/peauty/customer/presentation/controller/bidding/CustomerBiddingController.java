@@ -1,10 +1,7 @@
 package com.peauty.customer.presentation.controller.bidding;
 
 import com.peauty.customer.business.bidding.CustomerBiddingService;
-import com.peauty.customer.business.bidding.dto.AcceptEstimateResult;
-import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
-import com.peauty.customer.business.bidding.dto.GetEstimateDesignerProfilesResult;
-import com.peauty.customer.business.bidding.dto.SendEstimateProposalResult;
+import com.peauty.customer.business.bidding.dto.*;
 import com.peauty.customer.presentation.controller.bidding.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,17 +62,32 @@ public class CustomerBiddingController {
     }
 
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads")
-    @Operation(summary = "견적서 응답 미용사 프로필 조회", description = "해당하는 견적요청서에 견적서를 보내준 미용사들의 프로필을 조회합니다.")
-    public GetEstimateDesignerProfilesResponse getEstimateDesignerProfiles(
+    @Operation(summary = "견적서 응답 미용사 워크스페이스 프로필 조회", description = "해당하는 견적요청서에 견적서를 보내준 미용사들의 워크스페이스 프로필을 조회합니다.")
+    public GetEstimateDesignerWorkspaceProfilesResponse getEstimateDesignersWorkSpaceProfiles(
             @PathVariable Long userId,
             @PathVariable Long puppyId,
             @PathVariable Long processId
     ) {
-        GetEstimateDesignerProfilesResult result = customerBiddingService.getEstimateDesignerProfiles(
+        GetEstimateDesignerWorkspaceProfilesResult result = customerBiddingService.getEstimateDesignerWorkspaceProfiles(
                 userId,
                 puppyId,
                 processId
         );
-        return GetEstimateDesignerProfilesResponse.from(result);
+        return GetEstimateDesignerWorkspaceProfilesResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}")
+    @Operation(summary = "견적요청서 디테일 조회", description = "해당하는 견적요청서의 디테일을 조회합니다")
+    public GetEstimateProposalDetailResponse getEstimateProposalDetail(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @PathVariable Long processId
+    ) {
+        GetEstimateProposalDetailResult result = customerBiddingService.getEstimateProposalDetail(
+                userId,
+                puppyId,
+                processId
+        );
+        return GetEstimateProposalDetailResponse.from(result);
     }
 }
