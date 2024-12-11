@@ -1,13 +1,13 @@
 package com.peauty.payment.presentation.dto;
 
-import com.peauty.payment.business.dto.OrderCommand;
+import com.peauty.payment.business.dto.CreateOrderCommand;
 
-public record OrderRequest(
+public record CreateOrderRequest(
         Long depositPrice,
         String orderUuid
 ) {
-    public OrderCommand toCommand() {
-        return OrderCommand.builder()
+    public CreateOrderCommand toCommand() {
+        return CreateOrderCommand.builder()
                 .depositPrice(depositPrice)
                 .build();
     }

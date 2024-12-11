@@ -5,7 +5,7 @@ import lombok.Builder;
 
 
 @Builder
-public record OrderCommand(
+public record CreateOrderCommand(
         Long depositPrice,
         Boolean orderStatus,
         String orderDate

@@ -5,15 +5,15 @@ import com.peauty.domain.payment.PaymentStatus;
 import lombok.Builder;
 
 @Builder
-public record OrderResult(
+public record CreateOrderResult(
         Long orderId,
         String uuid,
         Long depositPrice,
         PaymentStatus paymentStatus
 ) {
 
-    public static OrderResult from(Order order) {
-        return OrderResult.builder()
+    public static CreateOrderResult from(Order order) {
+        return CreateOrderResult.builder()
                 .orderId(order.getOrderId())
                 .depositPrice(order.getDepositPrice())
                 .paymentStatus(order.getPayment().getStatus())
