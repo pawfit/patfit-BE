@@ -17,7 +17,7 @@ public class Estimate {
     @Getter private String content;
     @Getter private String availableGroomingDate; // TODO 몇년 몇월 몇일로 관리할 클래스 만들기
     @Getter private String estimatedDuration; // TODO 시, 분으로 관리할 클래스 만들기
-    @Getter private Long estimatedCost;
+    @Getter private Long estimatedCost; // TODO cost -> price
     @Getter private List<EstimateImage> images;
 
     public Optional<Estimate.ID> getId() {
@@ -28,6 +28,11 @@ public class Estimate {
         return id;
     }
 
+    // TODO 예약금 퍼센트를 관리할 estimatedCost 의 값 객체가 필요합니다
+    public Long getDepositPrice() {
+        return (long) (estimatedCost * (0.5));
+    }
+
     public Profile getProfile() {
         return Profile.builder()
                 .id(id.value())
@@ -35,6 +40,7 @@ public class Estimate {
                 .availableGroomingDate(availableGroomingDate)
                 .estimatedDuration(estimatedDuration)
                 .estimatedCost(estimatedCost)
+                .depositPrice(getDepositPrice())
                 .imageUrls(images.stream()
                         .map(EstimateImage::getImageUrl)
                         .toList()
@@ -49,6 +55,7 @@ public class Estimate {
             String availableGroomingDate,
             String estimatedDuration,
             Long estimatedCost,
+            Long depositPrice,
             List<String> imageUrls
     ) {
     }
