@@ -1,10 +1,9 @@
 package puppy;
 
-import com.peauty.domain.customer.Customer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Breed;
 import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.puppy.PuppyAge;
+import com.peauty.domain.puppy.PuppyAgeInfo;
 import com.peauty.domain.puppy.Sex;
 import com.peauty.domain.response.PeautyResponseCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDate;
 
 @DisplayName("반려견 등록 및 수정 API 테스트")
-class PuppyAgeScenarioTest {
+class PuppyAgeInfoScenarioTest {
 
     private Puppy puppy;
 
@@ -30,7 +29,7 @@ class PuppyAgeScenarioTest {
                 .breed(Breed.DACHSHUND)
                 .weight(10L)
                 .sex(Sex.F)
-                .age(new PuppyAge(LocalDate.of(2020, 6, 15)))
+                .puppyAgeInfo(new PuppyAgeInfo(LocalDate.of(2020, 6, 15)))
                 .detail("사랑스러운 강아지")
                 .build();
     }
@@ -39,14 +38,14 @@ class PuppyAgeScenarioTest {
     @DisplayName("반려견 등록 시 생년월일로 나이 계산")
     void registerPuppyCalculatesAge() {
         LocalDate birthdate = LocalDate.of(2021, 6, 15);
-        PuppyAge calculatedAge = new PuppyAge(birthdate);
+        PuppyAgeInfo calculatedAge = new PuppyAgeInfo(birthdate);
 
         Puppy newPuppy = Puppy.builder()
                 .name("초코")
                 .breed(Breed.POODLE)
                 .weight(20L)
                 .sex(Sex.M)
-                .age(calculatedAge)
+                .puppyAgeInfo(calculatedAge)
                 .detail("활발한 강아지")
                 .build();
 
@@ -65,7 +64,7 @@ class PuppyAgeScenarioTest {
 
         // 생년월일 업데이트
         LocalDate newBirthdate = LocalDate.of(2022, 1, 1);
-        puppy.updateAge(new PuppyAge(newBirthdate).getBirthdate());
+        puppy.updateAge(new PuppyAgeInfo(newBirthdate).getBirthdate());
 
         // 나이 정보가 재계산되었는지 확인
         assertThat(puppy.getBirthdate()).isEqualTo(newBirthdate);
@@ -78,7 +77,7 @@ class PuppyAgeScenarioTest {
     void invalidBirthdateThrowsException() {
         LocalDate futureBirthdate = LocalDate.of(2025, 1, 1);
 
-        assertThatThrownBy(() -> new PuppyAge(futureBirthdate))
+        assertThatThrownBy(() -> new PuppyAgeInfo(futureBirthdate))
                 .isInstanceOf(PeautyException.class)
                 .hasFieldOrPropertyWithValue("peautyResponseCode", PeautyResponseCode.INVALID_BIRTHDATE);
     }
@@ -91,7 +90,7 @@ class PuppyAgeScenarioTest {
                 .breed(Breed.POODLE)
                 .weight(5L)
                 .sex(Sex.M)
-                .age(new PuppyAge(LocalDate.of(2023, 3, 10)))
+                .puppyAgeInfo(new PuppyAgeInfo(LocalDate.of(2023, 3, 10)))
                 .detail("귀여운 강아지")
                 .build();
 

@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @EqualsAndHashCode
-public class PuppyAge {
+public class PuppyAgeInfo {
 
     private final LocalDate birthdate;
 
-    public PuppyAge(LocalDate birthdate) {
+    public PuppyAgeInfo(LocalDate birthdate) {
         if (birthdate == null ) {
             throw new PeautyException(PeautyResponseCode.WRONG_BIRTHDATE);
         }
@@ -47,4 +47,6 @@ public class PuppyAge {
     public LocalDate getBirthdate() {
         return birthdate;
     }
+
+
 }

@@ -20,7 +20,7 @@ public class Puppy {
     private Breed breed;                // 강아지 품종
     private Long weight;                // 무게
     private Sex sex;                    // 성별
-    private PuppyAge age;                // 나이
+    private PuppyAgeInfo puppyAgeInfo;                // 나이
 //    private LocalDate birthdate;        // 생일
     private String detail;              // 특이사항
     private List<Disease> disease;      // 질병
@@ -75,23 +75,23 @@ public class Puppy {
     }
 
     public void updateAge(LocalDate birthdate) {
-        this.age = new PuppyAge(birthdate);
+        this.puppyAgeInfo = new PuppyAgeInfo(birthdate);
     }
 
     public int getAgeInYears() {
-        return age.getYears();
+        return puppyAgeInfo.getYears();
     }
 
     public String getFormattedAge() {
-        return age.getFormattedAge();
+        return puppyAgeInfo.getFormattedAge();
     }
 
     public LocalDate getBirthdate() {
-        return age.getBirthdate();
+        return puppyAgeInfo.getBirthdate();
     }
 
     public void updateBirthdate(LocalDate birthdate) {
-        this.age = new PuppyAge(birthdate);
+        this.puppyAgeInfo = new PuppyAgeInfo(birthdate);
     }
 
     public Profile getProfile() {
