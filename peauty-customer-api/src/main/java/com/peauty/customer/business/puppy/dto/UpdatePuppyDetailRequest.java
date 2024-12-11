@@ -10,28 +10,28 @@ import java.util.List;
 
 public record UpdatePuppyDetailRequest(
         String name,
-        String breed,
+        Breed breed,
         Long weight,
         Sex sex,
         LocalDate birthdate,
         String detail,
-        List<String> disease,
+        List<Disease> disease,
         String diseaseDescription,
         String profileImageUrl,
-        String puppySize
+        PuppySize puppySize
 ) {
     public UpdatePuppyDetailCommand toCommand(){
         return new UpdatePuppyDetailCommand(
                 this.name,
-                Breed.from(this.breed),
+                this.breed,
                 this.weight,
                 this.sex,
                 this.birthdate,
                 this.detail,
-                this.disease.stream().map(Disease::from).toList(),
+                this.disease.stream().toList(),
                 this.diseaseDescription,
                 this.profileImageUrl,
-                PuppySize.from(this.puppySize)
+                this.puppySize
         );
     }
 }
