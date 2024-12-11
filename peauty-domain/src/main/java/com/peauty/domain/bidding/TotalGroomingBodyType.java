@@ -7,23 +7,31 @@ import lombok.Getter;
 @Getter
 public enum TotalGroomingBodyType {
 
-    CLIPPING_3MM("클리핑 3mm"),
-    CLIPPING_6MM("클리핑 6mm"),
-    CLIPPING_9MM("클리핑 9mm"),
-    SUMMER_SPORTING_3MM("썸머 스포팅 3mm"),
-    SUMMER_SPORTING_6MM("썸머 스포팅 6mm"),
-    SUMMER_SPORTING_9MM("썸머 스포팅 9mm"),
-    SUMMER_PANTALONG_3MM("썸머 판타롱 3mm"),
-    SUMMER_PANTALONG_6MM("썸머 판타롱 6mm"),
-    SUMMER_PANTALONG_9MM("썸머 판타롱 9mm"),
-    SUMMER_BELL_3MM("썸머 나팔 3mm"),
-    SUMMER_BELL_6MM("썸머 나팔 6mm"),
-    SUMMER_BELL_9MM("썸머 나팔 9mm");
+    CLIPPING_3MM("클리핑컷 3mm"),
+    CLIPPING_6MM("클리핑컷 6mm"),
+    CLIPPING_9MM("클리핑컷 9mm"),
+    SPORTING_3MM("스포팅컷 3mm"),
+    SPORTING_6MM("스포팅컷 6mm"),
+    SPORTING_9MM("스포팅컷 9mm"),
+    PANTALONG_3MM("판타롱컷 3mm"),
+    PANTALONG_6MM("판타롱컷 6mm"),
+    PANTALONG_9MM("판타롱컷 9mm"),
+    BELL_3MM("나팔컷 3mm"),
+    BELL_6MM("나팔컷 6mm"),
+    BELL_9MM("나팔컷 9mm"),
+    SCISSORS("가위컷");
 
     private final String description;
 
     TotalGroomingBodyType(String description) {
         this.description = description;
+    }
+
+    public String getBaseStyleName() {
+        if (this == SCISSORS) {
+            return description;
+        }
+        return description.replaceAll("\\s+\\d+mm$", "");
     }
 
     public static TotalGroomingBodyType from(String description) {

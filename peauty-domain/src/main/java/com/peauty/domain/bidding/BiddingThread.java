@@ -168,8 +168,8 @@ public class BiddingThread {
     public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile) {
         return Profile.builder()
                 .threadId(id.value())
-                .step(step.getDescription())
-                .status(status.getDescription())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
                 .designerProfile(designerProfile)
                 .estimateProfile(estimateProfile)
                 .build();
@@ -178,8 +178,8 @@ public class BiddingThread {
     @Builder
     public record Profile(
             Long threadId,
-            String step,
-            String status,
+            Integer threadStep,
+            String threadStatus,
             Designer.Profile designerProfile,
             Estimate.Profile estimateProfile
     ) {
