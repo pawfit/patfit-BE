@@ -86,7 +86,7 @@ public class Puppy {
                 breed.getBreedName(),
                 weight,
                 sex.getDescription(),
-                puppyAgeInfo.getYears(),
+                puppyAgeInfo.getSimpeAge(),
                 puppyAgeInfo.getBirthdate(),
                 profileImageUrl,
                 puppySize.getDescription()

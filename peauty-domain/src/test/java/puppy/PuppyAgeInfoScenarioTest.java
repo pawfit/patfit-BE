@@ -49,7 +49,7 @@ class PuppyAgeInfoScenarioTest {
                 .build();
 
         assertThat(newPuppy.getPuppyAgeInfo().getBirthdate()).isEqualTo(birthdate);
-        assertThat(newPuppy.getPuppyAgeInfo().getYears()).isEqualTo(3); // 현재 연도가 2024년 기준으로 계산
+        assertThat(newPuppy.getPuppyAgeInfo().getSimpeAge()).isEqualTo(3); // 현재 연도가 2024년 기준으로 계산
         assertThat(newPuppy.getPuppyAgeInfo().getFormattedAge()).isEqualTo("3년 5개월");
     }
 
@@ -58,7 +58,7 @@ class PuppyAgeInfoScenarioTest {
     void updatePuppyRecalculatesAge() {
         // 기존 생년월일 확인
         assertThat(puppy.getPuppyAgeInfo().getBirthdate()).isEqualTo(LocalDate.of(2020, 6, 15));
-        assertThat(puppy.getPuppyAgeInfo().getYears()).isEqualTo(4);
+        assertThat(puppy.getPuppyAgeInfo().getSimpeAge()).isEqualTo(4);
         assertThat(puppy.getPuppyAgeInfo().getFormattedAge()).isEqualTo("4년 5개월");
 
         // 생년월일 업데이트
@@ -67,7 +67,7 @@ class PuppyAgeInfoScenarioTest {
 
         // 나이 정보가 재계산되었는지 확인
         assertThat(puppy.getPuppyAgeInfo().getBirthdate()).isEqualTo(newBirthdate);
-        assertThat(puppy.getPuppyAgeInfo().getYears()).isEqualTo(2);
+        assertThat(puppy.getPuppyAgeInfo().getSimpeAge()).isEqualTo(2);
         assertThat(puppy.getPuppyAgeInfo().getFormattedAge()).isEqualTo("2년 11개월");
     }
 

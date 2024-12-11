@@ -34,7 +34,7 @@ public class PuppyMapper {
                 .weight(puppy.getWeight())
                 .sex(puppy.getSex())
                 .birthdate(puppy.getPuppyAgeInfo().getBirthdate())
-                .age(puppy.getPuppyAgeInfo().getYears())
+                .age(puppy.getPuppyAgeInfo().getSimpeAge())
                 .detail(puppy.getDetail())
                 .disease(puppy.getDisease())
                 .diseaseDescription(puppy.getDiseaseDescription())

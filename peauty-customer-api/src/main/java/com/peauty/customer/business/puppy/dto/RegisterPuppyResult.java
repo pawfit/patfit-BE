@@ -34,7 +34,7 @@ public record RegisterPuppyResult(
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
                 puppy.getPuppySize().getDescription(),
-                puppy.getPuppyAgeInfo().getYears(),
+                puppy.getPuppyAgeInfo().getSimpeAge(),
                 puppy.getPuppyAgeInfo().getFormattedAge()
         );
     }

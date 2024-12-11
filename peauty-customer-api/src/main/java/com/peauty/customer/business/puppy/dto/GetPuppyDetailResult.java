@@ -28,7 +28,7 @@ public record GetPuppyDetailResult(
                 puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex().name(),
-                puppy.getPuppyAgeInfo().getYears(),
+                puppy.getPuppyAgeInfo().getSimpeAge(),
                 puppy.getPuppyAgeInfo().getFormattedAge(),
                 puppy.getPuppyAgeInfo().getBirthdate(),
                 puppy.getDetail(),

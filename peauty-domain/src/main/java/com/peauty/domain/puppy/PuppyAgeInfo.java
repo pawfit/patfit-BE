@@ -23,7 +23,7 @@ public class PuppyAgeInfo {
     }
 
     //년 = O살
-    public int getYears() {
+    public int getSimpeAge() {
         return Period.between(birthdate, LocalDate.now()).getYears();
     }
 
