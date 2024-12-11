@@ -35,12 +35,8 @@ spring:
       on-profile: designer-dev
 
 server:
-  port: 8080
+  port: 8081
   shutdown: graceful
-
-logging:
-  level:
-    root: warn
 
 springdoc:
   swagger-ui:
