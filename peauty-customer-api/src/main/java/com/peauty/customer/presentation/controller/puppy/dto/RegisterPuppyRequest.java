@@ -25,9 +25,6 @@ public record RegisterPuppyRequest(
         @Schema(description = "반려견 성별", example = "M")
         @NotNull
         Sex sex,
-        @Schema(description = "반려견 나이", example = "3")
-        @NotNull
-        Integer age,
         @Schema(description = "반려견 생년월일", example = "2021-11-26")
         @NotNull
         LocalDate birthdate,
@@ -49,7 +46,6 @@ public record RegisterPuppyRequest(
                 breed,
                 weight,
                 sex,
-                age,
                 birthdate,
                 detail,
                 disease.stream().toList(),

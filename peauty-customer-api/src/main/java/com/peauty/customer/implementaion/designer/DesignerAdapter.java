@@ -108,7 +108,7 @@ public class DesignerAdapter implements DesignerPort {
     }
 
     @Override
-    public Designer findDesignerById(Long designerId) {
+    public Designer getDesignerById(Long designerId) {
         return designerRepository.findById(designerId)
                 .map(DesignerMapper::toDesignerDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));

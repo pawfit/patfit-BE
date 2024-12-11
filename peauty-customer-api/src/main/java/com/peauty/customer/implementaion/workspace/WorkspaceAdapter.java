@@ -99,7 +99,7 @@ public Designer findDesignerById(Long designerId) {
 
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
         // 리뷰 작성 로직
-        workspace.RegisterReviewStats(newRating);
+        workspace.registerReviewStats(newRating);
         // 엔티티 변환 후 저장
         workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
         workspaceRepository.save(workspaceEntity);
@@ -114,7 +114,7 @@ public Designer findDesignerById(Long designerId) {
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
 
         // 리뷰 수정 로직
-        workspace.UpdateReviewStats(oldRating, newRating);
+        workspace.updateReviewStats(oldRating, newRating);
         // 엔티티 변환 후 저장
         workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
         workspaceRepository.save(workspaceEntity);
@@ -129,7 +129,7 @@ public Designer findDesignerById(Long designerId) {
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
 
         // 리뷰 삭제 로직
-        workspace.DeleteReviewStats(deletedRating);
+        workspace.deleteReviewStats(deletedRating);
 
         // 엔티티 변환 후 저장
         workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
