@@ -17,7 +17,7 @@ spring:
       on-profile: designer-local
 
 server:
-  port: 8081
+  port: 8080
   shutdown: graceful
 
 springdoc:
