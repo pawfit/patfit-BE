@@ -2,7 +2,6 @@ package com.peauty.designer.implementation.bidding;
 
 import com.peauty.designer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.BiddingProcessStatus;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.bidding.mapper.BiddingMapper;
@@ -14,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -51,7 +47,6 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
 
     @Override
     public BiddingProcess getProcessByProcessId(Long processId) {
-        log.info("process_id {}", processId);
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
