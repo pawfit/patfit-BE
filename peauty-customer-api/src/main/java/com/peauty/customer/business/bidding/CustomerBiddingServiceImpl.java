@@ -81,12 +81,13 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
 
     // TODO 쿼리 dsl 을 이용한 효율적인 쿼리 도입
     @Override
-    public GetEstimateDesignerProfilesResult getEstimateDesignerProfiles(
+    public GetEstimateDesignerWorkspaceProfilesResult getEstimateDesignerWorkspaceProfiles(
             Long userId,
             Long puppyId,
             Long processId
     ) {
         BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppyId);
+        EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
         List<BiddingThread.Profile> threadProfiles = process.getThreads().stream()
                 .map(thread -> thread.getProfile(
                         designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
@@ -94,6 +95,18 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                                 .map(Estimate::getProfile)
                                 .orElse(null)
                 )).toList();
-        return GetEstimateDesignerProfilesResult.from(process, threadProfiles);
+        return GetEstimateDesignerWorkspaceProfilesResult.from(process, estimateProposal, threadProfiles);
+    }
+
+    @Override
+    public GetEstimateProposalDetailResult getEstimateProposalDetail(
+            Long userId,
+            Long puppyId,
+            Long processId
+    ) {
+        Puppy puppy = puppyPort.getPuppyByCustomerIdAndPuppyId(userId, puppyId);
+        BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppy.getPuppyId());
+        EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
+        return GetEstimateProposalDetailResult.from(puppy, process, estimateProposal);
     }
 }
