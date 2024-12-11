@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -43,6 +42,8 @@ public class PaymentServiceImpl implements PaymentService {
         orderToSave.updateOrderStatus();
         orderToSave.transferReservationCost(orderToSave.getDepositPrice());
         orderToSave.getPayment().updateOrderId(orderToSave.getOrderId());
+
+
 
         Order savedOrder = paymentPort.saveOrder(orderToSave);
         return OrderResult.from(savedOrder);
@@ -72,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentPort.savePayment(payment);
             }
 
-            log.warn("payment price: {}\n actualAmount: {}", payment.getDepositPrice(), actualAmount);
+            log.info("payment depositPrice: {}\n actualAmount: {}", payment.getDepositPrice(), actualAmount);
             // 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
             if (!payment.checkIfPaymentPriceEquals(actualAmount)) {
                 payment.updateStatusToCancel();
@@ -87,9 +88,16 @@ public class PaymentServiceImpl implements PaymentService {
             payment.updateUuid(command.paymentUuid());
             payment.updateStatusToComplete();
             Payment savedPayment = paymentPort.savePayment(payment);
-            return CompletePaymentCallbackResult.from(savedPayment);
+
+            // payment -> orderId -> threadId -> designerId -> workspaceName
+            // Workspace 이름 구하기
+            String workspaceName = paymentPort.findWorkspaceNameByThreadId(threadId);
+            Long actualPrice = paymentPort.findActualPriceByThreadId(threadId);
+
+            // ActualPrice 구하기
+            return CompletePaymentCallbackResult.from(savedPayment, workspaceName, threadId, actualPrice);
         } catch (IamportResponseException e) {
-            throw new PeautyException(PeautyResponseCode.REQUEST_TIMEOUT);
+            throw new PeautyException(PeautyResponseCode.IAMPORT_ERROR);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

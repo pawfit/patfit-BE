@@ -5,8 +5,6 @@ import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Builder
 @Entity(name = "payment")
 @Getter
@@ -28,10 +26,7 @@ public class PaymentEntity extends BaseTimeEntity {
     String uuid;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "paymxent_status", nullable = false)
+    @Column(name = "payment_status", nullable = false)
     PaymentStatus status;
 
-    public void updateOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
 }

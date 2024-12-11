@@ -1,7 +1,6 @@
 package com.peauty.domain.payment;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
@@ -15,10 +14,9 @@ public class Payment {
     private Long paymentId;
     private Long orderId;
     private Long depositPrice;
-    private LocalDateTime paymentDate;
+    private LocalDateTime paymentEventTimestamp;
     private String paymentUuid;
     private PaymentStatus status;
-
     private final String paymentPaidStatus = "paid";
 
     public static Payment initializePayment(Long depositPrice) {
@@ -27,21 +25,13 @@ public class Payment {
                 .orderId(0L)
                 .depositPrice(depositPrice)
                 .paymentUuid("NOT UUID")
-                .paymentDate(LocalDateTime.now())
+                .paymentEventTimestamp(LocalDateTime.now())
                 .status(PaymentStatus.READY)
                 .build();
     }
 
+    // TODO 유효성 검사를 하나로 모아두는 메서드 제작!
     public void validationSuccess() {
-
-    }
-
-    public void updatePayment() {
-        this.paymentId = paymentId;
-        this.depositPrice = depositPrice;
-        this.status = PaymentStatus.COMPLETED;
-        this.paymentDate = LocalDateTime.now();
-        this.paymentUuid = paymentUuid;
     }
 
     public Boolean checkIfPaymentFailed(String paymentStatus) {
@@ -57,10 +47,12 @@ public class Payment {
 
     public void updateStatusToCancel() {
         this.status = PaymentStatus.CANCELLED;
+        this.paymentEventTimestamp = LocalDateTime.now();
     }
 
     public void updateStatusToComplete() {
         this.status = PaymentStatus.COMPLETED;
+        this.paymentEventTimestamp = LocalDateTime.now();
     }
 
     public void updateOrderId(Long orderId) {

@@ -8,4 +8,8 @@ public interface PaymentPort {
     Order getById(Long userId);
     Payment getByOrderId(Long paymentId);
     Payment savePayment(Payment payment);
+
+    String findWorkspaceNameByThreadId(Long threadId);
+
+    Long findActualPriceByThreadId(Long threadId);
 }
