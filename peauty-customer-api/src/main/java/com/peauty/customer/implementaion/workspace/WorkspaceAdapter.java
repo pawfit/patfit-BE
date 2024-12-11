@@ -4,8 +4,9 @@ import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.designer.*;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
+import com.peauty.domain.review.ReviewRating;
 import com.peauty.persistence.customer.CustomerMapper;
-import com.peauty.persistence.designer.*;
+import com.peauty.persistence.designer.DesignerRepository;
 import com.peauty.persistence.designer.badge.BadgeEntity;
 import com.peauty.persistence.designer.badge.BadgeRepository;
 import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
@@ -18,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -91,4 +91,52 @@ public Designer findDesignerById(Long designerId) {
         workspace.updateRating(rating);
         return workspace;
     }
+
+    @Override
+    public Workspace registerReviewStats(Long designerId, ReviewRating newRating) {
+        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        // 리뷰 작성 로직
+        workspace.registerReviewStats(newRating);
+        // 엔티티 변환 후 저장
+        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+        workspaceRepository.save(workspaceEntity);
+
+        return workspace;
+    }
+
+    public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
+        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+
+        // 리뷰 수정 로직
+        workspace.updateReviewStats(oldRating, newRating);
+        // 엔티티 변환 후 저장
+        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+        workspaceRepository.save(workspaceEntity);
+
+        return workspace;
+    }
+
+    public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
+        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+
+        // 리뷰 삭제 로직
+        workspace.deleteReviewStats(deletedRating);
+
+        // 엔티티 변환 후 저장
+        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+        workspaceRepository.save(workspaceEntity);
+
+        return workspace;
+    }
+
+
 }

@@ -6,10 +6,7 @@ import com.peauty.domain.designer.*;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.designer.DesignerRepository;
-import com.peauty.persistence.designer.badge.BadgeEntity;
-import com.peauty.persistence.designer.badge.BadgeRepository;
-import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
-import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
+import com.peauty.persistence.designer.badge.*;
 import com.peauty.persistence.designer.license.LicenseRepository;
 import com.peauty.persistence.designer.mapper.DesignerMapper;
 import lombok.RequiredArgsConstructor;
@@ -109,4 +106,12 @@ public class DesignerAdapter implements DesignerPort {
         Workspace workspace = workspacePort.getByDesignerId(designerId);
         return designer.getProfile(workspace);
     }
+
+    @Override
+    public Designer getDesignerById(Long designerId) {
+        return designerRepository.findById(designerId)
+                .map(DesignerMapper::toDesignerDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));
+    }
+
 }

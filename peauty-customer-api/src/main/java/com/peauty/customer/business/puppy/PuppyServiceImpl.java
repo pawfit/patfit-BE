@@ -49,17 +49,18 @@ public class PuppyServiceImpl implements PuppyService {
     @Transactional
     public UpdatePuppyDetailResult updatePuppyDetail(Long userId, Long puppyId, UpdatePuppyDetailCommand command){
         Puppy puppyToUpdate = puppyPort.getPuppyByCustomerIdAndPuppyId(userId, puppyId);
+        // TODO: puppyToUpdate.updatePuppyDetail 방식으로 한 줄 수정 예정
         puppyToUpdate.updateName(command.name());
         puppyToUpdate.updateBreed(command.breed());
         puppyToUpdate.updateWeight(command.weight());
         puppyToUpdate.updateSex(command.sex());
-        puppyToUpdate.updateAge(command.age());
         puppyToUpdate.updateBirthdate(command.birthdate());
         puppyToUpdate.updateDetail(command.detail());
         puppyToUpdate.updateDisease(command.disease());
         puppyToUpdate.updateDiseaseDescription(command.diseaseDescription());
         puppyToUpdate.updateProfileImageUrl(command.profileImageUrl());
         puppyToUpdate.updatePuppySize(command.puppySize());
+
         Puppy updatedPuppy = puppyPort.save(puppyToUpdate);
         return UpdatePuppyDetailResult.from(updatedPuppy);
     }
@@ -70,7 +71,6 @@ public class PuppyServiceImpl implements PuppyService {
         // 삭제
         puppyPort.deletePuppy(puppyId);
     }
-
 
     @Override
     public GetPuppyProfilesResult getPuppyProfiles(Long customerId) {
