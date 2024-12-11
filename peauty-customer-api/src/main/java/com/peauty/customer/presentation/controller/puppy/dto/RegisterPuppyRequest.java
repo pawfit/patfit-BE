@@ -18,6 +18,7 @@ public record RegisterPuppyRequest(
         String name,
         @Schema(description = "반려견 품종", example = "리트리버")
         @NotNull
+                // TODO: Request를 영어로 할 시에는 Request는 Breed breed와  아래에 breed를 박는다.
         String breed,
         @Schema(description = "반려견 무게(kg)", example = "10")
         @NotNull
