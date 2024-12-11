@@ -18,8 +18,7 @@ public record RegisterPuppyRequest(
         String name,
         @Schema(description = "반려견 품종", example = "리트리버")
         @NotNull
-                // TODO: Request를 영어로 할 시에는 Request는 Breed breed와  아래에 breed를 박는다.
-        String breed,
+        Breed breed,
         @Schema(description = "반려견 무게(kg)", example = "10")
         @NotNull
         Long weight,
@@ -34,29 +33,29 @@ public record RegisterPuppyRequest(
         LocalDate birthdate,
         @Schema(description = "특이사항", example = "잘 짖지 않아요")
         String detail,
-        @Schema(description = "질병 목록", example = "[\"기침 감기\", \"사상충\"]")
-        List<String> disease,
+        @Schema(description = "질병 목록", example = "[\"PATELLA\", \"ARTHRITIS\"]")
+        List<Disease> disease,
         @Schema(description = "기타 질병 설명", example = "심하게 흥분하면 기침을 합니다")
         String diseaseDescription,
 
         String profileImageUrl,
         @Schema(description = "분류", example = "대형견")
-        String puppySize
+        PuppySize puppySize
 ) {
     public RegisterPuppyCommand toCommand(Long userId){
         return new RegisterPuppyCommand(
                 userId,
                 name,
-                Breed.from(breed),
+                breed,
                 weight,
                 sex,
                 age,
                 birthdate,
                 detail,
-                disease.stream().map(Disease::from).toList(),
+                disease.stream().toList(),
                 diseaseDescription,
                 profileImageUrl,
-                PuppySize.from(puppySize)
+                puppySize
         );
     }
 }
