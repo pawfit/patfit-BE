@@ -11,7 +11,6 @@ public record RegisterPuppyCommand(
         Breed breed,
         Long weight,
         Sex sex,
-        Integer age,
         LocalDate birthdate,
         String detail,
         List<Disease> disease,
@@ -25,8 +24,7 @@ public record RegisterPuppyCommand(
                 .breed(breed)
                 .weight(weight)
                 .sex(sex)
-                .age(age)
-                .birthdate(birthdate)
+                .age(new PuppyAge(birthdate))
                 .detail(detail)
                 .disease(disease)
                 .diseaseDescription(diseaseDescription)

@@ -12,13 +12,14 @@ public record RegisterPuppyResult(
         String breed,
         Long weight,
         String sex,
-        Integer age,
         LocalDate birthdate,
         String detail,
         List<String> disease,
         String diseaseDescription,
         String profileImageUrl,
-        String puppySize
+        String puppySize,
+        Integer age,
+        String formattedAge
 ) {
     public static RegisterPuppyResult from(Puppy puppy) {
         return new RegisterPuppyResult(
@@ -27,13 +28,14 @@ public record RegisterPuppyResult(
                 puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex().name(),
-                puppy.getAge(),
                 puppy.getBirthdate(),
                 puppy.getDetail(),
                 puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
-                puppy.getPuppySize().getDescription()
+                puppy.getPuppySize().getDescription(),
+                puppy.getAgeInYears(),
+                puppy.getFormattedAge()
         );
     }
 }

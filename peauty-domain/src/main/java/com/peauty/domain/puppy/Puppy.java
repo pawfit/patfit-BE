@@ -20,8 +20,8 @@ public class Puppy {
     private Breed breed;                // 강아지 품종
     private Long weight;                // 무게
     private Sex sex;                    // 성별
-    private Integer age;                // 나이
-    private LocalDate birthdate;        // 생일
+    private PuppyAge age;                // 나이
+//    private LocalDate birthdate;        // 생일
     private String detail;              // 특이사항
     private List<Disease> disease;      // 질병
     private String diseaseDescription;  // 기타 질병사항
@@ -52,13 +52,7 @@ public class Puppy {
         this.sex = sex;
     }
 
-    public void updateAge(Integer age) {
-        this.age = age;
-    }
 
-    public void updateBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
 
     public void updateDetail(String detail) {
         this.detail = detail;
@@ -80,6 +74,26 @@ public class Puppy {
         this.puppySize = puppySize;
     }
 
+    public void updateAge(LocalDate birthdate) {
+        this.age = new PuppyAge(birthdate);
+    }
+
+    public int getAgeInYears() {
+        return age.getYears();
+    }
+
+    public String getFormattedAge() {
+        return age.getFormattedAge();
+    }
+
+    public LocalDate getBirthdate() {
+        return age.getBirthdate();
+    }
+
+    public void updateBirthdate(LocalDate birthdate) {
+        this.age = new PuppyAge(birthdate);
+    }
+
     public Profile getProfile() {
         return new Profile(
                 puppyId,
@@ -88,8 +102,8 @@ public class Puppy {
                 breed.getBreedName(),
                 weight,
                 sex.getDescription(),
-                age,
-                birthdate,
+                getAgeInYears(),
+                getBirthdate(),
                 profileImageUrl,
                 puppySize.getDescription()
         );
@@ -137,5 +151,7 @@ public class Puppy {
                 .profileImageUrl(this.profileImageUrl)
                 .build();
     }*/
+
+
 
 }
