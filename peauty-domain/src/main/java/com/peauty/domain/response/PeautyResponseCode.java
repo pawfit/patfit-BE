@@ -85,7 +85,7 @@ public enum PeautyResponseCode {
     // PAYMENT - IAMPORT
     IAMPORT_ERROR("1500", "Iamport Exception", "포트원 예외가 발생하였습니다. 잠시 후 다시 시도해주세요"),
     PAYMENT_AMOUNT_NOT_EQUALS("1501", "Payment Not Equals", "실제 결제할 금액과 다릅니다. 결제 위변조 가능성이 있습니다."),
-    NOT_FOUND_PAYMENT("1502", "Payment Not Found", "해댕 결제 건을 찾을 수 없습니다."),
+    NOT_FOUND_PAYMENT("1502", "Payment Not Found", "해당 결제 건을 찾을 수 없습니다."),
     NOT_FOUND_ACTUAL_PRICE("1503", "Actual Price Not Found", "결제할 금액이 없습니다."),
     NOT_FOUND_ORDER("1504", "Order Not Found", "주문이 없습니다."),
 
