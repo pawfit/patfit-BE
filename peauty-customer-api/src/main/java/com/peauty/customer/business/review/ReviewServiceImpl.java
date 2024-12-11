@@ -54,7 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review savedReview = reviewPort.registerNewReview(newReview);
 
         // 리뷰 통계 업데이트
-        Designer designer = designerPort.findDesignerById(thread.getDesignerId().value());
+        Designer designer = designerPort.getDesignerById(thread.getDesignerId().value());
         workspacePort.registerReviewStats(designer.getDesignerId(), savedReview.getReviewRating());
 
         return RegisterReviewResult.from(savedReview);
