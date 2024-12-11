@@ -65,7 +65,7 @@ public class Workspace {
     // 리뷰 작성 시 메서드
     // TODO: 동시에 한 워크스페이스에 대한 리뷰가 반영되었을 때 생기는 동시성 문제 처리 해결 필요.
 
-    public void RegisterReviewStats(ReviewRating newRating) {
+    public void registerReviewStats(ReviewRating newRating) {
         if (reviewCount == null) reviewCount = 0;
         if (reviewRating == null) reviewRating = 0.0;
 
@@ -74,7 +74,7 @@ public class Workspace {
     }
 
     // 리뷰 업데이트 시 메서드
-    public void UpdateReviewStats(ReviewRating oldRating, ReviewRating newRating) {
+    public void updateReviewStats(ReviewRating oldRating, ReviewRating newRating) {
         if (reviewCount == null || reviewCount == 0) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_UPDATE);
         }
@@ -82,7 +82,7 @@ public class Workspace {
     }
 
     // 리뷰 삭제 시 메서드
-    public void DeleteReviewStats(ReviewRating deletedRating) {
+    public void deleteReviewStats(ReviewRating deletedRating) {
         if (reviewCount == null || reviewCount == 0) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_UPDATE);
         }
