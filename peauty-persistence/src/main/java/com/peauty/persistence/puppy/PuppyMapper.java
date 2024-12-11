@@ -1,8 +1,8 @@
 package com.peauty.persistence.puppy;
 
 import com.peauty.domain.puppy.Puppy;
+import com.peauty.domain.puppy.PuppyAgeInfo;
 import com.peauty.persistence.customer.CustomerEntity;
-import com.peauty.persistence.puppy.PuppyEntity;
 
 public class PuppyMapper {
 
@@ -15,8 +15,7 @@ public class PuppyMapper {
                 .breed(puppyEntity.getBreed())
                 .weight(puppyEntity.getWeight())
                 .sex(puppyEntity.getSex())
-                .age(puppyEntity.getAge())
-                .birthdate(puppyEntity.getBirthdate())
+                .puppyAgeInfo(new PuppyAgeInfo(puppyEntity.getBirthdate()))
                 .detail(puppyEntity.getDetail())
                 .disease(puppyEntity.getDisease())
                 .diseaseDescription(puppyEntity.getDiseaseDescription())
@@ -34,8 +33,8 @@ public class PuppyMapper {
                 .breed(puppy.getBreed())
                 .weight(puppy.getWeight())
                 .sex(puppy.getSex())
-                .age(puppy.getAge())
-                .birthdate(puppy.getBirthdate())
+                .birthdate(puppy.getPuppyAgeInfo().getBirthdate())
+                .age(puppy.getPuppyAgeInfo().getSimpeAge())
                 .detail(puppy.getDetail())
                 .disease(puppy.getDisease())
                 .diseaseDescription(puppy.getDiseaseDescription())

@@ -10,6 +10,7 @@ public record GetPuppyProfileResponse(
         String breed,
         Long weight,
         String sex,
+//        String formattedAge,
         Integer age,
         List<String> disease,
         String puppyProfileImageUrl
@@ -22,6 +23,7 @@ public record GetPuppyProfileResponse(
                 result.weight(),
                 result.sex(),
                 result.age(),
+//                result.formattedAge(),
                 result.disease(),
                 result.puppyProfileImageUrl()
         );

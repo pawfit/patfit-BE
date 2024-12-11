@@ -13,7 +13,6 @@ public record UpdatePuppyDetailCommand(
         Breed breed,
         Long weight,
         Sex sex,
-        Integer age,
         LocalDate birthdate,
         String detail,
         List<Disease> disease,

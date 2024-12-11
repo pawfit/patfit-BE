@@ -26,10 +26,21 @@ public class EstimateProposal {
         return Optional.ofNullable(id);
     }
 
+    public String getSimpleGroomingStyle() {
+        if (type.isCleanGrooming()) {
+            return type.getDescription();
+        }
+        String faceType = totalGroomingFaceType.getDescription();
+        String bodyType = totalGroomingBodyType.getBaseStyleName();
+        return faceType +  " + " + bodyType;
+    }
+
     public Profile getProfile() {
         return Profile.builder()
                 .id(id.value())
-                .type(type.getDescription())
+                .style(getSimpleGroomingStyle())
+                .totalGroomingBodyType(totalGroomingBodyType == null ? null : totalGroomingBodyType.getDescription())
+                .totalGroomingFaceType(totalGroomingFaceType == null ? null : totalGroomingFaceType.getDescription())
                 .detail(detail)
                 .imageUrls(images.stream()
                         .map(EstimateProposalImage::getImageUrl)
@@ -37,47 +48,21 @@ public class EstimateProposal {
                 )
                 .desiredCost(desiredCost)
                 .desiredDateTime(desiredDateTime)
-                .totalGroomingBodyType(totalGroomingBodyType == null ? null : totalGroomingBodyType.getDescription())
-                .totalGroomingFaceType(totalGroomingFaceType == null ? null : totalGroomingFaceType.getDescription())
                 .build();
     }
 
     @Builder
     public record Profile(
             Long id,
-            String type,
+            String style,
+            String totalGroomingBodyType,
+            String totalGroomingFaceType,
             String detail,
             List<String> imageUrls,
             Long desiredCost,
-            LocalDateTime desiredDateTime,
-            String totalGroomingBodyType,
-            String totalGroomingFaceType
+            LocalDateTime desiredDateTime
     ) {
     }
-
-
-    public ReviewProfile getReviewProfile() {
-        return ReviewProfile.builder()
-                .id(id.value())
-                .type(type.getDescription())
-                .desiredCost(desiredCost)
-                .desiredDateTime(desiredDateTime)
-                .totalGroomingBodyType(totalGroomingBodyType == null ? null : totalGroomingBodyType.getDescription())
-                .totalGroomingFaceType(totalGroomingFaceType == null ? null : totalGroomingFaceType.getDescription())
-                .build();
-    }
-
-    @Builder
-    public record ReviewProfile(
-            Long id,
-            String type,
-            Long desiredCost,
-            LocalDateTime desiredDateTime,
-            String totalGroomingBodyType,
-            String totalGroomingFaceType
-    ) {
-    }
-
 
     public record ID(Long value) {
         public boolean isSameId(Long id) {
