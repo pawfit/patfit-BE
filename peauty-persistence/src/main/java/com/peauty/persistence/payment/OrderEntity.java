@@ -25,6 +25,10 @@ public class OrderEntity  extends BaseTimeEntity {
     @Column(name = "deposit_price", nullable = false)
     private Long depositPrice;
 
+    @Column(name = "actual_price", nullable = false)
+    private Long actualPrice;
+
+
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;

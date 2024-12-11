@@ -5,8 +5,11 @@ import com.peauty.domain.payment.Payment;
 
 public interface PaymentPort {
     Order saveOrder(Order order);
-    Order getById(Long userId);
+
     Payment getByOrderId(Long paymentId);
+
+    Order findOrderById(Long orderId);
+
     Payment savePayment(Payment payment);
 
     String findWorkspaceNameByThreadId(Long threadId);

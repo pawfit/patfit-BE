@@ -14,6 +14,7 @@ public class Order {
     private Long orderId;
     private Long threadId;
     private Long depositPrice;
+    private Long actualPrice;
     private String uuid;
     private OrderStatus orderStatus;
     private Payment payment;
@@ -22,16 +23,15 @@ public class Order {
         this.depositPrice = depositPrice;
     }
 
-    public void updateOrderUuid() {
+    public void registerOrderUuid() {
         this.uuid = String.valueOf(UUID.randomUUID());
     }
 
-    public void  transferReservationCost(Long cost) {
-        Double halfAmount = cost * 0.5;
-        this.depositPrice = (long) Math.toIntExact(Math.round(halfAmount / 100.0) * 100);
+    public void updateOrderToReady() {
+        this.orderStatus = OrderStatus.READY;
     }
 
-    public void updateOrderStatus() {
-        this.orderStatus = OrderStatus.READY;
+    public void updateOrderToCanceled() {
+        this.orderStatus = OrderStatus.CANCELLED;
     }
 }

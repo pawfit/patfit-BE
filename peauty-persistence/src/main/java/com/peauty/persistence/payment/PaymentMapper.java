@@ -9,6 +9,7 @@ public class PaymentMapper {
         return OrderEntity.builder()
                 .threadId(order.getThreadId())
                 .depositPrice(order.getDepositPrice())
+                .actualPrice(order.getActualPrice())
                 .uuid(order.getUuid())
                 .orderStatus(order.getOrderStatus())
                 .build();
@@ -18,6 +19,7 @@ public class PaymentMapper {
         return Order.builder()
                 .orderId(orderEntity.getId())
                 .depositPrice(orderEntity.getDepositPrice())
+                .actualPrice(orderEntity.getActualPrice())
                 .threadId(orderEntity.getThreadId())
                 .uuid(orderEntity.getUuid())
                 .payment(payment)

@@ -11,6 +11,7 @@ import com.peauty.persistence.bidding.process.BiddingProcessRepository;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BiddingProcessAdapter implements BiddingProcessPort {
@@ -49,6 +51,7 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
 
     @Override
     public BiddingProcess getProcessByProcessId(Long processId) {
+        log.info("process_id {}", processId);
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
         List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
