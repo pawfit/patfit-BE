@@ -1,5 +1,7 @@
 package com.peauty.domain.payment;
 
+import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -61,5 +63,22 @@ public class Payment {
 
     public void updateUuid(String paymentUuid) {
         this.paymentUuid = paymentUuid;
+    }
+
+    public void validatePrice(Long actualPrice, Long estimatePrice) {
+        if(actualPrice == null || estimatePrice == null) {
+            throw new PeautyException(PeautyResponseCode.NOT_FOUND_ACTUAL_PRICE);
+        }
+//        else if(estimatePrice != actualPrice) {
+//            throw new PeautyException(PeautyResponseCode.PAYMENT_AMOUNT_NOT_EQUALS);
+//        }
+//        else if(estimatePrice == actualPrice) {
+//            transferReservationCost(estimatePrice);
+//        }
+    }
+
+    public void transferReservationCost(Long price) {
+        Double depositPrice = price * 0.5;
+        this.depositPrice = (long) Math.toIntExact(Math.round(depositPrice / 100.0) * 100);
     }
 }
