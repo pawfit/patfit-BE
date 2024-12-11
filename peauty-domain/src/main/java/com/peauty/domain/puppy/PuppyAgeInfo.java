@@ -10,7 +10,7 @@ import java.time.Period;
 @EqualsAndHashCode
 public class PuppyAgeInfo {
 
-    private final LocalDate birthdate;
+    private LocalDate birthdate;
 
     public PuppyAgeInfo(LocalDate birthdate) {
         if (birthdate == null ) {
@@ -48,5 +48,7 @@ public class PuppyAgeInfo {
         return birthdate;
     }
 
-
+    public void updateBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
 }

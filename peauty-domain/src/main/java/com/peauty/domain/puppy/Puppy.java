@@ -21,7 +21,6 @@ public class Puppy {
     private Long weight;                // 무게
     private Sex sex;                    // 성별
     private PuppyAgeInfo puppyAgeInfo;                // 나이
-//    private LocalDate birthdate;        // 생일
     private String detail;              // 특이사항
     private List<Disease> disease;      // 질병
     private String diseaseDescription;  // 기타 질병사항
@@ -74,24 +73,9 @@ public class Puppy {
         this.puppySize = puppySize;
     }
 
-    public void updateAge(LocalDate birthdate) {
-        this.puppyAgeInfo = new PuppyAgeInfo(birthdate);
-    }
-
-    public int getAgeInYears() {
-        return puppyAgeInfo.getYears();
-    }
-
-    public String getFormattedAge() {
-        return puppyAgeInfo.getFormattedAge();
-    }
-
-    public LocalDate getBirthdate() {
-        return puppyAgeInfo.getBirthdate();
-    }
 
     public void updateBirthdate(LocalDate birthdate) {
-        this.puppyAgeInfo = new PuppyAgeInfo(birthdate);
+        puppyAgeInfo.updateBirthdate(birthdate);
     }
 
     public Profile getProfile() {
@@ -102,8 +86,8 @@ public class Puppy {
                 breed.getBreedName(),
                 weight,
                 sex.getDescription(),
-                getAgeInYears(),
-                getBirthdate(),
+                puppyAgeInfo.getYears(),
+                puppyAgeInfo.getBirthdate(),
                 profileImageUrl,
                 puppySize.getDescription()
         );

@@ -28,14 +28,14 @@ public record RegisterPuppyResult(
                 puppy.getBreed().getBreedName(),
                 puppy.getWeight(),
                 puppy.getSex().name(),
-                puppy.getBirthdate(),
+                puppy.getPuppyAgeInfo().getBirthdate(),
                 puppy.getDetail(),
                 puppy.getDisease().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
                 puppy.getPuppySize().getDescription(),
-                puppy.getAgeInYears(),
-                puppy.getFormattedAge()
+                puppy.getPuppyAgeInfo().getYears(),
+                puppy.getPuppyAgeInfo().getFormattedAge()
         );
     }
 }
