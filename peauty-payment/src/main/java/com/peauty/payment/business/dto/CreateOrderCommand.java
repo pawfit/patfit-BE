@@ -6,6 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateOrderCommand(
+        Long price,
         Long depositPrice,
         Boolean orderStatus,
         String orderDate
@@ -15,6 +16,7 @@ public record CreateOrderCommand(
             Long userId, Long processId, Long threadId, Payment paymentToSave) {
         return Order.builder()
                 .depositPrice(depositPrice)
+                .actualPrice(price)
                 .orderId(userId)
                 .threadId(threadId)
                 .uuid(null)
