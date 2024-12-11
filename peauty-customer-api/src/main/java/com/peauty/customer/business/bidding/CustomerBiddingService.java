@@ -24,7 +24,13 @@ public interface CustomerBiddingService {
             Long threadId
     );
 
-    GetEstimateDesignerProfilesResult getEstimateDesignerProfiles(
+    GetEstimateDesignerWorkspaceProfilesResult getEstimateDesignerWorkspaceProfiles(
+            Long userId,
+            Long puppyId,
+            Long processId
+    );
+
+    GetEstimateProposalDetailResult getEstimateProposalDetail(
             Long userId,
             Long puppyId,
             Long processId
