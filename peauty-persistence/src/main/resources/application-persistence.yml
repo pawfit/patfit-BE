@@ -47,7 +47,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update # TODO none 으로 바꾸기
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
