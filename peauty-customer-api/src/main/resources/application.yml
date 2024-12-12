@@ -25,6 +25,7 @@ spring:
 server:
   port: 8080
   shutdown: graceful
+  domain: http://localhost:8080
 
 springdoc:
   swagger-ui:
@@ -41,13 +42,10 @@ spring:
       on-profile:
         - customer-dev
 
-logging:
-  level:
-    root: warn
-
 server:
   port: 8080
   shutdown: graceful
+  domain: https://customer-dev.peauty.click
 
 springdoc:
   swagger-ui:
@@ -57,17 +55,21 @@ springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
+logging:
+  level:
+    root: warn
+
 ---
 spring:
   config:
     activate:
       on-profile: customer-prod
 
-logging:
-  level:
-    root: warn
-
-
 server:
   port: 8080
   shutdown: graceful
+  domain: https://customer.peauty.click
+
+logging:
+  level:
+    root: warn
