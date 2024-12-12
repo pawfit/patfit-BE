@@ -1,6 +1,7 @@
 package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.customer.dto.*;
+import com.peauty.customer.business.workspace.dto.GetDesignerWorkspaceResult;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CustomerService {

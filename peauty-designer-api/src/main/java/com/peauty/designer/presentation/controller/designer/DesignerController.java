@@ -54,12 +54,13 @@ public class DesignerController {
         return CreateDesignerWorkspaceResponse.from(result);
     }
 
-    @GetMapping(value = "/{userId}/shop")
-    @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
-    public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
-        GetDesignerWorkspaceResult result = designerService.getDesignerWorkspace(userId);
-        return GetDesignerWorkspaceResponse.from(result);
-    }
+//    Designer모듈에서 Customer 모듈로 이동했습니다. 혹시 몰라서 컨트롤러만 막아 둡니다.
+//    @GetMapping(value = "/{userId}/shop")
+//    @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
+//    public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
+//        GetDesignerWorkspaceResult result = designerService.getDesignerWorkspace(userId);
+//        return GetDesignerWorkspaceResponse.from(result);
+//    }
 
     @PutMapping(value = "/{userId}/shop")
     @Operation(summary = "디자이너 워크 스페이스 수정", description = "디자이너 워크 스페이스 수정 API 진입점입니다.")

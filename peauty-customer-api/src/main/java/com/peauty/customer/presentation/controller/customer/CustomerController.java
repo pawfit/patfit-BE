@@ -2,11 +2,10 @@ package com.peauty.customer.presentation.controller.customer;
 
 import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
+import com.peauty.customer.business.workspace.WorkspaceService;
+import com.peauty.customer.business.workspace.dto.GetDesignerWorkspaceResult;
 import com.peauty.customer.business.review.ReviewService;
-import com.peauty.customer.business.review.dto.RegisterReviewResult;
 import com.peauty.customer.presentation.controller.customer.dto.*;
-import com.peauty.customer.presentation.controller.review.dto.RegisterReviewRequest;
-import com.peauty.customer.presentation.controller.review.dto.RegisterReviewResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final ReviewService reviewService;
+    private final WorkspaceService workspaceService;
 
     @PostMapping(value = "/users/{userId}/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "고객 프로필 이미지 업로드", description = "고객의 프로필 이미지 업로드 API 진입점입니다.")
@@ -66,6 +66,13 @@ public class CustomerController {
     public GetDesignerBadgesForCustomerResponse getDesignerBadgesForCustomer(@PathVariable Long designerId) {
         GetDesignerBadgesForCustomerResult result = customerService.getDesignerBadgesByCustomer(designerId);
         return GetDesignerBadgesForCustomerResponse.from(result);
+    }
+
+    @GetMapping(value = "/{userId}/shop")
+    @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
+    public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
+        GetDesignerWorkspaceResult result = workspaceService.getWorkspaceDetail(userId);
+        return GetDesignerWorkspaceResponse.from(result);
     }
 
 /*    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")

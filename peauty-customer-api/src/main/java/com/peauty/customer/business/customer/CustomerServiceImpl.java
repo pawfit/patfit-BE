@@ -2,6 +2,7 @@ package com.peauty.customer.business.customer;
 
 import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.business.designer.DesignerPort;
+import com.peauty.customer.business.workspace.dto.GetDesignerWorkspaceResult;
 import com.peauty.customer.business.internal.InternalPort;
 import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.customer.Customer;
@@ -119,4 +120,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return GetDesignerBadgesForCustomerResult.from(acquiredBadges, representativeBadges);
     }
+
+
+
 }
