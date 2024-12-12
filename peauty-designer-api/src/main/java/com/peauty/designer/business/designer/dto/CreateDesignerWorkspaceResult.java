@@ -25,7 +25,7 @@ public record CreateDesignerWorkspaceResult(
         String openDays,
         String directionGuide,
         List<String> licenses,
-        List<PaymentOption> paymentOptions,
+        List<String> paymentOptions,
         List<String> representativeBadgeNames
 ) {
 
@@ -60,7 +60,7 @@ public record CreateDesignerWorkspaceResult(
                 workspace.getOpenDays(),
                 workspace.getDirectionGuide(),
                 licenses,
-                workspace.getPaymentOptions(),
+                workspace.getPaymentOptions().stream().map(PaymentOption::getOptionName).toList(),
                 badges
         );
     }

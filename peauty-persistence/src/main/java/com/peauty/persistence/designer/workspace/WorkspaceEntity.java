@@ -47,21 +47,21 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "banner_image_url")
     private String bannerImageUrl;
 
-    @Column(name = "open_hours", length = 10, nullable = false)
+    @Column(name = "open_hours",  nullable = false)
     private String openHours;
 
-    @Column(name = "close_hours", length = 10, nullable = false)
+    @Column(name = "close_hours", nullable = false)
     private String closeHours;
 
-    @Column(name = "open_days", length = 10, nullable = false)
+    @Column(name = "open_days",  nullable = false)
     private String openDays;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_options", length = 255, nullable = false)
+    @Column(name = "payment_options", nullable = false)
     private List<PaymentOption> paymentOptions;
 
-    @Column(name = "direction_guide", length = 255, nullable = false)
+    @Column(name = "direction_guide", nullable = false)
     private String directionGuide;
 
     @Column(name = "review_count", nullable = false)

@@ -22,11 +22,16 @@ spring:
         web-allow-others: true
   jpa:
     hibernate:
-      ddl-auto: update  # 애플리케이션이 시작될 때 DB 스키마를 자동으로 업데이트
+      ddl-auto: create  # 애플리케이션이 시작될 때 DB 스키마를 자동으로 업데이트
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect  # H2에 맞는 Hibernate dialect 설정
     show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      data-locations: classpath:properties/*.sql
+      mode: always
 
 ---
 spring:
