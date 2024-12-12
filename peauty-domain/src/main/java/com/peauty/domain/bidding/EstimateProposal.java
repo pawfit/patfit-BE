@@ -16,7 +16,7 @@ public class EstimateProposal {
     @Getter private String detail;
     @Getter private List<EstimateProposalImage> images;
     @Getter private Long desiredCost;
-    @Getter private LocalDateTime desiredDateTime;
+    @Getter private String desiredDateTime;
 
     // can be null depends on grooming type
     @Getter private TotalGroomingBodyType totalGroomingBodyType;
@@ -60,7 +60,7 @@ public class EstimateProposal {
             String detail,
             List<String> imageUrls,
             Long desiredCost,
-            LocalDateTime desiredDateTime
+            String desiredDateTime
     ) {
     }
 
