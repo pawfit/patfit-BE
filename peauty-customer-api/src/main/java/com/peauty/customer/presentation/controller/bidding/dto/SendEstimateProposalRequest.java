@@ -14,7 +14,7 @@ public record SendEstimateProposalRequest(
         String detail,
         List<String> imageUrls,
         Long desiredCost,
-        LocalDateTime desiredDateTime,
+        String desiredDateTime,
         TotalGroomingBodyType totalGroomingBodyType,
         TotalGroomingFaceType totalGroomingFaceType
 ) {
