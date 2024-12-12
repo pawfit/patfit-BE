@@ -2,7 +2,6 @@ package com.peauty.designer.implementation.bidding;
 
 import com.peauty.designer.business.bidding.BiddingProcessPort;
 import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.BiddingProcessStatus;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.bidding.mapper.BiddingMapper;
@@ -11,13 +10,12 @@ import com.peauty.persistence.bidding.process.BiddingProcessRepository;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BiddingProcessAdapter implements BiddingProcessPort {

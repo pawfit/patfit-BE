@@ -1,0 +1,8 @@
+spring:
+  config:
+    import:
+      - optional:file:.env[.properties]
+
+iamport:
+  api-key: ${IAMPORT_API_KEY}
+  api-secret: ${IAMPORT_API_SECRET_KEY}
