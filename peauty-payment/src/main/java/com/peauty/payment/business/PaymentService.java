@@ -8,10 +8,12 @@ import com.peauty.payment.business.dto.CreateOrderResult;
 public interface PaymentService {
     CreateOrderResult saveOrder(
             Long userId,
-            Long threadId,
-            Long processId, CreateOrderCommand command);
-    CompletePaymentCallbackResult completePayment(
+            Long puppyId,
+            Long processId,
+            Long threadId, CreateOrderCommand command);
+    CompletePaymentCallbackResult acceptEstimate(
             Long userId,
+            Long puppyId,
             Long threadId,
             Long processId, CompletePaymentCallbackCommand command);
 }

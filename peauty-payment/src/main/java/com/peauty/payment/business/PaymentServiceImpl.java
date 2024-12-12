@@ -1,5 +1,7 @@
 package com.peauty.payment.business;
 
+import com.peauty.domain.bidding.BiddingProcess;
+import com.peauty.domain.bidding.BiddingThread;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.payment.Order;
 import com.peauty.domain.payment.Payment;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -27,16 +30,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentPort paymentPort;
     private final IamportClient iamportClient;
+    private final BiddingProcessPort biddingProcessPort;
+    private final PuppyPort puppyPort;
 
     // TODO. 1. 사전 검증 -> 추후에 제대로 수정
     @Transactional
     @Override
-    public CreateOrderResult saveOrder(Long userId,  Long processId, Long threadId,CreateOrderCommand command) {
+    public CreateOrderResult saveOrder(
+            Long userId, Long puppyId, Long processId, Long threadId,
+            CreateOrderCommand command) {
+
         // TODO: 유저 검증
         // TODO: 요청서 & 견적서 정보 검증 (요청서, 견적서가 DB에 있는지 검증)
         Payment paymentToSave = Payment.initializePayment(command.depositPrice());
 
-        log.info("userId {}, processId {}, threadId {}", userId, processId, threadId);
         Order orderToSave = command.toDomain(
                 userId, processId, threadId,
                 paymentToSave);
@@ -59,12 +66,14 @@ public class PaymentServiceImpl implements PaymentService {
     // TODO: 2. 사후 검증 - 포트원에서 결제 정보 가져오기
     @Transactional
     @Override
-    public CompletePaymentCallbackResult completePayment(
-            Long userId, Long threadId, Long processId,
+    public CompletePaymentCallbackResult acceptEstimate(
+            Long userId, Long puppyId, Long processId,Long threadId,
             CompletePaymentCallbackCommand command) {
 
         Order order = paymentPort.findOrderById(command.orderId());
         Payment paymentToValidate = order.getPayment();
+        BiddingProcess processToChangeStatus = biddingProcessPort.getProcessByProcessId(processId);
+
         try {
             com.siot.IamportRestClient.response.Payment iamportResponse =
                     iamportClient.paymentByImpUid(command.paymentUuid()).getResponse();
@@ -73,30 +82,42 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 1. 포트원에서는 제대로 결제가 되었는지 확인하기
             if (paymentToValidate.checkIfPaymentFailed(iamportPaymentStatus)) {
-                order.updateOrderToReady();
+                order.updateOrderToCanceled();
                 paymentToValidate.updateStatusToCancel();
+                processToChangeStatus.cancelThread(new BiddingThread.ID(threadId));
                 paymentPort.savePayment(paymentToValidate);
             }
 
             // 2. 포트원의 정보와 내가 저장한 값이 같은지 확인하기
-            log.info("payment price: {}\n actualAmount: {}", paymentToValidate.getDepositPrice(), actualAmount);
-            // TODO. chekcIfPaymentPriceEquals 조금 더 직관적인 메서드명으로 리팩토링하기
+            // TODO. checkIfPaymentPriceEquals 조금 더 직관적인 메서드명으로 리팩토링하기
             if (!paymentToValidate.checkIfPaymentPriceEquals(actualAmount)) {
-                order.updateOrderToReady();
+                order.updateOrderToCanceled();
                 paymentToValidate.updateStatusToCancel();
                 paymentPort.savePayment(paymentToValidate);
-
+                processToChangeStatus.cancelThread(new BiddingThread.ID(threadId));
                 iamportClient.cancelPaymentByImpUid(new CancelData(iamportResponse.getImpUid()
                         , true, new BigDecimal(actualAmount)));
                 throw new PeautyException(PeautyResponseCode.PAYMENT_AMOUNT_NOT_EQUALS);
             }
 
-            // 3. 검증 완료 후, Payment 값 저장, 화면에 필요한 데이터 조회
+            // 3. 검증 완료 후, Payment, Order 상태 변화, 화면에 필요한 데이터 조회
             paymentToValidate.updateUuid(command.paymentUuid());
             paymentToValidate.updateStatusToComplete();
+            order.updateOrderToCompleted();
+
+            // 4. 프로세스 - 쓰레드 상태 변화
+            puppyPort.verifyPuppyOwnership(puppyId, userId);
+            BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppyId);
+            process.reserveThread(new BiddingThread.ID(threadId));
+            BiddingProcess savedProcess = biddingProcessPort.save(process);
+            BiddingThread reservedThread = savedProcess.getThread(new BiddingThread.ID(threadId));
+
+            // 5. Payment - Order DB 저장
+            order.updatePayment(paymentToValidate);
+            paymentPort.saveOrder(order);
             Payment savedPayment = paymentPort.savePayment(paymentToValidate);
-            String workspaceName = paymentPort.findWorkspaceNameByThreadId(threadId);
-            Long actualPrice = paymentPort.findActualPriceByThreadId(threadId);
+            String workspaceName = paymentPort.findWorkspaceNameByThreadId(reservedThread.getSavedThreadId().value());
+            Long actualPrice = paymentPort.findActualPriceByThreadId(reservedThread.getSavedThreadId().value());
 
             return CompletePaymentCallbackResult.from(savedPayment, workspaceName, threadId, actualPrice);
         } catch (IamportResponseException | IOException e) {
