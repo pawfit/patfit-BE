@@ -5,13 +5,20 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.List;
+
 @Configuration
 @Profile({"customer-local", "customer-dev"})
 public class SwaggerConfig {
+
+    @Value("${server.domain}")
+    private String domain;
 
     @Bean
     public OpenAPI openAPI() {
@@ -20,7 +27,10 @@ public class SwaggerConfig {
                 .version("v.0.1.0")
                 .description("API 명세서");
 
-        // Security 스키마 설정
+        Server server = new Server()
+                .url(domain)
+                .description("Server URL");
+
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
@@ -28,12 +38,12 @@ public class SwaggerConfig {
                 .in(SecurityScheme.In.HEADER)
                 .name("Authorization");
 
-        // Security 요청 설정
         SecurityRequirement securityRequirement = new SecurityRequirement()
                 .addList("bearerAuth");
 
         return new OpenAPI()
                 .info(info)
+                .servers(List.of(server))
                 .addSecurityItem(securityRequirement)
                 .components(new Components().addSecuritySchemes("bearerAuth", securityScheme));
     }
