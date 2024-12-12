@@ -3,6 +3,7 @@ package com.peauty.customer.presentation.controller.customer;
 import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
 import com.peauty.customer.business.workspace.WorkspaceService;
+import com.peauty.customer.business.workspace.dto.GetAroundWorkspacesResult;
 import com.peauty.customer.business.workspace.dto.GetDesignerWorkspaceResult;
 import com.peauty.customer.business.review.ReviewService;
 import com.peauty.customer.presentation.controller.customer.dto.*;
@@ -57,7 +58,7 @@ public class CustomerController {
     @GetMapping("/users/{userId}/serach")
     @Operation(summary = "주변 디자이너 매장 조회", description = "고객 주소와 같은 디자이너의 매장을 조회하는 API 진입점입니다.")
     public GetAroundWorkspacesResponse getAroundWorkspaces(@PathVariable Long userId) {
-        GetAroundWorkspacesResult result = customerService.getAroundWorkspaces(userId);
+        GetAroundWorkspacesResult result = workspaceService.getAroundWorkspaces(userId);
         return GetAroundWorkspacesResponse.from(result);
     }
 
@@ -71,7 +72,7 @@ public class CustomerController {
     @GetMapping(value = "/{userId}/shop")
     @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
     public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
-        GetDesignerWorkspaceResult result = workspaceService.getWorkspaceDetail(userId);
+        GetDesignerWorkspaceResult result = workspaceService.getWorkspaceDetails(userId);
         return GetDesignerWorkspaceResponse.from(result);
     }
 
@@ -90,5 +91,4 @@ public class CustomerController {
                 request.toCommand());
         return RegisterReviewResponse.from(result);
     }*/
-
 }
