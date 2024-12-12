@@ -27,22 +27,24 @@ public class CustomerBiddingController {
         return SendEstimateProposalResponse.from(result);
     }
 
-    @PostMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/accept")
-    @Operation(summary = "견적 수락", description = "디자이너가 제안한 견적을 수락합니다.")
-    public AcceptEstimateResponse acceptEstimate(
-            @PathVariable Long userId,
-            @PathVariable Long puppyId,
-            @PathVariable Long processId,
-            @PathVariable Long threadId
-    ) {
-        AcceptEstimateResult result = customerBiddingService.acceptEstimate(
-                userId,
-                puppyId,
-                processId,
-                threadId
-        );
-        return AcceptEstimateResponse.from(result);
-    }
+    // Payment가 생기면서 사용하면 안되는 컨트롤러
+
+//    @PostMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/accept")
+//    @Operation(summary = "견적 수락", description = "디자이너가 제안한 견적을 수락합니다.")
+//    public AcceptEstimateResponse acceptEstimate(
+//            @PathVariable Long userId,
+//            @PathVariable Long puppyId,
+//            @PathVariable Long processId,
+//            @PathVariable Long threadId
+//    ) {
+//        AcceptEstimateResult result = customerBiddingService.acceptEstimate(
+//                userId,
+//                puppyId,
+//                processId,
+//                threadId
+//        );
+//        return AcceptEstimateResponse.from(result);
+//    }
 
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}")
     @Operation(summary = "견적요청서 & 견적서 상세정보 조회", description = "해당하는 견적요청서와 견적서의 상세정보를 조회합니다.")
