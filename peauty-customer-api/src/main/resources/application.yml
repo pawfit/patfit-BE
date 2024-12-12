@@ -10,6 +10,11 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+iamport:
+  api-key: ${IAMPORT_API_KEY}
+  api-secret-key: ${IAMPORT_API_SECRET_KEY}
+
+
 ---
 spring:
   config:
@@ -20,7 +25,6 @@ spring:
 server:
   port: 8080
   shutdown: graceful
-
 
 springdoc:
   swagger-ui:

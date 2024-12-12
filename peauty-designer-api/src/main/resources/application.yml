@@ -17,7 +17,7 @@ spring:
       on-profile: designer-local
 
 server:
-  port: 8081
+  port: 8080
   shutdown: graceful
 
 springdoc:
@@ -35,12 +35,8 @@ spring:
       on-profile: designer-dev
 
 server:
-  port: 8080
+  port: 8081
   shutdown: graceful
-
-logging:
-  level:
-    root: warn
 
 springdoc:
   swagger-ui:
@@ -49,6 +45,10 @@ springdoc:
     operations-sorter: alpha  # API 정렬
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
+logging:
+  level:
+    root: warn
 
 ---
 spring:

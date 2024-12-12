@@ -6,6 +6,12 @@ jar {
     enabled = false
 }
 
+repositories {
+    mavenCentral()
+    maven {url 'https://jitpack.io'}
+}
+
+
 dependencies {
     implementation(project(':peauty-persistence'))
     implementation(project(':peauty-domain'))
@@ -20,5 +26,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // TODO. 페이먼트 모듈에만 Iamport 의존성이 있도록 하기
+    implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.22'
 
 }

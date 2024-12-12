@@ -2,7 +2,7 @@ package com.peauty.domain.payment;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -13,31 +13,25 @@ import java.time.LocalDateTime;
 public class Order {
     private Long orderId;
     private Long threadId;
-    private Integer cost;
-    private Boolean isPaymentCompleted;
-    private LocalDateTime orderDate;
-    private String orderUuid;
+    private Long depositPrice;
+    private Long actualPrice;
+    private String uuid;
+    private OrderStatus orderStatus;
+    private Payment payment;
 
-    public void updateCost(Integer cost) {
-        this.cost = cost;
+    public void updateDepositPrice(Long depositPrice) {
+        this.depositPrice = depositPrice;
     }
 
-    public void updatePaymentStatus(Boolean paymentStatus) {
-        this.isPaymentCompleted = paymentStatus;
+    public void registerOrderUuid() {
+        this.uuid = String.valueOf(UUID.randomUUID());
     }
 
-    public void updateOrderUuid(String orderUuid) {
-        this.orderUuid = orderUuid;
+    public void updateOrderToReady() {
+        this.orderStatus = OrderStatus.READY;
     }
 
-    public void updateOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
+    public void updateOrderToCanceled() {
+        this.orderStatus = OrderStatus.CANCELLED;
     }
-
-    public void transferReservationCost(Integer cost) {
-        Double halfAmount = cost * 0.5;
-        // this.cost = (Integer) (Math.round(halfAmount/ 100.0) * 100);
-        this.cost = Math.toIntExact(Math.round(halfAmount / 100.0) * 100);
-    }
-
 }

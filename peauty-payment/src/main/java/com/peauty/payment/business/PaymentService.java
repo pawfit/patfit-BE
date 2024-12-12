@@ -1,17 +1,17 @@
 package com.peauty.payment.business;
 
-import com.peauty.payment.business.dto.CompletePaymentCommand;
-import com.peauty.payment.business.dto.CompletePaymentResult;
-import com.peauty.payment.business.dto.OrderCommand;
-import com.peauty.payment.business.dto.OrderResult;
+import com.peauty.payment.business.dto.CompletePaymentCallbackCommand;
+import com.peauty.payment.business.dto.CompletePaymentCallbackResult;
+import com.peauty.payment.business.dto.CreateOrderCommand;
+import com.peauty.payment.business.dto.CreateOrderResult;
 
 public interface PaymentService {
-    OrderResult saveOrder(
+    CreateOrderResult saveOrder(
             Long userId,
             Long threadId,
-            Long processId, OrderCommand command);
-    CompletePaymentResult completePayment(
+            Long processId, CreateOrderCommand command);
+    CompletePaymentCallbackResult completePayment(
             Long userId,
             Long threadId,
-            Long processId, CompletePaymentCommand command);
+            Long processId, CompletePaymentCallbackCommand command);
 }
