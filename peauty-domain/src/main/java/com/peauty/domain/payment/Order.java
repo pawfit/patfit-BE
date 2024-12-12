@@ -34,4 +34,11 @@ public class Order {
     public void updateOrderToCanceled() {
         this.orderStatus = OrderStatus.CANCELLED;
     }
+
+    public void updatePayment(Payment paymentToValidate) {
+        this.payment = paymentToValidate;
+    }
+    public void updateOrderToCompleted() {
+        this.orderStatus = OrderStatus.COMPLETED;
+    }
 }
