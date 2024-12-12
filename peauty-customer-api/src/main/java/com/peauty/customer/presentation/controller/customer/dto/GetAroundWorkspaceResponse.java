@@ -1,9 +1,8 @@
 package com.peauty.customer.presentation.controller.customer.dto;
 
-import com.peauty.customer.business.customer.dto.GetAroundWorkspaceResult;
+import com.peauty.customer.business.workspace.dto.GetAroundWorkspaceResult;
 import com.peauty.domain.designer.BadgeColor;
 import com.peauty.domain.designer.BadgeType;
-import com.peauty.domain.designer.Scissors;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.peauty.customer.business.customer.dto;
+package com.peauty.customer.business.workspace.dto;
 
 import com.peauty.domain.customer.Customer;
 

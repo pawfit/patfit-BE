@@ -1,6 +1,6 @@
 package com.peauty.customer.presentation.controller.customer.dto;
 
-import com.peauty.customer.business.customer.dto.GetAroundWorkspacesResult;
+import com.peauty.customer.business.workspace.dto.GetAroundWorkspacesResult;
 
 import java.util.List;
 

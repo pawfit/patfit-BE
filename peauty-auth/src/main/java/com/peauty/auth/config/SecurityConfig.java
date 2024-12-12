@@ -64,7 +64,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         "/webjars/**",
                         "/h2-console/**",
                         "/actuator/**",
-                        "/static/"
+                        "/static/**"
                 ).permitAll()
                 .requestMatchers(
                         "/sign-out"
