@@ -11,4 +11,6 @@ public interface ReviewPort {
     Review saveReview(Review review);
 
     void deleteReviewById(Long reviewId);
+
+    Review getReviewByIdAndBiddingThreadId(Long id, Long biddingThreadId);
 }
