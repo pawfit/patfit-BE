@@ -49,7 +49,7 @@ public record CreateDesignerWorkspaceResponse(
         @Schema(description = "자격증 이미지 URL들", example = "[\"자격증 이미지 url1\", \"자격증 이미지 url2\"]")
         List<String> licenses,
         @Schema(description = "결제 방식", example = "[\"계좌 이체\", \"현금 결제\", \"카드 결제\"]")
-        List<PaymentOption> paymentOptions,
+        List<String> paymentOptions,
         @Schema(description = "대표 배지 이름들", example = "[\"사업자 등록 인증\", \"말티즈 전문가\"]")
         List<String> representativeBadgeNames
 ) {

@@ -40,6 +40,7 @@ public record UpdateDesignerWorkspaceCommand(
                 .closeHours(command.closeHours())
                 .openDays(command.openDays())
                 .directionGuide(command.directionGuide())
+                .phoneNumber(command.phoneNumber())
                 .build();
     }
 

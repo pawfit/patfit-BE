@@ -26,7 +26,7 @@ public record UpdateDesignerWorkspaceResult(
         String openDays,
         String directionGuide,
         List<String> licenses,
-        List<PaymentOption> paymentOptions,
+        List<String> paymentOptions,
         List<String> representativeBadgeNames
 ) {
     public static UpdateDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
@@ -55,7 +55,7 @@ public record UpdateDesignerWorkspaceResult(
                 workspace.getOpenDays(),
                 workspace.getDirectionGuide(),
                 licenses,
-                workspace.getPaymentOptions(),
+                workspace.getPaymentOptions().stream().map(PaymentOption::getOptionName).toList(),
                 designer.getBadges().stream()
                         .map(Badge::getBadgeName) // Badge 객체에서 badgeName만 추출
                         .collect(Collectors.toList())

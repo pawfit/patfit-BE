@@ -38,7 +38,7 @@ public record CreateDesignerWorkspaceRequest(
         @Schema(description = "자격증 이미지 URL 목록", example = "[\"자격증 이미지 url1\", \"자격증 이미지 url2\"]")
         List<String> licenses,
 
-        @Schema(description = "결제 방식 목록", example = "[\"ACCOUNT\"]")
+        @Schema(description = "결제 방식 목록", example = "[\"ACCOUNT\", \"CARD\"]")
         List<PaymentOption> paymentOptions,
 
         @Schema(description = "영업 시작 시간", example = "10:00")
@@ -53,7 +53,7 @@ public record CreateDesignerWorkspaceRequest(
         @Schema(description = "방향 안내", example = "방향 안내 내용")
         String directionGuide,
 
-        @Schema(description = "전화번호", example = "01012341234")
+        @Schema(description = "전화번호", example = "010-1234-1234")
         String phoneNumber
 ) {
     public CreateDesignerWorkspaceCommand toCommand() {
@@ -74,7 +74,6 @@ public record CreateDesignerWorkspaceRequest(
                 this.openDays,
                 this.directionGuide,
                 this.phoneNumber
-
         );
     }
 }

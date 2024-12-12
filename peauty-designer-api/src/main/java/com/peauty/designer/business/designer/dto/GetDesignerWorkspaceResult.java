@@ -26,7 +26,7 @@ public record GetDesignerWorkspaceResult(
         String openDays,
         String directionGuide,
         List<String> licenses,
-        List<PaymentOption> paymentOptions,
+        List<String> paymentOptions,
         List<String> representativeBadgeNames
 ) {
     public static GetDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
@@ -55,7 +55,7 @@ public record GetDesignerWorkspaceResult(
                 workspace.getOpenDays(),
                 workspace.getDirectionGuide(),
                 licenses,
-                workspace.getPaymentOptions(),
+                workspace.getPaymentOptions().stream().map(PaymentOption::getOptionName).toList(),
                 designer.getBadges().stream()
                         .map(Badge::getBadgeName)
                         .collect(Collectors.toList())
