@@ -28,7 +28,6 @@ public class DesignerAdapter implements DesignerPort {
     // TODO : 포트가 포트가 물고 있는 구조 -> 리팩토링 필수!
     private final WorkspacePort workspacePort;
 
-
     @Override
     public List<Badge> getRepresentativeBadges(Long userId) {
         List<Long> badgeIds = designerBadgeRepository.findRepresentativeBadgeIdsByDesignerId(userId);

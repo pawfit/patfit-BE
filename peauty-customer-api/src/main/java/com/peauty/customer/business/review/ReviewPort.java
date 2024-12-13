@@ -13,4 +13,5 @@ public interface ReviewPort {
     void deleteReviewById(Long reviewId);
 
     Review getReviewByIdAndBiddingThreadId(Long id, Long biddingThreadId);
+    Boolean existsByBiddingThreadId(Long biddingThreadId);
 }

@@ -69,5 +69,8 @@ public class ReviewAdapter implements ReviewPort {
 
     }
 
-
+    @Override
+    public Boolean existsByBiddingThreadId(Long biddingThreadId) {
+        return reviewRepository.existsByBiddingThreadId(biddingThreadId);
+    }
 }
