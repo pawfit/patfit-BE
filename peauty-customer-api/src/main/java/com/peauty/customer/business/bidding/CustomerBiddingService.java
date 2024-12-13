@@ -37,4 +37,10 @@ public interface CustomerBiddingService {
     );
 
     GetAllCompletedProcessResult getAllCompletedProcess(Long userId);
+
+    GetSpecificStepThreadsFromPuppiesAllProcessResult getSpecificStepThreadsFromPuppiesAllProcess(
+            Long userId,
+            Long puppyId,
+            Long threadStep
+    );
 }

@@ -137,4 +137,23 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                                 }
                         ).toList());
     }
+
+    @Override
+    public GetSpecificStepThreadsFromPuppiesAllProcessResult getSpecificStepThreadsFromPuppiesAllProcess(
+            Long userId,
+            Long puppyId,
+            Long threadStep
+    ) {
+        return GetSpecificStepThreadsFromPuppiesAllProcessResult.from(
+                biddingProcessPort.getProcessByPuppyId(puppyId).getThreads().stream()
+                        .filter(thread -> thread.getStep().getStep() == threadStep)
+                        .map(thread -> thread.getProfile(
+                                designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
+                                estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value())
+                                        .map(Estimate::getProfile)
+                                        .orElse(null),
+                                reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value())
+                        )).toList()
+        );
+    }
 }

@@ -76,6 +76,21 @@ public class CustomerBiddingController {
         return GetEstimateDesignerWorkspaceProfilesResponse.from(result);
     }
 
+    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/threads")
+    @Operation(summary = "강아지의 모든 입찰 프로세스에 속해있는 스레드 중 특정 스텝 스레드 조회.", description = "해당하는 강아지의 모든 입찰 프로세스에 속해있는 스레드 중에서 쿼리파라미터로 넘어온 스텝의 스레드들을 가져옵니다.")
+    public GetSpecificStepThreadsFromPuppiesAllProcessResponse getSpecificStepThreadsFromPuppiesAllProcess(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @RequestParam Long threadStep
+    ) {
+        GetSpecificStepThreadsFromPuppiesAllProcessResult result = customerBiddingService.getSpecificStepThreadsFromPuppiesAllProcess(
+                userId,
+                puppyId,
+                threadStep
+        );
+        return GetSpecificStepThreadsFromPuppiesAllProcessResponse.from(result);
+    }
+
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}")
     @Operation(summary = "견적요청서 디테일 조회", description = "해당하는 견적요청서의 디테일을 조회합니다")
     public GetEstimateProposalDetailResponse getEstimateProposalDetail(
