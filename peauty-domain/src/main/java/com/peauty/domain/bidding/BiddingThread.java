@@ -210,12 +210,41 @@ public class BiddingThread {
                 .build();
     }
 
+    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile, Boolean isReviewed) {
+        return Profile.builder()
+                .processId(processId.value())
+                .threadId(id.value())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
+                .isReviewed(isReviewed)
+                .designer(designerProfile)
+                .estimate(estimateProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile, Boolean isReviewed, String style) {
+        return Profile.builder()
+                .processId(processId.value())
+                .style(style)
+                .threadId(id.value())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
+                .isReviewed(isReviewed)
+                .designer(designerProfile)
+                .estimate(estimateProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
     @Builder
     public record Profile(
             Long processId,
+            String style,
             Long threadId,
             Integer threadStep,
             String threadStatus,
+            Boolean isReviewed,
             LocalDateTime threadCreatedAt,
             Designer.Profile designer,
             Estimate.Profile estimate
