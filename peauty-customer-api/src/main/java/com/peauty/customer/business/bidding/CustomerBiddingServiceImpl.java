@@ -5,8 +5,11 @@ import com.peauty.customer.business.designer.DesignerPort;
 import com.peauty.customer.business.puppy.PuppyPort;
 import com.peauty.domain.bidding.*;
 import com.peauty.domain.designer.Designer;
+import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
+import com.peauty.domain.response.PeautyResponseCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class CustomerBiddingServiceImpl implements CustomerBiddingService {
 
     private final BiddingProcessPort biddingProcessPort;
@@ -108,5 +112,25 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppy.getPuppyId());
         EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
         return GetEstimateProposalDetailResult.from(puppy, process, estimateProposal);
+    }
+
+    @Override
+    public GetAllCompletedProcessResult getAllCompletedProcess(Long userId) {
+        return new GetAllCompletedProcessResult(
+                biddingProcessPort.getAllProcessByCustomerId(userId).stream()
+                        .filter(process -> process.getStatus().isCompleted())
+                        .map(process -> {
+                                    BiddingThread completedThread = process.getThreads().stream()
+                                            .filter(thread -> thread.getStep().isCompleted())
+                                            .findFirst()
+                                            // TODO 프로세스가 완료인데 완료가 되지 않는 스레드는 없다... 해당 예외 고민하기
+                                            .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_YET_IMPLEMENTED));
+                                    return process.getProfile(
+                                            puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
+                                            estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
+                                            designerPort.getDesignerProfileByDesignerId(completedThread.getDesignerId().value())
+                                    );
+                                }
+                        ).toList());
     }
 }
