@@ -40,7 +40,7 @@ class AuthServiceImplTest {
 
     @Test
     @DisplayName("1.1 사용자 signIn 성공 테스트")
-    void signIn_ShouldReturnSignInResult_WhenUserExists() {
+    void signInSuccessCase() {
         // Arrange
         SocialPlatform socialPlatform = SocialPlatform.KAKAO;
         String code = "123123456654";
@@ -67,7 +67,7 @@ class AuthServiceImplTest {
 
     @Test
     @DisplayName("2.1 중복된 소셜 ID로 인한 signUp 실패 테스트")
-    void signUp_ShouldThrowException_WhenSocialIdExists() {
+    void signInFailureCase() {
         // Arrange
         SignUpCommand command = new SignUpCommand("social-id", SocialPlatform.KAKAO, "name", "010-1234-5678", "address", "nickname", "image-url");
 
@@ -120,7 +120,7 @@ class AuthServiceImplTest {
 
     @Test
     @DisplayName("3.1 signWithIdToken으로 사용자 등록")
-    void signWithIdToken_ShouldSignUpNewUser_WhenUserDoesNotExist() {
+    void signWithIdTokenCase() {
         // Arrange
         SocialPlatform socialPlatform = SocialPlatform.KAKAO;
         String idToken = "id-token";

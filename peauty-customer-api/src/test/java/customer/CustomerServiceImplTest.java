@@ -52,7 +52,7 @@ class CustomerServiceImplTest {
     */
     @Test
     @DisplayName("1.1 고객 프로필 이미지 업로드 테스트")
-    void uploadProfileImage_ShouldReturnResult_WhenCustomerExists() {
+    void customerProfileImageUploadSuccessCase() {
         // Arrange
         Long customerId = 1L;
         MultipartFile mockFile = mock(MultipartFile.class);
@@ -79,7 +79,7 @@ class CustomerServiceImplTest {
 
     @Test
     @DisplayName("1.2 고객 프로필 정보 조회 성공 테스트")
-    void getCustomerProfile_ShouldReturnProfile_WhenCustomerExists() {
+    void getCustomerProfileSuccessCase() {
         // Arrange
         Long customerId = 1L;
         Customer mockCustomer = mock(Customer.class);
@@ -109,7 +109,7 @@ class CustomerServiceImplTest {
 
     @Test
     @DisplayName("1.3 고객 프로필 업데이트 성공 테스트")
-    void updateCustomerProfile_ShouldUpdateProfile_WhenCustomerExists() {
+    void updateCustomerProfileSuccessCase() {
         // Arrange
         Long customerId = 1L;
         UpdateCustomerProfileCommand command = new UpdateCustomerProfileCommand(
@@ -139,7 +139,7 @@ class CustomerServiceImplTest {
 
     @Test
     @DisplayName("1.4 고객 닉네임 중복 체크 성공 테스트")
-    void checkCustomerNicknameDuplicated_ShouldCallPort_WhenNicknameExists() {
+    void checkCustomerNicknameDuplicatedSuccessCase() {
         // Arrange
         String nickname = "위진영";
 
@@ -152,7 +152,7 @@ class CustomerServiceImplTest {
 
     @Test
     @DisplayName("1.5 디자이너 뱃지 조회 성공 테스트")
-    void getDesignerBadgesByCustomer_ShouldReturnBadges_WhenDesignerExists() {
+    void getDesignerBadgesByCustomerSuccessCase() {
         // Arrange
         Long designerId = 1L;
 
@@ -182,7 +182,7 @@ class CustomerServiceImplTest {
 
 @Test
 @DisplayName("2.1 고객이 존재하지 않을 때 파일 업로드 예외 발생 테스트")
-void uploadProfileImage_ShouldThrowException_WhenCustomerNotFound() {
+void customerProfileImageUploadFailureCase() {
     // Arrange
     Long customerId = 1L;
     MultipartFile mockFile = mock(MultipartFile.class);
@@ -201,7 +201,7 @@ void uploadProfileImage_ShouldThrowException_WhenCustomerNotFound() {
 
     @Test
     @DisplayName("2.2 고객이 존재하지 않을 때 프로필 정보 조회 예외 발생 테스트")
-    void getCustomerProfile_ShouldThrowException_WhenCustomerDoesNotExist() {
+    void getCustomerProfileFailureCase() {
         // Arrange
         Long customerId = 1L;
 
@@ -222,7 +222,7 @@ void uploadProfileImage_ShouldThrowException_WhenCustomerNotFound() {
 
     @Test
     @DisplayName("2.3 유효하지 않은 데이터로 인한 예외 발생 테스트")
-    void updateCustomerProfile_ShouldThrowException_WhenInvalidDataProvided() {
+    void updateCustomerProfileFailureCase() {
         // Arrange
         Long customerId = 1L;
         UpdateCustomerProfileCommand invalidCommand = new UpdateCustomerProfileCommand(
@@ -250,7 +250,7 @@ void uploadProfileImage_ShouldThrowException_WhenCustomerNotFound() {
 
     @Test
     @DisplayName("2.4 중복된 닉네임으로 예외 발생 테스트")
-    void checkCustomerNicknameDuplicated_ShouldThrowException_WhenNicknameExists() {
+    void checkCustomerNicknameDuplicatedFailureCase() {
         // Arrange
         String duplicateNickname = "유레카";
 
@@ -268,7 +268,7 @@ void uploadProfileImage_ShouldThrowException_WhenCustomerNotFound() {
 
     @Test
     @DisplayName("2.5 디자이너가 존재하지 않을 때 예외 발생 테스트")
-    void getDesignerBadgesByCustomer_ShouldThrowException_WhenDesignerDoesNotExist() {
+    void getDesignerBadgesByCustomerFailureCase() {
         // Arrange
         Long designerId = 2L;
 
