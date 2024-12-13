@@ -184,6 +184,15 @@ public class BiddingProcess {
                 .build();
     }
 
+    public Profile getProfile(EstimateProposal.Profile estimateProposalProfile) {
+        return Profile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .estimateProposal(estimateProposalProfile)
+                .processCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
     public Profile getProfile(
             Puppy.Profile puppyProfile,
             EstimateProposal.Profile estimateProposalProfile
