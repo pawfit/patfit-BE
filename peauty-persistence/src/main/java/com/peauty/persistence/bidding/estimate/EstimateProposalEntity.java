@@ -35,7 +35,7 @@ public class EstimateProposalEntity extends BaseTimeEntity {
     private Long desiredCost;
 
     @Column(name = "desired_date_time")
-    private LocalDateTime desiredDateTime;
+    private String desiredDateTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "total_grooming_body_type")

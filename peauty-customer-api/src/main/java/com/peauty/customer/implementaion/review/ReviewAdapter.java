@@ -19,7 +19,7 @@ public class ReviewAdapter implements ReviewPort {
     private final ReviewImageRepository reviewImageRepository;
 
     @Override
-    public Review registerNewReview(Review review){
+    public Review registerNewReview(Review review) {
         ReviewEntity registerReviewEntity = reviewRepository.save(
                 ReviewMapper.toReviewEntity(review)
         );
@@ -59,5 +59,15 @@ public class ReviewAdapter implements ReviewPort {
         // 2. Review 삭제
         reviewRepository.deleteById(reviewId);
     }
+
+    @Override
+    public Review getReviewByIdAndBiddingThreadId(Long id, Long biddingThreadId) {
+        // 리뷰 조회
+        ReviewEntity reviewEntity = reviewRepository.findByIdAndBiddingThreadId(id, biddingThreadId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_REVIEW));
+        return ReviewMapper.toReviewDomain(reviewEntity, reviewImageRepository.findAllByReviewId(id));
+
+    }
+
 
 }
