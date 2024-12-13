@@ -81,43 +81,6 @@ class AuthServiceImplTest {
                 .hasMessage(PeautyResponseCode.ALREADY_EXIST_USER.getMessage());
     }
 
-   /*
-   테스트 방식이 다릅니다.
-   일반적인 방식으로는 오류를 띄우는 SignUpCommand 객체를 Mockito가 동일하게 비교할 수 없다고 합니다.
-   * 오류 : Strict Stubbing 정책 문제 발생.
-   SignupCommand는 객체로 비교되기 때문에,
-   equals 메서드가 호출되지 않으면, 같은 값을 가진 다른 SignUpCommand 객체는 다르다고 간주가 됩니다.
-   하단 방법으로 argThat을 이용한다고 합니다. -> 최선의 1안
-   Test 상단에 @MockitoSettings(strictness = Strictness.LENIENT) // Strict Stubbing 비활성화를 하여 테스트 조건을 완화합니다. -> 좋지않은 2안
-   @Test
-    @DisplayName("3.1 성공적으로 signWithIdToken으로 사용자 등록")
-    void signWithIdToken_ShouldSignUpNewUser_WhenUserDoesNotExist() {
-        // Arrange
-        SocialPlatform socialPlatform = SocialPlatform.KAKAO;
-        String idToken = "id-token";
-        String nickname = "new-nickname";
-        String phoneNumber = "010-1234-5678";
-
-        SocialInfo socialInfo = new SocialInfo("social-id", socialPlatform, "social-nickname", "image-url");
-        SignTokens signTokens = new SignTokens("access-token", "refresh-token");
-        Customer customer = mock(Customer.class);
-        SignUpCommand command = new SignUpCommand("social-id", socialPlatform, "name", phoneNumber, "address", nickname, "image-url");
-
-        when(authPort.getSocialInfoFromIdToken(socialPlatform, idToken)).thenReturn(socialInfo);
-        when(customerPort.findBySocialId(socialInfo.socialId())).thenReturn(Optional.empty());
-        when(customerPort.registerNewCustomer(command)).thenReturn(customer);
-        when(authPort.generateSignTokens(customer.getAuthInfo())).thenReturn(signTokens);
-
-        // Act
-        SignUpResult result = authService.signWithIdToken(socialPlatform, idToken, nickname, phoneNumber);
-
-        // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.accessToken()).isEqualTo("access-token");
-        assertThat(result.refreshToken()).isEqualTo("refresh-token");
-        verify(customerPort).registerNewCustomer(command);
-    }*/
-
     @Test
     @DisplayName("3.1 signWithIdToken으로 사용자 등록")
     void signWithIdTokenCase() {
