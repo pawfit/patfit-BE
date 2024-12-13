@@ -1,11 +1,13 @@
 package com.peauty.domain.bidding;
 
+import com.peauty.domain.designer.Designer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -174,14 +176,40 @@ public class BiddingProcess {
         }
     }
 
-    public Profile getProfile(Puppy.Profile puppyProfile, Long designerId) {
-        BiddingThread thread = getThread(new DesignerId(designerId));
+    public Profile getProfile() {
         return Profile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
-                .threadId(thread.getSavedThreadId().value())
-                .threadStatus(thread.getStatus().getDescription())
-                .puppyProfile(puppyProfile)
+                .processCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(
+            Puppy.Profile puppyProfile,
+            EstimateProposal.Profile estimateProposalProfile
+    ) {
+        return Profile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .puppy(puppyProfile)
+                .estimateProposal(estimateProposalProfile)
+                .processCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(
+            Puppy.Profile puppyProfile,
+            EstimateProposal.Profile estimateProposalProfile,
+            Designer.Profile designerProfile
+    ) {
+        BiddingThread thread = getThread(new DesignerId(designerProfile.designerId()));
+        return Profile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .puppy(puppyProfile)
+                .estimateProposal(estimateProposalProfile)
+                .thread(thread.getProfile(designerProfile))
+                .processCreatedAt(timeInfo.getCreatedAt())
                 .build();
     }
 
@@ -189,10 +217,10 @@ public class BiddingProcess {
     public record Profile(
             Long processId,
             String processStatus,
-            Long threadId,
-            String threadStatus,
-            String threadStep,
-            Puppy.Profile puppyProfile
+            LocalDateTime processCreatedAt,
+            Puppy.Profile puppy,
+            EstimateProposal.Profile estimateProposal,
+            BiddingThread.Profile thread
     ) {
     }
 }

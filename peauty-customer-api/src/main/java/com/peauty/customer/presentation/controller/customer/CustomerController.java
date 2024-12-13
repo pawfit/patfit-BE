@@ -2,6 +2,9 @@ package com.peauty.customer.presentation.controller.customer;
 
 import com.peauty.customer.business.customer.CustomerService;
 import com.peauty.customer.business.customer.dto.*;
+import com.peauty.customer.business.workspace.WorkspaceService;
+import com.peauty.customer.business.workspace.dto.GetAroundWorkspacesResult;
+import com.peauty.customer.business.workspace.dto.GetDesignerWorkspaceResult;
 import com.peauty.customer.business.review.ReviewService;
 import com.peauty.customer.presentation.controller.customer.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +22,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final ReviewService reviewService;
+    private final WorkspaceService workspaceService;
 
     @PostMapping(value = "/users/{userId}/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "고객 프로필 이미지 업로드", description = "고객의 프로필 이미지 업로드 API 진입점입니다.")
@@ -54,7 +58,7 @@ public class CustomerController {
     @GetMapping("/users/{userId}/serach")
     @Operation(summary = "주변 디자이너 매장 조회", description = "고객 주소와 같은 디자이너의 매장을 조회하는 API 진입점입니다.")
     public GetAroundWorkspacesResponse getAroundWorkspaces(@PathVariable Long userId) {
-        GetAroundWorkspacesResult result = customerService.getAroundWorkspaces(userId);
+        GetAroundWorkspacesResult result = workspaceService.getAroundWorkspaces(userId);
         return GetAroundWorkspacesResponse.from(result);
     }
 
@@ -64,5 +68,19 @@ public class CustomerController {
         GetDesignerBadgesForCustomerResult result = customerService.getDesignerBadgesByCustomer(designerId);
         return GetDesignerBadgesForCustomerResponse.from(result);
     }
-
+/*    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")
+    @Operation(summary = "리뷰 작성", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 작성하는 API 진입점입니다.")
+    public RegisterReviewResponse registerReview(@PathVariable Long userId,
+                                                 @PathVariable Long puppyId,
+                                                 @PathVariable Long threadId,
+                                                 @PathVariable Long processId,
+                                                 @RequestBody RegisterReviewRequest request){
+        RegisterReviewResult result = reviewService.registerReview(
+                userId,
+                puppyId,
+                threadId,
+                processId,
+                request.toCommand());
+        return RegisterReviewResponse.from(result);
+    }*/
 }

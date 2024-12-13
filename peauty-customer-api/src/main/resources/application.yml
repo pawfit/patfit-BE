@@ -14,7 +14,6 @@ iamport:
   api-key: ${IAMPORT_API_KEY}
   api-secret-key: ${IAMPORT_API_SECRET_KEY}
 
-
 ---
 spring:
   config:

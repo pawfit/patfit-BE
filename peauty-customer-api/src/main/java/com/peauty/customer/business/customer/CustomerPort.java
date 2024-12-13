@@ -16,5 +16,4 @@ public interface CustomerPort {
     Customer getCustomerById(Long customerId);
 
 
-
 }

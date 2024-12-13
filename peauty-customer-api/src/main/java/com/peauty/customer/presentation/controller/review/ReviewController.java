@@ -1,10 +1,7 @@
 package com.peauty.customer.presentation.controller.review;
 
 import com.peauty.customer.business.review.ReviewService;
-import com.peauty.customer.business.review.dto.GetEstimateDataResponse;
-import com.peauty.customer.business.review.dto.GetEstimateDataResult;
-import com.peauty.customer.business.review.dto.RegisterReviewResult;
-import com.peauty.customer.business.review.dto.UpdateReviewResult;
+import com.peauty.customer.business.review.dto.*;
 import com.peauty.customer.presentation.controller.review.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,6 +61,19 @@ public class ReviewController {
         reviewService.deleteReview(userId, puppyId, threadId, processId, reviewId);
         return new DeleteReviewResponse("리뷰가 삭제되었습니다.");
     }
+
+    @GetMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}")
+    @Operation(summary = "리뷰 상세 조회", description = "고객이 자신이 작성한 리뷰를 상세 조회하는 API 진입점입니다.")
+    public GetReviewDetailResponse getReviewDetail(@PathVariable Long userId,
+                                                   @PathVariable Long puppyId,
+                                                   @PathVariable Long threadId,
+                                                   @PathVariable Long processId,
+                                                   @PathVariable Long reviewId){
+        GetReviewDetailResult result = reviewService.getReviewDetail(userId, puppyId, threadId, processId, reviewId);
+        return GetReviewDetailResponse.from(result);
+    }
+
+
 /* TODO: 추후 프론트 측에서 요청 시
     @GetMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/estimate")
     @Operation(summary = "견적서 데이터 조회", description = "고객이 자신의 강아지를 미용한 디자이너와의 견적서를 간단히 조회하는 API입니다.")

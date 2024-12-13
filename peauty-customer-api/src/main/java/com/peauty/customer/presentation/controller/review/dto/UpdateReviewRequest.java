@@ -11,7 +11,7 @@ public record UpdateReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
         ContentGeneral contentGeneral,
-        List<ReviewImage> reviewImages
+        List<String> reviewImageUrls
 ) {
 
     public UpdateReviewCommand toCommand() {
@@ -19,7 +19,11 @@ public record UpdateReviewRequest(
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
                 .contentGeneral(contentGeneral)
-                .reviewImages(reviewImages)
+                .reviewImages(
+                        reviewImageUrls.stream()
+                                .map(url -> ReviewImage.builder().imageUrl(url).build())
+                                .toList()
+                )
                 .build();
     }
 }
