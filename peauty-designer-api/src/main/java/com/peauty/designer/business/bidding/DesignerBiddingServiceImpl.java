@@ -77,7 +77,7 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
                         .stream()
                         .map(process -> process.getProfile(
                                 puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
-                                userId
+                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile()
                         ))
                         .toList()
         );

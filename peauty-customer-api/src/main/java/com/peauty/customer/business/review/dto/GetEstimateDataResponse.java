@@ -27,7 +27,7 @@ public record GetEstimateDataResponse(
     ) {
         public static EstimateProfile from(Estimate.Profile profile) {
             return new EstimateProfile(
-                    profile.id(),
+                    profile.estimateId(),
                     profile.content(),
                     profile.availableGroomingDate(),
                     profile.estimatedDuration(),

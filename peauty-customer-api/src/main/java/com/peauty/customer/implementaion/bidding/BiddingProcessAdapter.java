@@ -46,6 +46,16 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
+    public List<BiddingProcess> getAllProcessByCustomerId(Long customerId) {
+        return processRepository.findAllByUserId(customerId).stream()
+                .map(processEntity -> {
+                    List<BiddingThreadEntity> threads = threadRepository.findByBiddingProcessId(processEntity.getId());
+                    return BiddingMapper.toProcessDomain(processEntity, threads);
+                })
+                .toList();
+    }
+
+    @Override
     public BiddingProcess getProcessByProcessId(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
