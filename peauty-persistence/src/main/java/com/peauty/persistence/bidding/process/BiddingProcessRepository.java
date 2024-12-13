@@ -12,8 +12,7 @@ import java.util.Optional;
 @Repository
 public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEntity, Long> {
 
-    // TODO 만약 한 강아지가 여러 프로세스를 가질 수 있으면 List 로 반환
-    Optional<BiddingProcessEntity> findByPuppyId(@Param("puppyId") Long puppyId);
+    List<BiddingProcessEntity> findByPuppyId(@Param("puppyId") Long puppyId);
     Optional<BiddingProcessEntity> findByIdAndPuppyId(@Param("processId") Long processId, @Param("puppyId") Long puppyId);
     long countByPuppyIdAndStatusIn(@Param("puppyId") Long puppyId, List<BiddingProcessStatus> statuses);
 
@@ -24,4 +23,9 @@ public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEn
 
     @Query("SELECT bp FROM BiddingProcessEntity bp JOIN PuppyEntity p ON bp.puppyId = p.id WHERE p.customer.id = :userId")
     List<BiddingProcessEntity> findAllByUserId(@Param("userId") Long userId);
-}
+
+    @Query("SELECT bp FROM BiddingProcessEntity bp " +
+            "WHERE bp.puppyId = :puppyId " +
+            "AND bp.status IN (com.peauty.domain.bidding.BiddingProcessStatus.RESERVED, " +
+            "com.peauty.domain.bidding.BiddingProcessStatus.RESERVED_YET)")
+    Optional<BiddingProcessEntity> findOngoingProcessByPuppyId(@Param("puppyId") Long puppyId);}
