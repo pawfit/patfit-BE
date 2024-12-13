@@ -35,7 +35,7 @@ public class Order {
         this.orderStatus = OrderStatus.CANCELLED;
     }
 
-    public void updatePayment(Payment paymentToValidate) {
+    public void updateValidatedPayment(Payment paymentToValidate) {
         this.payment = paymentToValidate;
     }
     public void updateOrderToCompleted() {

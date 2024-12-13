@@ -113,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService {
             BiddingThread reservedThread = savedProcess.getThread(new BiddingThread.ID(threadId));
 
             // 5. Payment - Order DB 저장
-            order.updatePayment(paymentToValidate);
+            order.updateValidatedPayment(paymentToValidate);
             paymentPort.saveOrder(order);
             Payment savedPayment = paymentPort.savePayment(paymentToValidate);
             String workspaceName = paymentPort.findWorkspaceNameByThreadId(reservedThread.getSavedThreadId().value());
