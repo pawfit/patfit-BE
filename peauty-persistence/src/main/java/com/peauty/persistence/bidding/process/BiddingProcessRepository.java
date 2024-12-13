@@ -21,4 +21,7 @@ public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEn
             "INNER JOIN BiddingThreadEntity bt ON bt.biddingProcess = bp " +
             "WHERE bt.designerId = :designerId")
     List<BiddingProcessEntity> findAllByDesignerId(@Param("designerId") Long designerId);
+
+    @Query("SELECT bp FROM BiddingProcessEntity bp JOIN PuppyEntity p ON bp.puppyId = p.id WHERE p.customer.id = :userId")
+    List<BiddingProcessEntity> findAllByUserId(@Param("userId") Long userId);
 }

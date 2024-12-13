@@ -90,4 +90,12 @@ public class CustomerBiddingController {
         );
         return GetEstimateProposalDetailResponse.from(result);
     }
+
+    @GetMapping("/{userId}/puppies/biddings/processes/complete")
+    @Operation(summary = "완료 프로세스 조회", description = "해당 고객의 모든 프로세스 중 완료된 상태의 프로세스들을 조회합니다.")
+    public GetAllCompletedProcess getAllCompletedProcess(@PathVariable Long userId) {
+        return GetAllCompletedProcess.from(
+                customerBiddingService.getAllCompletedProcess(userId)
+        );
+    }
 }

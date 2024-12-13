@@ -35,4 +35,6 @@ public interface CustomerBiddingService {
             Long puppyId,
             Long processId
     );
+
+    GetAllCompletedProcessResult getAllCompletedProcess(Long userId);
 }
