@@ -144,15 +144,17 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
             Long puppyId,
             Long threadStep
     ) {
+        BiddingProcess process = biddingProcessPort.getProcessByPuppyId(puppyId);
         return GetSpecificStepThreadsFromPuppiesAllProcessResult.from(
-                biddingProcessPort.getProcessByPuppyId(puppyId).getThreads().stream()
+                process.getThreads().stream()
                         .filter(thread -> thread.getStep().getStep() == threadStep)
                         .map(thread -> thread.getProfile(
                                 designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
                                 estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value())
                                         .map(Estimate::getProfile)
                                         .orElse(null),
-                                reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value())
+                                reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()),
+                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getSimpleGroomingStyle()
                         )).toList()
         );
     }
