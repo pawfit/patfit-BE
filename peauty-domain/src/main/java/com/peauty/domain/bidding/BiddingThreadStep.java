@@ -15,7 +15,7 @@ public enum BiddingThreadStep {
     COMPLETED("완료", 4);
 
     private final String description;
-    private final int step;
+    private final int step; // TODO stepNumber 로 바꾸기
 
     BiddingThreadStep(String description, int step) {
         this.description = description;
