@@ -35,7 +35,8 @@ public class Estimate {
 
     public Profile getProfile() {
         return Profile.builder()
-                .id(id.value())
+                .estimateId(id.value())
+                .threadId(threadId.value())
                 .content(content)
                 .availableGroomingDate(availableGroomingDate)
                 .estimatedDuration(estimatedDuration)
@@ -50,7 +51,8 @@ public class Estimate {
 
     @Builder
     public record Profile(
-            Long id,
+            Long threadId,
+            Long estimateId,
             String content,
             String availableGroomingDate,
             String estimatedDuration,
