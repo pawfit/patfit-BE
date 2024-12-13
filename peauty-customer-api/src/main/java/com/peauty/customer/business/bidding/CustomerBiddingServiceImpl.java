@@ -6,9 +6,7 @@ import com.peauty.customer.business.puppy.PuppyPort;
 import com.peauty.customer.business.review.ReviewPort;
 import com.peauty.domain.bidding.*;
 import com.peauty.domain.designer.Designer;
-import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
-import com.peauty.domain.response.PeautyResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -85,25 +83,6 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         );
     }
 
-    // TODO 쿼리 dsl 을 이용한 효율적인 쿼리 도입
-    @Override
-    public GetEstimateDesignerWorkspaceProfilesResult getEstimateDesignerWorkspaceProfiles(
-            Long userId,
-            Long puppyId,
-            Long processId
-    ) {
-        BiddingProcess process = biddingProcessPort.getProcessByProcessIdAndPuppyId(processId, puppyId);
-        EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
-        List<BiddingThread.Profile> threadProfiles = process.getThreads().stream()
-                .map(thread -> thread.getProfile(
-                        designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
-                        estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value())
-                                .map(Estimate::getProfile)
-                                .orElse(null)
-                )).toList();
-        return GetEstimateDesignerWorkspaceProfilesResult.from(process, estimateProposal, threadProfiles);
-    }
-
     @Override
     public GetEstimateProposalDetailResult getEstimateProposalDetail(
             Long userId,
@@ -117,45 +96,56 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     }
 
     @Override
-    public GetAllCompletedProcessResult getAllCompletedProcess(Long userId) {
-        return new GetAllCompletedProcessResult(
-                biddingProcessPort.getAllProcessByCustomerId(userId).stream()
-                        .filter(process -> process.getStatus().isCompleted())
-                        .map(process -> {
-                                    BiddingThread completedThread = process.getThreads().stream()
-                                            .filter(thread -> thread.getStep().isCompleted())
-                                            .findFirst()
-                                            // TODO 프로세스가 완료인데 완료가 되지 않는 스레드는 없다... 해당 예외 고민하기
-                                            .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_YET_IMPLEMENTED));
-                                    boolean isReviewed = reviewPort.existsByBiddingThreadId(completedThread.getSavedThreadId().value());
-                                    return process.getProfile(
-                                            puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
-                                            estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
-                                            designerPort.getDesignerProfileByDesignerId(completedThread.getDesignerId().value()),
-                                            isReviewed
-                                    );
-                                }
-                        ).toList());
+    public GetAllStep3AboveThreadsResult getAllStep3AboveThreads(
+            Long userId,
+            Long puppyId
+    ) {
+        return GetAllStep3AboveThreadsResult.from(
+                biddingProcessPort.getProcessesByPuppyId(puppyId).stream()
+                        .flatMap(process -> process.getThreads().stream()
+                                .filter(thread -> thread.getStep().isAfter(BiddingThreadStep.ESTIMATE_RESPONSE))
+                                .map(thread -> thread.getProfile(
+                                        designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
+                                        estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile(),
+                                        reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()),
+                                        estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getSimpleGroomingStyle()
+                                )))
+                        .toList()
+        );
     }
 
     @Override
-    public GetSpecificStepThreadsFromPuppiesAllProcessResult getSpecificStepThreadsFromPuppiesAllProcess(
+    public GetOngoingProcessWithThreadsResult getOngoingProcessWithStep1Threads(
             Long userId,
-            Long puppyId,
-            Long threadStep
+            Long puppyId
     ) {
-        BiddingProcess process = biddingProcessPort.getProcessByPuppyId(puppyId);
-        return GetSpecificStepThreadsFromPuppiesAllProcessResult.from(
-                process.getThreads().stream()
-                        .filter(thread -> thread.getStep().getStep() == threadStep)
-                        .map(thread -> thread.getProfile(
-                                designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
-                                estimatePort.findEstimateByThreadId(thread.getSavedThreadId().value())
-                                        .map(Estimate::getProfile)
-                                        .orElse(null),
-                                reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()),
-                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getSimpleGroomingStyle()
-                        )).toList()
-        );
+        return biddingProcessPort.findOngoingProcessByPuppyId(puppyId)
+                .map(process -> GetOngoingProcessWithThreadsResult.from(
+                        process.getProfile(estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile()),
+                        process.getThreads().stream()
+                                .filter(thread -> thread.getStep().isEstimateRequest())
+                                .map(thread -> thread.getProfile(designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value())))
+                                .toList()
+                ))
+                .orElse(null);
+    }
+
+    @Override
+    public GetOngoingProcessWithThreadsResult getOngoingProcessWithStep2Threads(
+            Long userId,
+            Long puppyId
+    ) {
+        return biddingProcessPort.findOngoingProcessByPuppyId(puppyId)
+                .map(process -> GetOngoingProcessWithThreadsResult.from(
+                        process.getProfile(estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile()),
+                        process.getThreads().stream()
+                                .filter(thread -> thread.getStep().isEstimateResponse())
+                                .map(thread -> thread.getProfile(
+                                        designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
+                                        estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile()
+                                ))
+                                .toList()
+                ))
+                .orElse(null);
     }
 }

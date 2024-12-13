@@ -24,23 +24,24 @@ public interface CustomerBiddingService {
             Long threadId
     );
 
-    GetEstimateDesignerWorkspaceProfilesResult getEstimateDesignerWorkspaceProfiles(
-            Long userId,
-            Long puppyId,
-            Long processId
-    );
-
     GetEstimateProposalDetailResult getEstimateProposalDetail(
             Long userId,
             Long puppyId,
             Long processId
     );
 
-    GetAllCompletedProcessResult getAllCompletedProcess(Long userId);
-
-    GetSpecificStepThreadsFromPuppiesAllProcessResult getSpecificStepThreadsFromPuppiesAllProcess(
+    GetAllStep3AboveThreadsResult getAllStep3AboveThreads(
             Long userId,
-            Long puppyId,
-            Long threadStep
+            Long puppyId
+    );
+
+    GetOngoingProcessWithThreadsResult getOngoingProcessWithStep1Threads(
+            Long userId,
+            Long puppyId
+    );
+
+    GetOngoingProcessWithThreadsResult getOngoingProcessWithStep2Threads(
+            Long userId,
+            Long puppyId
     );
 }
