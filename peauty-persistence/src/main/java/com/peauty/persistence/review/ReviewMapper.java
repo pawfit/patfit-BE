@@ -45,6 +45,7 @@ public class ReviewMapper {
                 .reviewRating(entity.getReviewRating())
                 .contentDetail(entity.getContentDetail())
                 .contentGeneral(entity.getContentGeneral())
+                .reviewImages(reviewImages)
                 .build();
 
     }

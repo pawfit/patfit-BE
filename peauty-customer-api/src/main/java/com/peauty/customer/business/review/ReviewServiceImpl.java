@@ -125,6 +125,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId) {
+        Review review = reviewPort.getReviewByIdAndBiddingThreadId(reviewId, threadId);
+        return GetReviewDetailResult.from(review);
+    }
+
+
+
+
+
+    @Override
     public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long threadId, Long processId) {
         // 프로세스와 스레드 검증
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
@@ -143,8 +153,6 @@ public class ReviewServiceImpl implements ReviewService {
 
         return GetEstimateDataResult.from(estimateProfile, designer, workspace);
     }
-
-
 
 
 }

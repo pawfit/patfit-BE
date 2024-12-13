@@ -8,7 +8,7 @@ import com.peauty.domain.review.ReviewRating;
 
 import java.util.List;
 
-public record UpdateReviewResult(
+public record GetReviewDetailResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
         ReviewRating reviewRating,
@@ -16,9 +16,8 @@ public record UpdateReviewResult(
         ContentGeneral contentGeneral,
         List<String> reviewImages
 ) {
-
-    public static UpdateReviewResult from(Review review) {
-        return new UpdateReviewResult(
+    public static GetReviewDetailResult from(Review review) {
+        return new GetReviewDetailResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
                 review.getReviewRating(),

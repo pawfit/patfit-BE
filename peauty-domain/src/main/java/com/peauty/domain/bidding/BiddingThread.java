@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -165,23 +166,59 @@ public class BiddingThread {
         }
     }
 
-    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile) {
+    public Profile getProfile() {
         return Profile.builder()
+                .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getStep())
                 .threadStatus(status.getDescription())
-                .designerProfile(designerProfile)
-                .estimateProfile(estimateProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(Designer.Profile designerProfile) {
+        return Profile.builder()
+                .processId(processId.value())
+                .threadId(id.value())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
+                .designer(designerProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(Estimate.Profile estimateProfile) {
+        return Profile.builder()
+                .processId(processId.value())
+                .threadId(id.value())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
+                .estimate(estimateProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
+    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile) {
+        return Profile.builder()
+                .processId(processId.value())
+                .threadId(id.value())
+                .threadStep(step.getStep())
+                .threadStatus(status.getDescription())
+                .designer(designerProfile)
+                .estimate(estimateProfile)
+                .threadCreatedAt(timeInfo.getCreatedAt())
                 .build();
     }
 
     @Builder
     public record Profile(
+            Long processId,
             Long threadId,
             Integer threadStep,
             String threadStatus,
-            Designer.Profile designerProfile,
-            Estimate.Profile estimateProfile
+            LocalDateTime threadCreatedAt,
+            Designer.Profile designer,
+            Estimate.Profile estimate
     ) {
     }
 }

@@ -47,6 +47,7 @@ public class Designer {
 
     public Profile getProfile(Workspace workspace) {
         return Profile.builder()
+                .designerId(designerId)
                 .designerName(this.name)
                 .badges(this.badges)
                 .profileImageUrl(this.profileImageUrl)
