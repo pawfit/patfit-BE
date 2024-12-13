@@ -3,6 +3,7 @@ package com.peauty.customer.business.bidding;
 import com.peauty.customer.business.bidding.dto.*;
 import com.peauty.customer.business.designer.DesignerPort;
 import com.peauty.customer.business.puppy.PuppyPort;
+import com.peauty.customer.business.review.ReviewPort;
 import com.peauty.domain.bidding.*;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.exception.PeautyException;
@@ -26,6 +27,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     private final EstimatePort estimatePort;
     private final PuppyPort puppyPort;
     private final DesignerPort designerPort;
+    private final ReviewPort reviewPort;
 
     @Override
     @Transactional
@@ -125,10 +127,12 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                                             .findFirst()
                                             // TODO 프로세스가 완료인데 완료가 되지 않는 스레드는 없다... 해당 예외 고민하기
                                             .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_YET_IMPLEMENTED));
+                                    boolean isReviewed = reviewPort.existsByBiddingThreadId(completedThread.getSavedThreadId().value());
                                     return process.getProfile(
                                             puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
                                             estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
-                                            designerPort.getDesignerProfileByDesignerId(completedThread.getDesignerId().value())
+                                            designerPort.getDesignerProfileByDesignerId(completedThread.getDesignerId().value()),
+                                            isReviewed
                                     );
                                 }
                         ).toList());

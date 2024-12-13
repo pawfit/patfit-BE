@@ -6,6 +6,7 @@ import com.peauty.domain.bidding.BiddingProcess;
 import java.util.List;
 
 public record GetAllCompletedProcess(
+
         List<BiddingProcess.Profile> processes
 ) {
 
