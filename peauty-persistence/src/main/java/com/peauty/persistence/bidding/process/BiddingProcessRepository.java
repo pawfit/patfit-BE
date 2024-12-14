@@ -30,9 +30,5 @@ public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEn
             "com.peauty.domain.bidding.BiddingProcessStatus.RESERVED_YET)")
     Optional<BiddingProcessEntity> findOngoingProcessByPuppyId(@Param("puppyId") Long puppyId);
 
-    @Query("SELECT bp FROM BiddingProcessEntity bp " +
-            "WHERE bp.puppyId = :puppyId " +
-            "AND bp.status IN (com.peauty.domain.bidding.BiddingProcessStatus.RESERVED, " +
-            "com.peauty.domain.bidding.BiddingProcessStatus.RESERVED_YET)")
-    Boolean existsOngoingProcessByPuppyId(@Param("puppyId") Long puppyId);
+    Boolean existsByPuppyIdAndStatusIn(@Param("puppyId") Long puppyId, List<BiddingProcessStatus> statuses);
 }

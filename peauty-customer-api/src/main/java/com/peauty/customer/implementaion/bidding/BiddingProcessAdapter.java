@@ -48,7 +48,10 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
 
     @Override
     public Boolean hasPuppyOngoingProcess(Long puppyId) {
-        return processRepository.existsOngoingProcessByPuppyId(puppyId);
+        return processRepository.existsByPuppyIdAndStatusIn(
+                puppyId,
+                List.of(BiddingProcessStatus.RESERVED_YET, BiddingProcessStatus.RESERVED)
+        );
     }
 
     @Override
