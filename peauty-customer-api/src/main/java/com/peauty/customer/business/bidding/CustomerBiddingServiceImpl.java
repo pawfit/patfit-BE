@@ -28,6 +28,15 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     private final ReviewPort reviewPort;
 
     @Override
+    public GetPuppyProfilesWithCanStartProcessStatusResult getPuppyProfilesWithCanStartProcessStatus(Long userId) {
+        return GetPuppyProfilesWithCanStartProcessStatusResult.from(
+                puppyPort.getAllPuppiesByCustomerId(userId).stream()
+                        .map(puppy -> puppy.getProfile(biddingProcessPort.hasPuppyOngoingProcess(puppy.getPuppyId())))
+                        .toList()
+        );
+    }
+
+    @Override
     @Transactional
     public SendEstimateProposalResult sendEstimateProposal(
             Long userId,

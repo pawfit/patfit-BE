@@ -59,7 +59,7 @@ public class PuppyAdapter implements PuppyPort {
     }
 
     @Override
-    public List<Puppy> findAllByCustomerId(Long customerId){
+    public List<Puppy> getAllPuppiesByCustomerId(Long customerId){
         return puppyRepository.findAllByCustomerId(customerId)
                 .stream()
                 .map(PuppyMapper::toDomain)

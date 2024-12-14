@@ -79,20 +79,37 @@ public class Puppy {
     }
 
     public Profile getProfile() {
-        return new Profile(
-                puppyId,
-                customerId,
-                name,
-                breed.getBreedName(),
-                weight,
-                sex.getDescription(),
-                puppyAgeInfo.getSimpeAge(),
-                puppyAgeInfo.getBirthdate(),
-                profileImageUrl,
-                puppySize.getDescription()
-        );
+        return Profile.builder()
+                .puppyId(puppyId)
+                .customerId(customerId)
+                .name(name)
+                .breed(breed.getBreedName())
+                .weight(weight)
+                .sex(sex.getDescription())
+                .age(puppyAgeInfo.getSimpeAge())
+                .birthdate(puppyAgeInfo.getBirthdate())
+                .profileImageUrl(profileImageUrl)
+                .puppySize(puppySize.getDescription())
+                .build();
     }
 
+    public Profile getProfile(Boolean hasOngoingProcess) {
+        return Profile.builder()
+                .puppyId(puppyId)
+                .customerId(customerId)
+                .name(name)
+                .breed(breed.getBreedName())
+                .weight(weight)
+                .sex(sex.getDescription())
+                .age(puppyAgeInfo.getSimpeAge())
+                .birthdate(puppyAgeInfo.getBirthdate())
+                .profileImageUrl(profileImageUrl)
+                .puppySize(puppySize.getDescription())
+                .hasOngoingProcess(hasOngoingProcess)
+                .build();
+    }
+
+    @Builder
     public record Profile(
             Long puppyId,
             Long customerId,
@@ -103,39 +120,8 @@ public class Puppy {
             Integer age,
             LocalDate birthdate,
             String profileImageUrl,
-            String puppySize
+            String puppySize,
+            Boolean hasOngoingProcess
     ) {
     }
-
-/*    public void updatePuppyProfile(PuppyProfile profileToUpdate) {
-        this.name = profileToUpdate.getName();
-        this.breed = profileToUpdate.getBreed();
-        this.weight = profileToUpdate.getWeight();
-        this.sex = profileToUpdate.getSex();
-        this.age = profileToUpdate.getAge();
-        this.birthdate = profileToUpdate.getBirthdate();
-        this.detail = profileToUpdate.getDetail();
-        this.disease = profileToUpdate.getDisease();
-        this.diseaseDescription = profileToUpdate.getDiseaseDescription();
-        this.profileImageUrl = profileToUpdate.getProfileImageUrl();
-        this.puppySize = profileToUpdate.getPuppySize();
-    }*/
-
-/*    public PuppyProfile getPuppyProfile() {
-        return PuppyProfile.builder()
-                .name(this.name)
-                .breed(this.breed)
-                .weight(this.weight)
-                .sex(this.sex)
-                .age(this.age)
-                .birthdate(this.birthdate)
-                .detail(this.detail)
-                .disease(this.disease)
-                .diseaseDescription(this.diseaseDescription)
-                .profileImageUrl(this.profileImageUrl)
-                .build();
-    }*/
-
-
-
 }

@@ -13,7 +13,7 @@ public interface PuppyPort {
 
     Puppy save(Puppy puppy);
 
-    List<Puppy> findAllByCustomerId(Long customerId); // 전체 반려견 조회
+    List<Puppy> getAllPuppiesByCustomerId(Long customerId); // 전체 반려견 조회
 
     void verifyPuppyOwnership(Long puppyId, Long customerId);
 }
