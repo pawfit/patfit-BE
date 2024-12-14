@@ -27,7 +27,7 @@ public class CustomerBiddingController {
         return SendEstimateProposalResponse.from(result);
     }
 
-    @PostMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/accept")
+    @PatchMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/accept")
     @Operation(summary = "견적 수락", description = "해당 스레드의 Step 을 3으로 만듬.")
     public AcceptEstimateResponse acceptEstimate(
             @PathVariable Long userId,
