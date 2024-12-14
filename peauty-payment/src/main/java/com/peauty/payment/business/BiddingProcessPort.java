@@ -7,7 +7,7 @@ import java.util.List;
 public interface BiddingProcessPort {
 
     BiddingProcess getProcessByProcessId(Long processId);
-    BiddingProcess getProcessByPuppyId(Long puppyId);
+    //BiddingProcess getProcessByPuppyId(Long puppyId);
     BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId);
     BiddingProcess save(BiddingProcess process);
     List<BiddingProcess> getProcessesByDesignerId(Long designerId);
