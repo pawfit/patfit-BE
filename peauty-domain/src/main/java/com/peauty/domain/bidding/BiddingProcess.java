@@ -184,6 +184,15 @@ public class BiddingProcess {
                 .build();
     }
 
+    public Profile getProfile(EstimateProposal.Profile estimateProposalProfile) {
+        return Profile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .estimateProposal(estimateProposalProfile)
+                .processCreatedAt(timeInfo.getCreatedAt())
+                .build();
+    }
+
     public Profile getProfile(
             Puppy.Profile puppyProfile,
             EstimateProposal.Profile estimateProposalProfile
@@ -200,12 +209,14 @@ public class BiddingProcess {
     public Profile getProfile(
             Puppy.Profile puppyProfile,
             EstimateProposal.Profile estimateProposalProfile,
-            Designer.Profile designerProfile
+            Designer.Profile designerProfile,
+            Boolean isThreadReviewed // TODO 리뷰는 스레드에 달리는 것이 더 좋아보이긴 함..
     ) {
         BiddingThread thread = getThread(new DesignerId(designerProfile.designerId()));
         return Profile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
+                .isThreadReviewed(isThreadReviewed)
                 .puppy(puppyProfile)
                 .estimateProposal(estimateProposalProfile)
                 .thread(thread.getProfile(designerProfile))
@@ -220,7 +231,8 @@ public class BiddingProcess {
             LocalDateTime processCreatedAt,
             Puppy.Profile puppy,
             EstimateProposal.Profile estimateProposal,
-            BiddingThread.Profile thread
+            BiddingThread.Profile thread,
+            Boolean isThreadReviewed
     ) {
     }
 }
