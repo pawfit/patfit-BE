@@ -16,6 +16,13 @@ public class CustomerBiddingController {
 
     private final CustomerBiddingService customerBiddingService;
 
+    @GetMapping("/{userId}/puppies/")
+    @Operation(summary = "입찰 프로세스 시작을 위한 강아지 프로필 조히", description = "프로세스 진행 여부가 포함된 등록된 강아지 프로필 조회")
+    public GetPuppyProfilesWithCanStartProcessStatusResponse getPuppyProfilesWithCanStartProcessStatus(@PathVariable Long userId) {
+        GetPuppyProfilesWithCanStartProcessStatusResult result = customerBiddingService.getPuppyProfilesWithCanStartProcessStatus(userId);
+        return GetPuppyProfilesWithCanStartProcessStatusResponse.from(result);
+    }
+
     @PostMapping("/{userId}/puppies/{puppyId}/bidding/processes")
     @Operation(summary = "견적요청서 보내기", description = "선택한 디자이너들과 스레드를 시작함과 함께 프로세스를 시작")
     public SendEstimateProposalResponse initProcessWithSendEstimateProposal(

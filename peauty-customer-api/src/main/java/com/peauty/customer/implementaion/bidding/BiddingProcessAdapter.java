@@ -47,6 +47,11 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
     }
 
     @Override
+    public Boolean hasPuppyOngoingProcess(Long puppyId) {
+        return processRepository.existsOngoingProcessByPuppyId(puppyId);
+    }
+
+    @Override
     public BiddingProcess getProcessByProcessId(Long processId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findById(processId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));

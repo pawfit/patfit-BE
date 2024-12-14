@@ -75,7 +75,7 @@ public class PuppyServiceImpl implements PuppyService {
     @Override
     public GetPuppyProfilesResult getPuppyProfiles(Long customerId) {
         Customer customer = customerPort.getCustomerById(customerId);
-        List<Puppy> puppies = puppyPort.findAllByCustomerId(customerId);
+        List<Puppy> puppies = puppyPort.getAllPuppiesByCustomerId(customerId);
         return GetPuppyProfilesResult.from(customer, puppies);
     }
 

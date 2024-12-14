@@ -13,4 +13,5 @@ public interface BiddingProcessPort {
     BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId);
     BiddingProcess save(BiddingProcess process);
     void verifyNoProcessInProgress(Long puppyId);
+    Boolean hasPuppyOngoingProcess(Long puppyId);
 }

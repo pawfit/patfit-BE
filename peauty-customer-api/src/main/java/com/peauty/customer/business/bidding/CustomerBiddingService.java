@@ -4,6 +4,8 @@ import com.peauty.customer.business.bidding.dto.*;
 
 public interface CustomerBiddingService {
 
+    GetPuppyProfilesWithCanStartProcessStatusResult getPuppyProfilesWithCanStartProcessStatus(Long userId);
+
     SendEstimateProposalResult sendEstimateProposal(
             Long userId,
             Long puppyId,
