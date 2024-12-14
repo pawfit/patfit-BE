@@ -1,6 +1,7 @@
 package com.peauty.customer.presentation.controller.customer.dto;
 
 import com.peauty.customer.business.workspace.dto.*;
+import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Scissors;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -50,9 +51,7 @@ public record GetDesignerWorkspaceResponse(
         @Schema(description = "결제 방식", example = "[\"계좌 이체\", \"현금 결제\", \"카드 결제\"]")
         List<String> paymentOptions,
         @Schema(description = "대표 배지 이름들", example = "[\"사업자 등록 인증\", \"말티즈 전문가\"]")
-        List<String> representativeBadgeNames
-
-
+        List<Badge> representativeBadges
 ) {
     public static GetDesignerWorkspaceResponse from(GetDesignerWorkspaceResult result) {
         return new GetDesignerWorkspaceResponse(
@@ -77,7 +76,7 @@ public record GetDesignerWorkspaceResponse(
                 result.directionGuide(),
                 result.licenses(),
                 result.paymentOptions(),
-                result.representativeBadgeNames()
+                result.representativeBadges()
                 );
     }
 }

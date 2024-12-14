@@ -3,7 +3,6 @@ package com.peauty.customer.business.workspace.dto;
 import com.peauty.domain.designer.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record GetDesignerWorkspaceResult(
         Long designerId,
@@ -27,7 +26,7 @@ public record GetDesignerWorkspaceResult(
         String directionGuide,
         List<String> licenses,
         List<String> paymentOptions,
-        List<String> representativeBadgeNames
+        List<Badge> representativeBadges
 ) {
     public static GetDesignerWorkspaceResult from(Designer designer, Workspace workspace) {
         List<String> licenses = designer.getLicenses().stream()
@@ -55,10 +54,13 @@ public record GetDesignerWorkspaceResult(
                 workspace.getOpenDays(),
                 workspace.getDirectionGuide(),
                 licenses,
-                workspace.getPaymentOptions().stream().map(PaymentOption::getOptionName).toList(),
-                designer.getBadges().stream()
-                        .map(Badge::getBadgeName)
-                        .collect(Collectors.toList())
+                workspace.getPaymentOptions().stream()
+                        .map(PaymentOption::getOptionName)
+                        .toList(),
+                designer.getBadges()
+//                        .stream()
+//                        .map(Badge::getBadgeName)
+//                        .collect(Collectors.toList())
         );
     }
 }
