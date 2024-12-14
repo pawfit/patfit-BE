@@ -43,7 +43,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     ) {
         puppyPort.verifyPuppyOwnership(puppyId, userId);
         biddingProcessPort.verifyNoProcessInProgress(puppyId);
-        designerPort.checkExitsDesignersByDesignerIds(command.designerIds());
+        designerPort.checkExistsDesignersByDesignerIds(command.designerIds());
         BiddingProcess newProcess = BiddingProcess.createNewProcess(new PuppyId(puppyId));
         command.designerIds().forEach(id -> newProcess.addNewThread(new DesignerId(id)));
         BiddingProcess savedProcess = biddingProcessPort.save(newProcess);
