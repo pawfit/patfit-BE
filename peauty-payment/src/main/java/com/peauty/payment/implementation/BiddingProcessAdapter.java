@@ -53,14 +53,6 @@ public class BiddingProcessAdapter implements BiddingProcessPort {
         return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
     }
 
-//    @Override
-//    public BiddingProcess getProcessByPuppyId(Long puppyId) {
-//        BiddingProcessEntity foundProcessEntity = processRepository.findByPuppyId(puppyId)
-//                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_BIDDING_PROCESS));
-//        List<BiddingThreadEntity> foundThreadEntities = threadRepository.findByBiddingProcessId(foundProcessEntity.getId());
-//        return BiddingMapper.toProcessDomain(foundProcessEntity, foundThreadEntities);
-//    }
-
     @Override
     public BiddingProcess getProcessByProcessIdAndPuppyId(Long processId, Long puppyId) {
         BiddingProcessEntity foundProcessEntity = processRepository.findByIdAndPuppyId(processId, puppyId)
