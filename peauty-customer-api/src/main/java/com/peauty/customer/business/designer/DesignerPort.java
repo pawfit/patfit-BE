@@ -12,4 +12,5 @@ public interface DesignerPort {
     Designer getAllDesignerDataByDesignerId(Long userId);
     Designer.Profile getDesignerProfileByDesignerId(Long designerId);
     Designer getDesignerById(Long designerId);
+    void checkExitsDesignersByDesignerIds(List<Long> designerIds);
 }

@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -45,6 +43,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
     ) {
         puppyPort.verifyPuppyOwnership(puppyId, userId);
         biddingProcessPort.verifyNoProcessInProgress(puppyId);
+        designerPort.checkExitsDesignersByDesignerIds(command.designerIds());
         BiddingProcess newProcess = BiddingProcess.createNewProcess(new PuppyId(puppyId));
         command.designerIds().forEach(id -> newProcess.addNewThread(new DesignerId(id)));
         BiddingProcess savedProcess = biddingProcessPort.save(newProcess);

@@ -82,7 +82,7 @@ public Designer findDesignerById(Long designerId) {
     public Workspace getByDesignerId(Long userId) {
 
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);
 
