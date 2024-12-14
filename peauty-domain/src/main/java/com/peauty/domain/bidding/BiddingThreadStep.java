@@ -11,8 +11,8 @@ public enum BiddingThreadStep {
 
     ESTIMATE_REQUEST("견적요청", 1),
     ESTIMATE_RESPONSE("견적응답", 2),
-    RESERVED("예약성공", 3),
-    COMPLETED("완료", 4);
+    RESERVED("예약완료", 3),
+    COMPLETED("미용완료", 4);
 
     private final String description;
     private final int step; // TODO stepNumber 로 바꾸기

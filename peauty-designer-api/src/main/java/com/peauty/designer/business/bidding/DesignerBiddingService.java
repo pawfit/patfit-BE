@@ -23,5 +23,9 @@ public interface DesignerBiddingService {
             Long threadId
     );
 
-    GetEstimateProposalProfilesResult getEstimateProposalProfiles(Long userId);
+    GetThreadsByStepResult getStep3AboveThreads(Long userId);
+
+    GetThreadsByStepResult getStep2Threads(Long userId);
+
+    GetThreadsByStepResult getStep1Threads(Long userId);
 }

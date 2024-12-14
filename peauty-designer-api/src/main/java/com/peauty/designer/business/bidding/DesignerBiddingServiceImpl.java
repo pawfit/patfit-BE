@@ -2,10 +2,7 @@ package com.peauty.designer.business.bidding;
 
 import com.peauty.designer.business.bidding.dto.*;
 import com.peauty.designer.business.puppy.PuppyPort;
-import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.BiddingThread;
-import com.peauty.domain.bidding.Estimate;
-import com.peauty.domain.bidding.EstimateProposal;
+import com.peauty.domain.bidding.*;
 import com.peauty.domain.puppy.Puppy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,13 +68,45 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
     }
 
     @Override
-    public GetEstimateProposalProfilesResult getEstimateProposalProfiles(Long userId) {
-        return GetEstimateProposalProfilesResult.from(
+    public GetThreadsByStepResult getStep3AboveThreads(Long userId) {
+        return GetThreadsByStepResult.from(
                 biddingProcessPort.getProcessesByDesignerId(userId)
                         .stream()
+                        .filter(process -> process.getThread(new DesignerId(userId)).getStep().isAfter(BiddingThreadStep.ESTIMATE_RESPONSE))
                         .map(process -> process.getProfile(
                                 puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
-                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile()
+                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
+                                new DesignerId(userId)
+                        ))
+                        .toList()
+        );
+    }
+
+    @Override
+    public GetThreadsByStepResult getStep2Threads(Long userId) {
+        return GetThreadsByStepResult.from(
+                biddingProcessPort.getProcessesByDesignerId(userId)
+                        .stream()
+                        .filter(process -> process.getThread(new DesignerId(userId)).getStep().isEstimateResponse())
+                        .map(process -> process.getProfile(
+                                puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
+                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
+                                new DesignerId(userId)
+                        ))
+                        .toList()
+        );
+    }
+
+    @Override
+    public GetThreadsByStepResult getStep1Threads(Long userId) {
+        return GetThreadsByStepResult.from(
+                biddingProcessPort.getProcessesByDesignerId(userId)
+                        .stream()
+                        .filter(process -> process.getThread(new DesignerId(userId)).getStep().isEstimateRequest())
+                        .map(process -> process.getProfile(
+                                puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
+                                estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
+                                new DesignerId(userId)
                         ))
                         .toList()
         );
