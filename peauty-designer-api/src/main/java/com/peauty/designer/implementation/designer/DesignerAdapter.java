@@ -129,6 +129,8 @@ public class DesignerAdapter implements DesignerPort {
                         .badgeName(badgeEntity.getBadgeName())
                         .badgeContent(badgeEntity.getBadgeContent())
                         .badgeImageUrl(badgeEntity.getBadgeImageUrl())
+                        .badgeType(badgeEntity.getBadgeType())
+                        .badgeColor(badgeEntity.getBadgeColor())
                         .build())
                 .toList();
     }
@@ -153,6 +155,7 @@ public class DesignerAdapter implements DesignerPort {
                             .badgeContent(badgeEntity.getBadgeContent())
                             .badgeImageUrl(badgeEntity.getBadgeImageUrl())
                             .badgeColor(badgeEntity.getBadgeColor())
+                            .badgeType(badgeEntity.getBadgeType())
                             .isRepresentativeBadge(isRepresentative)
                             .build();
                 })

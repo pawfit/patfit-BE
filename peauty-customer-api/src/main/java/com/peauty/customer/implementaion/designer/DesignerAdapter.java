@@ -39,6 +39,7 @@ public class DesignerAdapter implements DesignerPort {
                         .badgeContent(badgeEntity.getBadgeContent())
                         .badgeImageUrl(badgeEntity.getBadgeImageUrl())
                         .isRepresentativeBadge(true)
+                        .badgeType(badgeEntity.getBadgeType())
                         .badgeColor(badgeEntity.getBadgeColor())
                         .build())
                 .collect(Collectors.toList());
