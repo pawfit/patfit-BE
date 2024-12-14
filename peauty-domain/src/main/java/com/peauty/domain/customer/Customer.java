@@ -70,4 +70,14 @@ public class Customer {
     public void updateProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
+
+
+    @Builder
+    public record Profile(
+            Long customerId,
+            String nickname
+    ){
+    }
+
+
 }
