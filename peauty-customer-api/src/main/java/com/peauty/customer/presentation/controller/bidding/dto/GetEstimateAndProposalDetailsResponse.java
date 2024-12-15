@@ -15,7 +15,7 @@ public record GetEstimateAndProposalDetailsResponse(
         Puppy.Profile puppy,
         EstimateProposal.Profile estimateProposal,
         Estimate.Profile estimate,
-        Designer.Profile designer
+        Designer.Profile designer // TODO 테스트용 주석, 성공 시 지우기
 ) {
 
     public static GetEstimateAndProposalDetailsResponse from(GetEstimateAndProposalDetailsResult result) {
