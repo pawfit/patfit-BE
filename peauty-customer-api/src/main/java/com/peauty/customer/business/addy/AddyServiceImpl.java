@@ -24,4 +24,6 @@ public class AddyServiceImpl implements AddyService {
         AddyImage addyImage = addyPort.sendImageToDalle(createMaskingResult);
         return CreateAddyImageResult.from(addyImage);
     }
+
+
 }

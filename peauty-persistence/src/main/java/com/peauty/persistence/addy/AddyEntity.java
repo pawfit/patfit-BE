@@ -1,4 +1,4 @@
-package com.peauty.persistence.Addy;
+package com.peauty.persistence.addy;
 
 import com.peauty.persistence.config.BaseTimeEntity;
 import com.peauty.persistence.puppy.PuppyEntity;

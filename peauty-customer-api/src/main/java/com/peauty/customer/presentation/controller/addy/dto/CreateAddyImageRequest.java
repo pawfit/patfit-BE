@@ -1,4 +1,4 @@
-package com.peauty.customer.presentation.controller.Addy.dto;
+package com.peauty.customer.presentation.controller.addy.dto;
 
 import com.peauty.customer.business.addy.dto.CreateAddyImageCommand;
 import lombok.Builder;

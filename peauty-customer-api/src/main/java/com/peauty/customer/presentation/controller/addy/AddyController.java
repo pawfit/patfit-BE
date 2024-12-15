@@ -1,9 +1,9 @@
-package com.peauty.customer.presentation.controller.Addy;
+package com.peauty.customer.presentation.controller.addy;
 
 import com.peauty.customer.business.addy.AddyService;
 import com.peauty.customer.business.addy.dto.CreateAddyImageResult;
-import com.peauty.customer.presentation.controller.Addy.dto.CreateAddyImageRequest;
-import com.peauty.customer.presentation.controller.Addy.dto.CreateAddyImageResponse;
+import com.peauty.customer.presentation.controller.addy.dto.CreateAddyImageRequest;
+import com.peauty.customer.presentation.controller.addy.dto.CreateAddyImageResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

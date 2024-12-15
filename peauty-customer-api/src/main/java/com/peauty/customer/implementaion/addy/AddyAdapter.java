@@ -5,7 +5,7 @@ import com.peauty.addy.dalle.ImageMaskGenerator;
 import com.peauty.customer.business.addy.AddyPort;
 import com.peauty.customer.business.addy.dto.CreateMaskingResult;
 import com.peauty.domain.addy.AddyImage;
-import com.peauty.persistence.Addy.AddyRepository;
+import com.peauty.persistence.addy.AddyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
