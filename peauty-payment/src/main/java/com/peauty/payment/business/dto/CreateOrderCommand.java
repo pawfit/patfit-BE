@@ -13,7 +13,7 @@ public record CreateOrderCommand(
 ) {
     // TODO: 프로세스 ID 어떻게 할지 생각하기 -> 넣을지 말지
     public Order toDomain(
-            Long userId, Long processId, Long threadId, Payment paymentToSave) {
+            Long userId, Long processId, Long threadId, OrderStatus orderStatus,Payment paymentToSave) {
         return Order.builder()
                 .depositPrice(depositPrice)
                 .actualPrice(price)
@@ -21,6 +21,7 @@ public record CreateOrderCommand(
                 .threadId(threadId)
                 .uuid(null)
                 .payment(paymentToSave)
+                .orderStatus(orderStatus)
                 .build();
     }
 }
