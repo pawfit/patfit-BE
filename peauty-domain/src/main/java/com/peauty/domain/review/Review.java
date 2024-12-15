@@ -62,6 +62,7 @@ public class Review {
         this.reviewImages = reviewImages;
     }
 
+    /* TODO: 리팩토링 예정 : 리뷰 전체 조회 건
     @Builder
     public record Profile(
             Long reviewId,
@@ -90,7 +91,7 @@ public class Review {
                 .estimate(estimateProfile)
                 .style(style)
                 .build();
-    }
+    }*/
 
 
 }
