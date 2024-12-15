@@ -7,6 +7,7 @@ public record GetDesignerReviewsResult(
         Long designerId,
         List<ReviewDetails> reviews
 ) {
+    // TODO: 다른 API 가능성에 의한 reviewId 넣기
     public record ReviewDetails(
             LocalDate reviewDate,
             String reviewerNickname,
