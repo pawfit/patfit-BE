@@ -71,13 +71,4 @@ public class Customer {
         this.profileImageUrl = profileImageUrl;
     }
 
-
-    @Builder
-    public record Profile(
-            Long customerId,
-            String nickname
-    ){
-    }
-
-
 }
