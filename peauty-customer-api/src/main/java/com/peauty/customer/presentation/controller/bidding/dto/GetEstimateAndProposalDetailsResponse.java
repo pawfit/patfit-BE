@@ -3,6 +3,7 @@ package com.peauty.customer.presentation.controller.bidding.dto;
 import com.peauty.customer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
 import com.peauty.domain.bidding.Estimate;
 import com.peauty.domain.bidding.EstimateProposal;
+import com.peauty.domain.designer.Designer;
 import com.peauty.domain.puppy.Puppy;
 
 public record GetEstimateAndProposalDetailsResponse(
@@ -13,7 +14,8 @@ public record GetEstimateAndProposalDetailsResponse(
         String threadStep,
         Puppy.Profile puppy,
         EstimateProposal.Profile estimateProposal,
-        Estimate.Profile estimate
+        Estimate.Profile estimate,
+        Designer.Profile designer
 ) {
 
     public static GetEstimateAndProposalDetailsResponse from(GetEstimateAndProposalDetailsResult result) {
@@ -25,7 +27,8 @@ public record GetEstimateAndProposalDetailsResponse(
                 result.thread().getStatus().getDescription(),
                 result.puppy().getProfile(),
                 result.estimateProposal().getProfile(),
-                result.estimate().getProfile()
+                result.estimate().getProfile(),
+                result.designer()
         );
     }
 }
