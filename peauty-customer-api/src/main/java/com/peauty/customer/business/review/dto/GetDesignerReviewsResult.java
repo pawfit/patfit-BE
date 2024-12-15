@@ -13,7 +13,7 @@ public record GetDesignerReviewsResult(
             String totalGroomingBodyType,
             String totalGroomingFaceType,
             Double rating,
-            List<String> images,
+            List<String> imageUrls,
             String content
     ) {}
 }

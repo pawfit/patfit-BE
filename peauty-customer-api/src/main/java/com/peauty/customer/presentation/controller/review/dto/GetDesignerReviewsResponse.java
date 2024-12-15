@@ -15,7 +15,7 @@ public record GetDesignerReviewsResponse(
             String totalGroomingBodyType,
             String totalGroomingFaceType,
             Double rating,
-            List<String> images,
+            List<String> imageUrls,
             String content
     ) {}
 
@@ -29,7 +29,7 @@ public record GetDesignerReviewsResponse(
                                 review.totalGroomingBodyType(),
                                 review.totalGroomingFaceType(),
                                 review.rating(),
-                                review.images(),
+                                review.imageUrls(),
                                 review.content()
                         ))
                         .toList()
