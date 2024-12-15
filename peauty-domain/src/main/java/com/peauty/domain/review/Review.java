@@ -24,6 +24,10 @@ public class Review {
     @Getter private List<ReviewImage> reviewImages;     // 리뷰이미지
     @Getter private LocalDate reviewCreatedAt;      // 리뷰 작성 날짜
 
+    @Getter private final String customerNickname;
+    @Getter private final String totalGroomingBodyType;
+    @Getter private final String totalGroomingFaceType;
+
     public Optional<Review.ID> getId(){
         return Optional.ofNullable(this.id);
     }

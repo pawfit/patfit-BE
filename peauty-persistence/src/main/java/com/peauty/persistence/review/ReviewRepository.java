@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     Optional<ReviewEntity> findByIdAndBiddingThreadId(Long id, Long biddingThreadId);
     Boolean existsByBiddingThreadId(Long biddingThreadId);
+    Optional<ReviewEntity> findByBiddingThreadId(Long biddingThreadId);
+
 }

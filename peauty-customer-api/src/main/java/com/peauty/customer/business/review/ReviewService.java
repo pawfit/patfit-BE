@@ -18,5 +18,5 @@ public interface ReviewService {
 
     GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId);
 
-
+    GetDesignerReviewsResult getDesignerReviews(Long designerId);
 }

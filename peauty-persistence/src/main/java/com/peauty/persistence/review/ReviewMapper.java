@@ -3,7 +3,10 @@ package com.peauty.persistence.review;
 import com.peauty.domain.bidding.BiddingThread;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
+import com.peauty.persistence.bidding.estimate.EstimateProposalEntity;
+import com.peauty.persistence.customer.CustomerEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReviewMapper {
@@ -46,6 +49,7 @@ public class ReviewMapper {
                 .contentDetail(entity.getContentDetail())
                 .contentGeneral(entity.getContentGeneral())
                 .reviewImages(reviewImages)
+                .reviewCreatedAt(LocalDate.from(entity.getCreatedAt()))
                 .build();
 
     }
@@ -57,6 +61,29 @@ public class ReviewMapper {
                 .imageUrl(entity.getReviewImageUrl())
                 .build();
     }
+
+    public static Review toReviewDomain(
+            ReviewEntity reviewEntity,
+            String customerNickname,
+            EstimateProposalEntity proposal,
+            List<ReviewImageEntity> imageEntities
+    ) {
+        return Review.builder()
+                .id(new Review.ID(reviewEntity.getId()))
+                .reviewCreatedAt(reviewEntity.getCreatedAt().toLocalDate())
+                .customerNickname(customerNickname)
+                .totalGroomingBodyType(proposal != null ? proposal.getTotalGroomingBodyType().toString() : null)
+                .totalGroomingFaceType(proposal != null ? proposal.getTotalGroomingFaceType().toString() : null)
+                .contentDetail(reviewEntity.getContentDetail())
+                .reviewImages(imageEntities.stream()
+                        .map(imageEntity -> ReviewImage.builder()
+                                .imageUrl(imageEntity.getReviewImageUrl())
+                                .build())
+                        .toList())
+                .reviewRating(reviewEntity.getReviewRating())
+                .build();
+    }
+
 
 
 }

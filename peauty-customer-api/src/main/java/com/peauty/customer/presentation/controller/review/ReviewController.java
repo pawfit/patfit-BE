@@ -73,6 +73,13 @@ public class ReviewController {
         return GetReviewDetailResponse.from(result);
     }
 
+    @GetMapping("/users/{designerId}/shop/reviews")
+    @Operation(summary = "디자이너 리뷰 전체 조회", description = "디자이너의 리뷰를 조회하는 API 진입점입니다.")
+    public GetDesignerReviewsResponse getDesignerReviews(@PathVariable Long designerId) {
+
+        GetDesignerReviewsResult result = reviewService.getDesignerReviews(designerId);
+        return GetDesignerReviewsResponse.from(result);
+    }
 
 /* TODO: 추후 프론트 측에서 요청 시
     @GetMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/estimate")
