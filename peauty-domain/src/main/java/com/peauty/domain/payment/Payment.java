@@ -5,6 +5,7 @@ import com.peauty.domain.response.PeautyResponseCode;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Builder
@@ -13,13 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
+    private final String paymentPaidStatus = "paid";
     private Long paymentId;
     private Long orderId;
     private Long depositPrice;
     private LocalDateTime paymentEventTimestamp;
     private String paymentUuid;
     private PaymentStatus status;
-    private final String paymentPaidStatus = "paid";
 
     public static Payment initializePayment(Long depositPrice) {
         return Payment.builder()
@@ -32,23 +33,35 @@ public class Payment {
                 .build();
     }
 
+    public static Payment createNewPaymentForLog(Payment payment) {
+        return Payment.builder()
+                .orderId(payment.orderId)
+                .status(payment.status)
+                .paymentEventTimestamp(payment.paymentEventTimestamp)
+                .paymentUuid(payment.paymentUuid)
+                .depositPrice(payment.depositPrice)
+                .build();
+    }
+
     // TODO 유효성 검사를 하나로 모아두는 메서드 제작!
     public void validationSuccess() {
     }
 
-    public Boolean checkIfPaymentFailed(String paymentStatus) {
-        return paymentStatus.equals(paymentPaidStatus);
+    public Boolean checkPortonePaymentStatusNotPaied(String paymentStatus) {
+        return !Objects.equals(paymentStatus, paymentPaidStatus);
     }
 
-    public boolean checkIfPaymentPriceEquals(Long actualAmount) {
-        if(actualAmount.equals(depositPrice)) {
-            return true;
-        }
-        return false;
+    public boolean checkPaymentPriceEqualsWithPortonePrice(Long actualAmount) {
+        return !Objects.equals(actualAmount, depositPrice);
     }
 
     public void updateStatusToCancel() {
         this.status = PaymentStatus.CANCELLED;
+        this.paymentEventTimestamp = LocalDateTime.now();
+    }
+
+    public void updateStatusToError() {
+        this.status = PaymentStatus.ERROR;
         this.paymentEventTimestamp = LocalDateTime.now();
     }
 
@@ -66,7 +79,7 @@ public class Payment {
     }
 
     public void validatePrice(Long actualPrice, Long estimatePrice) {
-        if(actualPrice == null || estimatePrice == null) {
+        if (actualPrice == null || estimatePrice == null) {
             throw new PeautyException(PeautyResponseCode.NOT_FOUND_ACTUAL_PRICE);
         }
 
@@ -85,4 +98,6 @@ public class Payment {
         Double depositPrice = price * 0.5;
         this.depositPrice = (long) Math.toIntExact(Math.round(depositPrice / 100.0) * 100);
     }
+
+
 }

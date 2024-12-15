@@ -17,7 +17,7 @@ public class PuppyMapper {
                 .sex(puppyEntity.getSex())
                 .puppyAgeInfo(new PuppyAgeInfo(puppyEntity.getBirthdate()))
                 .detail(puppyEntity.getDetail())
-                .disease(puppyEntity.getDisease())
+                .diseases(puppyEntity.getDisease())
                 .diseaseDescription(puppyEntity.getDiseaseDescription())
                 .profileImageUrl(puppyEntity.getProfileImageUrl())
                 .customerId(puppyEntity.getCustomer().getId()) // customerId 추가
@@ -36,7 +36,7 @@ public class PuppyMapper {
                 .birthdate(puppy.getPuppyAgeInfo().getBirthdate())
                 .age(puppy.getPuppyAgeInfo().getSimpeAge())
                 .detail(puppy.getDetail())
-                .disease(puppy.getDisease())
+                .disease(puppy.getDiseases())
                 .diseaseDescription(puppy.getDiseaseDescription())
                 .profileImageUrl(puppy.getProfileImageUrl())
                 .customer(customer) // CustomerEntity를 설정

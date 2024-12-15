@@ -26,7 +26,7 @@ public record RegisterPuppyCommand(
                 .sex(sex)
                 .puppyAgeInfo(new PuppyAgeInfo(birthdate))
                 .detail(detail)
-                .disease(disease)
+                .diseases(disease)
                 .diseaseDescription(diseaseDescription)
                 .profileImageUrl(profileImageUrl)
                 .puppySize(puppySize)

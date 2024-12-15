@@ -7,6 +7,7 @@ public class PaymentMapper {
 
     public static OrderEntity toOrderEntity(Order order) {
         return OrderEntity.builder()
+                .id(order.getOrderId())
                 .threadId(order.getThreadId())
                 .depositPrice(order.getDepositPrice())
                 .actualPrice(order.getActualPrice())
@@ -22,6 +23,7 @@ public class PaymentMapper {
                 .actualPrice(orderEntity.getActualPrice())
                 .threadId(orderEntity.getThreadId())
                 .uuid(orderEntity.getUuid())
+                .orderStatus(orderEntity.getOrderStatus())
                 .payment(payment)
                 .build();
     }
@@ -31,6 +33,7 @@ public class PaymentMapper {
                 .id(payment.getPaymentId())
                 .orderId(payment.getOrderId())
                 .uuid(payment.getPaymentUuid())
+                .paymentEventTimestamp(payment.getPaymentEventTimestamp())
                 .depositPrice(payment.getDepositPrice())
                 .status(payment.getStatus())
                 .build();
@@ -41,6 +44,7 @@ public class PaymentMapper {
                 .paymentId(paymentEntity.id)
                 .orderId(paymentEntity.orderId)
                 .paymentUuid(paymentEntity.uuid)
+                .paymentEventTimestamp(paymentEntity.getPaymentEventTimestamp())
                 .status(paymentEntity.status)
                 .depositPrice(paymentEntity.depositPrice)
                 .build();

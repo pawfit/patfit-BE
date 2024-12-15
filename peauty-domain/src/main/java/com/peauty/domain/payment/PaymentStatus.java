@@ -4,4 +4,5 @@ public enum PaymentStatus {
     COMPLETED,
     READY,
     CANCELLED,
+    ERROR
 }
