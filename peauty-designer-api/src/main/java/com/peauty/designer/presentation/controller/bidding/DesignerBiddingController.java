@@ -1,10 +1,7 @@
 package com.peauty.designer.presentation.controller.bidding;
 
 import com.peauty.designer.business.bidding.DesignerBiddingService;
-import com.peauty.designer.business.bidding.dto.CompleteGroomingResult;
-import com.peauty.designer.business.bidding.dto.GetEstimateAndProposalDetailsResult;
-import com.peauty.designer.business.bidding.dto.GetEstimateProposalProfilesResult;
-import com.peauty.designer.business.bidding.dto.SendEstimateResult;
+import com.peauty.designer.business.bidding.dto.*;
 import com.peauty.designer.presentation.controller.bidding.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,10 +62,24 @@ public class DesignerBiddingController {
         return GetEstimateAndProposalDetailsResponse.from(result);
     }
 
-    @GetMapping("/{userId}/bidding/processes")
-    @Operation(summary = "나에게 온 견적요청서 조회", description = "디자이너 본인에게 온 견적요청서들의 프로필을 조회합니다.")
-    public GetEstimateProposalProfilesResponse getEstimateProposalProfiles(@PathVariable Long userId) {
-        GetEstimateProposalProfilesResult result = designerBiddingService.getEstimateProposalProfiles(userId);
-        return GetEstimateProposalProfilesResponse.from(result);
+    @GetMapping("/{userId}/bidding/processes/threads/above-step3")
+    @Operation(summary = "확정 견적 조회", description = "디자이너와 연관된 스레드들 중 Step 3 이상의 스레드들을 조회.")
+    public GetThreadsByStepResponse getStep3AboveThreads(@PathVariable Long userId) {
+        GetThreadsByStepResult result = designerBiddingService.getStep3AboveThreads(userId);
+        return GetThreadsByStepResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/bidding/processes/threads/step2")
+    @Operation(summary = "보낸 견적 조회", description = "디자이너와 연관된 스레드들 중 Step 2 스레드들을 조회.")
+    public GetThreadsByStepResponse getStep2Threads(@PathVariable Long userId) {
+        GetThreadsByStepResult result = designerBiddingService.getStep2Threads(userId);
+        return GetThreadsByStepResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/bidding/processes/threads/step1")
+    @Operation(summary = "받은 요청 조회", description = "디자이너와 연관된 스레드들 중 Step 1 스레드들을 조회.")
+    public GetThreadsByStepResponse getStep1Threads(@PathVariable Long userId) {
+        GetThreadsByStepResult result = designerBiddingService.getStep1Threads(userId);
+        return GetThreadsByStepResponse.from(result);
     }
 }

@@ -49,6 +49,7 @@ public enum PeautyResponseCode {
     INVALID_REVIEW_UPDATE("1227", "No Review, Invalid Review Update", "현재 리뷰가 존재하지 않아 수정할 수 없습니다."),
     WRONG_BIRTHDATE("1228", "Write In Your Puppy Birthday", "생년월일을 입력하세요."),
     INVALID_BIRTHDATE("1229", "Invalid Your Puppy Birthday", "현재 날짜보다 이후를 선택했습니다."),
+    CONTAINS_NON_EXISTING_DESIGNERS("1230", "Designer Not Found", "존재하지 않는 디자이너가 포함되어있습니다."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
