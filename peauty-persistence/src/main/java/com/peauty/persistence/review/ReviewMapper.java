@@ -67,9 +67,7 @@ public class ReviewMapper {
             EstimateProposal proposal,
             List<ReviewImageEntity> imageEntities
     ) {
-        String groomingStyle = (proposal.getTotalGroomingFaceType() != null && proposal.getTotalGroomingBodyType() != null)
-                ? proposal.getSimpleGroomingStyle()
-                : null;
+        String groomingStyle = proposal.getSimpleGroomingStyle();
 
         return Review.builder()
                 .id(new Review.ID(reviewEntity.getId()))
