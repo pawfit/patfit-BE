@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -109,8 +111,9 @@ public List<Review> findReviewsByDesignerId(Long designerId) {
 
     return threads.stream()
             .map(thread -> {
-                ReviewEntity reviewEntity = reviewRepository.findByBiddingThreadId(thread.getId())
-                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_REVIEW));
+                Optional<ReviewEntity> reviewEntityOpt = reviewRepository.findByBiddingThreadId(thread.getId());
+                if (reviewEntityOpt.isEmpty()) {return null;}
+                ReviewEntity reviewEntity = reviewEntityOpt.get();
 
                 EstimateProposalEntity proposal = proposals.stream()
                         .filter(p -> p.getProcessId().equals(thread.getBiddingProcess().getId()))
@@ -127,6 +130,7 @@ public List<Review> findReviewsByDesignerId(Long designerId) {
                         reviewImageRepository.findAllByReviewId(reviewEntity.getId())
                 );
             })
+            .filter(Objects::nonNull)
             .toList();
 }
 

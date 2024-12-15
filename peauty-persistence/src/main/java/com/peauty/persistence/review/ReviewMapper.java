@@ -72,8 +72,10 @@ public class ReviewMapper {
                 .id(new Review.ID(reviewEntity.getId()))
                 .reviewCreatedAt(reviewEntity.getCreatedAt().toLocalDate())
                 .customerNickname(customerNickname)
-                .totalGroomingBodyType(proposal != null ? proposal.getTotalGroomingBodyType().toString() : null)
-                .totalGroomingFaceType(proposal != null ? proposal.getTotalGroomingFaceType().toString() : null)
+                .totalGroomingBodyType(proposal != null && proposal.getTotalGroomingBodyType() != null
+                        ? proposal.getTotalGroomingBodyType().toString() : null)
+                .totalGroomingFaceType(proposal != null && proposal.getTotalGroomingFaceType() != null
+                        ? proposal.getTotalGroomingFaceType().toString() : null)
                 .contentDetail(reviewEntity.getContentDetail())
                 .reviewImages(imageEntities.stream()
                         .map(imageEntity -> ReviewImage.builder()

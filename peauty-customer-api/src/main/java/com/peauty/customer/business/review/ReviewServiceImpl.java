@@ -158,7 +158,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public GetDesignerReviewsResult getDesignerReviews(Long designerId) {
 
         List<Review> reviews = reviewPort.findReviewsByDesignerId(designerId);
