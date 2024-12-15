@@ -68,7 +68,6 @@ public class DesignerServiceImpl implements DesignerService {
         Designer designerToCreate = designerPort.getByDesignerId(userId);
         Workspace workspaceToCreate = CreateDesignerWorkspaceCommand.toWorkspace(command);
         List<License> licenseToCreate = CreateDesignerWorkspaceCommand.toLicense(command);
-
         designerToCreate.updateYearOfExperience(command.yearOfExperience());
         designerToCreate.updateLicenses(licenseToCreate);
 
@@ -96,7 +95,7 @@ public class DesignerServiceImpl implements DesignerService {
     public UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command) {
         Workspace workspaceToUpdate = workspacePort.findByDesignerId(userId);
         workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
-
+        workspaceToUpdate.updateBannerImgUrls(command.bannerImageUrls());
         Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
         Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
 

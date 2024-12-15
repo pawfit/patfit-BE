@@ -8,7 +8,7 @@ import java.util.List;
 
 public record UpdateDesignerWorkspaceRequest(
 
-        @Schema(description = "배너 이미지 URL", example = "룰루랄라 IMAGE URL")
+        @Schema(description = "배너 이미지 URL", example = "[\"imageUrl1\", \"imageUrl2\"]")
         List<String> bannerImageUrls,
 
         @Schema(description = "가게 이름", example = "룰루랄라 동물원")

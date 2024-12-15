@@ -15,6 +15,8 @@ import com.peauty.persistence.bidding.mapper.EstimateMapper;
 import com.peauty.persistence.bidding.thread.BiddingThreadEntity;
 import com.peauty.persistence.bidding.thread.BiddingThreadRepository;
 import com.peauty.persistence.designer.mapper.WorkspaceMapper;
+import com.peauty.persistence.designer.workspace.BannerImageEntity;
+import com.peauty.persistence.designer.workspace.BannerImageRepository;
 import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceRepository;
 import com.peauty.persistence.payment.*;
@@ -33,6 +35,7 @@ public class PaymentAdapter implements PaymentPort {
     private final WorkspaceRepository workspaceRepository;
     private final BiddingThreadRepository biddingThreadRepository;
     private final EstimateRepository estimateRepository;
+    private final BannerImageRepository bannerImageRepository;
 
     public Order saveOrder(Order order) {
         OrderEntity orderEntityToSave = PaymentMapper.toOrderEntity(order);
@@ -73,8 +76,9 @@ public class PaymentAdapter implements PaymentPort {
 
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace findWorkspace = WorkspaceMapper.toDomain(workspaceEntity);
+        Workspace findWorkspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
         return findWorkspace.getWorkspaceName();
     }
 

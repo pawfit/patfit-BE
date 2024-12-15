@@ -95,7 +95,7 @@ public class Workspace {
     }
 
     public String getBannerImageUrl(){
-        return bannerImageUrls.get(0);
+        return getBannerImageUrls().get(0);
     }
 
 }

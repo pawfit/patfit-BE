@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BannerImageRepository extends JpaRepository<BannerImageEntity, Long> {
     List<BannerImageEntity> findByWorkspaceId(Long id);
+
+    String findFirstBannerImageByWorkspaceId(Long id);
 }

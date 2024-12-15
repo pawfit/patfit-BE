@@ -40,17 +40,19 @@ public class WorkspaceAdapter implements WorkspacePort {
                 .stream()
                 .map(workspaceEntity -> {
                     Rating rating = getRatingByWorkspaceId(workspaceEntity.getId());
-                    return CustomerMapper.toWorkspaceDomain(workspaceEntity, rating); // Rating 포함
+                    List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                    return CustomerMapper.toWorkspaceDomain(workspaceEntity, rating, bannerImageEntities); // Rating 포함
                 })
                 .toList();
     }
-/*  TODO: 뱃지 붙이기 전의 findDesignerById
-    @Override
-    public Designer findDesignerById(Long designerId) {
-        return designerRepository.findById(designerId)
-                .map(CustomerMapper::toDesignerDomain)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));
-    }*/
+
+    /*  TODO: 뱃지 붙이기 전의 findDesignerById
+        @Override
+        public Designer findDesignerById(Long designerId) {
+            return designerRepository.findById(designerId)
+                    .map(CustomerMapper::toDesignerDomain)
+                    .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));
+        }*/
 @Override
 public Designer findDesignerById(Long designerId) {
     return designerRepository.findById(designerId)
@@ -91,13 +93,8 @@ public Designer findDesignerById(Long designerId) {
                 .orElse(null);
         List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        List<String> bannerImageUrls = bannerImageEntities.stream()
-                .map(BannerImageEntity::getBannerImageUrl)
-                .collect(Collectors.toList());
-
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
-        workspace.updateBannerImgUrls(bannerImageUrls);
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
         workspace.updateRating(rating);
 
         return workspace;
@@ -107,8 +104,8 @@ public Designer findDesignerById(Long designerId) {
     public Workspace registerReviewStats(Long designerId, ReviewRating newRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
         // 리뷰 작성 로직
         workspace.registerReviewStats(newRating);
         // 엔티티 변환 후 저장
@@ -121,8 +118,9 @@ public Designer findDesignerById(Long designerId) {
     public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
 
         // 리뷰 수정 로직
         workspace.updateReviewStats(oldRating, newRating);
@@ -136,8 +134,9 @@ public Designer findDesignerById(Long designerId) {
     public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
 
         // 리뷰 삭제 로직
         workspace.deleteReviewStats(deletedRating);
