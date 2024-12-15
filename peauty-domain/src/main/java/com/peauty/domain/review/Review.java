@@ -20,6 +20,8 @@ public class Review {
     @Getter private ContentGeneral contentGeneral;      // 일반리뷰
     @Getter private List<ReviewImage> reviewImages;     // 리뷰이미지
     @Getter private LocalDate reviewCreatedAt;      // 리뷰 작성 날짜
+
+    // TODO: reviewerNickname은 Customer 도메인에서, groomingStyle은 EstimateProposal에서 가져올 수 있도록 하기
     @Getter private final String reviewerNickname;
 
     @Getter private final String groomingStyle;
