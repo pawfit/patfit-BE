@@ -3,6 +3,7 @@ package com.peauty.customer.implementaion.addy;
 import com.peauty.addy.dalle.DalleClient;
 import com.peauty.addy.dalle.ImageMaskGenerator;
 import com.peauty.customer.business.addy.AddyPort;
+import com.peauty.customer.business.addy.dto.CreateAddyImageCommand;
 import com.peauty.customer.business.addy.dto.CreateMaskingResult;
 import com.peauty.domain.addy.AddyImage;
 import com.peauty.persistence.addy.AddyRepository;
@@ -26,4 +27,5 @@ public class AddyAdapter implements AddyPort {
     public AddyImage sendImageToDalle(CreateMaskingResult result) {
         return null;
     }
+
 }

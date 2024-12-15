@@ -15,4 +15,8 @@ public record CreateAddyImageCommand(
 ){
 
 
+    public CreateMaskingResult toCreateMaskingResult() {
+        return CreateMaskingResult.builder()
+                .build();
+    }
 }

@@ -16,4 +16,10 @@ public record CreateAddyImageResult(
                 .addyImageUrl(addyImage.getAddyImageUrl())
                 .build();
     }
+
+    public static CreateAddyImageResult from(CreateMaskingResult result) {
+        return CreateAddyImageResult.builder()
+                .addyImageUrl(result.maskingImageUrl())
+                .build();
+    }
 }

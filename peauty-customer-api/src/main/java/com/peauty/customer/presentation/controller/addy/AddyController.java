@@ -25,4 +25,28 @@ public class AddyController {
                         userId, puppyId, request.toCommand());
         return CreateAddyImageResponse.from(createAddyImageResult);
     }
+
+    @PostMapping("/users/{userId}/puppies/{puppyId}/test/maskingImage")
+    public CreateAddyImageResponse testGenerateMaskingImage(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @RequestBody CreateAddyImageRequest request
+    ) {
+        CreateAddyImageResult createAddyImageResult =
+                addyService.testGenerateMaskingImage(
+                        userId, puppyId, request.toCommand());
+        return CreateAddyImageResponse.from(createAddyImageResult);
+    }
+
+    @PostMapping("/users/{userId}/puppies/{puppyId}/test/dalleImage")
+    public CreateAddyImageResponse testGenerateDalleImage(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @RequestBody CreateAddyImageRequest request
+    ) {
+        CreateAddyImageResult createAddyImageResult =
+                addyService.testGenerateDalleImage(
+                        userId, puppyId, request.toCommand());
+        return CreateAddyImageResponse.from(createAddyImageResult);
+    }
 }
