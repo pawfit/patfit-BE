@@ -1,10 +1,9 @@
 package com.peauty.persistence.review;
 
 import com.peauty.domain.bidding.BiddingThread;
+import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
-import com.peauty.persistence.bidding.estimate.EstimateProposalEntity;
-import com.peauty.persistence.customer.CustomerEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -64,18 +63,19 @@ public class ReviewMapper {
 
     public static Review toReviewDomain(
             ReviewEntity reviewEntity,
-            String customerNickname,
-            EstimateProposalEntity proposal,
+            String reviewerNickname,
+            EstimateProposal proposal,
             List<ReviewImageEntity> imageEntities
     ) {
+        String groomingStyle = (proposal.getTotalGroomingFaceType() != null && proposal.getTotalGroomingBodyType() != null)
+                ? proposal.getSimpleGroomingStyle()
+                : null;
+
         return Review.builder()
                 .id(new Review.ID(reviewEntity.getId()))
                 .reviewCreatedAt(reviewEntity.getCreatedAt().toLocalDate())
-                .customerNickname(customerNickname)
-                .totalGroomingBodyType(proposal != null && proposal.getTotalGroomingBodyType() != null
-                        ? proposal.getTotalGroomingBodyType().toString() : null)
-                .totalGroomingFaceType(proposal != null && proposal.getTotalGroomingFaceType() != null
-                        ? proposal.getTotalGroomingFaceType().toString() : null)
+                .reviewerNickname(reviewerNickname)
+                .groomingStyle(groomingStyle)
                 .contentDetail(reviewEntity.getContentDetail())
                 .reviewImages(imageEntities.stream()
                         .map(imageEntity -> ReviewImage.builder()
@@ -84,9 +84,9 @@ public class ReviewMapper {
                         .toList())
                 .reviewRating(reviewEntity.getReviewRating())
                 .build();
+
+
     }
-
-
 
 }
 

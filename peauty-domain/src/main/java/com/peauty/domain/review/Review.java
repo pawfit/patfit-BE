@@ -1,12 +1,9 @@
 package com.peauty.domain.review;
 
 import com.peauty.domain.bidding.BiddingThread;
-import com.peauty.domain.bidding.Estimate;
-import com.peauty.domain.customer.Customer;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +20,9 @@ public class Review {
     @Getter private ContentGeneral contentGeneral;      // 일반리뷰
     @Getter private List<ReviewImage> reviewImages;     // 리뷰이미지
     @Getter private LocalDate reviewCreatedAt;      // 리뷰 작성 날짜
+    @Getter private final String reviewerNickname;
 
-    @Getter private final String customerNickname;
-    @Getter private final String totalGroomingBodyType;
-    @Getter private final String totalGroomingFaceType;
+    @Getter private final String groomingStyle;
 
     public Optional<Review.ID> getId(){
         return Optional.ofNullable(this.id);

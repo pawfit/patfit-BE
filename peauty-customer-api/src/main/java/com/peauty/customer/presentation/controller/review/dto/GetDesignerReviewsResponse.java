@@ -11,9 +11,8 @@ public record GetDesignerReviewsResponse(
 ) {
     public record ReviewDetails(
             LocalDate reviewDate,
-            String customerNickname,
-            String totalGroomingBodyType,
-            String totalGroomingFaceType,
+            String reviewerNickname,
+            String groomingStyle,
             Double rating,
             List<String> imageUrls,
             String content
@@ -25,9 +24,8 @@ public record GetDesignerReviewsResponse(
                 result.reviews().stream()
                         .map(review -> new ReviewDetails(
                                 review.reviewDate(),
-                                review.customerNickname(),
-                                review.totalGroomingBodyType(),
-                                review.totalGroomingFaceType(),
+                                review.reviewerNickname(),
+                                review.groomingStyle(),
                                 review.rating(),
                                 review.imageUrls(),
                                 review.content()

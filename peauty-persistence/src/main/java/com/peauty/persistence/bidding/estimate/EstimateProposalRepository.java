@@ -12,5 +12,4 @@ public interface EstimateProposalRepository extends JpaRepository<EstimatePropos
 
     Optional<EstimateProposalEntity> findByProcessId(Long processId);
 
-    List<EstimateProposalEntity> findByProcessIds(Collection<Long> processIds);
 }

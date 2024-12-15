@@ -9,11 +9,26 @@ public record GetDesignerReviewsResult(
 ) {
     public record ReviewDetails(
             LocalDate reviewDate,
-            String customerNickname,
-            String totalGroomingBodyType,
-            String totalGroomingFaceType,
+            String reviewerNickname,
+            String groomingStyle,
             Double rating,
             List<String> imageUrls,
             String content
-    ) {}
+    ) {
+        public ReviewDetails(
+                LocalDate reviewDate,
+                String reviewerNickname,
+                String groomingStyle,
+                Double rating,
+                List<String> imageUrls,
+                String content
+        ) {
+            this.reviewDate = reviewDate;
+            this.reviewerNickname = reviewerNickname;
+            this.groomingStyle = groomingStyle;
+            this.rating = rating;
+            this.imageUrls = imageUrls;
+            this.content = content;
+        }
+    }
 }

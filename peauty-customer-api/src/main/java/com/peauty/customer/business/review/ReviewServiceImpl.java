@@ -133,10 +133,6 @@ public class ReviewServiceImpl implements ReviewService {
         return GetReviewDetailResult.from(review);
     }
 
-
-
-
-
     @Override
     public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long threadId, Long processId) {
         // 프로세스와 스레드 검증
@@ -159,15 +155,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public GetDesignerReviewsResult getDesignerReviews(Long designerId) {
-
         List<Review> reviews = reviewPort.findReviewsByDesignerId(designerId);
 
         List<GetDesignerReviewsResult.ReviewDetails> reviewDetails = reviews.stream()
                 .map(review -> new GetDesignerReviewsResult.ReviewDetails(
                         review.getReviewCreatedAt(),
-                        review.getCustomerNickname(),
-                        review.getTotalGroomingBodyType(),
-                        review.getTotalGroomingFaceType(),
+                        review.getReviewerNickname(),
+                        review.getGroomingStyle(),
                         review.getReviewRating().getValue(),
                         review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList(),
                         review.getContentDetail()
@@ -176,7 +170,5 @@ public class ReviewServiceImpl implements ReviewService {
 
         return new GetDesignerReviewsResult(designerId, reviewDetails);
     }
-
-
 
 }

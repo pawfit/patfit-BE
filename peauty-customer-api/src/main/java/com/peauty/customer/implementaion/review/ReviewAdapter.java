@@ -1,6 +1,8 @@
 package com.peauty.customer.implementaion.review;
 
+import com.peauty.customer.business.bidding.EstimateProposalPort;
 import com.peauty.customer.business.review.ReviewPort;
+import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
@@ -30,6 +32,7 @@ public class ReviewAdapter implements ReviewPort {
     private final BiddingThreadRepository biddingThreadRepository;
     private final EstimateProposalRepository estimateProposalRepository;
     private final CustomerRepository customerRepository;
+    private final EstimateProposalPort estimateProposalPort;
 
     @Override
     public Review registerNewReview(Review review) {
@@ -107,18 +110,15 @@ public List<Review> findReviewsByDesignerId(Long designerId) {
             .map(thread -> thread.getBiddingProcess().getId())
             .collect(Collectors.toSet());
 
-    List<EstimateProposalEntity> proposals = estimateProposalRepository.findByProcessIds(processIds);
-
     return threads.stream()
             .map(thread -> {
-                Optional<ReviewEntity> reviewEntityOpt = reviewRepository.findByBiddingThreadId(thread.getId());
-                if (reviewEntityOpt.isEmpty()) {return null;}
-                ReviewEntity reviewEntity = reviewEntityOpt.get();
+                Optional<ReviewEntity> optionalReviewEntity = reviewRepository.findByBiddingThreadId(thread.getId());
+                if (optionalReviewEntity.isEmpty()) {
+                    return null;
+                }
+                ReviewEntity reviewEntity = optionalReviewEntity.get();
 
-                EstimateProposalEntity proposal = proposals.stream()
-                        .filter(p -> p.getProcessId().equals(thread.getBiddingProcess().getId()))
-                        .findFirst()
-                        .orElse(null);
+                EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(thread.getBiddingProcess().getId());
 
                 CustomerEntity customerEntity = customerRepository.findByPuppyId(thread.getBiddingProcess().getPuppyId())
                         .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
@@ -133,6 +133,7 @@ public List<Review> findReviewsByDesignerId(Long designerId) {
             .filter(Objects::nonNull)
             .toList();
 }
+
 
 
 }
