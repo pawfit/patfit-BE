@@ -1,6 +1,7 @@
-package com.peauty.persistence.puppy;
+package com.peauty.persistence.Addy;
 
 import com.peauty.persistence.config.BaseTimeEntity;
+import com.peauty.persistence.puppy.PuppyEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
