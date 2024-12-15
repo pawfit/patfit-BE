@@ -51,23 +51,6 @@ public class CustomerBiddingController {
         return AcceptEstimateResponse.from(result);
     }
 
-    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}")
-    @Operation(summary = "견적요청서 & 견적서 상세정보 조회", description = "해당하는 프로세스, 스레드와 연관된 견적요청서와 견적서의 상세정보를 조회.")
-    public GetEstimateAndProposalDetailsResponse getEstimateAndProposalDetails(
-            @PathVariable Long userId,
-            @PathVariable Long puppyId,
-            @PathVariable Long processId,
-            @PathVariable Long threadId
-    ) {
-        GetEstimateAndProposalDetailsResult result = customerBiddingService.getEstimateAndProposalDetails(
-                userId,
-                puppyId,
-                processId,
-                threadId
-        );
-        return GetEstimateAndProposalDetailsResponse.from(result);
-    }
-
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/threads/above-step3")
     @Operation(summary = "확정견적 조회", description = "강아지의 모든 프로세스와 그 프로세스들에 속해있는 스레드들 중 Step 3 이상 스레드들을 조회.")
     public GetAllStep3AboveThreadsResponse getAllStep3AboveThreads(
@@ -120,5 +103,22 @@ public class CustomerBiddingController {
                 processId
         );
         return GetEstimateProposalDetailResponse.from(result);
+    }
+
+    @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}")
+    @Operation(summary = "견적요청서 & 견적서 상세정보 조회", description = "해당하는 프로세스, 스레드와 연관된 견적요청서와 견적서의 상세정보를 조회.")
+    public GetEstimateAndProposalDetailsResponse getEstimateAndProposalDetails(
+            @PathVariable Long userId,
+            @PathVariable Long puppyId,
+            @PathVariable Long processId,
+            @PathVariable Long threadId
+    ) {
+        GetEstimateAndProposalDetailsResult result = customerBiddingService.getEstimateAndProposalDetails(
+                userId,
+                puppyId,
+                processId,
+                threadId
+        );
+        return GetEstimateAndProposalDetailsResponse.from(result);
     }
 }
