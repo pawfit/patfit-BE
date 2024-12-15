@@ -23,7 +23,7 @@ public record GetPuppyProfileResult(
                 puppy.getWeight(),
                 puppy.getSex().name(),
                 puppy.getPuppyAgeInfo().getSimpeAge(),
-                puppy.getDisease().stream().map(Disease::getDescription).toList(),
+                puppy.getDiseases().stream().map(Disease::getDescription).toList(),
                 puppy.getProfileImageUrl()
         );
     }

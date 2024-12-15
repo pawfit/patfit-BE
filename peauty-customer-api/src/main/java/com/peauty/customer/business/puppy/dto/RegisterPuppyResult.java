@@ -30,7 +30,7 @@ public record RegisterPuppyResult(
                 puppy.getSex().name(),
                 puppy.getPuppyAgeInfo().getBirthdate(),
                 puppy.getDetail(),
-                puppy.getDisease().stream().map(Disease::getDescription).toList(),
+                puppy.getDiseases().stream().map(Disease::getDescription).toList(),
                 puppy.getDiseaseDescription(),
                 puppy.getProfileImageUrl(),
                 puppy.getPuppySize().getDescription(),
