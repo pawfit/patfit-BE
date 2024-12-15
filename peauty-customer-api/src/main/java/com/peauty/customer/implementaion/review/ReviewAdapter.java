@@ -107,7 +107,7 @@ public List<Review> findReviewsByDesignerId(Long designerId) {
             .map(thread -> thread.getBiddingProcess().getId())
             .collect(Collectors.toSet());
 
-    List<EstimateProposalEntity> proposals = estimateProposalRepository.findByProcessIdIn(processIds);
+    List<EstimateProposalEntity> proposals = estimateProposalRepository.findByProcessIds(processIds);
 
     return threads.stream()
             .map(thread -> {
