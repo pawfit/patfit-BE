@@ -67,7 +67,7 @@ public class CustomerMapper {
                 .workspaceName(entity.getWorkspaceName())
                 .address(entity.getAddress())
                 .addressDetail(entity.getAddressDetail())
-                .bannerImageUrl(entity.getBannerImageUrl())
+                //.bannerImageUrs(entity.getBannerImageUrl())
                 .reviewCount(entity.getReviewCount())
                 .reviewRating(entity.getReviewRating())
                 .rating(rating) // Rating 포함

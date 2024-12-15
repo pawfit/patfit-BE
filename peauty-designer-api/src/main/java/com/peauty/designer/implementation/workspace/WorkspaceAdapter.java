@@ -8,11 +8,16 @@ import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.persistence.designer.mapper.WorkspaceMapper;
 import com.peauty.persistence.designer.rating.RatingEntity;
 import com.peauty.persistence.designer.rating.RatingRepository;
+import com.peauty.persistence.designer.workspace.BannerImageEntity;
+import com.peauty.persistence.designer.workspace.BannerImageRepository;
 import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Component;
 public class WorkspaceAdapter implements WorkspacePort {
     private final WorkspaceRepository workspaceRepository;
     private final RatingRepository ratingRepository;
+    private final BannerImageRepository bannerImageRepository;
 
     @Override
     public Workspace registerNew(Workspace workspace, Long designerId) {
@@ -33,15 +39,23 @@ public class WorkspaceAdapter implements WorkspacePort {
     }
 
     @Override
-    public Workspace getByDesignerId(Long userId) {
+    public Workspace findByDesignerId(Long userId) {
+
         WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);
+        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+
+        List<String> bannerImageUrls = bannerImageEntities.stream()
+                .map(BannerImageEntity::getBannerImageUrl)
+                .collect(Collectors.toList());
 
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity);
+        workspace.updateBannerImgUrls(bannerImageUrls);
         workspace.updateRating(rating);
+
         return workspace;
     }
 

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public record GetDesignerWorkspaceResult(
         Long designerId,
         Long workspaceId,
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
         String workspaceName,
         Double reviewRating,
         Integer reviewsCount,
@@ -37,7 +37,7 @@ public record GetDesignerWorkspaceResult(
         return new GetDesignerWorkspaceResult(
                 designer.getDesignerId(),
                 workspace.getWorkspaceId(),
-                workspace.getBannerImageUrl(),
+                workspace.getBannerImageUrls(),
                 workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
                 workspace.getReviewCount(),

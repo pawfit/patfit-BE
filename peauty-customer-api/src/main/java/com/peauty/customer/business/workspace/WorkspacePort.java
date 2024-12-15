@@ -12,7 +12,7 @@ public interface WorkspacePort {
     List<Workspace> findAllWorkspaceByAddress(String address);
     Designer findDesignerById(Long designerId);
     Rating getRatingByWorkspaceId(Long workspaceId); // 추가된 메서드
-    Workspace getByDesignerId(Long designerId);
+    Workspace findByDesignerId(Long designerId);
 
 //    void saveWorkspace(Workspace workspace);
     Workspace registerReviewStats(Long workspaceId, ReviewRating newRating);

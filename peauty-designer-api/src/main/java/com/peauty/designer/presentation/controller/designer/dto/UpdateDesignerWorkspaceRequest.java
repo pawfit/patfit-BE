@@ -9,7 +9,7 @@ import java.util.List;
 public record UpdateDesignerWorkspaceRequest(
 
         @Schema(description = "배너 이미지 URL", example = "룰루랄라 IMAGE URL")
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
 
         @Schema(description = "가게 이름", example = "룰루랄라 동물원")
         String workspaceName,
@@ -58,7 +58,7 @@ public record UpdateDesignerWorkspaceRequest(
 ) {
         public UpdateDesignerWorkspaceCommand toCommand() {
                 return new UpdateDesignerWorkspaceCommand(
-                        this.bannerImageUrl,
+                        this.bannerImageUrls,
                         this.workspaceName,
                         this.introduceTitle,
                         this.introduce,

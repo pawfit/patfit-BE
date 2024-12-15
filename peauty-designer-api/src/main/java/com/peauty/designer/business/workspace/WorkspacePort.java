@@ -5,6 +5,6 @@ import com.peauty.domain.designer.Workspace;
 public interface WorkspacePort {
     Workspace registerNew(Workspace workspace, Long designerId);
 
-    Workspace getByDesignerId(Long userId);
+    Workspace findByDesignerId(Long userId);
     Workspace updateDesginerWorkspace(Long userId, Workspace workspace);
 }

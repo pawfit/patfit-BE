@@ -74,7 +74,7 @@ public class DesignerServiceImpl implements DesignerService {
 
         Designer savedDesigner = designerPort.save(designerToCreate);
         Workspace savedWorkspace = workspacePort.registerNew(workspaceToCreate, savedDesigner.getDesignerId());
-        Workspace getRating = workspacePort.getByDesignerId(userId);
+        Workspace getRating = workspacePort.findByDesignerId(userId);
 
         savedWorkspace.updateRating(getRating.getRating());
         savedDesigner.updateBadges(designerPort.getBadges(userId));
@@ -85,7 +85,7 @@ public class DesignerServiceImpl implements DesignerService {
     @Override
     public GetDesignerWorkspaceResult getDesignerWorkspace(Long userId) {
         Designer designer = designerPort.getAllDesignerDataByDesignerId(userId);
-        Workspace workspace = workspacePort.getByDesignerId(userId);
+        Workspace workspace = workspacePort.findByDesignerId(userId);
 
         designer.updateBadges(designerPort.getBadges(userId));
         return GetDesignerWorkspaceResult.from(designer, workspace);
@@ -94,7 +94,7 @@ public class DesignerServiceImpl implements DesignerService {
     @Transactional
     @Override
     public UpdateDesignerWorkspaceResult updateDesignerWorkspace(Long userId, UpdateDesignerWorkspaceCommand command) {
-        Workspace workspaceToUpdate = workspacePort.getByDesignerId(userId);
+        Workspace workspaceToUpdate = workspacePort.findByDesignerId(userId);
         workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
 
         Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
