@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@FeignClient(name = "dalle edit image", url = "https://api.openai.com/v1")
+@FeignClient(name = "dalle-edit-image", url = "https://api.openai.com/v1")
 public interface DalleClient {
     @PostMapping(value = "/images/edits", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     DalleEditImageResponse editImage(
