@@ -166,8 +166,8 @@ public class BiddingThread {
         }
     }
 
-    public Profile getProfile() {
-        return Profile.builder()
+    public ThreadProfile getProfile() {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getDescription())
@@ -177,8 +177,8 @@ public class BiddingThread {
                 .build();
     }
 
-    public Profile getProfile(Designer.Profile designerProfile) {
-        return Profile.builder()
+    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile) {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getDescription())
@@ -189,8 +189,8 @@ public class BiddingThread {
                 .build();
     }
 
-    public Profile getProfile(Estimate.Profile estimateProfile) {
-        return Profile.builder()
+    public ThreadProfile getProfile(Estimate.EstimateProfile estimateProfile) {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getDescription())
@@ -201,8 +201,8 @@ public class BiddingThread {
                 .build();
     }
 
-    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile) {
-        return Profile.builder()
+    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile) {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getDescription())
@@ -214,8 +214,8 @@ public class BiddingThread {
                 .build();
     }
 
-    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile, Boolean isReviewed) {
-        return Profile.builder()
+    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile, Boolean isReviewed) {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
                 .threadStep(step.getDescription())
@@ -228,8 +228,8 @@ public class BiddingThread {
                 .build();
     }
 
-    public Profile getProfile(Designer.Profile designerProfile, Estimate.Profile estimateProfile, Boolean isReviewed, String style) {
-        return Profile.builder()
+    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile, Boolean isReviewed, String style) {
+        return ThreadProfile.builder()
                 .processId(processId.value())
                 .style(style)
                 .threadId(id.value())
@@ -244,7 +244,7 @@ public class BiddingThread {
     }
 
     @Builder
-    public record Profile(
+    public record ThreadProfile(
             Long processId,
             String style,
             Long threadId,
@@ -253,8 +253,8 @@ public class BiddingThread {
             Boolean isReviewed,
             LocalDateTime threadCreatedAt,
             LocalDateTime threadStepModifiedAt,
-            Designer.Profile designer,
-            Estimate.Profile estimate
+            Designer.DesignerProfile designer,
+            Estimate.EstimateProfile estimate
     ) {
     }
 }

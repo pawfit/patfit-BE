@@ -143,7 +143,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         // Estimate 가져오기
-        Estimate.Profile estimateProfile = estimatePort.getEstimateByThreadId(threadId)
+        Estimate.EstimateProfile estimateProfile = estimatePort.getEstimateByThreadId(threadId)
                 .getProfile();
 
         // 디자이너,워크스페이스 가져오기

@@ -175,8 +175,8 @@ public class BiddingProcess {
         }
     }
 
-    public Profile getProfile() {
-        return Profile.builder()
+    public ProcessProfile getProfile() {
+        return ProcessProfile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
                 .processCreatedAt(timeInfo.getCreatedAt())
@@ -184,8 +184,8 @@ public class BiddingProcess {
                 .build();
     }
 
-    public Profile getProfile(EstimateProposal.Profile estimateProposalProfile) {
-        return Profile.builder()
+    public ProcessProfile getProfile(EstimateProposal.EstimateProposalProfile estimateProposalProfile) {
+        return ProcessProfile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
                 .estimateProposal(estimateProposalProfile)
@@ -194,11 +194,11 @@ public class BiddingProcess {
                 .build();
     }
 
-    public Profile getProfile(
-            Puppy.Profile puppyProfile,
-            EstimateProposal.Profile estimateProposalProfile
+    public ProcessProfile getProfile(
+            Puppy.PuppyProfile puppyProfile,
+            EstimateProposal.EstimateProposalProfile estimateProposalProfile
     ) {
-        return Profile.builder()
+        return ProcessProfile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
                 .puppy(puppyProfile)
@@ -208,13 +208,13 @@ public class BiddingProcess {
                 .build();
     }
 
-    public Profile getProfile(
-            Puppy.Profile puppyProfile,
-            EstimateProposal.Profile estimateProposalProfile,
+    public ProcessProfile getProfile(
+            Puppy.PuppyProfile puppyProfile,
+            EstimateProposal.EstimateProposalProfile estimateProposalProfile,
             DesignerId designerId
     ) {
         BiddingThread thread = getThread(designerId);
-        return Profile.builder()
+        return ProcessProfile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
                 .puppy(puppyProfile)
@@ -226,14 +226,14 @@ public class BiddingProcess {
     }
 
     @Builder
-    public record Profile(
+    public record ProcessProfile(
             Long processId,
             String processStatus,
             LocalDateTime processCreatedAt,
             LocalDateTime processStatusModifiedAt,
-            Puppy.Profile puppy,
-            EstimateProposal.Profile estimateProposal,
-            BiddingThread.Profile threadInfo
+            Puppy.PuppyProfile puppy,
+            EstimateProposal.EstimateProposalProfile estimateProposal,
+            BiddingThread.ThreadProfile threadInfo
     ) {
     }
 }
