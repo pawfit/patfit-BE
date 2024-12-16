@@ -5,7 +5,7 @@ import com.peauty.customer.business.review.dto.RegisterReviewResult;
 public record RegisterReviewResponse(
         Long reviewId,
         Long biddingThreadId,
-        String reviewRating,
+        Double reviewRating,
         String contentDetail,
         String contentGeneral
 ) {
@@ -13,7 +13,7 @@ public record RegisterReviewResponse(
         return new RegisterReviewResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
-                result.reviewRating().toString(),
+                result.reviewRating(),
                 result.contentDetail(),
                 result.contentGeneral()
         );

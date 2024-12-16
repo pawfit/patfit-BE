@@ -8,7 +8,7 @@ import java.util.List;
 public record GetReviewDetailResponse(
         Long reviewId,
         Long biddingThreadId,
-        String reviewRating,
+        Double reviewRating,
         String contentDetail,
         String contentGeneral,
         List<String> reviewImages
@@ -18,7 +18,7 @@ public record GetReviewDetailResponse(
         return new GetReviewDetailResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
-                result.reviewRating().toString(),
+                result.reviewRating(),
                 result.contentDetail(),
                 result.contentGeneral(),
                 result.reviewImages()
