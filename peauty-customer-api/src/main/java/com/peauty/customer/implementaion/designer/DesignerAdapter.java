@@ -102,7 +102,7 @@ public class DesignerAdapter implements DesignerPort {
     }
 
     @Override
-    public Designer.Profile getDesignerProfileByDesignerId(Long designerId) {
+    public Designer.DesignerProfile getDesignerProfileByDesignerId(Long designerId) {
         Designer designer = getAllDesignerDataByDesignerId(designerId);
         Workspace workspace = workspacePort.findByDesignerId(designerId);
         return designer.getProfile(workspace);

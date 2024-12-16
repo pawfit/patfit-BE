@@ -78,8 +78,8 @@ public class Puppy {
         puppyAgeInfo.updateBirthdate(birthdate);
     }
 
-    public Profile getProfile() {
-        return Profile.builder()
+    public PuppyProfile getProfile() {
+        return PuppyProfile.builder()
                 .puppyId(puppyId)
                 .customerId(customerId)
                 .name(name)
@@ -94,8 +94,8 @@ public class Puppy {
                 .build();
     }
 
-    public Profile getProfile(Boolean hasOngoingProcess) {
-        return Profile.builder()
+    public PuppyProfile getProfile(Boolean hasOngoingProcess) {
+        return PuppyProfile.builder()
                 .puppyId(puppyId)
                 .customerId(customerId)
                 .name(name)
@@ -112,7 +112,7 @@ public class Puppy {
     }
 
     @Builder
-    public record Profile(
+    public record PuppyProfile(
             Long puppyId,
             Long customerId,
             String name,

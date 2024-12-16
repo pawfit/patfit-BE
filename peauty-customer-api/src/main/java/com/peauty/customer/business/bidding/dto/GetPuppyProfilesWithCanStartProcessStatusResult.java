@@ -5,10 +5,10 @@ import com.peauty.domain.puppy.Puppy;
 import java.util.List;
 
 public record GetPuppyProfilesWithCanStartProcessStatusResult(
-        List<Puppy.Profile> puppies
+        List<Puppy.PuppyProfile> puppies
 ) {
 
-    public static GetPuppyProfilesWithCanStartProcessStatusResult from(List<Puppy.Profile> puppies) {
+    public static GetPuppyProfilesWithCanStartProcessStatusResult from(List<Puppy.PuppyProfile> puppies) {
         return new GetPuppyProfilesWithCanStartProcessStatusResult(puppies);
     }
 }

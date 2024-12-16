@@ -12,10 +12,10 @@ public record GetEstimateAndProposalDetailsResponse(
         Long threadId,
         String threadStatus,
         String threadStep,
-        Puppy.Profile puppy,
-        EstimateProposal.Profile estimateProposal,
-        Estimate.Profile estimate,
-        Designer.Profile designer // TODO 테스트용 주석, 성공 시 지우기
+        Puppy.PuppyProfile puppy,
+        EstimateProposal.EstimateProposalProfile estimateProposal,
+        Estimate.EstimateProfile estimate,
+        Designer.DesignerProfile designer // TODO 테스트용 주석, 성공 시 지우기
 ) {
 
     public static GetEstimateAndProposalDetailsResponse from(GetEstimateAndProposalDetailsResult result) {

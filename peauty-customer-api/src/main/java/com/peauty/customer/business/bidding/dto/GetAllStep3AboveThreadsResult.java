@@ -5,10 +5,10 @@ import com.peauty.domain.bidding.BiddingThread;
 import java.util.List;
 
 public record GetAllStep3AboveThreadsResult(
-        List<BiddingThread.Profile> threads
+        List<BiddingThread.ThreadProfile> threads
 ) {
 
-    public static GetAllStep3AboveThreadsResult from(List<BiddingThread.Profile> threads) {
+    public static GetAllStep3AboveThreadsResult from(List<BiddingThread.ThreadProfile> threads) {
         return new GetAllStep3AboveThreadsResult(threads);
     }
 }

@@ -7,8 +7,8 @@ import com.peauty.domain.puppy.Puppy;
 public record GetEstimateProposalDetailResponse(
         Long processId,
         String processStatus,
-        Puppy.Profile puppy,
-        EstimateProposal.Profile estimateProposal
+        Puppy.PuppyProfile puppy,
+        EstimateProposal.EstimateProposalProfile estimateProposal
 
 ) {
 

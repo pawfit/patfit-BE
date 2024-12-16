@@ -22,7 +22,7 @@ public record GetThreadsByStepResponse(
             String threadStatus,
             LocalDateTime threadCreatedAt,
             LocalDateTime threadStepModifiedAt,
-            Puppy.Profile puppy
+            Puppy.PuppyProfile puppy
     ) {
     }
 

@@ -31,7 +31,7 @@ public class Designer {
     private List<Badge> badges;
 
     @Builder
-    public record Profile(
+    public record DesignerProfile(
             Long designerId,
             String workspaceName,
             String designerName,
@@ -45,8 +45,8 @@ public class Designer {
     ){
     }
 
-    public Profile getProfile(Workspace workspace) {
-        return Profile.builder()
+    public DesignerProfile getProfile(Workspace workspace) {
+        return DesignerProfile.builder()
                 .designerId(designerId)
                 .designerName(this.name)
                 .badges(this.badges)

@@ -11,9 +11,9 @@ public record GetEstimateAndProposalDetailsResponse(
         Long threadId,
         String threadStatus,
         String threadStep,
-        Puppy.Profile puppyProfile, // TODO puppy 로 바꾸기, 프론트 연동 작업 중이라 추후에 적용
-        EstimateProposal.Profile estimateProposal,
-        Estimate.Profile estimate
+        Puppy.PuppyProfile puppyProfile, // TODO puppy 로 바꾸기, 프론트 연동 작업 중이라 추후에 적용
+        EstimateProposal.EstimateProposalProfile estimateProposal,
+        Estimate.EstimateProfile estimate
 ) {
 
     public static GetEstimateAndProposalDetailsResponse from(GetEstimateAndProposalDetailsResult result) {

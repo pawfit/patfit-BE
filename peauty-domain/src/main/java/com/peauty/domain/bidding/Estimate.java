@@ -33,8 +33,8 @@ public class Estimate {
         return (long) (estimatedCost * (0.5));
     }
 
-    public Profile getProfile() {
-        return Profile.builder()
+    public EstimateProfile getProfile() {
+        return EstimateProfile.builder()
                 .estimateId(id.value())
                 .threadId(threadId.value())
                 .content(content)
@@ -50,7 +50,7 @@ public class Estimate {
     }
 
     @Builder
-    public record Profile(
+    public record EstimateProfile(
             Long threadId,
             Long estimateId,
             String content,

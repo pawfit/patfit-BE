@@ -6,7 +6,7 @@ import com.peauty.domain.bidding.BiddingProcess;
 import java.util.List;
 
 public record GetEstimateProposalProfilesResponse(
-        List<BiddingProcess.Profile> estimateProposalProfile
+        List<BiddingProcess.ProcessProfile> estimateProposalProfile
 ) {
 
     public static GetEstimateProposalProfilesResponse from(GetEstimateProposalProfilesResult result) {
