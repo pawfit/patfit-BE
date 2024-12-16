@@ -13,10 +13,13 @@ import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
+import com.peauty.domain.review.ReviewImage;
 import com.peauty.domain.review.ReviewRating;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -130,10 +133,6 @@ public class ReviewServiceImpl implements ReviewService {
         return GetReviewDetailResult.from(review);
     }
 
-
-
-
-
     @Override
     public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long threadId, Long processId) {
         // 프로세스와 스레드 검증
@@ -154,5 +153,23 @@ public class ReviewServiceImpl implements ReviewService {
         return GetEstimateDataResult.from(estimateProfile, designer, workspace);
     }
 
+    @Override
+    public GetDesignerReviewsResult getDesignerReviews(Long designerId) {
+        List<Review> reviews = reviewPort.findReviewsByDesignerId(designerId);
+
+        List<GetDesignerReviewsResult.ReviewDetails> reviewDetails = reviews.stream()
+                .map(review -> new GetDesignerReviewsResult.ReviewDetails(
+                        review.getId().map(Review.ID::value).orElse(null),
+                        review.getReviewCreatedAt(),
+                        review.getReviewerNickname(),
+                        review.getGroomingStyle(),
+                        review.getReviewRating().getValue(),
+                        review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList(),
+                        review.getContentDetail()
+                ))
+                .toList();
+
+        return new GetDesignerReviewsResult(designerId, reviewDetails);
+    }
 
 }

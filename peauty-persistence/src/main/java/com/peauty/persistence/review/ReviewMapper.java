@@ -1,9 +1,11 @@
 package com.peauty.persistence.review;
 
 import com.peauty.domain.bidding.BiddingThread;
+import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReviewMapper {
@@ -46,6 +48,7 @@ public class ReviewMapper {
                 .contentDetail(entity.getContentDetail())
                 .contentGeneral(entity.getContentGeneral())
                 .reviewImages(reviewImages)
+                .reviewCreatedAt(LocalDate.from(entity.getCreatedAt()))
                 .build();
 
     }
@@ -58,6 +61,30 @@ public class ReviewMapper {
                 .build();
     }
 
+    public static Review toReviewDomain(
+            ReviewEntity reviewEntity,
+            String reviewerNickname,
+            EstimateProposal proposal,
+            List<ReviewImageEntity> imageEntities
+    ) {
+        String groomingStyle = proposal.getSimpleGroomingStyle();
+
+        return Review.builder()
+                .id(new Review.ID(reviewEntity.getId()))
+                .reviewCreatedAt(reviewEntity.getCreatedAt().toLocalDate())
+                .reviewerNickname(reviewerNickname)
+                .groomingStyle(groomingStyle)
+                .contentDetail(reviewEntity.getContentDetail())
+                .reviewImages(imageEntities.stream()
+                        .map(imageEntity -> ReviewImage.builder()
+                                .imageUrl(imageEntity.getReviewImageUrl())
+                                .build())
+                        .toList())
+                .reviewRating(reviewEntity.getReviewRating())
+                .build();
+
+
+    }
 
 }
 

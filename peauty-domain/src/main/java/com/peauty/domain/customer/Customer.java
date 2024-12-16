@@ -70,4 +70,5 @@ public class Customer {
     public void updateProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
+
 }

@@ -2,6 +2,8 @@ package com.peauty.customer.business.review;
 
 import com.peauty.domain.review.Review;
 
+import java.util.List;
+
 public interface ReviewPort {
 
     Review registerNewReview(Review review);
@@ -14,4 +16,6 @@ public interface ReviewPort {
 
     Review getReviewByIdAndBiddingThreadId(Long id, Long biddingThreadId);
     Boolean existsByBiddingThreadId(Long biddingThreadId);
+
+    List<Review> findReviewsByDesignerId(Long designerId);
 }
