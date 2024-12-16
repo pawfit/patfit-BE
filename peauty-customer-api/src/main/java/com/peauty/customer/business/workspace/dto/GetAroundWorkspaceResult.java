@@ -37,7 +37,7 @@ public record GetAroundWorkspaceResult(
                 workspace.getWorkspaceName(),
                 workspace.getAddress(),
                 workspace.getAddressDetail(),
-                workspace.getBannerImageUrl(),
+                workspace.getRepresentativeBannerImageUrl(),
                 workspace.getReviewCount(),
                 workspace.getReviewRating(),
                 designer.getDesignerId(),

@@ -37,8 +37,6 @@ public class WorkspaceAdapter implements WorkspacePort {
         }
 
         WorkspaceEntity savedWorkspaceEntity = workspaceRepository.save(workspaceEntityToSave);
-        log.info("savedWorkspaceEntity: {}", savedWorkspaceEntity);
-        log.info("savedWorksapceId: {}", savedWorkspaceEntity.getId());
         List<BannerImageEntity> bannerImageToSave = WorkspaceMapper.toBannerImageEntity(
                 savedWorkspaceEntity.getId(), workspace.getBannerImageUrls());
         List<BannerImageEntity> savedBannerImageEntity = bannerImageRepository.saveAll(bannerImageToSave);
