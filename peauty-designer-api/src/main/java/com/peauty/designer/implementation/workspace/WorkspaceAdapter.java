@@ -68,6 +68,7 @@ public class WorkspaceAdapter implements WorkspacePort {
         // 2. Rating 조회
         RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId()).orElse(null);
 
+        // TODO. 나만 쓰기 아깝다.. 메서드로 뺴서 팀원 모두가 사용할 수 있게 해보자!
         // 3. 기존 배너 이미지 엔티티 가져오기
         List<BannerImageEntity> existingEntities = bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
 
@@ -86,7 +87,7 @@ public class WorkspaceAdapter implements WorkspacePort {
                 .collect(Collectors.toList());
 
         // 추가할 엔티티: 새로운 URL 중 기존에 없는 것
-        List<BannerImageEntity> entitiesToAdd = updatedUrls.stream()
+        List<BannerImageEntity> entitiesToUpdate = updatedUrls.stream()
                 .filter(url -> !existingUrls.contains(url))
                 .map(url -> BannerImageEntity.builder()
                         .workspaceId(workspaceEntityToUpdate.getId())
@@ -95,7 +96,7 @@ public class WorkspaceAdapter implements WorkspacePort {
                 .collect(Collectors.toList());
 
         bannerImageRepository.deleteAll(entitiesToDelete);
-        bannerImageRepository.saveAll(entitiesToAdd);
+        bannerImageRepository.saveAll(entitiesToUpdate);
 
         // 6. 최종 배너 이미지 리스트 조회
         List<BannerImageEntity> finalBannerImageEntities =
