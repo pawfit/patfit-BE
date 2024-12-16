@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -87,7 +86,7 @@ public Designer findDesignerById(Long designerId) {
     @Override
     public Workspace findByDesignerId(Long userId) {
 
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(userId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);
@@ -102,7 +101,7 @@ public Designer findDesignerById(Long designerId) {
 
     @Override
     public Workspace registerReviewStats(Long designerId, ReviewRating newRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
         Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
@@ -116,7 +115,7 @@ public Designer findDesignerById(Long designerId) {
     }
 
     public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
@@ -132,7 +131,7 @@ public Designer findDesignerById(Long designerId) {
     }
 
     public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 

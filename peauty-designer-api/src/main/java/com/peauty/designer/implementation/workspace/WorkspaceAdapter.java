@@ -44,9 +44,9 @@ public class WorkspaceAdapter implements WorkspacePort {
     }
 
     @Override
-    public Workspace findByDesignerId(Long userId) {
+    public Workspace getByDesignerId(Long userId) {
 
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(userId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(userId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntity.getId())
                 .orElse(null);

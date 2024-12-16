@@ -74,7 +74,7 @@ public class PaymentAdapter implements PaymentPort {
         BiddingThread findThread = BiddingMapper.toThreadDomain(biddingThreadEntity);
         Long designerId = findThread.getDesignerId().value();
 
-        WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerId(designerId)
+        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
         List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
