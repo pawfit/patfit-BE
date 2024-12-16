@@ -58,7 +58,7 @@ public class ReviewController {
                                              @PathVariable Long processId,
                                              @PathVariable Long threadId,
                                              @PathVariable Long reviewId) {
-        reviewService.deleteReview(userId, puppyId, threadId, processId, reviewId);
+        reviewService.deleteReview(userId, puppyId, processId, threadId, reviewId);
         return new DeleteReviewResponse("리뷰가 삭제되었습니다.");
     }
 
@@ -69,7 +69,7 @@ public class ReviewController {
                                                    @PathVariable Long processId,
                                                    @PathVariable Long threadId,
                                                    @PathVariable Long reviewId){
-        GetReviewDetailResult result = reviewService.getReviewDetail(userId, puppyId, threadId, processId, reviewId);
+        GetReviewDetailResult result = reviewService.getReviewDetail(userId, puppyId, processId, threadId, reviewId);
         return GetReviewDetailResponse.from(result);
     }
 
