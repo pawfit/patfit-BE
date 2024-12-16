@@ -22,8 +22,4 @@ public class BannerImageEntity extends BaseTimeEntity {
     @Lob
     @Column(name = "banner_image_url", nullable = true)
     private String bannerImageUrl;
-
-    public void updateBannerImageUrl(String s) {
-        this.bannerImageUrl = s;
-    }
 }

@@ -17,8 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -27,7 +29,6 @@ public class WorkspaceAdapter implements WorkspacePort {
     private final WorkspaceRepository workspaceRepository;
     private final RatingRepository ratingRepository;
     private final BannerImageRepository bannerImageRepository;
-    private final LicenseRepository licenseRepository;
 
     @Override
     public Workspace registerNew(Workspace workspace, Long designerId) {
@@ -59,28 +60,89 @@ public class WorkspaceAdapter implements WorkspacePort {
         return workspace;
     }
 
+//    @Override
+//    public Workspace updateDesginerWorkspace(Long userId, Workspace workspace) {
+//        WorkspaceEntity workspaceEntityToUpdate = WorkspaceMapper.toEntity(workspace, userId);
+//
+//        WorkspaceEntity updatedWorkspaceEntity =
+//                workspaceRepository.save(workspaceEntityToUpdate);
+//
+//        RatingEntity ratingEntity =
+//                ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId())
+//                .orElse(null);
+//
+//        // 1. 기존 이미지 가져오기
+//        List<BannerImageEntity> bannerImageEntitiesToUpdate =
+//                bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
+//
+//        // 2. 변경해야 하는 URL 가져오기
+//        List<String> updatedUrls = workspace.getBannerImageUrls(); // 새로운 URL 리스트
+//
+//        // 3. 동일한 URL 은 그냥 두고, 새로운 URL은 업데이트하기 단, 매핑이 되지 않은 기존 데이터는 삭제하기
+//
+//        List<BannerImageEntity> updatedBannerImageEntities = IntStream.range(0, Math.min(bannerImageEntitiesToUpdate.size(), updatedUrls.size()))
+//                .mapToObj(i -> {
+//                    BannerImageEntity entity = bannerImageEntitiesToUpdate.get(i);
+//                    entity.updateBannerImageUrl(updatedUrls.get(i)); // URL만 업데이트
+//                    return entity;
+//                })
+//                .toList();
+//
+//        List<BannerImageEntity> savedBannerImageEntities = bannerImageRepository.saveAll(updatedBannerImageEntities);
+//
+//        Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
+//        Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity, savedBannerImageEntities);
+//        updatedWorkspace.updateRating(rating);
+//        return updatedWorkspace;
+//    }
+
     @Override
     public Workspace updateDesginerWorkspace(Long userId, Workspace workspace) {
+        // 1. Workspace 업데이트
         WorkspaceEntity workspaceEntityToUpdate = WorkspaceMapper.toEntity(workspace, userId);
         WorkspaceEntity updatedWorkspaceEntity = workspaceRepository.save(workspaceEntityToUpdate);
-        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId())
-                .orElse(null);
-        List<BannerImageEntity> bannerImageEntitiesToUpdate = bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
-        List<String> updatedUrls = workspace.getBannerImageUrls(); // 새로운 URL 리스트
 
-        List<BannerImageEntity> updatedBannerImageEntities = IntStream.range(0, Math.min(bannerImageEntitiesToUpdate.size(), updatedUrls.size()))
-                .mapToObj(i -> {
-                    BannerImageEntity entity = bannerImageEntitiesToUpdate.get(i);
-                    entity.updateBannerImageUrl(updatedUrls.get(i)); // URL만 업데이트
-                    return entity;
-                })
-                .toList();
+        // 2. Rating 조회
+        RatingEntity ratingEntity = ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId()).orElse(null);
 
-        List<BannerImageEntity> savedBannerImageEntities = bannerImageRepository.saveAll(updatedBannerImageEntities);
+        // 3. 기존 배너 이미지 엔티티 가져오기
+        List<BannerImageEntity> existingEntities = bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
 
+        // 4. 새로운 URL 리스트 가져오기
+        List<String> updatedUrls = workspace.getBannerImageUrls();
+
+        // 기존 URL 목록과 새로운 URL 목록을 비교
+        Set<String> existingUrls = existingEntities.stream()
+                .map(BannerImageEntity::getBannerImageUrl)
+                .collect(Collectors.toSet());
+        Set<String> newUrls = new HashSet<>(updatedUrls);
+
+        // 삭제할 엔티티: 기존 엔티티 중 새로운 URL에 없는 것
+        List<BannerImageEntity> entitiesToDelete = existingEntities.stream()
+                .filter(entity -> !newUrls.contains(entity.getBannerImageUrl()))
+                .collect(Collectors.toList());
+
+        // 추가할 엔티티: 새로운 URL 중 기존에 없는 것
+        List<BannerImageEntity> entitiesToAdd = updatedUrls.stream()
+                .filter(url -> !existingUrls.contains(url))
+                .map(url -> BannerImageEntity.builder()
+                        .workspaceId(workspaceEntityToUpdate.getId())
+                        .bannerImageUrl(url)
+                        .build())
+                .collect(Collectors.toList());
+
+        bannerImageRepository.deleteAll(entitiesToDelete);
+        bannerImageRepository.saveAll(entitiesToAdd);
+
+        // 6. 최종 배너 이미지 리스트 조회
+        List<BannerImageEntity> finalBannerImageEntities =
+                bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
+
+        // 7. Rating 변환 및 Workspace 도메인 변환
         Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
-        Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity, savedBannerImageEntities);
+        Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity, finalBannerImageEntities);
         updatedWorkspace.updateRating(rating);
+
         return updatedWorkspace;
     }
 }
