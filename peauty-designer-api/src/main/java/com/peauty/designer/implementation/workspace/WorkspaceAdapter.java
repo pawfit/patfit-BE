@@ -5,7 +5,6 @@ import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.persistence.designer.license.LicenseRepository;
 import com.peauty.persistence.designer.mapper.WorkspaceMapper;
 import com.peauty.persistence.designer.rating.RatingEntity;
 import com.peauty.persistence.designer.rating.RatingRepository;

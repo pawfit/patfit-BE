@@ -20,6 +20,6 @@ public class BannerImageEntity extends BaseTimeEntity {
     private Long workspaceId;
 
     @Lob
-    @Column(name = "banner_image_url", nullable = true)
+    @Column(name = "banner_image_url")
     private String bannerImageUrl;
 }
