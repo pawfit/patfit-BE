@@ -160,6 +160,12 @@ jobs:
             echo "=== Cleaning up unused Docker images ==="
             docker image prune -af || { echo "Failed to prune Docker images"; }
             
+            # .env 파일 생성
+            echo "Generating .env file..."
+            rm -f .env
+            echo "${{ secrets.All_secrets }}" > .env
+            echo ".env file generated:"
+                  
             # Docker 이미지 Pull
             aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -180,3 +186,25 @@ jobs:
 
             # 컨테이너 상태 확인
             docker ps
+
+      # 7. Gradle 빌드 및 Docker 이미지 빌드/푸시
+      - name: Gradle Build and Docker Image Push
+        run: |
+          echo "=== Starting Gradle Build and Docker Push ==="
+          
+          # 선택된 패키지 디렉토리로 이동
+          cd $TARGET_PACKAGE
+
+          # Gradle 빌드
+          echo "Building project in $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
+          ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE
+
+          # Docker 이미지 빌드
+          echo "Building Docker image..."
+          docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG .
+
+          # Docker 이미지 태그 및 푸시
+          echo "Pushing Docker image to ECR..."
+          docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
+
+          echo "=== Gradle Build and Docker Image Push Completed ==="
