@@ -1,3 +1,9 @@
+
+![peauty_db](https://github.com/user-attachments/assets/fe7ec9eb-7cb0-4406-af40-3d3f45fd3715)
+
+
+
+
 ### 반려견 미용 입찰 시스템 요구사항 살펴보기
 
 - 고객은 한v 견적 제안서를 여러 미용사에게 보내면서 입찰을 시작할 수 있다
