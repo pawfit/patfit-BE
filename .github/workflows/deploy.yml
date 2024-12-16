@@ -195,30 +195,30 @@ jobs:
             docker ps
 
       # 7. Gradle 빌드 및 Docker 이미지 빌드/푸시
-      - name: Gradle Build and Docker Image Push
-        run: |
-          echo "=== Starting Gradle Build and Docker Push ==="
-
-      - name: Login to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
-          TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
-        run: |
-          echo "Login"
-          sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          
-          echo "=== Checking Dockerfile ==="
-          if [ ! -f $TARGET_PACKAGE/Dockerfile ]; then
-          echo "Error: Dockerfile not found in $TARGET_PACKAGE"
-          exit 1
-          fi
-      
-          echo "=== Building Docker Image ==="
-          sudo docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
-          
-          echo "Pushing Docker image to ECR..."
-          docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
-          
-          echo "=== Gradle Build and Docker Image Push Completed ==="
+#      - name: Gradle Build and Docker Image Push
+#        run: |
+#          echo "=== Starting Gradle Build and Docker Push ==="
+#
+#      - name: Login to Docker Hub
+#        env:
+#          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
+#          TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
+#        run: |
+#          echo "Login"
+#          sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#
+#          echo "=== Checking Dockerfile ==="
+#          if [ ! -f $TARGET_PACKAGE/Dockerfile ]; then
+#          echo "Error: Dockerfile not found in $TARGET_PACKAGE"
+#          exit 1
+#          fi
+#
+#          echo "=== Building Docker Image ==="
+#          sudo docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
+#
+#          echo "Pushing Docker image to"
+#          docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
+#
+#          echo "=== Gradle Build and Docker Image Push Completed ==="
