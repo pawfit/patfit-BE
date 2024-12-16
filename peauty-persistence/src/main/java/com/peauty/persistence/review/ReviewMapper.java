@@ -48,7 +48,7 @@ public class ReviewMapper {
                 .contentDetail(entity.getContentDetail())
                 .contentGeneral(entity.getContentGeneral())
                 .reviewImages(reviewImages)
-                .reviewCreatedAt(LocalDate.from(entity.getCreatedAt()))
+                .reviewCreatedAt(entity.getCreatedAt() != null ? LocalDate.from(entity.getCreatedAt()) : null)
                 .build();
 
     }
