@@ -163,7 +163,7 @@ jobs:
             # .env 파일 생성
             echo "Generating .env file..."
             rm -f .env
-            echo "${{ secrets.All_secrets }}" > .env
+            echo "${{ secrets.ALL_SECRET }}" > .env
             echo ".env file generated:"
                   
             # Docker 이미지 Pull
