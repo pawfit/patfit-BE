@@ -59,10 +59,11 @@ public class ReviewAdapter implements ReviewPort {
         ReviewEntity updatedReviewEntity = reviewRepository.save(
                 ReviewMapper.toReviewEntity(review)
         );
-        List<ReviewImageEntity> updatedReviewImageEntities = review.getReviewImages().stream()
-                .map(image -> ReviewMapper.toReviewImageEntity(image, updatedReviewEntity))
-                .toList();
-        reviewImageRepository.saveAll(updatedReviewImageEntities);
+        List<ReviewImageEntity> updatedReviewImageEntities = reviewImageRepository.saveAll(
+                review.getReviewImages().stream()
+                        .map(image -> ReviewMapper.toReviewImageEntity(image, updatedReviewEntity))
+                        .toList()
+        );
         return ReviewMapper.toReviewDomain(updatedReviewEntity, updatedReviewImageEntities);
     }
 
