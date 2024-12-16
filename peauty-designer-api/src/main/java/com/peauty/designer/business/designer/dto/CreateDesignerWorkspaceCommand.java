@@ -7,7 +7,7 @@ import com.peauty.domain.designer.Workspace;
 import java.util.List;
 
 public record CreateDesignerWorkspaceCommand(
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
         String workspaceName,
         String introduceTitle,
         String introduce,
@@ -26,7 +26,7 @@ public record CreateDesignerWorkspaceCommand(
 ) {
     public static Workspace toWorkspace(CreateDesignerWorkspaceCommand command) {
         return Workspace.builder()
-                .bannerImageUrl(command.bannerImageUrl())
+                .bannerImageUrls(command.bannerImageUrls())
                 .workspaceName(command.workspaceName())
                 .introduceTitle(command.introduceTitle())
                 .introduce(command.introduce())
@@ -50,5 +50,6 @@ public record CreateDesignerWorkspaceCommand(
                         .build())
                 .toList();
     }
+
 
 }

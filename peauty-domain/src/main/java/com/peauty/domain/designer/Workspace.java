@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Workspace {
     private Long workspaceId;
-    private String bannerImageUrl;
+    private List<String> bannerImageUrls;
     private String workspaceName;
     private String introduceTitle;
     private String introduce;
@@ -39,15 +39,14 @@ public class Workspace {
         this.rating = rating;
     }
 
-    public void updateBannerImgUrl(String bannerImageUrl) {
-        this.bannerImageUrl = bannerImageUrl;
+    public void updateBannerImgUrls(List<String> bannerImageUrls) {
+        this.bannerImageUrls = bannerImageUrls;
     }
     public void updateWorkspaceName(String workspaceName) {
         this.workspaceName = workspaceName;
     }
 
     public void updateWorkspace(Workspace workspace){
-        this.bannerImageUrl = workspace.getBannerImageUrl();
         this.workspaceName = workspace.getWorkspaceName();
         this.introduceTitle = workspace.getIntroduceTitle();
         this.introduce = workspace.getIntroduce();
@@ -93,6 +92,10 @@ public class Workspace {
             reviewRating = ((reviewRating * reviewCount) - deletedRating.getValue()) / (reviewCount - 1);
             reviewCount -= 1;
         }
+    }
+
+    public String getRepresentativeBannerImageUrl(){
+        return getBannerImageUrls().get(0);
     }
 
 }

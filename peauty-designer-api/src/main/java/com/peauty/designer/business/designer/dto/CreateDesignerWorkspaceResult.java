@@ -7,7 +7,7 @@ import java.util.List;
 public record CreateDesignerWorkspaceResult(
         Long designerId,
         Long workspaceId,
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
         String workspaceName,
         Double reviewRating,
         Integer reviewsCount,
@@ -42,7 +42,7 @@ public record CreateDesignerWorkspaceResult(
         return new CreateDesignerWorkspaceResult(
                 designer.getDesignerId(),
                 workspace.getWorkspaceId(),
-                designer.getProfileImageUrl(),
+                workspace.getBannerImageUrls(),
                 workspace.getWorkspaceName(),
                 workspace.getReviewRating(),
                 workspace.getReviewCount(),

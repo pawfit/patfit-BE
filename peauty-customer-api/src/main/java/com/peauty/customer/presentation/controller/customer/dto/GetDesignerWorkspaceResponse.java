@@ -13,7 +13,7 @@ public record GetDesignerWorkspaceResponse(
         @Schema(description = "워크 스페이스 ID (PK)", example = "2")
         Long workspaceId,
         @Schema(description = "배너 이미지 URL", example = "이미지 url")
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
         @Schema(description = "가게 이름", example = "호키포키")
         String workspaceName,
         @Schema(description = "평점", example = "4.5")
@@ -57,7 +57,7 @@ public record GetDesignerWorkspaceResponse(
         return new GetDesignerWorkspaceResponse(
                 result.designerId(),
                 result.workspaceId(),
-                result.bannerImageUrl(),
+                result.bannerImageUrls(),
                 result.workspaceName(),
                 result.reviewRating(),
                 result.reviewsCount(),

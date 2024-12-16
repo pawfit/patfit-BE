@@ -43,10 +43,6 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "workspace_name", length = 125, nullable = false)
     private String workspaceName;
 
-    @Lob
-    @Column(name = "banner_image_url")
-    private String bannerImageUrl;
-
     @Column(name = "open_hours",  nullable = false)
     private String openHours;
 
