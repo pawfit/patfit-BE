@@ -16,9 +16,9 @@ public record UpdateReviewResponse(
         return new UpdateReviewResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
-                result.reviewRating().name(),
+                result.reviewRating().toString(),
                 result.contentDetail(),
-                result.contentGeneral().name(),
+                result.contentGeneral(),
                 result.reviewImages()
 
         );

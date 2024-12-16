@@ -20,14 +20,14 @@ public class ReviewController {
     @Operation(summary = "리뷰 작성", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 작성하는 API 진입점입니다.")
     public RegisterReviewResponse registerReview(@PathVariable Long userId,
                                                  @PathVariable Long puppyId,
-                                                 @PathVariable Long threadId,
                                                  @PathVariable Long processId,
+                                                 @PathVariable Long threadId,
                                                  @RequestBody RegisterReviewRequest request) {
         RegisterReviewResult result = reviewService.registerReview(
                 userId,
                 puppyId,
-                threadId,
                 processId,
+                threadId,
                 request.toCommand());
         return RegisterReviewResponse.from(result);
     }
@@ -36,15 +36,15 @@ public class ReviewController {
     @Operation(summary = "리뷰 수정", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 수정하는 API 진입점입니다.")
     public UpdateReviewResponse updateReview(@PathVariable Long userId,
                                              @PathVariable Long puppyId,
-                                             @PathVariable Long threadId,
                                              @PathVariable Long processId,
+                                             @PathVariable Long threadId,
                                              @PathVariable Long reviewId,
                                              @RequestBody UpdateReviewRequest request) {
         UpdateReviewResult result = reviewService.updateReview(
                 userId,
                 puppyId,
-                threadId,
                 processId,
+                threadId,
                 reviewId,
                 request.toCommand());
         return UpdateReviewResponse.from(result);
@@ -55,8 +55,8 @@ public class ReviewController {
     @Operation(summary = "리뷰 삭제", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 삭제하는 API 진입점입니다.")
     public DeleteReviewResponse deleteReview(@PathVariable Long userId,
                                              @PathVariable Long puppyId,
-                                             @PathVariable Long threadId,
                                              @PathVariable Long processId,
+                                             @PathVariable Long threadId,
                                              @PathVariable Long reviewId) {
         reviewService.deleteReview(userId, puppyId, threadId, processId, reviewId);
         return new DeleteReviewResponse("리뷰가 삭제되었습니다.");
@@ -66,8 +66,8 @@ public class ReviewController {
     @Operation(summary = "리뷰 상세 조회", description = "고객이 자신이 작성한 리뷰를 상세 조회하는 API 진입점입니다.")
     public GetReviewDetailResponse getReviewDetail(@PathVariable Long userId,
                                                    @PathVariable Long puppyId,
-                                                   @PathVariable Long threadId,
                                                    @PathVariable Long processId,
+                                                   @PathVariable Long threadId,
                                                    @PathVariable Long reviewId){
         GetReviewDetailResult result = reviewService.getReviewDetail(userId, puppyId, threadId, processId, reviewId);
         return GetReviewDetailResponse.from(result);

@@ -13,9 +13,9 @@ public record RegisterReviewResponse(
         return new RegisterReviewResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
-                result.reviewRating().name(),
+                result.reviewRating().toString(),
                 result.contentDetail(),
-                result.contentGeneral().name()
+                result.contentGeneral()
         );
     }
 }
