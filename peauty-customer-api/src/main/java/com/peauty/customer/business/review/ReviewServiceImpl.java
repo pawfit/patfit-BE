@@ -148,7 +148,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 디자이너,워크스페이스 가져오기
         Designer designer = designerPort.getAllDesignerDataByDesignerId(thread.getDesignerId().value());
-        Workspace workspace = workspacePort.getByDesignerId(thread.getDesignerId().value());
+        Workspace workspace = workspacePort.findByDesignerId(thread.getDesignerId().value());
 
         return GetEstimateDataResult.from(estimateProfile, designer, workspace);
     }

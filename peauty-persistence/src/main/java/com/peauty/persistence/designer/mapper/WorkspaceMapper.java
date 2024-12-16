@@ -4,8 +4,10 @@ import com.peauty.domain.designer.Rating;
 import com.peauty.domain.designer.Scissors;
 import com.peauty.domain.designer.Workspace;
 import com.peauty.persistence.designer.rating.RatingEntity;
+import com.peauty.persistence.designer.workspace.BannerImageEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public class WorkspaceMapper {
@@ -20,7 +22,7 @@ public class WorkspaceMapper {
                 .address(workspace.getAddress())
                 .addressDetail(workspace.getAddressDetail())
                 .workspaceName(workspace.getWorkspaceName())
-                .bannerImageUrl(workspace.getBannerImageUrl())
+                // .bannerImageUrl(workspace.getBannerImageUrl())
                 .openHours(workspace.getOpenHours())
                 .closeHours(workspace.getCloseHours())
                 .openDays(workspace.getOpenDays())
@@ -34,7 +36,7 @@ public class WorkspaceMapper {
                 .build();
     }
 
-    public static Workspace toDomain(WorkspaceEntity workspaceEntity) {
+    public static Workspace toDomain(WorkspaceEntity workspaceEntity, List<BannerImageEntity> bannerImageEntities) {
         return Workspace.builder()
                 .workspaceId(workspaceEntity.getId())
                 .noticeTitle(workspaceEntity.getNoticeTitle())
@@ -44,7 +46,11 @@ public class WorkspaceMapper {
                 .address(workspaceEntity.getAddress())
                 .addressDetail(workspaceEntity.getAddressDetail())
                 .workspaceName(workspaceEntity.getWorkspaceName())
-                .bannerImageUrl(workspaceEntity.getBannerImageUrl())
+                .bannerImageUrls(
+                        bannerImageEntities.stream()
+                                .map(BannerImageEntity::getBannerImageUrl)
+                                .toList()
+                )
                 .openHours(workspaceEntity.getOpenHours())
                 .closeHours(workspaceEntity.getCloseHours())
                 .openDays(workspaceEntity.getOpenDays())
@@ -70,5 +76,14 @@ public class WorkspaceMapper {
                 .totalScore(rating.getTotalScore())
                 .scissors(rating.getScissors())
                 .build();
+    }
+
+    public static List<BannerImageEntity> toBannerImageEntity(Long workspaceId, List<String> bannerImageUrls) {
+        return bannerImageUrls.stream()
+                .map(url -> BannerImageEntity.builder()
+                        .workspaceId(workspaceId)
+                        .bannerImageUrl(url)
+                        .build())
+                .toList();
     }
 }

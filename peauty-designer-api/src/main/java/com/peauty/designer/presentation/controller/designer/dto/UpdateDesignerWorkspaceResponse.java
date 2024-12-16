@@ -1,7 +1,6 @@
 package com.peauty.designer.presentation.controller.designer.dto;
 
 import com.peauty.designer.business.designer.dto.UpdateDesignerWorkspaceResult;
-import com.peauty.domain.designer.PaymentOption;
 import com.peauty.domain.designer.Scissors;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -13,7 +12,7 @@ public record UpdateDesignerWorkspaceResponse(
         @Schema(description = "워크 스페이스 ID (PK)", example = "2")
         Long workspaceId,
         @Schema(description = "배너 이미지 URL", example = "이미지 url")
-        String bannerImageUrl,
+        List<String> bannerImageUrls,
         @Schema(description = "가게 이름", example = "호키포키")
         String workspaceName,
         @Schema(description = "평점", example = "4.5")
@@ -57,7 +56,7 @@ public record UpdateDesignerWorkspaceResponse(
         return new UpdateDesignerWorkspaceResponse(
                 result.designerId(),
                 result.workspaceId(),
-                result.bannerImageUrl(),
+                result.bannerImageUrls(),
                 result.workspaceName(),
                 result.reviewRating(),
                 result.reviewsCount(),

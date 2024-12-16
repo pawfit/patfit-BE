@@ -7,6 +7,7 @@ import com.peauty.persistence.designer.*;
 import com.peauty.persistence.designer.badge.BadgeEntity;
 import com.peauty.persistence.designer.license.LicenseEntity;
 import com.peauty.persistence.designer.rating.RatingEntity;
+import com.peauty.persistence.designer.workspace.BannerImageEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 
 import java.util.Collections;
@@ -60,14 +61,17 @@ public class CustomerMapper {
                 .build();
     }
     // 엔티티 -> 도메인
-    public static Workspace toWorkspaceDomain(WorkspaceEntity entity, Rating rating) {
+    public static Workspace toWorkspaceDomain(WorkspaceEntity entity, Rating rating, List<BannerImageEntity> bannerImageEntities) {
         return Workspace.builder()
                 .workspaceId(entity.getId())
                 .designerId(entity.getDesignerId())
                 .workspaceName(entity.getWorkspaceName())
                 .address(entity.getAddress())
                 .addressDetail(entity.getAddressDetail())
-                .bannerImageUrl(entity.getBannerImageUrl())
+                // TODO. 첫번째만 사용하기 떄문에 하나의 사진을 가져오는 것으로 수정하기
+                .bannerImageUrls(bannerImageEntities.stream()
+                        .map(BannerImageEntity::getBannerImageUrl)
+                        .toList())
                 .reviewCount(entity.getReviewCount())
                 .reviewRating(entity.getReviewRating())
                 .rating(rating) // Rating 포함

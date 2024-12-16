@@ -1,9 +1,12 @@
 package com.peauty.customer.business.workspace.dto;
 
 import com.peauty.domain.designer.*;
+import lombok.Builder;
 
 import java.util.List;
 
+
+@Builder
 public record GetAroundWorkspaceResult(
         Long workspaceId,
         String workspaceName,
@@ -34,7 +37,7 @@ public record GetAroundWorkspaceResult(
                 workspace.getWorkspaceName(),
                 workspace.getAddress(),
                 workspace.getAddressDetail(),
-                workspace.getBannerImageUrl(),
+                workspace.getRepresentativeBannerImageUrl(),
                 workspace.getReviewCount(),
                 workspace.getReviewRating(),
                 designer.getDesignerId(),

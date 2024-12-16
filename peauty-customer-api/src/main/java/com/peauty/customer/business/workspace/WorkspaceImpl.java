@@ -25,7 +25,7 @@ public class WorkspaceImpl implements WorkspaceService {
     @Override
     public GetDesignerWorkspaceResult getWorkspaceDetails(Long designerId) {
         Designer designer = designerPort.getAllDesignerDataByDesignerId(designerId);
-        Workspace workspace = workspacePort.getByDesignerId(designerId);
+        Workspace workspace = workspacePort.findByDesignerId(designerId);
 
         designer.updateBadges(designerPort.getRepresentativeBadges(designerId));
         return GetDesignerWorkspaceResult.from(designer, workspace);

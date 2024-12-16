@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface
 WorkspaceRepository extends JpaRepository<WorkspaceEntity, Long> {
-    Optional<WorkspaceEntity> findByDesignerId(Long userId);
+    Optional<WorkspaceEntity> getByDesignerId(Long userId);
 
     boolean existsByDesignerId(Long designerId);
 
