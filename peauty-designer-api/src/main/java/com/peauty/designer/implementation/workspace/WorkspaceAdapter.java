@@ -59,42 +59,6 @@ public class WorkspaceAdapter implements WorkspacePort {
         return workspace;
     }
 
-//    @Override
-//    public Workspace updateDesginerWorkspace(Long userId, Workspace workspace) {
-//        WorkspaceEntity workspaceEntityToUpdate = WorkspaceMapper.toEntity(workspace, userId);
-//
-//        WorkspaceEntity updatedWorkspaceEntity =
-//                workspaceRepository.save(workspaceEntityToUpdate);
-//
-//        RatingEntity ratingEntity =
-//                ratingRepository.findByWorkspaceId(workspaceEntityToUpdate.getId())
-//                .orElse(null);
-//
-//        // 1. 기존 이미지 가져오기
-//        List<BannerImageEntity> bannerImageEntitiesToUpdate =
-//                bannerImageRepository.findByWorkspaceId(workspaceEntityToUpdate.getId());
-//
-//        // 2. 변경해야 하는 URL 가져오기
-//        List<String> updatedUrls = workspace.getBannerImageUrls(); // 새로운 URL 리스트
-//
-//        // 3. 동일한 URL 은 그냥 두고, 새로운 URL은 업데이트하기 단, 매핑이 되지 않은 기존 데이터는 삭제하기
-//
-//        List<BannerImageEntity> updatedBannerImageEntities = IntStream.range(0, Math.min(bannerImageEntitiesToUpdate.size(), updatedUrls.size()))
-//                .mapToObj(i -> {
-//                    BannerImageEntity entity = bannerImageEntitiesToUpdate.get(i);
-//                    entity.updateBannerImageUrl(updatedUrls.get(i)); // URL만 업데이트
-//                    return entity;
-//                })
-//                .toList();
-//
-//        List<BannerImageEntity> savedBannerImageEntities = bannerImageRepository.saveAll(updatedBannerImageEntities);
-//
-//        Rating rating = WorkspaceMapper.toRatingDomain(ratingEntity);
-//        Workspace updatedWorkspace = WorkspaceMapper.toDomain(updatedWorkspaceEntity, savedBannerImageEntities);
-//        updatedWorkspace.updateRating(rating);
-//        return updatedWorkspace;
-//    }
-
     @Override
     public Workspace updateDesginerWorkspace(Long userId, Workspace workspace) {
         // 1. Workspace 업데이트
