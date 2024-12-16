@@ -1,6 +1,5 @@
 package com.peauty.domain.bidding;
 
-import com.peauty.domain.designer.Designer;
 import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
@@ -181,6 +180,7 @@ public class BiddingProcess {
                 .processId(id.value())
                 .processStatus(status.getDescription())
                 .processCreatedAt(timeInfo.getCreatedAt())
+                .processStatusModifiedAt(timeInfo.getStatusModifiedAt())
                 .build();
     }
 
@@ -190,6 +190,7 @@ public class BiddingProcess {
                 .processStatus(status.getDescription())
                 .estimateProposal(estimateProposalProfile)
                 .processCreatedAt(timeInfo.getCreatedAt())
+                .processStatusModifiedAt(timeInfo.getStatusModifiedAt())
                 .build();
     }
 
@@ -203,24 +204,24 @@ public class BiddingProcess {
                 .puppy(puppyProfile)
                 .estimateProposal(estimateProposalProfile)
                 .processCreatedAt(timeInfo.getCreatedAt())
+                .processStatusModifiedAt(timeInfo.getStatusModifiedAt())
                 .build();
     }
 
     public Profile getProfile(
             Puppy.Profile puppyProfile,
             EstimateProposal.Profile estimateProposalProfile,
-            Designer.Profile designerProfile,
-            Boolean isThreadReviewed // TODO 리뷰는 스레드에 달리는 것이 더 좋아보이긴 함..
+            DesignerId designerId
     ) {
-        BiddingThread thread = getThread(new DesignerId(designerProfile.designerId()));
+        BiddingThread thread = getThread(designerId);
         return Profile.builder()
                 .processId(id.value())
                 .processStatus(status.getDescription())
-                .isThreadReviewed(isThreadReviewed)
                 .puppy(puppyProfile)
                 .estimateProposal(estimateProposalProfile)
-                .thread(thread.getProfile(designerProfile))
                 .processCreatedAt(timeInfo.getCreatedAt())
+                .processStatusModifiedAt(timeInfo.getStatusModifiedAt())
+                .threadInfo(thread.getProfile())
                 .build();
     }
 
@@ -229,10 +230,10 @@ public class BiddingProcess {
             Long processId,
             String processStatus,
             LocalDateTime processCreatedAt,
+            LocalDateTime processStatusModifiedAt,
             Puppy.Profile puppy,
             EstimateProposal.Profile estimateProposal,
-            BiddingThread.Profile thread,
-            Boolean isThreadReviewed
+            BiddingThread.Profile threadInfo
     ) {
     }
 }

@@ -170,9 +170,10 @@ public class BiddingThread {
         return Profile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -180,10 +181,11 @@ public class BiddingThread {
         return Profile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .designer(designerProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -191,10 +193,11 @@ public class BiddingThread {
         return Profile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -202,11 +205,12 @@ public class BiddingThread {
         return Profile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .designer(designerProfile)
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -214,12 +218,13 @@ public class BiddingThread {
         return Profile.builder()
                 .processId(processId.value())
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .isReviewed(isReviewed)
                 .designer(designerProfile)
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -228,12 +233,13 @@ public class BiddingThread {
                 .processId(processId.value())
                 .style(style)
                 .threadId(id.value())
-                .threadStep(step.getStep())
+                .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
                 .isReviewed(isReviewed)
                 .designer(designerProfile)
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
+                .threadStepModifiedAt(timeInfo.getStepModifiedAt())
                 .build();
     }
 
@@ -242,10 +248,11 @@ public class BiddingThread {
             Long processId,
             String style,
             Long threadId,
-            Integer threadStep,
+            String threadStep,
             String threadStatus,
             Boolean isReviewed,
             LocalDateTime threadCreatedAt,
+            LocalDateTime threadStepModifiedAt,
             Designer.Profile designer,
             Estimate.Profile estimate
     ) {

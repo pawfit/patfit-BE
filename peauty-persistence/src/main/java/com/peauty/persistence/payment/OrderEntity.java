@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class OrderEntity  extends BaseTimeEntity {
+public class OrderEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,6 @@ public class OrderEntity  extends BaseTimeEntity {
 
     @Column(name = "actual_price", nullable = false)
     private Long actualPrice;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)

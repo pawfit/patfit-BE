@@ -115,4 +115,10 @@ public class DesignerAdapter implements DesignerPort {
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_DESIGNER));
     }
 
+    @Override
+    public void checkExistsDesignersByDesignerIds(List<Long> designerIds) {
+        if (!designerRepository.existsAllByIdIn(designerIds)) {
+            throw new PeautyException(PeautyResponseCode.CONTAINS_NON_EXISTING_DESIGNERS);
+        }
+    }
 }

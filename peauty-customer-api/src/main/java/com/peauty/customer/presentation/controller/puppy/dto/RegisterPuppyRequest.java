@@ -16,7 +16,7 @@ public record RegisterPuppyRequest(
         @Schema(description = "반려견 이름", example = "꼬미")
         @NotEmpty
         String name,
-        @Schema(description = "반려견 품종", example = "리트리버")
+        @Schema(description = "반려견 품종", example = "RETRIEVER")
         @NotNull
         Breed breed,
         @Schema(description = "반려견 무게(kg)", example = "10")
@@ -36,7 +36,7 @@ public record RegisterPuppyRequest(
         String diseaseDescription,
 
         String profileImageUrl,
-        @Schema(description = "분류", example = "대형견")
+        @Schema(description = "분류", example = "LARGE")
         PuppySize puppySize
 ) {
     public RegisterPuppyCommand toCommand(Long userId){

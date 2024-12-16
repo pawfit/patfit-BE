@@ -22,7 +22,7 @@ public class Puppy {
     private Sex sex;                    // 성별
     private PuppyAgeInfo puppyAgeInfo;                // 나이
     private String detail;              // 특이사항
-    private List<Disease> disease;      // 질병
+    private List<Disease> diseases;      // 질병
     private String diseaseDescription;  // 기타 질병사항
     private String profileImageUrl;     // 프로필 사진
     private PuppySize puppySize;        // 분류
@@ -58,7 +58,7 @@ public class Puppy {
     }
 
     public void updateDisease(List<Disease> disease) {
-        this.disease = disease;
+        this.diseases = disease;
     }
 
     public void updateDiseaseDescription(String diseaseDescription) {
@@ -90,6 +90,7 @@ public class Puppy {
                 .birthdate(puppyAgeInfo.getBirthdate())
                 .profileImageUrl(profileImageUrl)
                 .puppySize(puppySize.getDescription())
+                .diseases(diseases.stream().map(Disease::getDescription).toList())
                 .build();
     }
 
@@ -105,6 +106,7 @@ public class Puppy {
                 .birthdate(puppyAgeInfo.getBirthdate())
                 .profileImageUrl(profileImageUrl)
                 .puppySize(puppySize.getDescription())
+                .diseases(diseases.stream().map(Disease::getDescription).toList())
                 .hasOngoingProcess(hasOngoingProcess)
                 .build();
     }
@@ -121,6 +123,7 @@ public class Puppy {
             LocalDate birthdate,
             String profileImageUrl,
             String puppySize,
+            List<String> diseases,
             Boolean hasOngoingProcess
     ) {
     }
