@@ -48,6 +48,7 @@ public class ReviewMapper {
                 .contentDetail(entity.getContentDetail())
                 .contentGeneral(entity.getContentGeneral())
                 .reviewImages(reviewImages)
+                // TODO: null이 아닌데 null 체크를 해야 하는 것이 매우 이상.
                 .reviewCreatedAt(entity.getCreatedAt() != null ? LocalDate.from(entity.getCreatedAt()) : null)
                 .build();
 
