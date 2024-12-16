@@ -13,7 +13,7 @@ public record GetReviewDetailResult(
         BiddingThread.ID biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral,
+        List<String> contentGeneral,
         List<String> reviewImages
 ) {
     public static GetReviewDetailResult from(Review review) {
@@ -22,7 +22,9 @@ public record GetReviewDetailResult(
                 review.getThreadId(),
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral().getContentGeneralReview(),
+                review.getContentGeneral().stream()
+                        .map(ContentGeneral::getContentGeneralReview)
+                        .toList(),
                 review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList()
         );
     }

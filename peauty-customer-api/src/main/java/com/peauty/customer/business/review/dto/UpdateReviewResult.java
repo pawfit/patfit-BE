@@ -13,7 +13,7 @@ public record UpdateReviewResult(
         BiddingThread.ID biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral,
+        List<String> contentGeneral,
         List<String> reviewImages
 ) {
 
@@ -23,7 +23,9 @@ public record UpdateReviewResult(
                 review.getThreadId(),
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral().getContentGeneralReview(),
+                review.getContentGeneral().stream()
+                        .map(ContentGeneral::getContentGeneralReview)
+                        .toList(),
                 review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList()
         );
     }

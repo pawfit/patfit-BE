@@ -10,7 +10,7 @@ public record GetReviewDetailResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral,
+        List<String> contentGeneral,
         List<String> reviewImages
 ) {
 

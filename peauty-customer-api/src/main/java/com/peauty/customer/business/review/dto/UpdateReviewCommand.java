@@ -11,6 +11,6 @@ import java.util.List;
 public record UpdateReviewCommand(
         ReviewRating reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral,
+        List<ContentGeneral> contentGeneral,
         List<ReviewImage> reviewImages
 ) {}

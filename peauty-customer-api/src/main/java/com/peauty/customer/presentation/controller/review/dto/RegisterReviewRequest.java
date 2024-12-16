@@ -9,7 +9,7 @@ import java.util.List;
 public record RegisterReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral,
+        List<ContentGeneral> contentGeneral,
         List<String> reviewImages
 ) {
 

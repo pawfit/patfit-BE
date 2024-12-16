@@ -10,7 +10,7 @@ import java.util.List;
 public record UpdateReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral,
+        List<ContentGeneral> contentGeneral,
         List<String> reviewImageUrls
 ) {
 

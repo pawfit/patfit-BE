@@ -2,12 +2,14 @@ package com.peauty.customer.presentation.controller.review.dto;
 
 import com.peauty.customer.business.review.dto.RegisterReviewResult;
 
+import java.util.List;
+
 public record RegisterReviewResponse(
         Long reviewId,
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral
+        List<String> contentGeneral
 ) {
     public static RegisterReviewResponse from(RegisterReviewResult result) {
         return new RegisterReviewResponse(

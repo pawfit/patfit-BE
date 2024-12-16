@@ -5,12 +5,14 @@ import com.peauty.domain.review.ContentGeneral;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewRating;
 
+import java.util.List;
+
 public record RegisterReviewResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral
+        List<String> contentGeneral
 ) {
 
     public static RegisterReviewResult from(Review review) {
@@ -19,7 +21,9 @@ public record RegisterReviewResult(
                 review.getThreadId(),
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral().getContentGeneralReview()
+                review.getContentGeneral().stream()
+                        .map(ContentGeneral::getContentGeneralReview)
+                        .toList()
         );
     }
 

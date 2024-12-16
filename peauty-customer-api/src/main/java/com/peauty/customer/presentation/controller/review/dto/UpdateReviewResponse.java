@@ -9,7 +9,7 @@ public record UpdateReviewResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral,
+        List<String> contentGeneral,
         List<String> reviewImages
 ) {
     public static UpdateReviewResponse from(UpdateReviewResult result) {

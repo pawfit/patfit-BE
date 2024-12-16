@@ -13,7 +13,7 @@ import java.util.List;
 public record RegisterReviewCommand(
         ReviewRating reviewRating, // ReviewRating
         String contentDetail,
-        ContentGeneral contentGeneral,
+        List<ContentGeneral> contentGeneral,
         List<String> reviewImages
 ) {
 
