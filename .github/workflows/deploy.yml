@@ -195,19 +195,23 @@ jobs:
             docker ps
 
       # 7. Gradle 빌드 및 Docker 이미지 빌드/푸시
-#      - name: Gradle Build and Docker Image Push
-#        run: |
-#          echo "=== Starting Gradle Build and Docker Push ==="
-#
-#          # Docker 빌드 컨텍스트 설정
-#          echo "Using Dockerfile in $TARGET_PACKAGE with build context $TARGET_PACKAGE"
-#
-#          # Docker 이미지 빌드
-#          echo "Building Docker image..."
-#          docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG .
-#
-#          # Docker 이미지 태그 및 푸시
-#          echo "Pushing Docker image to ECR..."
-#          docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
-#
-#          echo "=== Gradle Build and Docker Image Push Completed ==="
+      - name: Gradle Build and Docker Image Push
+        run: |
+          echo "=== Starting Gradle Build and Docker Push ==="
+
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
+        run: |
+          echo "Login"
+          sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        
+          echo "Using Dockerfile in $TARGET_PACKAGE with build context $TARGET_PACKAGE"
+          docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG .
+          
+          echo "Pushing Docker image to ECR..."
+          docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
+
+          echo "=== Gradle Build and Docker Image Push Completed ==="
