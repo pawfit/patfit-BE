@@ -17,7 +17,7 @@ public class Review {
     @Getter private final BiddingThread.ID threadId;    // 입찰 스레드 ID
     @Getter private ReviewRating reviewRating;          // 별점
     @Getter private String contentDetail;               // 상세리뷰
-    @Getter private List<ContentGeneral> contentGeneral;      // 일반리뷰
+    @Getter private List<ContentGeneral> contentGenerals;      // 일반리뷰
     @Getter private List<ReviewImage> reviewImages;     // 리뷰이미지
     @Getter private LocalDate reviewCreatedAt;      // 리뷰 작성 날짜
 
@@ -46,17 +46,17 @@ public class Review {
     public void updateContentDetail(String contentDetail) {
         this.contentDetail = contentDetail;
     }
-    public void updateContentGeneral(List<ContentGeneral> contentGeneral) {
-        this.contentGeneral = contentGeneral;
+    public void updateContentGeneral(List<ContentGeneral> contentGenerals) {
+        this.contentGenerals = contentGenerals;
     }
     public void updateReviewImageUrl(List<ReviewImage> reviewImages) {
         this.reviewImages = reviewImages;
     }
 
-    public void updateReview(ReviewRating reviewRating, String contentDetail, List<ContentGeneral> contentGeneral, List<ReviewImage> reviewImages) {
+    public void updateReview(ReviewRating reviewRating, String contentDetail, List<ContentGeneral> contentGenerals, List<ReviewImage> reviewImages) {
         this.reviewRating = reviewRating;
         this.contentDetail = contentDetail;
-        this.contentGeneral = contentGeneral;
+        this.contentGenerals = contentGenerals;
         this.reviewImages = reviewImages;
     }
 

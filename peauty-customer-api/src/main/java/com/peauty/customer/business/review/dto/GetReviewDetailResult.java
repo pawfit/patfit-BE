@@ -4,7 +4,6 @@ import com.peauty.domain.bidding.BiddingThread;
 import com.peauty.domain.review.ContentGeneral;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
-import com.peauty.domain.review.ReviewRating;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public record GetReviewDetailResult(
         BiddingThread.ID biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        List<String> contentGeneral,
+        List<String> contentGenerals,
         List<String> reviewImages
 ) {
     public static GetReviewDetailResult from(Review review) {
@@ -22,7 +21,7 @@ public record GetReviewDetailResult(
                 review.getThreadId(),
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral().stream()
+                review.getContentGenerals().stream()
                         .map(ContentGeneral::getContentGeneralReview)
                         .toList(),
                 review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList()

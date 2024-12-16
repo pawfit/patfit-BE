@@ -1,7 +1,6 @@
 package com.peauty.customer.presentation.controller.review.dto;
 
 import com.peauty.customer.business.review.dto.GetReviewDetailResult;
-import com.peauty.domain.review.ContentGeneral;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public record GetReviewDetailResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        List<String> contentGeneral,
+        List<String> contentGenerals,
         List<String> reviewImages
 ) {
 
@@ -20,7 +19,7 @@ public record GetReviewDetailResponse(
                 result.biddingThreadId().value(),
                 result.reviewRating(),
                 result.contentDetail(),
-                result.contentGeneral(),
+                result.contentGenerals(),
                 result.reviewImages()
         );
     }

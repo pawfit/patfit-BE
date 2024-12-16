@@ -10,7 +10,7 @@ import java.util.List;
 public record UpdateReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
-        List<ContentGeneral> contentGeneral,
+        List<ContentGeneral> contentGenerals,
         List<String> reviewImageUrls
 ) {
 
@@ -18,7 +18,7 @@ public record UpdateReviewRequest(
         return UpdateReviewCommand.builder()
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
-                .contentGeneral(contentGeneral)
+                .contentGenerals(contentGenerals)
                 .reviewImages(
                         reviewImageUrls.stream()
                                 .map(url -> ReviewImage.builder().imageUrl(url).build())

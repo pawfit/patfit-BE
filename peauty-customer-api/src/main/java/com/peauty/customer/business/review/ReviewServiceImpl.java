@@ -94,7 +94,7 @@ public class ReviewServiceImpl implements ReviewService {
         existingReview.updateReview(
                 command.reviewRating(),
                 command.contentDetail(),
-                command.contentGeneral(),
+                command.contentGenerals(),
                 command.reviewImages()
         );
 

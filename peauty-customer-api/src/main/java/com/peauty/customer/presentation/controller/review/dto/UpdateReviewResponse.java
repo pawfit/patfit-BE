@@ -9,7 +9,7 @@ public record UpdateReviewResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        List<String> contentGeneral,
+        List<String> contentGenerals,
         List<String> reviewImages
 ) {
     public static UpdateReviewResponse from(UpdateReviewResult result) {
@@ -18,7 +18,7 @@ public record UpdateReviewResponse(
                 result.biddingThreadId().value(),
                 result.reviewRating(),
                 result.contentDetail(),
-                result.contentGeneral(),
+                result.contentGenerals(),
                 result.reviewImages()
 
         );

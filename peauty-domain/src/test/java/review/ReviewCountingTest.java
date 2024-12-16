@@ -53,14 +53,14 @@ class ReviewCountingTest {
                 .threadId(new BiddingThread.ID(THREAD_ID))
                 .reviewRating(ReviewRating.FOUR) // 4점 리뷰
                 .contentDetail("정말 친절하고 만족스러웠어요!")
-                .contentGeneral(List.of(ContentGeneral.KIND))
+                .contentGenerals(List.of(ContentGeneral.KIND))
                 .build();
 
         review2 = Review.builder()
                 .threadId(new BiddingThread.ID(THREAD_ID))
                 .reviewRating(ReviewRating.FIVE) // 5점 리뷰
                 .contentDetail("아주 만족스러웠습니다!")
-                .contentGeneral(List.of(ContentGeneral.GOOD_SERVICE, ContentGeneral.KIND))
+                .contentGenerals(List.of(ContentGeneral.GOOD_SERVICE, ContentGeneral.KIND))
                 .build();
 
     }
@@ -112,7 +112,7 @@ class ReviewCountingTest {
                 .threadId(new BiddingThread.ID(THREAD_ID))
                 .reviewRating(ReviewRating.from(5)) // 5점 리뷰
                 .contentDetail("아주 만족스러웠습니다!")
-                .contentGeneral(List.of(ContentGeneral.GOOD_SERVICE))
+                .contentGenerals(List.of(ContentGeneral.GOOD_SERVICE))
                 .build();
 
         // 기존 리뷰를 5점으로 업데이트

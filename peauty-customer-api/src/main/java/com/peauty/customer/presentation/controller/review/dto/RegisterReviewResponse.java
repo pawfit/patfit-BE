@@ -9,7 +9,7 @@ public record RegisterReviewResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        List<String> contentGeneral
+        List<String> contentGenerals
 ) {
     public static RegisterReviewResponse from(RegisterReviewResult result) {
         return new RegisterReviewResponse(
@@ -17,7 +17,7 @@ public record RegisterReviewResponse(
                 result.biddingThreadId().value(),
                 result.reviewRating(),
                 result.contentDetail(),
-                result.contentGeneral()
+                result.contentGenerals()
         );
     }
 }

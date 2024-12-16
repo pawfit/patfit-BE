@@ -9,7 +9,7 @@ import java.util.List;
 public record RegisterReviewRequest(
         ReviewRating reviewRating,
         String contentDetail,
-        List<ContentGeneral> contentGeneral,
+        List<ContentGeneral> contentGenerals,
         List<String> reviewImages
 ) {
 
@@ -17,7 +17,7 @@ public record RegisterReviewRequest(
         return RegisterReviewCommand.builder()
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
-                .contentGeneral(contentGeneral)
+                .contentGenerals(contentGenerals)
                 .reviewImages(reviewImages)
                 .build();
     }
