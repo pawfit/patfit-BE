@@ -135,7 +135,7 @@ jobs:
           TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           ECR_REPOSITORY: peauty/server
-          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
+          IMAGE_TAG: ${{ github.event.inputs.package }}-${{ github.event.inputs.profile }}
         with:
           host: ${{ secrets[env.HOST_SECRET] }}
           username: ${{ secrets.EC2_USER }}
@@ -160,6 +160,10 @@ jobs:
             echo "STOP $DEPLOY_DOMAIN-$DEPLOY_PROFILE"
             docker stop $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to stop container"; } 
             docker rm $DEPLOY_DOMAIN-$DEPLOY_PROFILE || { echo "Failed to remove container"; }
+            
+            # 사용하지 않는 이전 도커 이미지 삭제
+            echo "=== Cleaning up unused Docker images ==="
+            docker image prune -af || { echo "Failed to prune Docker images"; }
 
             # 새로운 컨테이너 실행
             docker run --env-file ./.env -d -p 8080:8080 --name $DEPLOY_DOMAIN-$DEPLOY_PROFILE \
