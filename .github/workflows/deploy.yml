@@ -135,7 +135,7 @@ jobs:
           TARGET_PACKAGE: peauty-${{ github.event.inputs.package }}-api
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           ECR_REPOSITORY: peauty/server
-          IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
+          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
         with:
           host: ${{ secrets[env.HOST_SECRET] }}
           username: ${{ secrets.EC2_USER }}
