@@ -10,6 +10,7 @@ public record GetDesignerReviewsResponse(
         List<ReviewDetails> reviews
 ) {
     public record ReviewDetails(
+            Long reviewId,
             LocalDate reviewDate,
             String reviewerNickname,
             String groomingStyle,
@@ -23,6 +24,7 @@ public record GetDesignerReviewsResponse(
                 result.designerId(),
                 result.reviews().stream()
                         .map(review -> new ReviewDetails(
+                                review.reviewId(),
                                 review.reviewDate(),
                                 review.reviewerNickname(),
                                 review.groomingStyle(),

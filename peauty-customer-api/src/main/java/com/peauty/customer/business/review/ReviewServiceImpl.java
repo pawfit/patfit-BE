@@ -159,6 +159,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         List<GetDesignerReviewsResult.ReviewDetails> reviewDetails = reviews.stream()
                 .map(review -> new GetDesignerReviewsResult.ReviewDetails(
+                        review.getId().map(Review.ID::value).orElse(null),
                         review.getReviewCreatedAt(),
                         review.getReviewerNickname(),
                         review.getGroomingStyle(),

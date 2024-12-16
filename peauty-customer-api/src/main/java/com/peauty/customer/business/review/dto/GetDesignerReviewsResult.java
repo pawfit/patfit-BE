@@ -9,6 +9,7 @@ public record GetDesignerReviewsResult(
 ) {
     // TODO: 다른 API 가능성에 의한 reviewId 넣기
     public record ReviewDetails(
+            Long reviewId,
             LocalDate reviewDate,
             String reviewerNickname,
             String groomingStyle,
@@ -17,6 +18,7 @@ public record GetDesignerReviewsResult(
             String content
     ) {
         public ReviewDetails(
+                Long reviewId,
                 LocalDate reviewDate,
                 String reviewerNickname,
                 String groomingStyle,
@@ -24,6 +26,7 @@ public record GetDesignerReviewsResult(
                 List<String> imageUrls,
                 String content
         ) {
+            this.reviewId = reviewId;
             this.reviewDate = reviewDate;
             this.reviewerNickname = reviewerNickname;
             this.groomingStyle = groomingStyle;
