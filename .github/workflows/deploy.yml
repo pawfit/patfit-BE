@@ -77,6 +77,13 @@ jobs:
           # 선택한 패키지 디렉토리로 이동 후 Gradle 빌드
           # $TARGET_PACKAGE-$DEPLOY_PROFILE => profile 이름이 customer-prod라서
           ./gradlew clean build -Pspring.profiles.active=$TARGET_DOMAIN-$DEPLOY_PROFILE -p $TARGET_PACKAGE
+          
+          # 빌드 완료 확인
+          if [ ! -f $TARGET_PACKAGE/build/libs/*SNAPSHOT.jar ]; then
+          echo "Build failed: JAR file not found in $TARGET_PACKAGE/build/libs/"
+          exit 1
+          fi
+          echo "Build successful. JAR file located at $TARGET_PACKAGE/build/libs/"
       
       # 4-1. ECR 자격 증명
       - name: Configure AWS credentials
@@ -192,12 +199,8 @@ jobs:
         run: |
           echo "=== Starting Gradle Build and Docker Push ==="
           
-          # 선택된 패키지 디렉토리로 이동
-          cd $TARGET_PACKAGE
-
-          # Gradle 빌드
-          echo "Building project in $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
-          ./gradlew clean build -Pspring.profiles.active=$DEPLOY_PROFILE
+          # Docker 빌드 컨텍스트 설정
+          echo "Using Dockerfile in $TARGET_PACKAGE with build context $TARGET_PACKAGE"
 
           # Docker 이미지 빌드
           echo "Building Docker image..."
