@@ -172,7 +172,7 @@ jobs:
             rm -f .env
             echo "${{ secrets.ALL_SECRET }}" > .env
             echo ".env file generated:"
-                  
+            
             # Docker 이미지 Pull
             aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -204,14 +204,21 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
+          TARGET_PACKAGE: ${{ env.TARGET_PACKAGE }}
         run: |
           echo "Login"
           sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        
-          echo "Using Dockerfile in $TARGET_PACKAGE with build context $TARGET_PACKAGE"
-          docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG .
+          
+          echo "=== Checking Dockerfile ==="
+          if [ ! -f $TARGET_PACKAGE/Dockerfile ]; then
+          echo "Error: Dockerfile not found in $TARGET_PACKAGE"
+          exit 1
+          fi
+      
+          echo "=== Building Docker Image ==="
+          sudo docker build -t 93ed43223fb8/docker-peauty:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
           
           echo "Pushing Docker image to ECR..."
           docker push 93ed43223fb8/docker-peauty:$IMAGE_TAG
-
+          
           echo "=== Gradle Build and Docker Image Push Completed ==="
