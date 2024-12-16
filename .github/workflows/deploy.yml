@@ -91,12 +91,35 @@ jobs:
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
+      # 5. 하루 이전에 푸시된 이미지 삭제
+      - name: Delete Images Older Than 1 Day
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: peauty/server
+        run: |
+          echo "Fetching and deleting images older than 1 day..."
+
+          # 현재 시간에서 1일 전 날짜 계산
+          ONE_DAY_AGO=$(date -d '1 day ago' +%Y-%m-%dT%H:%M:%S)
+
+          # 하루 이전에 푸시된 이미지 조회 및 삭제
+          aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --query 'imageDetails[?imagePushedAt<`'$ONE_DAY_AGO'`].[imageDigest]' \
+            --output text | while read DIGEST; do
+              echo "Deleting image with digest: $DIGEST"
+              aws ecr batch-delete-image \
+                --repository-name $ECR_REPOSITORY \
+                --image-ids imageDigest=$DIGEST
+            done
+          echo "Old images deleted successfully!"
+
       # 5. Docker 이미지 빌드 및 푸시
       - name: Build and Push Docker Image to ECR
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           ECR_REPOSITORY: peauty/server
-          IMAGE_TAG: ${{ env.DEPLOY_PROFILE }}
+          IMAGE_TAG: ${{env.DEPLOY_DOMAIN}}-${{ env.DEPLOY_PROFILE }}
         run: |
           echo "Building Docker image for $TARGET_PACKAGE with profile $DEPLOY_PROFILE..."
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f $TARGET_PACKAGE/Dockerfile $TARGET_PACKAGE
