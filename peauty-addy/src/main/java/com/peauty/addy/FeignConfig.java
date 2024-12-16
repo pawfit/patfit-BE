@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableFeignClients
 public class FeignConfig {
 
-    @Value("${openai.api.key}")
-    String openapiKey;
+    @Value("${OPENAPI_KEY}")
+    private String openapiKey;
 }

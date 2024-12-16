@@ -2,6 +2,7 @@ package com.peauty.domain.addy;
 
 import lombok.*;
 
+@Getter
 @Builder
 @ToString
 @EqualsAndHashCode
