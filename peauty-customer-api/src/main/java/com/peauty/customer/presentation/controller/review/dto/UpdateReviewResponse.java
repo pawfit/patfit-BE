@@ -7,7 +7,7 @@ import java.util.List;
 public record UpdateReviewResponse(
         Long reviewId,
         Long biddingThreadId,
-        String reviewRating,
+        Double reviewRating,
         String contentDetail,
         String contentGeneral,
         List<String> reviewImages
@@ -16,9 +16,9 @@ public record UpdateReviewResponse(
         return new UpdateReviewResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
-                result.reviewRating().name(),
+                result.reviewRating(),
                 result.contentDetail(),
-                result.contentGeneral().name(),
+                result.contentGeneral(),
                 result.reviewImages()
 
         );

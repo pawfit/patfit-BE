@@ -8,18 +8,18 @@ import com.peauty.domain.review.ReviewRating;
 public record RegisterReviewResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
-        ReviewRating reviewRating,
+        Double reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral
+        String contentGeneral
 ) {
 
     public static RegisterReviewResult from(Review review) {
         return new RegisterReviewResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
-                review.getReviewRating(),
+                review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral()
+                review.getContentGeneral().getContentGeneralReview()
         );
     }
 

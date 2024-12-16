@@ -11,18 +11,18 @@ import java.util.List;
 public record GetReviewDetailResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
-        ReviewRating reviewRating,
+        Double reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral,
+        String contentGeneral,
         List<String> reviewImages
 ) {
     public static GetReviewDetailResult from(Review review) {
         return new GetReviewDetailResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
-                review.getReviewRating(),
+                review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral(),
+                review.getContentGeneral().getContentGeneralReview(),
                 review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList()
         );
     }

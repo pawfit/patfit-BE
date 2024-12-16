@@ -11,9 +11,9 @@ import java.util.List;
 public record UpdateReviewResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
-        ReviewRating reviewRating,
+        Double reviewRating,
         String contentDetail,
-        ContentGeneral contentGeneral,
+        String contentGeneral,
         List<String> reviewImages
 ) {
 
@@ -21,9 +21,9 @@ public record UpdateReviewResult(
         return new UpdateReviewResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
-                review.getReviewRating(),
+                review.getReviewRating().getValue(),
                 review.getContentDetail(),
-                review.getContentGeneral(),
+                review.getContentGeneral().getContentGeneralReview(),
                 review.getReviewImages().stream().map(ReviewImage::getImageUrl).toList()
         );
     }

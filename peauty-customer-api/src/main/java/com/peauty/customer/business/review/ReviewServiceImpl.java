@@ -69,8 +69,8 @@ public class ReviewServiceImpl implements ReviewService {
     public UpdateReviewResult updateReview(
             Long userId,
             Long puppyId,
-            Long threadId,
             Long processId,
+            Long threadId,
             Long reviewId,
             UpdateReviewCommand command
     ) {
@@ -108,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void deleteReview(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId) {
+    public void deleteReview(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId) {
         Review review = reviewPort.findReviewById(reviewId);
         if (!review.getThreadId().value().equals(threadId)) {
             throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
@@ -128,13 +128,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long threadId, Long processId, Long reviewId) {
+    public GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId) {
         Review review = reviewPort.getReviewByIdAndBiddingThreadId(reviewId, threadId);
         return GetReviewDetailResult.from(review);
     }
 
     @Override
-    public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long threadId, Long processId) {
+    public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long processId, Long threadId) {
         // 프로세스와 스레드 검증
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
