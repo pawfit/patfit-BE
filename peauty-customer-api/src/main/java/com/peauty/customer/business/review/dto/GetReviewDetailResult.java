@@ -23,9 +23,9 @@ public record GetReviewDetailResult(
         String puppyName,
         Long estimateCost,
         LocalDate reviewCreatedAt,
-        Designer.Profile designerProfile
+        Designer.DesignerProfile designerProfile
 ) {
-    public static GetReviewDetailResult from(Review review, String puppyName, Long estimateCost, String groomingStyle, Designer.Profile designerProfile) {
+    public static GetReviewDetailResult from(Review review, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile) {
         return new GetReviewDetailResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),

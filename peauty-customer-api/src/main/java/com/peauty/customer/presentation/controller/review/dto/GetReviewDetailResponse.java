@@ -17,7 +17,7 @@ public record GetReviewDetailResponse(
         String puppyName,
         Long estimateCost,
         LocalDate reviewCreatedAt,
-        Designer.Profile designerProfile
+        Designer.DesignerProfile designerProfile
 ) {
 
     public static GetReviewDetailResponse from(GetReviewDetailResult result){

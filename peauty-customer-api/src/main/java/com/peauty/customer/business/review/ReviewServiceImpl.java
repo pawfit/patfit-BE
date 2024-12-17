@@ -136,20 +136,21 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId) {
         Review review = reviewPort.getReviewByIdAndBiddingThreadId(reviewId, threadId);
-        // TODO: 조회 부분 수정하기
+        // TODO: 조회 과정 수정하기
         BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
         EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(processId);
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
-        Designer.Profile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
+        Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
         String groomingStyle = proposal.getSimpleGroomingStyle();
         Long estimateCost = proposal.getDesiredCost();
 
-        Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId); // PuppyPort 사용
+        Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId);
         String puppyName = puppy.getName();
 
-
         return GetReviewDetailResult.from(review, puppyName, estimateCost, groomingStyle, designerProfile);
+
     }
+
 
     @Override
     public GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long processId, Long threadId) {
