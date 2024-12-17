@@ -73,19 +73,11 @@ public class CustomerController {
         GetDesignerBadgesForCustomerResult result = customerService.getDesignerBadgesByCustomer(designerId);
         return GetDesignerBadgesForCustomerResponse.from(result);
     }
-/*    @PostMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews")
-    @Operation(summary = "리뷰 작성", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 작성하는 API 진입점입니다.")
-    public RegisterReviewResponse registerReview(@PathVariable Long userId,
-                                                 @PathVariable Long puppyId,
-                                                 @PathVariable Long threadId,
-                                                 @PathVariable Long processId,
-                                                 @RequestBody RegisterReviewRequest request){
-        RegisterReviewResult result = reviewService.registerReview(
-                userId,
-                puppyId,
-                threadId,
-                processId,
-                request.toCommand());
-        return RegisterReviewResponse.from(result);
-    }*/
+
+    @GetMapping(value = "/{userId}/shop")
+    @Operation(summary = "디자이너 워크 스페이스 조회", description = "디자이너 워크 스페이스 조회 API 진입점입니다.")
+    public GetDesignerWorkspaceResponse getDesignerWorkspace(@PathVariable Long userId) {
+        GetDesignerWorkspaceResult result = workspaceService.getWorkspaceDetails(userId);
+        return GetDesignerWorkspaceResponse.from(result);
+    }
 }
