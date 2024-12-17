@@ -49,7 +49,7 @@ public record UpdateDesignerWorkspaceResult(
                 workspace.getAddress(),
                 workspace.getAddressDetail(),
                 workspace.getPhoneNumber(),
-                designer.getYearOfExperience(),
+                designer.getYearsOfExperience(),
                 workspace.getOpenHours(),
                 workspace.getCloseHours(),
                 workspace.getOpenDays(),

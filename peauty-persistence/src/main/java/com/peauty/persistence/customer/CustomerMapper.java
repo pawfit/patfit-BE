@@ -57,7 +57,7 @@ public class CustomerMapper {
                 .name(entity.getName())
                 .nickname(entity.getNickname())
                 .profileImageUrl(entity.getProfileImageUrl())
-                .yearOfExperience(entity.getYearsOfExperience())
+                .yearsOfExperience(entity.getYearsOfExperience())
                 .build();
     }
     // 엔티티 -> 도메인
