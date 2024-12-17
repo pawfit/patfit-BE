@@ -17,7 +17,7 @@ public record GetReviewDetailResponse(
         String puppyName,
         Long estimateCost,
         LocalDate reviewCreatedAt,
-        Designer.DesignerProfile designerProfile
+        DesignerProfile designerProfile
 ) {
 
     public static GetReviewDetailResponse from(GetReviewDetailResult result){
@@ -32,7 +32,16 @@ public record GetReviewDetailResponse(
                 result.puppyName(),
                 result.estimateCost(),
                 result.reviewCreatedAt(),
-                result.designerProfile()
+                new DesignerProfile(
+                        result.designerProfile().workspaceName(),
+                        result.designerProfile().address()
+                )
         );
+    }
+
+    public record DesignerProfile(
+            String workspaceName,
+            String address
+    ) {
     }
 }
