@@ -84,7 +84,7 @@ public class ReviewController {
     @GetMapping("/users/{userId}/reviews")
     @Operation(summary = "유저 리뷰 전체 조회", description = "유저의 리뷰를 전체 조회하는 API 진입점입니다.")
     public GetUserReviewsResponse getUserReviews(@PathVariable Long userId){
-        GetUserReviewsResult result = reviewService.getUserReviews(userId);
+        GetUserReviewsResult result = reviewService.getCustomerReviews(userId);
         return GetUserReviewsResponse.from(result);
     }
 

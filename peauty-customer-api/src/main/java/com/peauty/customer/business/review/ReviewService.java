@@ -20,5 +20,5 @@ public interface ReviewService {
 
     GetDesignerReviewsResult getDesignerReviews(Long designerId);
 
-    GetUserReviewsResult getUserReviews(Long userId);
+    GetUserReviewsResult getCustomerReviews(Long userId);
 }
