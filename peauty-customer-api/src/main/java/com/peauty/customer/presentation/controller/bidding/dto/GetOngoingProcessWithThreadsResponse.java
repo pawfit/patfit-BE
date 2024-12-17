@@ -7,8 +7,8 @@ import com.peauty.domain.bidding.BiddingThread;
 import java.util.List;
 
 public record GetOngoingProcessWithThreadsResponse(
-        BiddingProcess.Profile process,
-        List<BiddingThread.Profile> threads
+        BiddingProcess.ProcessProfile process,
+        List<BiddingThread.ThreadProfile> threads
 ) {
 
     public static GetOngoingProcessWithThreadsResponse from(GetOngoingProcessWithThreadsResult result) {

@@ -3,7 +3,6 @@ package com.peauty.domain.bidding;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +34,8 @@ public class EstimateProposal {
         return faceType +  " + " + bodyType;
     }
 
-    public Profile getProfile() {
-        return Profile.builder()
+    public EstimateProposalProfile getProfile() {
+        return EstimateProposalProfile.builder()
                 .id(id.value())
                 .style(getSimpleGroomingStyle())
                 .totalGroomingBodyType(totalGroomingBodyType == null ? null : totalGroomingBodyType.getDescription())
@@ -52,7 +51,7 @@ public class EstimateProposal {
     }
 
     @Builder
-    public record Profile(
+    public record EstimateProposalProfile(
             Long id,
             String style,
             String totalGroomingBodyType,

@@ -80,7 +80,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
         BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
         EstimateProposal estimateProposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
         Estimate estimate = estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value());
-        Designer.Profile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
+        Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
         return GetEstimateAndProposalDetailsResult.from(
                 process,
                 thread,

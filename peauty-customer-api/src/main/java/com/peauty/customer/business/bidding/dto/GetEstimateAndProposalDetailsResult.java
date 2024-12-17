@@ -13,7 +13,7 @@ public record GetEstimateAndProposalDetailsResult(
         Puppy puppy,
         EstimateProposal estimateProposal,
         Estimate estimate,
-        Designer.Profile designer
+        Designer.DesignerProfile designer
 ) {
 
     public static GetEstimateAndProposalDetailsResult from(
@@ -22,7 +22,7 @@ public record GetEstimateAndProposalDetailsResult(
             Puppy puppy,
             EstimateProposal estimateProposal,
             Estimate estimate,
-            Designer.Profile designerProfile
+            Designer.DesignerProfile designerProfile
     ) {
         return new GetEstimateAndProposalDetailsResult(
                 process,

@@ -6,13 +6,13 @@ import com.peauty.domain.bidding.BiddingThread;
 import java.util.List;
 
 public record GetOngoingProcessWithThreadsResult(
-        BiddingProcess.Profile process,
-        List<BiddingThread.Profile> threads
+        BiddingProcess.ProcessProfile process,
+        List<BiddingThread.ThreadProfile> threads
 ) {
 
     public static GetOngoingProcessWithThreadsResult from(
-            BiddingProcess.Profile process,
-            List<BiddingThread.Profile> threads
+            BiddingProcess.ProcessProfile process,
+            List<BiddingThread.ThreadProfile> threads
     ) {
         return new GetOngoingProcessWithThreadsResult(process, threads);
     }

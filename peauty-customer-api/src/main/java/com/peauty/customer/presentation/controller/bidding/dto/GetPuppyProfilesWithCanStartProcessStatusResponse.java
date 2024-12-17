@@ -6,7 +6,7 @@ import com.peauty.domain.puppy.Puppy;
 import java.util.List;
 
 public record GetPuppyProfilesWithCanStartProcessStatusResponse(
-        List<Puppy.Profile> puppies
+        List<Puppy.PuppyProfile> puppies
 ) {
 
     public static GetPuppyProfilesWithCanStartProcessStatusResponse from(GetPuppyProfilesWithCanStartProcessStatusResult result) {
