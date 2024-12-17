@@ -14,6 +14,8 @@ public interface BiddingProcessRepository extends JpaRepository<BiddingProcessEn
 
     List<BiddingProcessEntity> findByPuppyId(@Param("puppyId") Long puppyId);
     Optional<BiddingProcessEntity> findByIdAndPuppyId(@Param("processId") Long processId, @Param("puppyId") Long puppyId);
+    @Query("SELECT t.biddingProcess FROM BiddingThreadEntity t WHERE t.id = :threadId")
+    Optional<BiddingProcessEntity> findByThreadId(@Param("threadId") Long threadId);
     long countByPuppyIdAndStatusIn(@Param("puppyId") Long puppyId, List<BiddingProcessStatus> statuses);
 
     @Query("SELECT bp FROM BiddingProcessEntity bp " +
