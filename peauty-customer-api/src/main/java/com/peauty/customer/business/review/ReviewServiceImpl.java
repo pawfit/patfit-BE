@@ -143,11 +143,12 @@ public class ReviewServiceImpl implements ReviewService {
         Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
         String groomingStyle = proposal.getSimpleGroomingStyle();
         Long desiredCost = proposal.getDesiredCost();
+        Long biddingProcessId = process.getSavedProcessId().value();
 
         Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId);
         String puppyName = puppy.getName();
 
-        return GetReviewDetailResult.from(review, puppyName, desiredCost, groomingStyle, designerProfile);
+        return GetReviewDetailResult.from(review, puppyName, desiredCost, groomingStyle, designerProfile, biddingProcessId);
 
     }
 
@@ -209,7 +210,8 @@ public class ReviewServiceImpl implements ReviewService {
                             puppy.getName(),
                             proposal.getDesiredCost(),
                             proposal.getSimpleGroomingStyle(),
-                            designerProfile
+                            designerProfile,
+                            process.getSavedProcessId().value()
                     );
                 }).toList();
 

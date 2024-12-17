@@ -7,12 +7,14 @@ import java.util.List;
 
 public record GetUserReviewsResponse(
         Long customerId,
-        List<GetReviewDetailResult> reviews
+        List<GetReviewDetailResponse> reviews
 ) {
     public static GetUserReviewsResponse from(GetUserReviewsResult result) {
         return new GetUserReviewsResponse(
                 result.customerId(),
-                result.reviews()
+                result.reviews().stream()
+                        .map(GetReviewDetailResponse::from)
+                        .toList()
         );
     }
 }
