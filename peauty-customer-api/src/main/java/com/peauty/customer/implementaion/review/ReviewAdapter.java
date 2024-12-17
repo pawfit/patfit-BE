@@ -103,37 +103,50 @@ public class ReviewAdapter implements ReviewPort {
                 .toList();
     }*/
 
-//    Review 전체 조회(고객 닉네임, 컷 종류까지 조회)
-@Override
-public List<Review> findReviewsByDesignerId(Long designerId) {
-    List<BiddingThreadEntity> threads = biddingThreadRepository.findAllByDesignerIdWithBiddingProcess(designerId);
-    Set<Long> processIds = threads.stream()
-            .map(thread -> thread.getBiddingProcess().getId())
-            .collect(Collectors.toSet());
+    //    Review 전체 조회(고객 닉네임, 컷 종류까지 조회)
+    @Override
+    public List<Review> findReviewsByDesignerId(Long designerId) {
+        List<BiddingThreadEntity> threads = biddingThreadRepository.findAllByDesignerIdWithBiddingProcess(designerId);
+        Set<Long> processIds = threads.stream()
+                .map(thread -> thread.getBiddingProcess().getId())
+                .collect(Collectors.toSet());
 
-    return threads.stream()
-            .map(thread -> {
-                Optional<ReviewEntity> optionalReviewEntity = reviewRepository.findByBiddingThreadId(thread.getId());
-                if (optionalReviewEntity.isEmpty()) {
-                    return null;
-                }
-                ReviewEntity reviewEntity = optionalReviewEntity.get();
+        return threads.stream()
+                .map(thread -> {
+                    Optional<ReviewEntity> optionalReviewEntity = reviewRepository.findByBiddingThreadId(thread.getId());
+                    if (optionalReviewEntity.isEmpty()) {
+                        return null;
+                    }
+                    ReviewEntity reviewEntity = optionalReviewEntity.get();
 
-                EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(thread.getBiddingProcess().getId());
+                    EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(thread.getBiddingProcess().getId());
 
-                CustomerEntity customerEntity = customerRepository.findByPuppyId(thread.getBiddingProcess().getPuppyId())
-                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
+                    CustomerEntity customerEntity = customerRepository.findByPuppyId(thread.getBiddingProcess().getPuppyId())
+                            .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
 
-                return ReviewMapper.toReviewDomain(
-                        reviewEntity,
-                        customerEntity.getNickname(),
-                        proposal,
-                        reviewImageRepository.findAllByReviewId(reviewEntity.getId())
-                );
-            })
-            .filter(Objects::nonNull)
-            .toList();
-}
+                    return ReviewMapper.toReviewDomain(
+                            reviewEntity,
+                            customerEntity.getNickname(),
+                            proposal,
+                            reviewImageRepository.findAllByReviewId(reviewEntity.getId())
+                    );
+                })
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    @Override
+    public List<Review> findReviewsByCustomerId(Long customerId) {
+        List<ReviewEntity> reviewEntities = reviewRepository.findAllByCustomerId(customerId);
+        return reviewEntities.stream()
+                .map(entity -> ReviewMapper.toReviewDomain(
+                        entity,
+                        reviewImageRepository.findAllByReviewId(entity.getId())
+                ))
+                .toList();
+    }
+
+
 
 
 

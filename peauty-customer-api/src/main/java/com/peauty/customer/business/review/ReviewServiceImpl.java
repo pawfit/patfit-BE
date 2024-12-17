@@ -191,4 +191,29 @@ public class ReviewServiceImpl implements ReviewService {
         return new GetDesignerReviewsResult(designerId, reviewDetails);
     }
 
+    @Override
+    public GetUserReviewsResult getUserReviews(Long userId) {
+        List<Review> reviews = reviewPort.findReviewsByCustomerId(userId);
+
+        List<GetReviewDetailResult> reviewDetails = reviews.stream()
+                .map(review -> {
+                    BiddingProcess process = biddingProcessPort.getProcessByProcessId(review.getThreadId().value());
+                    EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
+                    Puppy puppy = puppyPort.getPuppyByPuppyId(process.getPuppyId().value());
+                    Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(
+                            process.getThread(new BiddingThread.ID(review.getThreadId().value())).getDesignerId().value()
+                    );
+
+                    return GetReviewDetailResult.from(
+                            review,
+                            puppy.getName(),
+                            proposal.getDesiredCost(),
+                            proposal.getSimpleGroomingStyle(),
+                            designerProfile
+                    );
+                }).toList();
+
+        return GetUserReviewsResult.from(userId, reviewDetails);
+    }
+
 }

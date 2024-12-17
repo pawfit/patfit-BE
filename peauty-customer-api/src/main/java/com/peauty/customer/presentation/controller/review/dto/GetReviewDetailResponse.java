@@ -1,7 +1,6 @@
 package com.peauty.customer.presentation.controller.review.dto;
 
 import com.peauty.customer.business.review.dto.GetReviewDetailResult;
-import com.peauty.domain.designer.Designer;
 
 import java.time.LocalDate;
 import java.util.List;

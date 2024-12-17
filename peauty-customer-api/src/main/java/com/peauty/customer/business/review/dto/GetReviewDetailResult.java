@@ -23,8 +23,16 @@ public record GetReviewDetailResult(
         String puppyName,
         Long estimateCost,
         LocalDate reviewCreatedAt,
-        Designer.DesignerProfile designerProfile
+        DesignerSimpleProfile designerProfile
 ) {
+
+    public record DesignerSimpleProfile(
+            String workspaceName,
+            String address){
+
+    }
+
+
     public static GetReviewDetailResult from(Review review, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile) {
         return new GetReviewDetailResult(
                 review.getSavedReviewId(),
@@ -39,7 +47,10 @@ public record GetReviewDetailResult(
                 puppyName,
                 estimateCost,
                 review.getReviewCreatedAt(),
-                designerProfile
+                new DesignerSimpleProfile(
+                        designerProfile.workspaceName(),
+                        designerProfile.address()
+                )
         );
     }
 }
