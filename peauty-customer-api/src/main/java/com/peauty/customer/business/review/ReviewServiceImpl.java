@@ -2,15 +2,19 @@ package com.peauty.customer.business.review;
 
 import com.peauty.customer.business.bidding.BiddingProcessPort;
 import com.peauty.customer.business.bidding.EstimatePort;
+import com.peauty.customer.business.bidding.EstimateProposalPort;
 import com.peauty.customer.business.designer.DesignerPort;
+import com.peauty.customer.business.puppy.PuppyPort;
 import com.peauty.customer.business.review.dto.*;
 import com.peauty.customer.business.workspace.WorkspacePort;
 import com.peauty.domain.bidding.BiddingProcess;
 import com.peauty.domain.bidding.BiddingThread;
 import com.peauty.domain.bidding.Estimate;
+import com.peauty.domain.bidding.EstimateProposal;
 import com.peauty.domain.designer.Designer;
 import com.peauty.domain.designer.Workspace;
 import com.peauty.domain.exception.PeautyException;
+import com.peauty.domain.puppy.Puppy;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
@@ -31,6 +35,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final EstimatePort estimatePort;
     private final DesignerPort designerPort;
     private final WorkspacePort workspacePort;
+    private final PuppyPort puppyPort;
+    private final EstimateProposalPort estimateProposalPort;
 
     //TODO: 리뷰 중복 작성 금지 로직
 
@@ -130,7 +136,19 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public GetReviewDetailResult getReviewDetail(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId) {
         Review review = reviewPort.getReviewByIdAndBiddingThreadId(reviewId, threadId);
-        return GetReviewDetailResult.from(review);
+        // TODO: 조회 부분 수정하기
+        BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
+        EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(processId);
+        BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
+        Designer.Profile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
+        String groomingStyle = proposal.getSimpleGroomingStyle();
+        Long estimateCost = proposal.getDesiredCost();
+
+        Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId); // PuppyPort 사용
+        String puppyName = puppy.getName();
+
+
+        return GetReviewDetailResult.from(review, puppyName, estimateCost, groomingStyle, designerProfile);
     }
 
     @Override
