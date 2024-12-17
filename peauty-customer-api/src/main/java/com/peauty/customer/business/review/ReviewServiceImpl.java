@@ -20,6 +20,7 @@ import com.peauty.domain.review.Review;
 import com.peauty.domain.review.ReviewImage;
 import com.peauty.domain.review.ReviewRating;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewPort reviewPort;
@@ -143,11 +145,12 @@ public class ReviewServiceImpl implements ReviewService {
         Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value());
         String groomingStyle = proposal.getSimpleGroomingStyle();
         Long desiredCost = proposal.getDesiredCost();
+        Long biddingProcessId = process.getSavedProcessId().value();
 
         Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId);
         String puppyName = puppy.getName();
 
-        return GetReviewDetailResult.from(review, puppyName, desiredCost, groomingStyle, designerProfile);
+        return GetReviewDetailResult.from(review, puppyName, desiredCost, groomingStyle, designerProfile, biddingProcessId);
 
     }
 
@@ -197,7 +200,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         List<GetReviewDetailResult> reviewDetails = reviews.stream()
                 .map(review -> {
-                    BiddingProcess process = biddingProcessPort.getProcessByProcessId(review.getThreadId().value());
+                    BiddingProcess process = biddingProcessPort.getProcessByThreadId(review.getThreadId().value());
                     EstimateProposal proposal = estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value());
                     Puppy puppy = puppyPort.getPuppyByPuppyId(process.getPuppyId().value());
                     Designer.DesignerProfile designerProfile = designerPort.getDesignerProfileByDesignerId(
@@ -209,7 +212,8 @@ public class ReviewServiceImpl implements ReviewService {
                             puppy.getName(),
                             proposal.getDesiredCost(),
                             proposal.getSimpleGroomingStyle(),
-                            designerProfile
+                            designerProfile,
+                            process.getSavedProcessId().value()
                     );
                 }).toList();
 
