@@ -30,5 +30,6 @@ public interface DesignerPort {
 
     void updateBadgeStatus(Badge badge, Long userId);
 
+    Designer updateDesignerYearsOfExperience(Long userId, Integer YearsOfExperience);
 }
 

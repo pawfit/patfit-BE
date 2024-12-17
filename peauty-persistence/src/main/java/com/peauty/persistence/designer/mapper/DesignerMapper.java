@@ -32,7 +32,7 @@ public class DesignerMapper {
                 .role(Role.ROLE_DESIGNER)
                 .nickname(designerEntity.getNickname())
                 .profileImageUrl(designerEntity.getProfileImageUrl())
-                .yearOfExperience(designerEntity.getYearsOfExperience())
+                .yearsOfExperience(designerEntity.getYearsOfExperience())
                 .licenses(Optional.ofNullable(licenseEntities)
                         .orElseGet(Collections::emptyList)
                         .stream()
@@ -56,7 +56,7 @@ public class DesignerMapper {
                 .role(Role.ROLE_DESIGNER)
                 .nickname(designerEntity.getNickname())
                 .profileImageUrl(designerEntity.getProfileImageUrl())
-                .yearOfExperience(designerEntity.getYearsOfExperience())
+                .yearsOfExperience(designerEntity.getYearsOfExperience())
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class DesignerMapper {
                 .status(designer.getStatus())
                 .nickname(designer.getNickname())
                 .profileImageUrl(designer.getProfileImageUrl())
-                .yearsOfExperience(designer.getYearOfExperience())
+                .yearsOfExperience(designer.getYearsOfExperience())
                 .build();
     }
 

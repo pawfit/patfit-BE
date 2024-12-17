@@ -26,7 +26,7 @@ public class Designer {
     private Role role;
     private String nickname;
     private String profileImageUrl;
-    private Integer yearOfExperience;
+    private Integer yearsOfExperience;
     private List<License> licenses;
     private List<Badge> badges;
 
@@ -38,7 +38,7 @@ public class Designer {
             Integer reviewCount,
             Double reviewRating,
             String profileImageUrl,
-            Integer yearOfExperience,
+            Integer yearsOfExperience,
             List<Badge> badges,
             String address,
             Scissors scissors
@@ -51,7 +51,7 @@ public class Designer {
                 .designerName(this.name)
                 .badges(this.badges)
                 .profileImageUrl(this.profileImageUrl)
-                .yearOfExperience(this.yearOfExperience)
+                .yearsOfExperience(this.yearsOfExperience)
                 .reviewCount(workspace.getReviewCount())
                 .reviewRating(workspace.getReviewRating())
                 .workspaceName(workspace.getWorkspaceName())
@@ -103,7 +103,7 @@ public class Designer {
     }
 
     public void updateYearOfExperience(Integer yearOfExperience) {
-        this.yearOfExperience = yearOfExperience;
+        this.yearsOfExperience = yearOfExperience;
     }
 
     public void updateLicenses(List<License> licenses) {
