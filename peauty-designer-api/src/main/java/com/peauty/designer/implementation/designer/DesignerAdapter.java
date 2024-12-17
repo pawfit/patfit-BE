@@ -177,6 +177,7 @@ public class DesignerAdapter implements DesignerPort {
         designerBadgeRepository.save(updatedBadgeEntity);
     }
 
+    // TODO. 디자이너와 워크스페이스의 확실한 도메인 분리가 필요한 순간입니다..
     @Override
     public Designer updateDesignerYearsOfExperience(Long userId, Integer yearsOfExperience) {
         Designer designerToSave = designerRepository.findById(userId)
