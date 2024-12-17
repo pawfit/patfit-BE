@@ -9,8 +9,12 @@ import com.peauty.domain.exception.PeautyException;
 import com.peauty.domain.response.PeautyResponseCode;
 import com.peauty.domain.user.Role;
 import com.peauty.domain.user.Status;
-import com.peauty.persistence.designer.*;
-import com.peauty.persistence.designer.badge.*;
+import com.peauty.persistence.designer.DesignerEntity;
+import com.peauty.persistence.designer.DesignerRepository;
+import com.peauty.persistence.designer.badge.BadgeEntity;
+import com.peauty.persistence.designer.badge.BadgeRepository;
+import com.peauty.persistence.designer.badge.DesignerBadgeEntity;
+import com.peauty.persistence.designer.badge.DesignerBadgeRepository;
 import com.peauty.persistence.designer.license.LicenseEntity;
 import com.peauty.persistence.designer.license.LicenseRepository;
 import com.peauty.persistence.designer.mapper.BadgeMapper;
@@ -146,7 +150,7 @@ public class DesignerAdapter implements DesignerPort {
 
         return badgeEntities.stream()
                 .map(badgeEntity -> {
-                            // 뱃지 ID가 일치하면서 대표뱃지가 True인 항목이 있는지 확인
+                    // 뱃지 ID가 일치하면서 대표뱃지가 True인 항목이 있는지 확인
                     boolean isRepresentative = designerBadges.stream()
                             .anyMatch(designerBadgeEntity -> designerBadgeEntity.getBadgeId().equals(badgeEntity.getId()) && designerBadgeEntity.isRepresentativeBadge());
                     return Badge.builder()
@@ -173,5 +177,24 @@ public class DesignerAdapter implements DesignerPort {
         designerBadgeRepository.save(updatedBadgeEntity);
     }
 
+    @Override
+    public Designer updateDesignerYearsOfExperience(Long userId, Integer yearsOfExperience) {
+        Designer designerToSave = designerRepository.findById(userId)
+                .map(DesignerMapper::toDesignerDomain)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
 
+        designerToSave.updateYearOfExperience(yearsOfExperience);
+        DesignerEntity savedDesignerEntity = designerRepository.save(DesignerMapper.toEntity(designerToSave));
+        Designer savedDesigner = DesignerMapper.toDesignerDomain(savedDesignerEntity);
+
+        List<License> licenses = Optional.ofNullable(licenseRepository.findByDesignerId(userId))
+                .map(DesignerMapper::toLicenses)
+                .orElse(Collections.emptyList());
+
+        List<Badge> badges = getBadges(userId);
+
+        savedDesigner.updateLicenses(licenses);
+        savedDesigner.updateBadges(badges);
+        return savedDesigner;
+    }
 }

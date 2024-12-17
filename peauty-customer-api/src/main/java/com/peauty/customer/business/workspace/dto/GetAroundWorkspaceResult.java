@@ -42,7 +42,7 @@ public record GetAroundWorkspaceResult(
                 workspace.getReviewRating(),
                 designer.getDesignerId(),
                 designer.getName(),
-                designer.getYearOfExperience(),
+                designer.getYearsOfExperience(),
                 badges
 //                workspace.getRating().getScissors().getScissorsRank()
         );

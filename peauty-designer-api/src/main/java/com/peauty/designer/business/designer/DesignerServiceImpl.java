@@ -97,9 +97,10 @@ public class DesignerServiceImpl implements DesignerService {
         workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
         workspaceToUpdate.updateBannerImgUrls(command.bannerImageUrls());
         Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
-        Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
+        Designer savedDesigner = designerPort.updateDesignerYearsOfExperience(userId, command.yearOfExperience());
+        //Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
 
-        return UpdateDesignerWorkspaceResult.from(getDesigner, updatedWorkspace);
+        return UpdateDesignerWorkspaceResult.from(savedDesigner, updatedWorkspace);
     }
 
     // TODO: 조인쿼리로 변환하면 좋겠다.

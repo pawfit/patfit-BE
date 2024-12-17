@@ -54,7 +54,7 @@ public record CreateDesignerWorkspaceResult(
                 workspace.getAddress(),
                 workspace.getAddressDetail(),
                 designer.getPhoneNumber(),
-                designer.getYearOfExperience(),
+                designer.getYearsOfExperience(),
                 workspace.getOpenHours(),
                 workspace.getCloseHours(),
                 workspace.getOpenDays(),
