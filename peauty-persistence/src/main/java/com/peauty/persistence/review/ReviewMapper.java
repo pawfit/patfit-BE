@@ -21,7 +21,7 @@ public class ReviewMapper {
                 .biddingThreadId(domain.getThreadId().value())
                 .reviewRating(domain.getReviewRating())
                 .contentDetail(domain.getContentDetail())
-                .contentGeneral(domain.getContentGeneral())
+                .contentGeneral(domain.getContentGenerals())
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class ReviewMapper {
                 .threadId(new BiddingThread.ID(entity.getBiddingThreadId()))
                 .reviewRating(entity.getReviewRating())
                 .contentDetail(entity.getContentDetail())
-                .contentGeneral(entity.getContentGeneral())
+                .contentGenerals(entity.getContentGeneral())
                 .reviewImages(reviewImages)
                 // TODO: null이 아닌데 null 체크를 해야 하는 것이 매우 이상.
                 .reviewCreatedAt(entity.getCreatedAt() != null ? LocalDate.from(entity.getCreatedAt()) : null)

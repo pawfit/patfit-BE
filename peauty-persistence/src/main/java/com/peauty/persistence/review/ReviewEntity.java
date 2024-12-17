@@ -6,6 +6,8 @@ import com.peauty.persistence.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "review")
 @Getter
@@ -28,8 +30,9 @@ public class ReviewEntity extends BaseTimeEntity {
     @Column(name = "content_detail", nullable = false)
     private String contentDetail;
 
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @Column(name = "content_general")
-    private ContentGeneral contentGeneral;
+    private List<ContentGeneral> contentGeneral;
 
 }

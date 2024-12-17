@@ -1,8 +1,8 @@
 package com.peauty.customer.presentation.controller.review.dto;
 
 import com.peauty.customer.business.review.dto.GetReviewDetailResult;
-import com.peauty.domain.review.ContentGeneral;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record GetReviewDetailResponse(
@@ -10,8 +10,13 @@ public record GetReviewDetailResponse(
         Long biddingThreadId,
         Double reviewRating,
         String contentDetail,
-        String contentGeneral,
-        List<String> reviewImages
+        List<String> contentGenerals,
+        List<String> reviewImages,
+        String groomingStyle,
+        String puppyName,
+        Long estimateCost,
+        LocalDate reviewCreatedAt,
+        DesignerProfile designerProfile
 ) {
 
     public static GetReviewDetailResponse from(GetReviewDetailResult result){
@@ -20,8 +25,22 @@ public record GetReviewDetailResponse(
                 result.biddingThreadId().value(),
                 result.reviewRating(),
                 result.contentDetail(),
-                result.contentGeneral(),
-                result.reviewImages()
+                result.contentGenerals(),
+                result.reviewImages(),
+                result.groomingStyle(),
+                result.puppyName(),
+                result.estimateCost(),
+                result.reviewCreatedAt(),
+                new DesignerProfile(
+                        result.designerProfile().workspaceName(),
+                        result.designerProfile().address()
+                )
         );
+    }
+
+    public record DesignerProfile(
+            String workspaceName,
+            String address
+    ) {
     }
 }

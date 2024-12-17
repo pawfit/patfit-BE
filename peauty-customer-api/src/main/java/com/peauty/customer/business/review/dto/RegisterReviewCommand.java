@@ -13,7 +13,7 @@ import java.util.List;
 public record RegisterReviewCommand(
         ReviewRating reviewRating, // ReviewRating
         String contentDetail,
-        ContentGeneral contentGeneral,
+        List<ContentGeneral> contentGenerals,
         List<String> reviewImages
 ) {
 
@@ -23,7 +23,7 @@ public record RegisterReviewCommand(
                 .threadId(new BiddingThread.ID(threadId))
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
-                .contentGeneral(contentGeneral)
+                .contentGenerals(contentGenerals)
                 .reviewImages(reviewImages.stream()
                         .map(imageUrl -> ReviewImage.builder()
                                 .id(null)
