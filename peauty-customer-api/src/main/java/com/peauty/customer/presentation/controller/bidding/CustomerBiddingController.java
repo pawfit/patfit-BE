@@ -121,4 +121,11 @@ public class CustomerBiddingController {
         );
         return GetEstimateAndProposalDetailsResponse.from(result);
     }
+
+    @GetMapping("/{userId}/puppies/bidding/processes/threads/can-review")
+    @Operation(summary = "리뷰 작성 가능 스레드 조회", description = "리뷰를 작성할 수 있는 스레드들을 조회합니다.")
+    public GetCanReviewThreadsResponse getCanReviewThreads(@PathVariable Long userId) {
+        GetAllStep3AboveThreadsResult result = customerBiddingService.getCanReviewThreads(userId);
+        return GetCanReviewThreadsResponse.from(result);
+    }
 }
