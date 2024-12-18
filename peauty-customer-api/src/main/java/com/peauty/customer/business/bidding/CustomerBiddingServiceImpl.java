@@ -163,7 +163,7 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                         .flatMap(puppy -> biddingProcessPort.getProcessesByPuppyId(puppy.getPuppyId()).stream()
                                 .map(process -> new ProcessWithPuppy(process, puppy.getPuppyId())))
                         .flatMap(processWithPuppy -> processWithPuppy.process().getThreads().stream()
-                                .filter(thread -> thread.getStep().isAfter(BiddingThreadStep.ESTIMATE_RESPONSE))
+                                .filter(thread -> thread.getStep().isCompleted())
                                 .filter(thread -> !reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()))
                                 .map(thread -> thread.getProfile(
                                         processWithPuppy.puppyId(),
