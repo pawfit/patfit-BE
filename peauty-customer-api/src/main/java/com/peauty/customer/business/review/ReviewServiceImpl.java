@@ -150,7 +150,7 @@ public class ReviewServiceImpl implements ReviewService {
         Puppy puppy = puppyPort.getPuppyByPuppyId(puppyId);
         String puppyName = puppy.getName();
 
-        return GetReviewDetailResult.from(review, puppyName, desiredCost, groomingStyle, designerProfile, biddingProcessId);
+        return GetReviewDetailResult.from(review, puppy, puppyName, desiredCost, groomingStyle, designerProfile, biddingProcessId);
 
     }
 
@@ -209,6 +209,7 @@ public class ReviewServiceImpl implements ReviewService {
 
                     return GetReviewDetailResult.from(
                             review,
+                            puppy,
                             puppy.getName(),
                             proposal.getDesiredCost(),
                             proposal.getSimpleGroomingStyle(),

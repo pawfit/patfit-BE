@@ -13,6 +13,8 @@ public record GetReviewDetailResponse(
         Long biddingThreadId,
         @Schema(description = "리뷰 프로세스 ID(FK)", example = "1")
         Long biddingProcessId,
+        @Schema(description = "강아지 ID(FK)", example = "1") // 추가
+        Long puppyId,
         @Schema(description = "리뷰 평점", example = "FOUR")
         Double reviewRating,
         @Schema(description = "리뷰 내용", example = "그럭저럭이었어요.")
@@ -37,6 +39,7 @@ public record GetReviewDetailResponse(
                 result.reviewId().value(),
                 result.biddingThreadId().value(),
                 result.biddingProcessId(),
+                result.puppyId(),
                 result.reviewRating(),
                 result.contentDetail(),
                 result.contentGenerals(),

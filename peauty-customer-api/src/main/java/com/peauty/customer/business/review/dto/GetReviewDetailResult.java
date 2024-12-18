@@ -16,6 +16,7 @@ public record GetReviewDetailResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
         Long biddingProcessId,
+        Long puppyId,
         Double reviewRating,
         String contentDetail,
         List<String> contentGenerals,
@@ -33,12 +34,13 @@ public record GetReviewDetailResult(
 
     }
 
-
-    public static GetReviewDetailResult from(Review review, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile, Long biddingProcessId) {
+// TODO: 추후 puppyName을 Puppy 내에서 받아오게 리팩토링 예정, estimateCost 등도 도메인 내에서 받아올 수 있도록 수정 예정.
+    public static GetReviewDetailResult from(Review review, Puppy puppy, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile, Long biddingProcessId) {
         return new GetReviewDetailResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
                 biddingProcessId,
+                puppy.getPuppyId(),
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
                 review.getContentGenerals().stream()
