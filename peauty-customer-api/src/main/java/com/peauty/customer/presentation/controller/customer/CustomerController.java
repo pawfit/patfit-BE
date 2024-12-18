@@ -30,8 +30,6 @@ public class CustomerController {
     @PostMapping(value = "/users/{userId}/profile/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "고객 프로필 이미지 업로드", description = "고객의 프로필 이미지 업로드 API 진입점입니다.")
     public UploadProfileImageResponse uploadProfileImage(@PathVariable Long userId, @RequestParam("image") MultipartFile image) {
-        LocalDateTime time = LocalDateTime.now();
-        LocalDate dateTIme = time.toLocalDate();
         UploadProfileImageResult result = customerService.uploadProfileImage(userId, image);
         return UploadProfileImageResponse.from(result);
     }
