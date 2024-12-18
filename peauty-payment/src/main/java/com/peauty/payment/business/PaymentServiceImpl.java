@@ -1,17 +1,10 @@
 package com.peauty.payment.business;
 
-import com.peauty.domain.bidding.BiddingProcess;
-import com.peauty.domain.bidding.BiddingThread;
-import com.peauty.domain.exception.PeautyException;
-import com.peauty.domain.payment.Order;
-import com.peauty.domain.payment.OrderStatus;
-import com.peauty.domain.payment.Payment;
-import com.peauty.domain.payment.PaymentStatus;
+import com.peauty.domain.bidding.*;
+import com.peauty.domain.payment.*;
+import com.peauty.payment.business.dto.*;
 import com.peauty.domain.response.PeautyResponseCode;
-import com.peauty.payment.business.dto.CompletePaymentCallbackCommand;
-import com.peauty.payment.business.dto.CompletePaymentCallbackResult;
-import com.peauty.payment.business.dto.CreateOrderCommand;
-import com.peauty.payment.business.dto.CreateOrderResult;
+import com.peauty.domain.exception.PeautyException;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
@@ -60,9 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
         // TODO. validatePrice 메서드를 Order에 넣을까, Payment에 넣을까
         // TODO. 현재는 NULL만 체크하는데 추후에 견적서에 적힌 값과 앞으로 결제할 금액이 동일한지 체크
         orderToSave.getPayment().validatePrice(actualPrice, estimatePrice);
-        log.warn("before save Order: {}", orderToSave.getOrderStatus());
         Order savedOrder = paymentPort.saveOrder(orderToSave);
-        log.warn("savedOrder: {}", savedOrder.getOrderStatus());
         return CreateOrderResult.from(savedOrder);
     }
 

@@ -17,7 +17,7 @@ public record CreateOrderCommand(
         return Order.builder()
                 .depositPrice(depositPrice)
                 .actualPrice(price)
-                .orderId(userId)
+                .orderId(null)
                 .threadId(threadId)
                 .uuid(null)
                 .payment(paymentToSave)
