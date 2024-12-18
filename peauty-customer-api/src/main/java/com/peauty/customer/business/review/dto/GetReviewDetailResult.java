@@ -16,6 +16,7 @@ public record GetReviewDetailResult(
         Review.ID reviewId,
         BiddingThread.ID biddingThreadId,
         Long biddingProcessId,
+        Long puppyId,
         Double reviewRating,
         String contentDetail,
         List<String> contentGenerals,
@@ -34,11 +35,12 @@ public record GetReviewDetailResult(
     }
 
 
-    public static GetReviewDetailResult from(Review review, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile, Long biddingProcessId) {
+    public static GetReviewDetailResult from(Review review, Long puppyId, String puppyName, Long estimateCost, String groomingStyle, Designer.DesignerProfile designerProfile, Long biddingProcessId) {
         return new GetReviewDetailResult(
                 review.getSavedReviewId(),
                 review.getThreadId(),
                 biddingProcessId,
+                puppyId,
                 review.getReviewRating().getValue(),
                 review.getContentDetail(),
                 review.getContentGenerals().stream()
