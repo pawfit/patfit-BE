@@ -90,7 +90,29 @@ public record GetOngoingProcessWithStep1ThreadsResponse(
             Integer review,
 
             @Schema(
-                    description = "뱃지 목록"
+                    description = "뱃지 목록",
+                    example = """
+               [
+                   {
+                       "badgeId": 1,
+                       "badgeName": "친절한",
+                       "badgeContent": "친절한 서비스로 고객 만족도가 높은 디자이너입니다",
+                       "badgeImageUrl": "https://example.com/badges/kind.png",
+                       "isRepresentativeBadge": true,
+                       "badgeColor": "GOLD",
+                       "badgeType": "GENERAL"
+                   },
+                   {
+                       "badgeId": 2,
+                       "badgeName": "전문가",
+                       "badgeContent": "5년 이상의 전문 경력을 보유한 디자이너입니다",
+                       "badgeImageUrl": "https://example.com/badges/expert.png",
+                       "isRepresentativeBadge": false,
+                       "badgeColor": "SILVER",
+                       "badgeType": "SCISSORS"
+                   }
+               ]
+               """
             )
             List<Badge> badges
     ) {
