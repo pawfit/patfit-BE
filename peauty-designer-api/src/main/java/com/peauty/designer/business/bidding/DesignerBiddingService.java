@@ -23,6 +23,8 @@ public interface DesignerBiddingService {
             Long threadId
     );
 
+    GetDesignerScheduleResult getDesignerSchedule(Long userId);
+
     GetThreadsByStepResult getStep3AboveThreads(Long userId);
 
     GetThreadsByStepResult getStep2Threads(Long userId);

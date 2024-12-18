@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public SignUpResult signUp(SignUpCommand command) {
-        designerPort.checkDesignerPhoneNumDuplicated(command.phoneNumber());
+//        designerPort.checkDesignerPhoneNumDuplicated(command.phoneNumber());  TODO 중복검사 다시 하기
         designerPort.checkDesignerNicknameDuplicated(command.nickname());
         Designer registeredCustomer = designerPort.registerNewDesigner(command);
         SignTokens signTokens = authPort.generateSignTokens(registeredCustomer.getAuthInfo());
