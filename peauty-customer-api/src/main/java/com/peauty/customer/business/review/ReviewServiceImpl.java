@@ -82,6 +82,8 @@ public class ReviewServiceImpl implements ReviewService {
         // 리뷰 ID로 리뷰를 조회
         Review existingReview = reviewPort.findReviewById(reviewId);
 
+        // TODO: 리뷰와 관련된 스레드 ID가 요청 스레드 ID와 일치하지 않는 경우에 대한 검증 로직 필요
+        // TODO: 프로세스가 요청한 userId와 puppyId에 연결되어 있는지 확인
         // 이전 평점 저장
         ReviewRating previousRating = existingReview.getReviewRating();
 
@@ -109,6 +111,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void deleteReview(Long userId, Long reviewId) {
         Review review = reviewPort.findReviewById(reviewId);
+        // TODO: 해당 리뷰가 스레드와 일치하는지에 대한 검증 로직 필요.
+        // TODO: 해당 리뷰에 맞는 유저와 강아지가 일치하는지에 대한 검증 로직 필요.
 
         Long designerId = reviewPort.findDesignerIdByReviewId(reviewId);
         ReviewRating deletedRating = review.getReviewRating();
