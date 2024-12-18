@@ -3,6 +3,7 @@ package com.peauty.designer.business.designer;
 import com.peauty.designer.business.auth.dto.SignUpCommand;
 import com.peauty.domain.designer.Badge;
 import com.peauty.domain.designer.Designer;
+import com.peauty.domain.designer.License;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public interface DesignerPort {
 
     void updateBadgeStatus(Badge badge, Long userId);
 
-    Designer updateDesignerYearsOfExperience(Long userId, Integer YearsOfExperience);
+    Designer updateDesignerWhenUpdateWorkspace(
+            Long userId, Integer YearsOfExperience, List<License> licenses);
 }
 

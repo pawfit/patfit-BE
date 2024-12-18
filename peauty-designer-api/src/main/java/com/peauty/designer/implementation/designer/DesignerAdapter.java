@@ -20,6 +20,7 @@ import com.peauty.persistence.designer.license.LicenseRepository;
 import com.peauty.persistence.designer.mapper.BadgeMapper;
 import com.peauty.persistence.designer.mapper.DesignerMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DesignerAdapter implements DesignerPort {
@@ -59,6 +61,10 @@ public class DesignerAdapter implements DesignerPort {
 
     @Override
     public Designer save(Designer designer) {
+        if (designer.getLicenses() == null) {
+            designer.updateLicenses((Collections.emptyList()));
+        }
+
         DesignerEntity designerEntityToSave = DesignerMapper.toEntity(designer);
         List<LicenseEntity> licenseEntityToSave = DesignerMapper.toLicenseEntity(designer);
 
@@ -179,22 +185,30 @@ public class DesignerAdapter implements DesignerPort {
 
     // TODO. 디자이너와 워크스페이스의 확실한 도메인 분리가 필요한 순간입니다..
     @Override
-    public Designer updateDesignerYearsOfExperience(Long userId, Integer yearsOfExperience) {
+    public Designer updateDesignerWhenUpdateWorkspace(
+            Long userId, Integer yearsOfExperience, List<License> licenses) {
         Designer designerToSave = designerRepository.findById(userId)
                 .map(DesignerMapper::toDesignerDomain)
                 .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_USER));
 
+        List<LicenseEntity> licenseEntitiesToDelete = licenseRepository.findByDesignerId(userId);
+        licenseRepository.deleteAll(licenseEntitiesToDelete);
+
+        designerToSave.updateLicenses(licenses);
         designerToSave.updateYearOfExperience(yearsOfExperience);
+
+        List<LicenseEntity> licenseEntity = licenseRepository.saveAll(DesignerMapper.toLicenseEntity(designerToSave));
+        List<License> savedLicenses = DesignerMapper.toLicenses(licenseEntity);
         DesignerEntity savedDesignerEntity = designerRepository.save(DesignerMapper.toEntity(designerToSave));
         Designer savedDesigner = DesignerMapper.toDesignerDomain(savedDesignerEntity);
 
-        List<License> licenses = Optional.ofNullable(licenseRepository.findByDesignerId(userId))
-                .map(DesignerMapper::toLicenses)
-                .orElse(Collections.emptyList());
+//        List<License> getLicenses = Optional.ofNullable(licenseRepository.findByDesignerId(userId))
+//                .map(DesignerMapper::toLicenses)
+//                .orElse(Collections.emptyList());
 
         List<Badge> badges = getBadges(userId);
 
-        savedDesigner.updateLicenses(licenses);
+        savedDesigner.updateLicenses(savedLicenses);
         savedDesigner.updateBadges(badges);
         return savedDesigner;
     }

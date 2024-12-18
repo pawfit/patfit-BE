@@ -96,8 +96,10 @@ public class DesignerServiceImpl implements DesignerService {
         Workspace workspaceToUpdate = workspacePort.getByDesignerId(userId);
         workspaceToUpdate.updateWorkspace(UpdateDesignerWorkspaceCommand.toWorkspace(command));
         workspaceToUpdate.updateBannerImgUrls(command.bannerImageUrls());
+        List<License> licenseToCreate = UpdateDesignerWorkspaceCommand.toLicense(command);
         Workspace updatedWorkspace = workspacePort.updateDesginerWorkspace(userId, workspaceToUpdate);
-        Designer savedDesigner = designerPort.updateDesignerYearsOfExperience(userId, command.yearOfExperience());
+        Designer savedDesigner = designerPort.updateDesignerWhenUpdateWorkspace(
+                userId, command.yearOfExperience(), licenseToCreate);
         //Designer getDesigner = designerPort.getAllDesignerDataByDesignerId(userId);
 
         return UpdateDesignerWorkspaceResult.from(savedDesigner, updatedWorkspace);
