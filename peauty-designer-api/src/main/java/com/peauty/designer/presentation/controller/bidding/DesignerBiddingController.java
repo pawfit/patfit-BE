@@ -71,22 +71,22 @@ public class DesignerBiddingController {
 
     @GetMapping("/{userId}/bidding/processes/threads/above-step3")
     @Operation(summary = "확정 견적 조회", description = "디자이너와 연관된 스레드들 중 Step 3 이상의 스레드들을 조회.")
-    public GetThreadsByStepResponse getStep3AboveThreads(@PathVariable Long userId) {
+    public GetStep3AboveThreadsResponse getStep3AboveThreads(@PathVariable Long userId) {
         GetThreadsByStepResult result = designerBiddingService.getStep3AboveThreads(userId);
-        return GetThreadsByStepResponse.from(result);
+        return GetStep3AboveThreadsResponse.from(result);
     }
 
     @GetMapping("/{userId}/bidding/processes/threads/step2")
     @Operation(summary = "보낸 견적 조회", description = "디자이너와 연관된 스레드들 중 Step 2 스레드들을 조회.")
-    public GetThreadsByStepResponse getStep2Threads(@PathVariable Long userId) {
+    public GetStep2ThreadsResponse getStep2Threads(@PathVariable Long userId) {
         GetThreadsByStepResult result = designerBiddingService.getStep2Threads(userId);
-        return GetThreadsByStepResponse.from(result);
+        return GetStep2ThreadsResponse.from(result);
     }
 
     @GetMapping("/{userId}/bidding/processes/threads/step1")
     @Operation(summary = "받은 요청 조회", description = "디자이너와 연관된 스레드들 중 Step 1 스레드들을 조회.")
-    public GetThreadsByStepResponse getStep1Threads(@PathVariable Long userId) {
+    public GetStep1ThreadsResponse getStep1Threads(@PathVariable Long userId) {
         GetThreadsByStepResult result = designerBiddingService.getStep1Threads(userId);
-        return GetThreadsByStepResponse.from(result);
+        return GetStep1ThreadsResponse.from(result);
     }
 }
