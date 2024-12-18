@@ -44,7 +44,7 @@ public record UpdateDesignerWorkspaceCommand(
                 .build();
     }
 
-    public static List<License> toLicense(CreateDesignerWorkspaceCommand command) {
+    public static List<License> toLicense(UpdateDesignerWorkspaceCommand command) {
         return command.licenses().stream()
                 .map(imageUrl -> License.builder()
                         .licenseImageUrl(imageUrl)
