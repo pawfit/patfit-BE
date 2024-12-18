@@ -89,7 +89,6 @@ public enum PeautyResponseCode {
     NOT_FOUND_PAYMENT("1502", "Payment Not Found", "해당 결제 건을 찾을 수 없습니다."),
     NOT_FOUND_ACTUAL_PRICE("1503", "Actual Price Not Found", "결제할 금액이 없습니다."),
     NOT_FOUND_ORDER("1504", "Order Not Found", "주문이 없습니다."),
-    ALREADY_EXIST_PAYMENT("1505", "ALREADY_EXIST_PAYMENT", "이미 저장한 결제 건입니다."),
 
     // AWS 관련 (7000 ~ 8000)
     IMAGE_UPLOAD_FAIl("7001", "Fail To Upload Image To S3", "S3 에 이미지를 업로드하는 것을 실패했습니다."),
