@@ -133,7 +133,8 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
                         .map(process -> process.getProfile(
                                 puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
                                 estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
-                                new DesignerId(userId)
+                                new DesignerId(userId),
+                                estimatePort.getEstimateByThreadId(process.getThread(new DesignerId(userId)).getSavedThreadId().value()).getProfile()
                         ))
                         .toList()
         );
@@ -148,7 +149,8 @@ public class DesignerBiddingServiceImpl implements DesignerBiddingService {
                         .map(process -> process.getProfile(
                                 puppyPort.getPuppyByPuppyId(process.getPuppyId().value()).getProfile(),
                                 estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getProfile(),
-                                new DesignerId(userId)
+                                new DesignerId(userId),
+                                estimatePort.getEstimateByThreadId(process.getThread(new DesignerId(userId)).getSavedThreadId().value()).getProfile()
                         ))
                         .toList()
         );
