@@ -32,6 +32,10 @@ public class ReviewController {
         return RegisterReviewResponse.from(result);
     }
 
+    /* TODO: 추후 @PutMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}")
+        현재 프론트 단에서 개발 기간 완료까지 빠듯하여 PathVariable을 다 두기엔 무리가 있다고 판단. Restful하게 만드는데 있어서는 위와 같은 uri가 맞기에
+        프로젝트 이후 리팩토링 예정
+    */
     @PutMapping("/users/{userId}/reviews/{reviewId}")
     @Operation(summary = "리뷰 수정", description = "고객이 자신의 리뷰를 수정하는 API입니다.")
     public UpdateReviewResponse updateReview(@PathVariable Long userId,
@@ -45,6 +49,7 @@ public class ReviewController {
         return UpdateReviewResponse.from(result);
     }
 
+    // TODO: 추후 @DeleteMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}") 리팩토링 예정
     @DeleteMapping("/users/{userId}/reviews/{reviewId}")
     @Operation(summary = "리뷰 삭제", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 삭제하는 API 진입점입니다.")
     public DeleteReviewResponse deleteReview(@PathVariable Long userId,
