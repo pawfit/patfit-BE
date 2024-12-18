@@ -45,14 +45,11 @@ public class ReviewController {
         return UpdateReviewResponse.from(result);
     }
 
-    @DeleteMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}")
+    @DeleteMapping("/users/{userId}/reviews/{reviewId}")
     @Operation(summary = "리뷰 삭제", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 삭제하는 API 진입점입니다.")
     public DeleteReviewResponse deleteReview(@PathVariable Long userId,
-                                             @PathVariable Long puppyId,
-                                             @PathVariable Long processId,
-                                             @PathVariable Long threadId,
                                              @PathVariable Long reviewId) {
-        reviewService.deleteReview(userId, puppyId, processId, threadId, reviewId);
+        reviewService.deleteReview(userId, reviewId);
         return new DeleteReviewResponse("리뷰가 삭제되었습니다.");
     }
 

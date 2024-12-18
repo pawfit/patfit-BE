@@ -12,7 +12,7 @@ public interface ReviewService {
             Long userId,  Long reviewId, UpdateReviewCommand command
     );
 
-    void deleteReview(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId);
+    void deleteReview(Long userId, Long reviewId);
 
     GetEstimateDataResult getEstimateData(Long userId, Long puppyId, Long processId, Long threadId);
 

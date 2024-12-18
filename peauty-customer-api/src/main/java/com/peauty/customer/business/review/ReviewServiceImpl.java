@@ -107,22 +107,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void deleteReview(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId) {
+    public void deleteReview(Long userId, Long reviewId) {
         Review review = reviewPort.findReviewById(reviewId);
-        if (!review.getThreadId().value().equals(threadId)) {
-            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
-        }
-        BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
-        if (!process.getPuppyId().value().equals(puppyId)) {
-            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
-        }
-        // 리뷰 통계 업데이트 (삭제된 별점 제거)
+
+        Long designerId = reviewPort.findDesignerIdByReviewId(reviewId);
         ReviewRating deletedRating = review.getReviewRating();
 
         reviewPort.deleteReviewById(reviewId);
-
-        BiddingThread thread = biddingProcessPort.getProcessByProcessId(processId).getThread(new BiddingThread.ID(threadId));
-        workspacePort.deleteReviewStats(thread.getDesignerId().value(), deletedRating);
+        workspacePort.deleteReviewStats(designerId, deletedRating);
 
     }
 
