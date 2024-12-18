@@ -115,7 +115,6 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                                 .map(thread -> thread.getProfile(
                                         designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
                                         estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile(),
-                                        reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()),
                                         estimateProposalPort.getProposalByProcessId(process.getSavedProcessId().value()).getSimpleGroomingStyle()
                                 )))
                         .toList()
@@ -156,4 +155,25 @@ public class CustomerBiddingServiceImpl implements CustomerBiddingService {
                 ))
                 .orElse(null);
     }
+
+    @Override
+    public GetAllStep3AboveThreadsResult getCanReviewThreads(Long userId) {
+        return GetAllStep3AboveThreadsResult.from(
+                puppyPort.getAllPuppiesByCustomerId(userId).stream()
+                        .flatMap(puppy -> biddingProcessPort.getProcessesByPuppyId(puppy.getPuppyId()).stream()
+                                .map(process -> new ProcessWithPuppy(process, puppy.getPuppyId())))
+                        .flatMap(processWithPuppy -> processWithPuppy.process().getThreads().stream()
+                                .filter(thread -> thread.getStep().isAfter(BiddingThreadStep.ESTIMATE_RESPONSE))
+                                .filter(thread -> !reviewPort.existsByBiddingThreadId(thread.getSavedThreadId().value()))
+                                .map(thread -> thread.getProfile(
+                                        processWithPuppy.puppyId(),
+                                        designerPort.getDesignerProfileByDesignerId(thread.getDesignerId().value()),
+                                        estimatePort.getEstimateByThreadId(thread.getSavedThreadId().value()).getProfile(),
+                                        estimateProposalPort.getProposalByProcessId(processWithPuppy.process().getSavedProcessId().value()).getSimpleGroomingStyle()
+                                )))
+                        .toList()
+        );
+    }
+
+    private record ProcessWithPuppy(BiddingProcess process, Long puppyId) {}
 }

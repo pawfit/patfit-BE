@@ -1,7 +1,9 @@
 package com.peauty.customer.presentation.controller.review;
 
+import com.peauty.customer.business.bidding.dto.GetAllStep3AboveThreadsResult;
 import com.peauty.customer.business.review.ReviewService;
 import com.peauty.customer.business.review.dto.*;
+import com.peauty.customer.presentation.controller.bidding.dto.GetAllStep3AboveThreadsResponse;
 import com.peauty.customer.presentation.controller.review.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -87,15 +89,4 @@ public class ReviewController {
         GetUserReviewsResult result = reviewService.getCustomerReviews(userId);
         return GetUserReviewsResponse.from(result);
     }
-
-/* TODO: 추후 프론트 측에서 요청 시
-    @GetMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/estimate")
-    @Operation(summary = "견적서 데이터 조회", description = "고객이 자신의 강아지를 미용한 디자이너와의 견적서를 간단히 조회하는 API입니다.")
-    public GetEstimateDataResponse getEstimateData(@PathVariable Long userId,
-                                                   @PathVariable Long puppyId,
-                                                   @PathVariable Long threadId,
-                                                   @PathVariable Long processId) {
-        GetEstimateDataResult result = reviewService.getEstimateData(userId, puppyId, threadId, processId);
-        return GetEstimateDataResponse.from(result);
-    }*/
 }

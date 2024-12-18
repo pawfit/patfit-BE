@@ -46,4 +46,6 @@ public interface CustomerBiddingService {
             Long userId,
             Long puppyId
     );
+
+    GetAllStep3AboveThreadsResult getCanReviewThreads(Long userId);
 }

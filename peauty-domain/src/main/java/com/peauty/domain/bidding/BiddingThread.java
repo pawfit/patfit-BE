@@ -214,13 +214,13 @@ public class BiddingThread {
                 .build();
     }
 
-    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile, Boolean isReviewed) {
+    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile, String style) {
         return ThreadProfile.builder()
                 .processId(processId.value())
+                .style(style)
                 .threadId(id.value())
                 .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
-                .isReviewed(isReviewed)
                 .designer(designerProfile)
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
@@ -228,14 +228,19 @@ public class BiddingThread {
                 .build();
     }
 
-    public ThreadProfile getProfile(Designer.DesignerProfile designerProfile, Estimate.EstimateProfile estimateProfile, Boolean isReviewed, String style) {
+    public ThreadProfile getProfile(
+            Long puppyId,
+            Designer.DesignerProfile designerProfile,
+            Estimate.EstimateProfile estimateProfile,
+            String style
+    ) {
         return ThreadProfile.builder()
+                .puppyId(puppyId)
                 .processId(processId.value())
                 .style(style)
                 .threadId(id.value())
                 .threadStep(step.getDescription())
                 .threadStatus(status.getDescription())
-                .isReviewed(isReviewed)
                 .designer(designerProfile)
                 .estimate(estimateProfile)
                 .threadCreatedAt(timeInfo.getCreatedAt())
@@ -245,6 +250,7 @@ public class BiddingThread {
 
     @Builder
     public record ThreadProfile(
+            Long puppyId,
             Long processId,
             String style,
             Long threadId,
