@@ -225,6 +225,25 @@ public class BiddingProcess {
                 .build();
     }
 
+    public ProcessProfile getProfile(
+            Puppy.PuppyProfile puppyProfile,
+            EstimateProposal.EstimateProposalProfile estimateProposalProfile,
+            DesignerId designerId,
+            Estimate.EstimateProfile estimateProfile
+    ) {
+        BiddingThread thread = getThread(designerId);
+        return ProcessProfile.builder()
+                .processId(id.value())
+                .processStatus(status.getDescription())
+                .puppy(puppyProfile)
+                .estimateProposal(estimateProposalProfile)
+                .processCreatedAt(timeInfo.getCreatedAt())
+                .processStatusModifiedAt(timeInfo.getStatusModifiedAt())
+                .threadInfo(thread.getProfile())
+                .estimate(estimateProfile)
+                .build();
+    }
+
     @Builder
     public record ProcessProfile(
             Long processId,
@@ -233,7 +252,8 @@ public class BiddingProcess {
             LocalDateTime processStatusModifiedAt,
             Puppy.PuppyProfile puppy,
             EstimateProposal.EstimateProposalProfile estimateProposal,
-            BiddingThread.ThreadProfile threadInfo
+            BiddingThread.ThreadProfile threadInfo,
+            Estimate.EstimateProfile estimate
     ) {
     }
 }

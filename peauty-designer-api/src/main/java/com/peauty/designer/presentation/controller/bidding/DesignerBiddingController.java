@@ -62,6 +62,13 @@ public class DesignerBiddingController {
         return GetEstimateAndProposalDetailsResponse.from(result);
     }
 
+    @GetMapping("/{userId}/bidding/processes/threads/schedule")
+    @Operation(summary = "디자이너 스케줄 조회", description = "디자이너의 프로필, 미용 , 오늘의 예약들을 가져옵니다.")
+    public GetDesignerScheduleResponse getDesignerSchedule(@PathVariable Long userId) {
+        GetDesignerScheduleResult result = designerBiddingService.getDesignerSchedule(userId);
+        return GetDesignerScheduleResponse.from(result);
+    }
+
     @GetMapping("/{userId}/bidding/processes/threads/above-step3")
     @Operation(summary = "확정 견적 조회", description = "디자이너와 연관된 스레드들 중 Step 3 이상의 스레드들을 조회.")
     public GetThreadsByStepResponse getStep3AboveThreads(@PathVariable Long userId) {
