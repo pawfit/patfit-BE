@@ -24,6 +24,12 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     """)
     List<ReviewEntity> findAllByCustomerId(@Param("customerId") Long customerId);
 
-
+    @Query("""
+        SELECT bt.designerId 
+        FROM ReviewEntity r
+        JOIN BiddingThreadEntity bt ON r.biddingThreadId = bt.id
+        WHERE r.id = :reviewId
+    """)
+    Optional<Long> findDesignerIdByReviewId(@Param("reviewId") Long reviewId);
 
 }

@@ -146,7 +146,11 @@ public class ReviewAdapter implements ReviewPort {
                 .toList();
     }
 
-
+    @Override
+    public Long findDesignerIdByReviewId(Long reviewId) {
+        return reviewRepository.findDesignerIdByReviewId(reviewId)
+                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_FOUND_REVIEWER_WRITTEN_REVIEW));
+    }
 
 
 
