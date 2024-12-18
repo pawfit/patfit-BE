@@ -9,7 +9,7 @@ public interface ReviewService {
     );
 
     UpdateReviewResult updateReview(
-            Long userId, Long puppyId, Long processId, Long threadId, Long reviewId, UpdateReviewCommand command
+            Long userId,  Long reviewId, UpdateReviewCommand command
     );
 
     void deleteReview(Long userId, Long puppyId, Long processId, Long threadId, Long reviewId);

@@ -20,4 +20,6 @@ public interface ReviewPort {
     List<Review> findReviewsByDesignerId(Long designerId);
 
     List<Review> findReviewsByCustomerId(Long customerId);
+
+    Long findDesignerIdByReviewId(Long reviewId);
 }

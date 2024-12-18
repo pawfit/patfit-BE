@@ -32,23 +32,17 @@ public class ReviewController {
         return RegisterReviewResponse.from(result);
     }
 
-    @PutMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}")
-    @Operation(summary = "리뷰 수정", description = "고객이 자신의 강아지를 미용한 디자이너에게 리뷰를 수정하는 API 진입점입니다.")
+    @PutMapping("/users/{userId}/reviews/{reviewId}")
+    @Operation(summary = "리뷰 수정", description = "고객이 자신의 리뷰를 수정하는 API입니다.")
     public UpdateReviewResponse updateReview(@PathVariable Long userId,
-                                             @PathVariable Long puppyId,
-                                             @PathVariable Long processId,
-                                             @PathVariable Long threadId,
                                              @PathVariable Long reviewId,
                                              @RequestBody UpdateReviewRequest request) {
         UpdateReviewResult result = reviewService.updateReview(
                 userId,
-                puppyId,
-                processId,
-                threadId,
                 reviewId,
-                request.toCommand());
+                request.toCommand()
+        );
         return UpdateReviewResponse.from(result);
-
     }
 
     @DeleteMapping("/users/{userId}/puppies/{puppyId}/bidding/processes/{processId}/threads/{threadId}/reviews/{reviewId}")

@@ -76,29 +76,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public UpdateReviewResult updateReview(
             Long userId,
-            Long puppyId,
-            Long processId,
-            Long threadId,
             Long reviewId,
             UpdateReviewCommand command
     ) {
         // 리뷰 ID로 리뷰를 조회
         Review existingReview = reviewPort.findReviewById(reviewId);
-        // 리뷰와 관련된 스레드 ID가 요청 스레드 ID와 일치하지 않는 경우
-        if (!existingReview.getThreadId().value().equals(threadId)) {
-            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_THREAD_MISMATCH);
-        }
 
-        BiddingProcess process = biddingProcessPort.getProcessByProcessId(processId);
-        BiddingThread thread = process.getThread(new BiddingThread.ID(threadId));
-
-        // 프로세스가 요청한 userId와 puppyId에 연결되어 있는지 확인
-        if (!process.getPuppyId().value().equals(puppyId) || !thread.getProcessId().value().equals(processId)) {
-            throw new PeautyException(PeautyResponseCode.INVALID_REVIEW_USER_OR_PUPPY);
-        }
-
+        // 이전 평점 저장
         ReviewRating previousRating = existingReview.getReviewRating();
 
+        // 리뷰 업데이트
         existingReview.updateReview(
                 command.reviewRating(),
                 command.contentDetail(),
@@ -106,10 +93,14 @@ public class ReviewServiceImpl implements ReviewService {
                 command.reviewImages()
         );
 
+        // 업데이트된 리뷰 저장
         Review updatedReview = reviewPort.saveReview(existingReview);
 
-        // 리뷰 통계 업데이트 (이전 별점 제거 후 새 별점 반영)
-        workspacePort.updateReviewStats(thread.getDesignerId().value(), previousRating, updatedReview.getReviewRating());
+        // 리뷰에 연결된 디자이너 ID 조회
+        Long designerId = reviewPort.findDesignerIdByReviewId(reviewId);
+
+        // 리뷰 통계 업데이트
+        workspacePort.updateReviewStats(designerId, previousRating, updatedReview.getReviewRating());
 
         return UpdateReviewResult.from(updatedReview);
     }
