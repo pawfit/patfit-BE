@@ -66,7 +66,7 @@ public class CustomerBiddingController {
 
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/threads/step2")
     @Operation(summary = "받은견적 조회", description = "강아지의 현재 진행 중인 프로세스와 해당 프로세스에 속해있는 스레드들 중 Step 2 스레드들을 조회.")
-    public GetOngoingProcessWithThreadsResponse getOngoingProcessWithStep2Threads(
+    public GetOngoingProcessWithStep2ThreadsResponse getOngoingProcessWithStep2Threads(
             @PathVariable Long userId,
             @PathVariable Long puppyId
     ) {
@@ -74,12 +74,12 @@ public class CustomerBiddingController {
                 userId,
                 puppyId
         );
-        return GetOngoingProcessWithThreadsResponse.from(result);
+        return GetOngoingProcessWithStep2ThreadsResponse.from(result);
     }
 
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/threads/step1")
     @Operation(summary = "견적요청 조회", description = "강아지의 현재 진행 중인 프로세스와 해당 프로세스에 속해있는 스레드들 중 Step 1 스레드들을 조회.")
-    public GetOngoingProcessWithThreadsResponse getOngoingProcessWithStep1Threads(
+    public GetOngoingProcessWithStep1ThreadsResponse getOngoingProcessWithStep1Threads(
             @PathVariable Long userId,
             @PathVariable Long puppyId
     ) {
@@ -87,7 +87,7 @@ public class CustomerBiddingController {
                 userId,
                 puppyId
         );
-        return GetOngoingProcessWithThreadsResponse.from(result);
+        return GetOngoingProcessWithStep1ThreadsResponse.from(result);
     }
 
     @GetMapping("/{userId}/puppies/{puppyId}/bidding/processes/{processId}")
