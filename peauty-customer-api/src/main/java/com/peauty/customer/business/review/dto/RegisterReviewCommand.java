@@ -7,6 +7,7 @@ import com.peauty.domain.review.ReviewImage;
 import com.peauty.domain.review.ReviewRating;
 import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -17,14 +18,23 @@ public record RegisterReviewCommand(
         List<String> reviewImages
 ) {
 
+    private List<String> checkAndGetReviewImages() {
+        if (reviewImages == null) {
+            return List.of();
+        }
+        return reviewImages;
+    }
+
     public Review toReview(Long threadId){
+
         return Review.builder()
                 .id(null)
                 .threadId(new BiddingThread.ID(threadId))
                 .reviewRating(reviewRating)
                 .contentDetail(contentDetail)
                 .contentGenerals(contentGenerals)
-                .reviewImages(reviewImages.stream()
+                .reviewImages(
+                        checkAndGetReviewImages().stream()
                         .map(imageUrl -> ReviewImage.builder()
                                 .id(null)
                                 .reviewId(null)
