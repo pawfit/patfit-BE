@@ -56,6 +56,13 @@ public class ReviewAdapter implements ReviewPort {
 
     @Override
     public Review saveReview(Review review) {
+
+        Long reviewId = review.getId().map(Review.ID::value).orElseThrow(() ->
+                new PeautyException(PeautyResponseCode.NOT_FOUND_REVIEW));
+        // TODO: Patch, Put. 현재 방식은 Update가 아닌 기존 것을 삭제하고 새로운 것을 저장하는 로직이기 때문에 필히 코드 리팩토링이 필요함.
+        // 기존 이미지를 삭제
+        reviewImageRepository.deleteAllImagesByReviewId(reviewId);
+
         ReviewEntity updatedReviewEntity = reviewRepository.save(
                 ReviewMapper.toReviewEntity(review)
         );

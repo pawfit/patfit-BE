@@ -11,7 +11,7 @@ public enum ContentGeneral {
     GOOD_SERVICE("서비스가 좋아요"),
     COME_AGAIN("다음에 또 오고 싶어요"),
     KIND("친절해요"),
-    GOOD_COST("서비스 좋아요"),
+    GOOD_COST("가성비 좋아요"),
     MYPICK("견적서대로 해줘요");
 
     private final String contentGeneralReview;

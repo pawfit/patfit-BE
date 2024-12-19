@@ -10,4 +10,5 @@ public interface ReviewImageRepository extends JpaRepository<ReviewImageEntity, 
 
     List<ReviewImageEntity> findAllByReviewId(Long reviewId);
 
+    void deleteAllImagesByReviewId(Long reviewId);
 }
