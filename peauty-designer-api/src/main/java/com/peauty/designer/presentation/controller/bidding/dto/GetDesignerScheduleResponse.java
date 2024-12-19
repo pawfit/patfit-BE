@@ -89,6 +89,9 @@ public record GetDesignerScheduleResponse(
             @Schema(description = "스레드 단계 수정 시간")
             LocalDateTime threadStepModifiedAt,
 
+            @Schema(description = "미용 스타일")
+            String style,
+
             @Schema(description = "예약금")
             Long depositPrice,
 
@@ -128,6 +131,7 @@ public record GetDesignerScheduleResponse(
                                 .threadCreatedAt(processProfile.threadInfo().threadCreatedAt())
                                 .threadStepModifiedAt(processProfile.threadInfo().threadStepModifiedAt())
                                 .depositPrice(processProfile.estimate().depositPrice())
+                                .style(processProfile.estimateProposal().style())
                                 .desiredGroomingDateTime(processProfile.estimateProposal().desiredDateTime())
                                 .puppy(processProfile.puppy())
                                 .build())
