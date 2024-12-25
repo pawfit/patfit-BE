@@ -7,9 +7,14 @@ jar {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation(project(':peauty-domain'))
 	// H2 Database (local 환경용)
 	runtimeOnly("com.h2database:h2")
-	// MySQL Connector (beta, real 환경용)
+	// MySQL Connector (dev, prod 환경용)
 	runtimeOnly("com.mysql:mysql-connector-j")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }

@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: peauty-designer
+  profiles:
+    active: designer-local
+    include:
+      - persistence
+      - aws
+      - auth
+  jackson:
+    default-property-inclusion: non_null
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-local
+
+server:
+  port: 8081
+  shutdown: graceful
+  domain: http://localhost:8081
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha      # 태그 정렬
+    operations-sorter: alpha  # API 정렬
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-dev
+
+server:
+  port: 8080
+  shutdown: graceful
+  domain: https://designer-dev.peauty.click
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha      # 태그 정렬
+    operations-sorter: alpha  # API 정렬
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+logging:
+  level:
+    root: warn
+
+---
+spring:
+  config:
+    activate:
+      on-profile: designer-prod
+
+logging:
+  level:
+    root: warn
+
+server:
+  port: 8080
+  shutdown: graceful
+  domain: https://designer.peauty.click

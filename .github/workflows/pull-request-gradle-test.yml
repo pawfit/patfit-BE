@@ -29,6 +29,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
+          
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ALL_SECRET }}" > .env
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
@@ -47,7 +51,7 @@ jobs:
 
       - name: Run tests
         env:
-          SPRING_PROFILES_ACTIVE: test
+          SPRING_PROFILES_ACTIVE: local
           ACTIONS_RUNNER_DEBUG: true
           ACTIONS_STEP_DEBUG: true
         run: |
