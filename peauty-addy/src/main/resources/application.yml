@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    openfeign:
+      autoconfiguration:
+        jackson:
+          enabled: true
+      httpclient:
+        connection-timeout: 5000
+        ok-http:
+          read-timeout: 60000
+  config:
+    import:
+      - optional:file:.env[.properties]
+
+openai:
+  api:
+    key: ${OPENAPI_KEY}

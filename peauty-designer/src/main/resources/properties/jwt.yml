@@ -1,9 +1,0 @@
-jwt:
-  secretKey: 343pA2ocme9BC4MgYnOyUvrijpXaEy+/4k6Qqr6r+oj4ffDlNJ4WScKqkGnXKXfIe3j92FVbsX8KL55pCMipwg==
-  accessTokenExpiration: 36000000
-  refreshTokenExpiration: 36000000000
-  accessHeader: Authorization
-  refreshHeader: Refresh
-  grantType: Bearer
-  memberKey: MEMBER
-
