@@ -20,6 +20,9 @@ public class ReviewEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Integer version;
+
     @Column(name = "bidding_thread_id", nullable = false)
     private Long biddingThreadId;
 
