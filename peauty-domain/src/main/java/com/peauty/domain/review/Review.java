@@ -14,7 +14,6 @@ import java.util.Optional;
 public class Review {
 
     private final ID id;                          // 리뷰 ID
-    @Getter private Integer version; // Optimistic Lock
     @Getter private final BiddingThread.ID threadId;    // 입찰 스레드 ID
     @Getter private ReviewRating reviewRating;          // 별점
     @Getter private String contentDetail;               // 상세리뷰
