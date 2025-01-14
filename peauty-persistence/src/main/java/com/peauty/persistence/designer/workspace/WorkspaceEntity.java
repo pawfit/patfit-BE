@@ -69,4 +69,7 @@ public class WorkspaceEntity extends BaseTimeEntity {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
+    @Version
+    private Integer version;
+
 }
