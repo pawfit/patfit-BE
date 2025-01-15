@@ -83,8 +83,6 @@ public class ReviewMapper {
                         .toList())
                 .reviewRating(reviewEntity.getReviewRating())
                 .build();
-
-
     }
 
 }
