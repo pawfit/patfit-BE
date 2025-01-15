@@ -51,6 +51,7 @@ public enum PeautyResponseCode {
     INVALID_BIRTHDATE("1229", "Invalid Your Puppy Birthday", "현재 날짜보다 이후를 선택했습니다."),
     CONTAINS_NON_EXISTING_DESIGNERS("1230", "Designer Not Found", "존재하지 않는 디자이너가 포함되어있습니다."),
     NOT_FOUND_REVIEWER_WRITTEN_REVIEW("1231", "Not found reviewer written review", "해당 리뷰를 작성한 사용자를 찾을 수 없습니다."),
+    INTERNAL_SERVER_MAINTENANCE("1232", "Performing Internal Server Maintenance. Try Later", "내부 서버 점검 중이니, 잠시 후 다시 등록해주세요."),
 
     // 비딩 관련 (1300 ~ 1350)
     WRONG_BIDDING_PROCESS_STEP_DESCRIPTION("1300", "Wrong Bidding Process Step Description", "잘못된 입찰 프로세스입니다."),
