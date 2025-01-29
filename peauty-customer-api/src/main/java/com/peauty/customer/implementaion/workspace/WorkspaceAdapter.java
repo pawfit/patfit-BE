@@ -120,6 +120,7 @@ public Designer findDesignerById(Long designerId) {
                 workspaceRepository.save(workspaceEntity);
 
                 return workspace;
+
             } catch (ObjectOptimisticLockingFailureException e) {
                 try {
                     Thread.sleep(10); // 10ms 대기 // 저장 작업을 수행하는 하나의 실행 단위(Thread)
@@ -132,37 +133,58 @@ public Designer findDesignerById(Long designerId) {
     }
 
     public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+        while (true) {
+            try {
+                WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerIdWithOptimisticLock(designerId)
+                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+                List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+                // 리뷰 수정 로직
+                workspace.updateReviewStats(oldRating, newRating);
+                // 엔티티 변환 후 저장
+                workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+                workspaceRepository.save(workspaceEntity);
 
-        // 리뷰 수정 로직
-        workspace.updateReviewStats(oldRating, newRating);
-        // 엔티티 변환 후 저장
-        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
-        workspaceRepository.save(workspaceEntity);
+                return workspace;
 
-        return workspace;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new PeautyException(PeautyResponseCode.INTERNAL_SERVER_MAINTENANCE);
+                }
+            }
+        }
     }
 
     public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+        while (true) {
+            try {
+                WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerIdWithOptimisticLock(designerId)
+                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+                List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+                // 리뷰 삭제 로직
+                workspace.deleteReviewStats(deletedRating);
 
-        // 리뷰 삭제 로직
-        workspace.deleteReviewStats(deletedRating);
+                // 엔티티 변환 후 저장
+                workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+                workspaceRepository.save(workspaceEntity);
 
-        // 엔티티 변환 후 저장
-        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
-        workspaceRepository.save(workspaceEntity);
+                return workspace;
 
-        return workspace;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new PeautyException(PeautyResponseCode.INTERNAL_SERVER_MAINTENANCE);
+                }
+            }
+        }
     }
-
 
 }
