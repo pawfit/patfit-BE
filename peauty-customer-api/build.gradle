@@ -29,8 +29,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // TODO. 페이먼트 모듈에만 Iamport 의존성이 있도록 하기
-    implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.22'
-
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.mockito:mockito-core'
