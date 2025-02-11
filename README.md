@@ -1,6 +1,6 @@
 ### Peauty RDB 테이블 설계
 ![peauty_db](https://github.com/user-attachments/assets/fe7ec9eb-7cb0-4406-af40-3d3f45fd3715)
-### Peauty 모듈 아키텍쳐
+### Peauty 모듈 아키텍쳐
 ![퓨티 멀티모듈](https://github.com/user-attachments/assets/0d4979a0-9865-4d77-bd22-345e6b0edfd8)
 
 ### 반려견 미용 입찰 시스템 요구사항 살펴보기
