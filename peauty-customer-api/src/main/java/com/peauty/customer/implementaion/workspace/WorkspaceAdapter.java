@@ -18,7 +18,9 @@ import com.peauty.persistence.designer.workspace.BannerImageRepository;
 import com.peauty.persistence.designer.workspace.WorkspaceEntity;
 import com.peauty.persistence.designer.workspace.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -100,52 +102,89 @@ public Designer findDesignerById(Long designerId) {
     }
 
     @Override
-    public Workspace registerReviewStats(Long designerId, ReviewRating newRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
-        // 리뷰 작성 로직
-        workspace.registerReviewStats(newRating);
-        // 엔티티 변환 후 저장
-        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
-        workspaceRepository.save(workspaceEntity);
+    @Transactional
+    public Workspace registerReviewStats(Long designerId, ReviewRating newRating
+// TODO: InterruptedException을 WorkspacePort에서 Workspace registerReviewStats(Long designerId, ReviewRating newRating) throws InterruptedException; 이렇게 걸어주는 것이 맞을까?
+// 아니면 내부 try-catch에서 InterruptedException을 거는게 맞을까?
+    ) {
+        while (true) {
+            try {
+                WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerIdWithOptimisticLock(designerId) // Workspace 엔티티에서 id를 호출해올 때, 버전을 확인
+                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+                List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+                // 리뷰 작성 로직
+                workspace.registerReviewStats(newRating);
+                // 엔티티 변환 후 저장
+                workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+                workspaceRepository.save(workspaceEntity);
 
-        return workspace;
+                return workspace;
+
+            } catch (ObjectOptimisticLockingFailureException e) {
+                try {
+                    Thread.sleep(10); // 10ms 대기 // 저장 작업을 수행하는 하나의 실행 단위(Thread)
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt(); // 현재 스레드의 인터럽트 상태 복구
+                    throw new PeautyException(PeautyResponseCode.INTERNAL_SERVER_MAINTENANCE);
+                }
+            }
+        }
     }
 
     public Workspace updateReviewStats(Long designerId, ReviewRating oldRating, ReviewRating newRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+        while (true) {
+            try {
+                WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerIdWithOptimisticLock(designerId)
+                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+                List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+                // 리뷰 수정 로직
+                workspace.updateReviewStats(oldRating, newRating);
+                // 엔티티 변환 후 저장
+                workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+                workspaceRepository.save(workspaceEntity);
 
-        // 리뷰 수정 로직
-        workspace.updateReviewStats(oldRating, newRating);
-        // 엔티티 변환 후 저장
-        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
-        workspaceRepository.save(workspaceEntity);
+                return workspace;
 
-        return workspace;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new PeautyException(PeautyResponseCode.INTERNAL_SERVER_MAINTENANCE);
+                }
+            }
+        }
     }
 
     public Workspace deleteReviewStats(Long designerId, ReviewRating deletedRating) {
-        WorkspaceEntity workspaceEntity = workspaceRepository.getByDesignerId(designerId)
-                .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
-        List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
 
-        Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+        while (true) {
+            try {
+                WorkspaceEntity workspaceEntity = workspaceRepository.findByDesignerIdWithOptimisticLock(designerId)
+                        .orElseThrow(() -> new PeautyException(PeautyResponseCode.NOT_EXIST_WORKSPACE));
+                List<BannerImageEntity> bannerImageEntities = bannerImageRepository.findByWorkspaceId(workspaceEntity.getId());
+                Workspace workspace = WorkspaceMapper.toDomain(workspaceEntity, bannerImageEntities);
+                // 리뷰 삭제 로직
+                workspace.deleteReviewStats(deletedRating);
 
-        // 리뷰 삭제 로직
-        workspace.deleteReviewStats(deletedRating);
+                // 엔티티 변환 후 저장
+                workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
+                workspaceRepository.save(workspaceEntity);
 
-        // 엔티티 변환 후 저장
-        workspaceEntity = WorkspaceMapper.toEntity(workspace, designerId);
-        workspaceRepository.save(workspaceEntity);
+                return workspace;
 
-        return workspace;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new PeautyException(PeautyResponseCode.INTERNAL_SERVER_MAINTENANCE);
+                }
+            }
+        }
     }
-
 
 }
